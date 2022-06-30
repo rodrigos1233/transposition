@@ -1,8 +1,8 @@
 import React from 'react';
 
-function Button({children, props, onClick}:{children: any, props?: any, onClick?: any}) {
+function Button({children, props, onClick, disabled}:{children: any, props?: any, onClick?: any, disabled: boolean}) {
     return (
-        <button onClick={onClick} {...props}>{children}</button>
+        <button onClick={onClick} {...props} disabled={disabled ?? false}>{children}</button>
     );
 }
 

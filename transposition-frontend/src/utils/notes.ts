@@ -1,14 +1,14 @@
 export const NOTES = [
     "do",
-    "do dièse/ré bémol",
+    "do♯ / ré♭",
     "ré",
-    "ré dièse/si bémol",
+    "ré♯ / si♭",
     "mi",
     "fa",
-    "fa dièse/sol bémol",
+    "fa♯ / sol♭",
     "sol",
-    "sol dièse/la bémol",
+    "sol♯ / la♭",
     "la",
-    "la dièse/si bémol",
+    "la♯ / si♭",
     "si"
 ]
