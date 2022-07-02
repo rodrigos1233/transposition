@@ -1,9 +1,10 @@
 import React, {useEffect, useState} from 'react';
-import {NOTES} from "../../utils/notes";
+import {getNote, Note, NOTES} from "../../utils/notes";
 import NoteSelector from "../../components/note-selector";
 import {transposer} from "../../utils/transposer";
 
-function SimpleTransposition() {
+
+function SimpleTransposition({selectedNotation}: {selectedNotation: keyof Note}) {
     const [selectedOriginKey, setSelectedOriginKey] = useState(0);
     const [selectedNote, setSelectedNote] = useState(0);
     const [selectedTargetKey, setSelectedTargetKey] = useState(0);
@@ -11,7 +12,7 @@ function SimpleTransposition() {
 
     useEffect(() => {
         const targetNote = transposer(selectedNote, selectedOriginKey, selectedTargetKey);
-        setMessage(`A ${NOTES[selectedNote]} in ${NOTES[selectedOriginKey]} is a ${NOTES[targetNote]} in ${NOTES[selectedTargetKey]}`);
+        setMessage(`A ${getNote(selectedNote, selectedNotation)} in ${getNote(selectedOriginKey, selectedNotation)} is a ${getNote(targetNote, selectedNotation)} in ${getNote(selectedTargetKey, selectedNotation)}`);
     }, [selectedOriginKey, selectedNote, selectedTargetKey])
 
     console.log(message);
@@ -20,15 +21,15 @@ function SimpleTransposition() {
         <div className="content simple-transposition">
             <div className="simple-transposition__origin-key-select">
                 origin key:
-                <NoteSelector selected={selectedOriginKey} setSelected={setSelectedOriginKey} />
+                <NoteSelector selected={selectedOriginKey} setSelected={setSelectedOriginKey} selectedNotation={selectedNotation} />
             </div>
             <div className="simple-transposition__note-select">
                 note:
-                <NoteSelector selected={selectedNote} setSelected={setSelectedNote} />
+                <NoteSelector selected={selectedNote} setSelected={setSelectedNote} selectedNotation={selectedNotation} />
             </div>
             <div className="simple-transposition__target-key-select">
                 target key:
-                <NoteSelector selected={selectedTargetKey} setSelected={setSelectedTargetKey} />
+                <NoteSelector selected={selectedTargetKey} setSelected={setSelectedTargetKey} selectedNotation={selectedNotation} />
             </div>
             <p>{message}</p>
 

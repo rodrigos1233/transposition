@@ -3,8 +3,6 @@ export function transposer(originNote: number, originKey:number, targetKey:numbe
 
     let targetNote = originNote + keyDifference;
 
-    console.log(targetNote);
-
     if (targetNote > 11) {
         targetNote = targetNote - 12;
     }
@@ -14,5 +12,4 @@ export function transposer(originNote: number, originKey:number, targetKey:numbe
     }
 
     return targetNote;
-
 }
