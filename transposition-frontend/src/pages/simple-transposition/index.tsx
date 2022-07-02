@@ -13,7 +13,7 @@ function SimpleTransposition({selectedNotation}: {selectedNotation: keyof Note})
     useEffect(() => {
         const targetNote = transposer(selectedNote, selectedOriginKey, selectedTargetKey);
         setMessage(`A ${getNote(selectedNote, selectedNotation)} in ${getNote(selectedOriginKey, selectedNotation)} is a ${getNote(targetNote, selectedNotation)} in ${getNote(selectedTargetKey, selectedNotation)}`);
-    }, [selectedOriginKey, selectedNote, selectedTargetKey])
+    }, [selectedOriginKey, selectedNote, selectedTargetKey, selectedNotation])
 
     console.log(message);
 
