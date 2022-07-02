@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { getNote, Note, NOTES } from '../../utils/notes'
-import NoteSelector from '../../components/note-selector'
-import { transposer } from '../../utils/transposer'
+import React, { useEffect, useState } from 'react';
+import { getNote, Note, NOTES } from '../../utils/notes';
+import NoteSelector from '../../components/note-selector';
+import { transposer } from '../../utils/transposer';
 
 function SimpleTransposition({
     selectedNotation,
 }: {
-    selectedNotation: keyof Note
+    selectedNotation: keyof Note;
 }) {
-    const [selectedOriginKey, setSelectedOriginKey] = useState(0)
-    const [selectedNote, setSelectedNote] = useState(0)
-    const [selectedTargetKey, setSelectedTargetKey] = useState(0)
-    const [message, setMessage] = useState('')
+    const [selectedOriginKey, setSelectedOriginKey] = useState(0);
+    const [selectedNote, setSelectedNote] = useState(0);
+    const [selectedTargetKey, setSelectedTargetKey] = useState(0);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         const targetNote = transposer(
             selectedNote,
             selectedOriginKey,
             selectedTargetKey
-        )
+        );
         setMessage(
             `A ${getNote(selectedNote, selectedNotation)} in ${getNote(
                 selectedOriginKey,
@@ -27,10 +27,10 @@ function SimpleTransposition({
                 selectedTargetKey,
                 selectedNotation
             )}`
-        )
-    }, [selectedOriginKey, selectedNote, selectedTargetKey, selectedNotation])
+        );
+    }, [selectedOriginKey, selectedNote, selectedTargetKey, selectedNotation]);
 
-    console.log(message)
+    console.log(message);
 
     return (
         <div className="content simple-transposition">
@@ -60,7 +60,7 @@ function SimpleTransposition({
             </div>
             <p>{message}</p>
         </div>
-    )
+    );
 }
 
-export default SimpleTransposition
+export default SimpleTransposition;

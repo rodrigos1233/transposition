@@ -1,15 +1,15 @@
-import React from 'react'
-import { Note, NOTES } from '../utils/notes'
-import Button from '../components/button'
+import React from 'react';
+import { Note, NOTES } from '../utils/notes';
+import Button from '../components/button';
 
 function NotationSelector({
     selectedNotation,
     setSelectedNotation,
 }: {
-    selectedNotation: keyof Note
-    setSelectedNotation: any
+    selectedNotation: keyof Note;
+    setSelectedNotation: any;
 }) {
-    const availableNotations = Object.keys(NOTES[0])
+    const availableNotations = Object.keys(NOTES[0]);
 
     return (
         <div className="notation-selector">
@@ -23,7 +23,7 @@ function NotationSelector({
                 </Button>
             ))}
         </div>
-    )
+    );
 }
 
-export default NotationSelector
+export default NotationSelector;

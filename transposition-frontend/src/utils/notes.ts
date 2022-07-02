@@ -11,13 +11,13 @@ export const NOTES: Note[] = [
     { romance: 'la', english: 'A' },
     { romance: 'la♯ / si♭', english: 'A♯ / B♭' },
     { romance: 'si', english: 'B' },
-]
+];
 
 export interface Note {
-    romance: string
-    english: string
+    romance: string;
+    english: string;
 }
 
 export function getNote(index: number, notation: keyof Note) {
-    return NOTES[index][`${notation}`]
+    return NOTES[index][`${notation}`];
 }
