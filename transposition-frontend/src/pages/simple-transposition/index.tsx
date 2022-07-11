@@ -33,8 +33,8 @@ function SimpleTransposition({
     console.log(message);
 
     return (
-        <div className="content simple-transposition">
-            <div className="simple-transposition__origin-key-select">
+        <div className="content simple-transposition w-full">
+            <div className="simple-transposition__origin-key-select w-full">
                 origin key:
                 <NoteSelector
                     selected={selectedOriginKey}
@@ -42,7 +42,7 @@ function SimpleTransposition({
                     selectedNotation={selectedNotation}
                 />
             </div>
-            <div className="simple-transposition__note-select">
+            <div className="simple-transposition__note-select w-full">
                 note:
                 <NoteSelector
                     selected={selectedNote}
@@ -50,7 +50,7 @@ function SimpleTransposition({
                     selectedNotation={selectedNotation}
                 />
             </div>
-            <div className="simple-transposition__target-key-select">
+            <div className="simple-transposition__target-key-select w-full">
                 target key:
                 <NoteSelector
                     selected={selectedTargetKey}
