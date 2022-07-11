@@ -19,7 +19,7 @@ function Button({
             onClick={onClick}
             {...props}
             disabled={disabled ?? false}
-            className={`border border-black rounded px-2 py-2 bg-white text-black hover:bg-amber-400 disabled:bg-amber-300 ${className} transition-all`}
+            className={`border-4 border-b-8 border-neutral-800 rounded p-2 text-black hover:border-lime-300 disabled:border-lime-400 disabled:translate-y-1 disabled:border-b-4 ${className} transition-all`}
         >
             {children}
         </button>
