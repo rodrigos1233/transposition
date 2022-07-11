@@ -1,4 +1,8 @@
-export function transposer(originNote: number, originKey:number, targetKey:number ) {
+export function transposer(
+    originNote: number,
+    originKey: number,
+    targetKey: number
+) {
     let keyDifference = originKey - targetKey;
 
     let targetNote = originNote + keyDifference;
