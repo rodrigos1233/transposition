@@ -22,8 +22,8 @@ function NoteSelector({
                     disabled={k === selected}
                     className={
                         note.english.includes('/')
-                            ? 'bg-black text-white disabled:text-black hover:text-black'
-                            : ''
+                            ? 'bg-neutral-800 text-white'
+                            : 'bg-neutral-100'
                     }
                 >
                     {note[`${selectedNotation}`]}
