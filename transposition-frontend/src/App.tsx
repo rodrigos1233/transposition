@@ -1,23 +1,26 @@
-import React, { useState } from 'react'
-import logo from './logo.svg'
-import './App.scss'
-import SimpleTransposition from './pages/simple-transposition'
-import Header from './header'
-import { Note } from './utils/notes'
+import React, { useState } from 'react';
+import logo from './logo.svg';
+import './App.css';
+import './styles/output.css';
+import SimpleTransposition from './pages/simple-transposition';
+import Header from './header';
+import { Note } from './utils/notes';
 
 function App() {
     const [selectedNotation, setSelectedNotation]: [keyof Note, any] =
-        useState('romance')
+        useState('romance');
 
     return (
-        <div className="App">
+        <div className="App container mx-auto">
             <Header
                 selectedNotation={selectedNotation}
                 setSelectedNotation={setSelectedNotation}
             />
-            <SimpleTransposition selectedNotation={selectedNotation} />
+            <div className="contents flex max-w-2xl p-2">
+                <SimpleTransposition selectedNotation={selectedNotation} />
+            </div>
         </div>
-    )
+    );
 }
 
-export default App
+export default App;
