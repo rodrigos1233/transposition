@@ -30,8 +30,6 @@ function SimpleTransposition({
         );
     }, [selectedOriginKey, selectedNote, selectedTargetKey, selectedNotation]);
 
-    console.log(message);
-
     return (
         <div className="content simple-transposition w-full">
             <div className="simple-transposition__origin-key-select w-full">

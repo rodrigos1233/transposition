@@ -16,7 +16,7 @@ function App() {
                 selectedNotation={selectedNotation}
                 setSelectedNotation={setSelectedNotation}
             />
-            <div className="contents flex max-w-2xl p-2">
+            <div className="contents flex p-2">
                 <SimpleTransposition selectedNotation={selectedNotation} />
             </div>
         </div>
