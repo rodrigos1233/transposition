@@ -11,7 +11,7 @@ function NoteSelector({
 }: {
     setSelected: any;
     selected: number;
-    selectedNotation: keyof Note;
+    selectedNotation: Extract<keyof Note, string>;
 }) {
     return (
         <div className="note-selector">

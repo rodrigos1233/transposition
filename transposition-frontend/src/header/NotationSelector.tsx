@@ -7,7 +7,7 @@ function NotationSelector({
     selectedNotation,
     setSelectedNotation,
 }: {
-    selectedNotation: keyof Note;
+    selectedNotation: Extract<keyof Note, string>;
     setSelectedNotation: any;
 }) {
     const availableNotations = Object.keys(NOTES[0]);

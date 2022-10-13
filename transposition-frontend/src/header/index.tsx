@@ -7,7 +7,7 @@ function Header({
     selectedNotation,
     setSelectedNotation,
 }: {
-    selectedNotation: keyof Note;
+    selectedNotation: Extract<keyof Note, string>;
     setSelectedNotation: any;
 }) {
     return (

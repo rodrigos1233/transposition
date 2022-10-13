@@ -19,6 +19,6 @@ export interface Note {
     german: string;
 }
 
-export function getNote(index: number, notation: keyof Note) {
+export function getNote(index: number, notation: Extract<keyof Note, string>) {
     return NOTES[index][`${notation}`];
 }

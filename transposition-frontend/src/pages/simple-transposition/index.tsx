@@ -6,7 +6,7 @@ import { transposer } from '../../utils/transposer';
 function SimpleTransposition({
     selectedNotation,
 }: {
-    selectedNotation: keyof Note;
+    selectedNotation: Extract<keyof Note, string>;
 }) {
     const [selectedOriginKey, setSelectedOriginKey] = useState(0);
     const [selectedNote, setSelectedNote] = useState(0);
