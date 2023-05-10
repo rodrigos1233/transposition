@@ -2,7 +2,7 @@ export const NOTES: Note[] = [
     { romance: 'do', english: 'C', german: 'c' },
     { romance: 'do♯ / ré♭', english: 'C♯ / D♭', german: 'cis / des' },
     { romance: 'ré', english: 'D', german: 'd' },
-    { romance: 'ré♯ / si♭', english: 'D♯ / E♭', german: 'dis / es' },
+    { romance: 'ré♯ / mi♭', english: 'D♯ / E♭', german: 'dis / es' },
     { romance: 'mi', english: 'E', german: 'e' },
     { romance: 'fa', english: 'F', german: 'f' },
     { romance: 'fa♯ / sol♭', english: 'F♯ / G♭', german: 'fis / ges' },
