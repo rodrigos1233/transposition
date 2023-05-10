@@ -22,3 +22,15 @@ export interface Note {
 export function getNote(index: number, notation: keyof Note) {
     return NOTES[index][`${notation}`];
 }
+
+export const FLAT_LIST: number[] = [
+    11, // si
+    4, // mi
+    9, // la
+    2, // ré
+    7, // sol
+    0, // do
+    5, //fa
+];
+
+export const SHARP_LIST: number[] = FLAT_LIST.reverse();
