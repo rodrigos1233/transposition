@@ -8,20 +8,24 @@ function NoteSelector({
     setSelected,
     selected,
     selectedNotation,
+    usedScale,
 }: {
     setSelected: any;
     selected: number;
     selectedNotation: keyof Note;
+    usedScale?: Note[];
 }) {
+    const selectedNotes = usedScale ? usedScale : NOTES;
+
     return (
         <div className="note-selector">
-            {NOTES.map((note, k) => (
+            {selectedNotes.map((note, k) => (
                 <Button
                     key={k}
                     onClick={() => setSelected(k)}
                     disabled={k === selected}
                     className={
-                        note.english.includes('/')
+                        note.english.includes('♭') || note.english.includes('♯')
                             ? 'bg-neutral-800 text-white'
                             : 'bg-neutral-100'
                     }
