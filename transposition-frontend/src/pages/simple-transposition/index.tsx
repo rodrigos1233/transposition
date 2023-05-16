@@ -11,7 +11,7 @@ function SimpleTransposition({
     const [selectedOriginKey, setSelectedOriginKey] = useState(0);
     const [selectedNote, setSelectedNote] = useState(0);
     const [selectedTargetKey, setSelectedTargetKey] = useState(0);
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState(<></>);
 
     useEffect(() => {
         const targetNote = transposer(
@@ -20,18 +20,25 @@ function SimpleTransposition({
             selectedTargetKey
         );
         setMessage(
-            `A ${getNote(selectedNote, selectedNotation)} in ${getNote(
-                selectedOriginKey,
-                selectedNotation
-            )} is a ${getNote(targetNote, selectedNotation)} in ${getNote(
-                selectedTargetKey,
-                selectedNotation
-            )}`
+            <>
+                {`A ${getNote(selectedNote, selectedNotation)} in ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} is a`}{' '}
+                <span className={'font-bold text-lg'}>
+                    {getNote(targetNote, selectedNotation)}
+                </span>{' '}
+                {`in ${getNote(selectedTargetKey, selectedNotation)}`}
+            </>
         );
     }, [selectedOriginKey, selectedNote, selectedTargetKey, selectedNotation]);
 
     return (
         <div className="content simple-transposition w-full">
+            <h2>
+                Transpose a single note from a transposing instrument's key to
+                another:
+            </h2>
             <div className="simple-transposition__origin-key-select w-full">
                 origin key:
                 <NoteSelector
