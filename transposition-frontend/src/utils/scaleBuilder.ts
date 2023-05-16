@@ -40,7 +40,7 @@ export function scaleBuilder(
         }
     }
 
-    const reducedNotesCopy = JSON.parse(JSON.stringify(REDUCED_NOTES));
+    const reducedNotesCopy = JSON.parse(JSON.stringify(REDUCED_NOTES)); //to avoid mutation of the original array
 
     const startingNoteName = getNote(
         startNote,

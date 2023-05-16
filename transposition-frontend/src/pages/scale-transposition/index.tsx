@@ -33,6 +33,12 @@ function ScaleTransposition({
         const notesSuite = scale.notesInScale.map(
             (noteInScale) => `${noteInScale.note[`${selectedNotation}`]}, `
         );
+
+        const transposedScale = scaleBuilder(targetNote, mode);
+
+        const transposedScaleNotesSuite = transposedScale.notesInScale.map(
+            (noteInScale) => `${noteInScale.note[`${selectedNotation}`]}, `
+        );
         setMessage(
             <>
                 {`The scale of ${getNote(
@@ -42,11 +48,19 @@ function ScaleTransposition({
                     selectedOriginKey,
                     selectedNotation
                 )} consists of the following note suite:`}{' '}
-                <span>{notesSuite}</span>{' '}
+                <span className={'font-bold text-lg'}>{notesSuite}</span>{' '}
                 {`becomes a scale of ${getNote(
+                    targetNote,
+                    selectedNotation,
+                    mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+                )} ${mode}, with the following note suite: `}{' '}
+                <span className={'font-bold text-lg'}>
+                    {transposedScaleNotesSuite}
+                </span>{' '}
+                {`when transposed for an instrument in ${getNote(
                     selectedTargetKey,
                     selectedNotation
-                )} ${mode} when transposed `}
+                )}`}
             </>
         );
 
