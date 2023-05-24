@@ -2,6 +2,11 @@ header {
     width: 100vw;
     display: flex;
     justify-content: center;
+    z-index: 10;
+}
+
+.header--mobile {
+    z-index: 10;
 }
 
 .header__content {
@@ -53,6 +58,7 @@ header {
     bottom: -150%;
     right: 0;
     transition: all 0.3s ease;
+    z-index: 10;
 }
 
 .collapsed-menu--open {

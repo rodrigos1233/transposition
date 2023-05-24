@@ -27,7 +27,7 @@ function Button({
             onClick={onClick}
             {...props}
             disabled={disabled ?? false}
-            className={`${sizingClasses} border-neutral-800 rounded text-black hover:border-lime-300 disabled:border-lime-400 disabled:translate-y-1 ${className} transition-all`}
+            className={`${sizingClasses} border-neutral-800 rounded text-black hover:border-lime-300 disabled:border-lime-400 disabled:translate-y-1 ${className} transition-all relative z-0`}
         >
             <Text>{children}</Text>
         </button>

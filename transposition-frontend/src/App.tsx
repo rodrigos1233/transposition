@@ -16,13 +16,13 @@ function App() {
     const isMobile = useIsMobile();
 
     return (
-        <div className="App container mx-auto">
+        <div className="App container mx-auto overflow-clip">
             <BrowserRouter>
                 <Header
                     selectedNotation={selectedNotation}
                     setSelectedNotation={setSelectedNotation}
                 />
-                <div className={`contents flex p-2`}>
+                <div className={`contents flex p-2 z-0 relative`}>
                     <Routes>
                         <Route
                             path="/"
