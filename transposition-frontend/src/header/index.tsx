@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import NotationSelector from './NotationSelector';
 import { Note } from '../utils/notes';
 import './header.css';
 import Button from '../components/button';
 import { useNavigate } from 'react-router-dom';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 function Header({
     selectedNotation,
@@ -15,12 +16,14 @@ function Header({
     const location = window.location.pathname.substring(1);
     const navigate = useNavigate();
 
+    const isMobile = useIsMobile();
+
     return (
-        <header className="header shadow-lg">
+        <header className={`header shadow-lg ${isMobile ? 'mobile' : ''}`}>
             <div className="header__content p-2">
                 <div>
                     <h1>Music Transpositor</h1>
-                    <nav className={'h-14'}>
+                    <nav className="h-14">
                         <Button
                             disabled={location === 'scale'}
                             onClick={() => {
@@ -30,7 +33,6 @@ function Header({
                         >
                             scale
                         </Button>
-
                         <Button
                             disabled={location === ''}
                             className="ml-3"
