@@ -63,8 +63,6 @@ function ScaleTransposition({
                 )}`}
             </>
         );
-
-        console.log({ scale });
     }, [
         selectedOriginKey,
         selectedNote,

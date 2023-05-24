@@ -48,17 +48,9 @@ export function scaleBuilder(
         mode === 'major' ? MAJOR_SCALES : MINOR_SCALES
     ).substring(0, 1);
 
-    console.log({ REDUCED_NOTES });
-
     const startingReducedNote = reducedNotesCopy
         .map((reducedNote: { english: 'string' }) => reducedNote.english)
         .indexOf(startingNoteName);
-
-    console.log({ REDUCED_NOTES });
-
-    console.log({ startingReducedNote, startingNoteName });
-
-    console.log({ positionInCircleOfFifth });
 
     let alteration: 'flat' | 'sharp' | null = null;
     let notes: number[] = [];
