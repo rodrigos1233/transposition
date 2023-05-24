@@ -23,8 +23,8 @@ export function Header({
 
     return (
         <header
-            className={`header shadow-lg ${
-                isMobile ? 'sticky top-0 bg-white' : ''
+            className={`header shadow-lg z-10 relative ${
+                isMobile ? 'header--mobile sticky top-0 bg-white' : ''
             }`}
         >
             <div className="header__content p-2">
