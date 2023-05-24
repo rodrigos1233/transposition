@@ -4,14 +4,16 @@ import './App.css';
 import './styles/output.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SimpleTransposition from './pages/simple-transposition';
-import Header from './header';
+import { BottomNav, Footer, Header } from './header';
 import { Note } from './utils/notes';
 import ReactDOM, { createRoot } from 'react-dom/client';
 import ScaleTransposition from './pages/scale-transposition';
+import { useIsMobile } from './hooks/useIsMobile';
 
 function App() {
     const [selectedNotation, setSelectedNotation]: [keyof Note, any] =
         useState('romance');
+    const isMobile = useIsMobile();
 
     return (
         <div className="App container mx-auto">
@@ -20,7 +22,7 @@ function App() {
                     selectedNotation={selectedNotation}
                     setSelectedNotation={setSelectedNotation}
                 />
-                <div className="contents flex p-2">
+                <div className={`contents flex p-2`}>
                     <Routes>
                         <Route
                             path="/"
@@ -40,6 +42,8 @@ function App() {
                         />
                     </Routes>
                 </div>
+                <BottomNav />
+                <Footer />
             </BrowserRouter>
         </div>
     );
