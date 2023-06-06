@@ -1,19 +1,19 @@
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 
-enum Language {
+export enum Language {
     English = 'en',
     French = 'fr',
 }
 
-type Translations = {
-    [K in Language]: string[];
+export type Translations = {
+    [K in Language]: ReactNode[];
 };
 
 const useTranslation = (
     selectedLanguage: Language,
     translations: Translations
 ) => {
-    const [translatedStrings, setTranslatedStrings] = useState<string[]>([]);
+    const [translatedStrings, setTranslatedStrings] = useState<ReactNode[]>([]);
 
     useEffect(() => {
         const translate = () => {

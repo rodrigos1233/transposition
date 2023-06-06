@@ -7,19 +7,35 @@ import { useNavigate } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 import Text from '../components/text';
 import { HamburgerMenu } from './hamburgerMenu';
+import useTranslation, {
+    Language,
+    Translations,
+} from '../hooks/useTranslation';
+import LanguageSelector from './LanguageSelector';
 
 export function Header({
     selectedNotation,
     setSelectedNotation,
+    selectedLanguage,
+    setSelectedLanguage,
 }: {
     selectedNotation: keyof Note;
-    setSelectedNotation: any;
+    setSelectedNotation: () => void;
+    selectedLanguage: Language;
+    setSelectedLanguage: (language: Language) => void;
 }) {
     const location = window.location.pathname.substring(1);
     const navigate = useNavigate();
     const [openMenu, setOpenMenu] = useState(false);
 
     const isMobile = useIsMobile();
+
+    const translations: Translations = {
+        [Language.English]: ['scale', 'note'],
+        [Language.French]: ['gamme', 'note'],
+    };
+
+    const translatedStrings = useTranslation(selectedLanguage, translations);
 
     return (
         <header
@@ -39,7 +55,7 @@ export function Header({
                                 }}
                                 className="ml-3"
                             >
-                                scale
+                                {translatedStrings[0]}
                             </Button>
                             <Button
                                 disabled={location === ''}
@@ -48,17 +64,24 @@ export function Header({
                                     navigate('/');
                                 }}
                             >
-                                note
+                                {translatedStrings[1]}
                             </Button>
                         </nav>
                     )}
                 </div>
 
                 {!isMobile && (
-                    <NotationSelector
-                        selectedNotation={selectedNotation}
-                        setSelectedNotation={setSelectedNotation}
-                    />
+                    <>
+                        <NotationSelector
+                            selectedNotation={selectedNotation}
+                            setSelectedNotation={setSelectedNotation}
+                            selectedLanguage={selectedLanguage}
+                        />
+                        <LanguageSelector
+                            selectedLanguage={selectedLanguage}
+                            setSelectedLanguage={setSelectedLanguage}
+                        />
+                    </>
                 )}
                 {isMobile && (
                     <HamburgerMenu
@@ -78,6 +101,11 @@ export function Header({
                     <NotationSelector
                         selectedNotation={selectedNotation}
                         setSelectedNotation={setSelectedNotation}
+                        selectedLanguage={selectedLanguage}
+                    />
+                    <LanguageSelector
+                        selectedLanguage={selectedLanguage}
+                        setSelectedLanguage={setSelectedLanguage}
                     />
                 </div>
             )}
