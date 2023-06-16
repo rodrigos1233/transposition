@@ -44,6 +44,27 @@ function ScaleTransposition({
         (noteInScale) => `${noteInScale.note[selectedNotation]}, `
     );
 
+    const translations: Translations = {
+        [Language.English]: [
+            'major',
+            'minor',
+            "Transpose a full major or minor scale from a transposing instrument's key to another:",
+            'origin key:',
+            'scale:',
+            'target key:',
+        ],
+        [Language.French]: [
+            'majeur',
+            'mineur',
+            "Transposez une gamme majeure ou mineure complète d'une tonalité d'instrument transpositeur à une autre:",
+            "tonalité d'origine:",
+            'gamme:',
+            "tonalité d'arrivée:",
+        ],
+    };
+
+    const translatedText = useTranslation(selectedLanguage, translations);
+
     const englishMessage = (
         <>
             {`The scale of ${getNote(
@@ -114,22 +135,19 @@ function ScaleTransposition({
                     disabled={mode === 'major'}
                     className={'bg-neutral-100 ml-3'}
                 >
-                    Major
+                    {translatedText[0]}
                 </Button>
                 <Button
                     onClick={() => setMode('minor')}
                     disabled={mode === 'minor'}
                     className={'bg-neutral-100 ml-3'}
                 >
-                    Minor
+                    {translatedText[1]}
                 </Button>
             </div>
-            <h2>
-                Transpose a full major or minor scale from a transposing
-                instrument's key to another:
-            </h2>
+            <h2>{translatedText[2]}</h2>
             <div className="simple-transposition__origin-key-select w-full">
-                origin key:
+                {translatedText[3]}
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={setSelectedOriginKey}
@@ -137,7 +155,7 @@ function ScaleTransposition({
                 />
             </div>
             <div className="simple-transposition__note-select w-full">
-                scale:
+                {translatedText[4]}
                 <NoteSelector
                     selected={selectedNote}
                     setSelected={setSelectedNote}
@@ -146,7 +164,7 @@ function ScaleTransposition({
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full">
-                target key:
+                {translatedText[5]}
                 <NoteSelector
                     selected={selectedTargetKey}
                     setSelected={setSelectedTargetKey}

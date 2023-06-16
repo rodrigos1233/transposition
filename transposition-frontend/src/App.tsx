@@ -66,6 +66,7 @@ function App() {
                             element={
                                 <SimpleTransposition
                                     selectedNotation={selectedNotation}
+                                    selectedLanguage={selectedLanguage}
                                 />
                             }
                         />
