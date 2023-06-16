@@ -10,66 +10,122 @@ import NoteSelector from '../../components/note-selector';
 import { transposer } from '../../utils/transposer';
 import { scaleBuilder } from '../../utils/scaleBuilder';
 import Button from '../../components/button';
+import useTranslation, {
+    Language,
+    Translations,
+} from '../../hooks/useTranslation';
 
 function ScaleTransposition({
     selectedNotation,
+    selectedLanguage,
 }: {
     selectedNotation: keyof Note;
+    selectedLanguage: Language;
 }) {
     const [selectedOriginKey, setSelectedOriginKey] = useState(0);
     const [selectedNote, setSelectedNote] = useState(0);
     const [selectedTargetKey, setSelectedTargetKey] = useState(0);
-    const [message, setMessage] = useState(<></>);
     const [mode, setMode] = useState<'major' | 'minor'>('major');
 
-    useEffect(() => {
-        const targetNote = transposer(
-            selectedNote,
-            selectedOriginKey,
-            selectedTargetKey
-        );
-        const scale = scaleBuilder(selectedNote, mode);
-
-        const notesSuite = scale.notesInScale.map(
-            (noteInScale) => `${noteInScale.note[`${selectedNotation}`]}, `
-        );
-
-        const transposedScale = scaleBuilder(targetNote, mode);
-
-        const transposedScaleNotesSuite = transposedScale.notesInScale.map(
-            (noteInScale) => `${noteInScale.note[`${selectedNotation}`]}, `
-        );
-        setMessage(
-            <>
-                {`The scale of ${getNote(
-                    selectedNote,
-                    selectedNotation
-                )} ${mode}, which for an instrument in ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} consists of the following note suite:`}{' '}
-                <span className={'font-bold text-lg'}>{notesSuite}</span>{' '}
-                {`becomes a scale of ${getNote(
-                    targetNote,
-                    selectedNotation,
-                    mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
-                )} ${mode}, with the following note suite: `}{' '}
-                <span className={'font-bold text-lg'}>
-                    {transposedScaleNotesSuite}
-                </span>{' '}
-                {`when transposed for an instrument in ${getNote(
-                    selectedTargetKey,
-                    selectedNotation
-                )}`}
-            </>
-        );
-    }, [
-        selectedOriginKey,
+    const targetNote = transposer(
         selectedNote,
-        selectedTargetKey,
-        selectedNotation,
-        mode,
-    ]);
+        selectedOriginKey,
+        selectedTargetKey
+    );
+    const scale = scaleBuilder(selectedNote, mode);
+
+    const notesSuite = scale.notesInScale.map(
+        (noteInScale) => `${noteInScale.note[selectedNotation]}, `
+    );
+
+    const transposedScale = scaleBuilder(targetNote, mode);
+
+    const transposedScaleNotesSuite = transposedScale.notesInScale.map(
+        (noteInScale) => `${noteInScale.note[selectedNotation]}, `
+    );
+
+    const translations: Translations = {
+        [Language.English]: [
+            'major',
+            'minor',
+            "Transpose a full major or minor scale from a transposing instrument's key to another:",
+            'origin key:',
+            'scale:',
+            'target key:',
+        ],
+        [Language.French]: [
+            'majeur',
+            'mineur',
+            "Transposez une gamme majeure ou mineure complète d'une tonalité d'instrument transpositeur à une autre:",
+            "tonalité d'origine:",
+            'gamme:',
+            "tonalité d'arrivée:",
+        ],
+    };
+
+    const translatedText = useTranslation(selectedLanguage, translations);
+
+    const englishMessage = (
+        <>
+            {`The scale of ${getNote(
+                selectedNote,
+                selectedNotation
+            )} ${mode}, which for an instrument in ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} consists of the following note suite:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>{' '}
+            {`becomes a scale of ${getNote(
+                targetNote,
+                selectedNotation,
+                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+            )} ${mode}, with the following note suite: `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`when transposed for an instrument in ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )}`}
+        </>
+    );
+
+    const frenchMessage = (
+        <>
+            {`La gamme de ${getNote(
+                selectedNote,
+                selectedNotation
+            )} ${mode}, qui consiste en la suite de notes suivante:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>{' '}
+            {`devient la gamme de ${getNote(
+                targetNote,
+                selectedNotation,
+                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+            )} ${mode}, avec la suite de notes suivante: `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`lorsqu'elle est transposée d'un instrument transpositeur en ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} à un instrument transpositeur en ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )}.`}
+        </>
+    );
+
+    const resultTranslations: Translations = {
+        [Language.English]: [englishMessage],
+        [Language.French]: [frenchMessage],
+    };
+
+    const translatedResults = useTranslation(
+        selectedLanguage,
+        resultTranslations
+    );
+
+    const message = translatedResults[0];
 
     return (
         <div className="content simple-transposition w-full">
@@ -79,22 +135,19 @@ function ScaleTransposition({
                     disabled={mode === 'major'}
                     className={'bg-neutral-100 ml-3'}
                 >
-                    Major
+                    {translatedText[0]}
                 </Button>
                 <Button
                     onClick={() => setMode('minor')}
                     disabled={mode === 'minor'}
                     className={'bg-neutral-100 ml-3'}
                 >
-                    Minor
+                    {translatedText[1]}
                 </Button>
             </div>
-            <h2>
-                Transpose a full major or minor scale from a transposing
-                instrument's key to another:
-            </h2>
+            <h2>{translatedText[2]}</h2>
             <div className="simple-transposition__origin-key-select w-full">
-                origin key:
+                {translatedText[3]}
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={setSelectedOriginKey}
@@ -102,7 +155,7 @@ function ScaleTransposition({
                 />
             </div>
             <div className="simple-transposition__note-select w-full">
-                scale:
+                {translatedText[4]}
                 <NoteSelector
                     selected={selectedNote}
                     setSelected={setSelectedNote}
@@ -111,7 +164,7 @@ function ScaleTransposition({
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full">
-                target key:
+                {translatedText[5]}
                 <NoteSelector
                     selected={selectedTargetKey}
                     setSelected={setSelectedTargetKey}
