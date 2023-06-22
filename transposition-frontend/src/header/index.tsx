@@ -35,7 +35,11 @@ export function Header({
         [Language.French]: ['gamme', 'note'],
     };
 
-    const translatedStrings = useTranslation(selectedLanguage, translations);
+    const translatedStrings = useTranslation(
+        selectedLanguage,
+        translations,
+        []
+    );
 
     return (
         <header

@@ -39,7 +39,7 @@ function SimpleTransposition({
         ],
     };
 
-    const translatedText = useTranslation(selectedLanguage, translations);
+    const translatedText = useTranslation(selectedLanguage, translations, []);
 
     const targetNote = transposer(
         selectedNote,
@@ -80,7 +80,8 @@ function SimpleTransposition({
 
     const translatedResults = useTranslation(
         selectedLanguage,
-        resultTranslations
+        resultTranslations,
+        [selectedNotation]
     );
 
     const message = translatedResults[0];
