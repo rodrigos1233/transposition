@@ -11,7 +11,8 @@ export type Translations = {
 
 const useTranslation = (
     selectedLanguage: Language,
-    translations: Translations
+    translations: Translations,
+    customDependencies: any[]
 ) => {
     const [translatedStrings, setTranslatedStrings] = useState<ReactNode[]>([]);
 
@@ -26,7 +27,7 @@ const useTranslation = (
         };
 
         translate();
-    }, [selectedLanguage, translations]);
+    }, [selectedLanguage, ...customDependencies]);
 
     return translatedStrings;
 };

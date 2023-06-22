@@ -37,7 +37,11 @@ function NotationSelector({
         }),
     };
 
-    const translatedStrings = useTranslation(selectedLanguage, translations);
+    const translatedStrings = useTranslation(
+        selectedLanguage,
+        translations,
+        []
+    );
 
     return (
         <div className="notation-selector">

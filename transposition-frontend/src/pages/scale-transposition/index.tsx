@@ -1,11 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import {
-    getNote,
-    MAJOR_SCALES,
-    MINOR_SCALES,
-    Note,
-    NOTES,
-} from '../../utils/notes';
+import React, { useState } from 'react';
+import { getNote, MAJOR_SCALES, MINOR_SCALES, Note } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { transposer } from '../../utils/transposer';
 import { scaleBuilder } from '../../utils/scaleBuilder';
@@ -63,14 +57,23 @@ function ScaleTransposition({
         ],
     };
 
-    const translatedText = useTranslation(selectedLanguage, translations);
+    const translatedText = useTranslation(selectedLanguage, translations, []);
+
+    const modeNames: Translations = {
+        [Language.English]: ['major', 'minor'],
+        [Language.French]: ['majeur', 'mineur'],
+    };
+
+    const modeNameIndex = mode === 'major' ? 0 : 1;
+
+    let modeText = modeNames[selectedLanguage][modeNameIndex];
 
     const englishMessage = (
         <>
             {`The scale of ${getNote(
                 selectedNote,
                 selectedNotation
-            )} ${mode}, which for an instrument in ${getNote(
+            )} ${modeText}, which for an instrument in ${getNote(
                 selectedOriginKey,
                 selectedNotation
             )} consists of the following note suite:`}{' '}
@@ -79,7 +82,7 @@ function ScaleTransposition({
                 targetNote,
                 selectedNotation,
                 mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
-            )} ${mode}, with the following note suite: `}{' '}
+            )} ${modeText}, with the following note suite: `}{' '}
             <span className="font-bold text-lg">
                 {transposedScaleNotesSuite}
             </span>{' '}
@@ -122,7 +125,8 @@ function ScaleTransposition({
 
     const translatedResults = useTranslation(
         selectedLanguage,
-        resultTranslations
+        resultTranslations,
+        [selectedNotation, mode]
     );
 
     const message = translatedResults[0];

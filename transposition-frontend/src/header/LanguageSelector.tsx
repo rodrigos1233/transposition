@@ -21,7 +21,11 @@ function LanguageSelector({
         [Language.French]: ['Langue:'],
     };
 
-    const translatedStrings = useTranslation(selectedLanguage, translations);
+    const translatedStrings = useTranslation(
+        selectedLanguage,
+        translations,
+        []
+    );
 
     return (
         <div className="notation-selector">
