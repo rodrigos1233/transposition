@@ -81,7 +81,7 @@ function SimpleTransposition({
     const translatedResults = useTranslation(
         selectedLanguage,
         resultTranslations,
-        [selectedNotation]
+        [selectedNotation, selectedNote, selectedOriginKey, selectedTargetKey]
     );
 
     const message = translatedResults[0];

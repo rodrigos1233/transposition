@@ -126,7 +126,13 @@ function ScaleTransposition({
     const translatedResults = useTranslation(
         selectedLanguage,
         resultTranslations,
-        [selectedNotation, mode]
+        [
+            selectedNotation,
+            mode,
+            selectedNote,
+            selectedOriginKey,
+            selectedTargetKey,
+        ]
     );
 
     const message = translatedResults[0];
