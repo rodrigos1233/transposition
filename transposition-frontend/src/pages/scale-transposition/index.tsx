@@ -98,7 +98,7 @@ function ScaleTransposition({
             {`La gamme de ${getNote(
                 selectedNote,
                 selectedNotation
-            )} ${mode}, qui consiste en la suite de notes suivante:`}{' '}
+            )} ${modeText}, qui consiste en la suite de notes suivante:`}{' '}
             <span className="font-bold text-lg">{notesSuite}</span>{' '}
             {`devient la gamme de ${getNote(
                 targetNote,
