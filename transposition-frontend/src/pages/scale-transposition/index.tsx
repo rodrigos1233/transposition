@@ -104,7 +104,7 @@ function ScaleTransposition({
                 targetNote,
                 selectedNotation,
                 mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
-            )} ${mode}, avec la suite de notes suivante: `}{' '}
+            )} ${modeText}, avec la suite de notes suivante: `}{' '}
             <span className="font-bold text-lg">
                 {transposedScaleNotesSuite}
             </span>{' '}
