@@ -90,11 +90,6 @@ export function scaleBuilder(
         alteration = 'flat';
 
         for (let i = 11; i >= positionInCircleOfFifth; i--) {
-            console.log({
-                i,
-                pushedIndex: -1 * i + 11,
-                pushedNumber: FLAT_LIST[-1 * i + 11],
-            });
             alteredNotes.push(FLAT_LIST[-1 * i + 11]);
         }
     }
@@ -118,6 +113,17 @@ export function scaleBuilder(
                 note.german = `${note.german}${
                     alteration === 'flat' ? 'es' : 'is'
                 }`;
+            }
+
+            //german exceptions
+            if (note.german === 'hes') {
+                note.german = 'b';
+            }
+            if (note.german === 'ees') {
+                note.german = 'es';
+            }
+            if (note.german === 'aes') {
+                note.german = 'as';
             }
         }
 

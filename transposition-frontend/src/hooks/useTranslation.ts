@@ -3,10 +3,12 @@ import { ReactNode, useEffect, useState } from 'react';
 export enum Language {
     English = 'en',
     French = 'fr',
+    Spanish = 'es',
+    German = 'de',
 }
 
 export type Translations = {
-    [K in Language]: ReactNode[];
+    [K in Language]?: ReactNode[];
 };
 
 const useTranslation = (
