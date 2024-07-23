@@ -33,6 +33,8 @@ export function Header({
     const translations: Translations = {
         [Language.English]: ['scale', 'note'],
         [Language.French]: ['gamme', 'note'],
+        [Language.Spanish]: ['escala', 'nota'],
+        [Language.German]: ['Tonleiter', 'Ton'],
     };
 
     const translatedStrings = useTranslation(
@@ -117,10 +119,23 @@ export function Header({
     );
 }
 
-export function BottomNav() {
+export function BottomNav( {selectedLanguage} : {selectedLanguage: Language}) {
     const isMobile = useIsMobile();
     const location = window.location.pathname.substring(1);
     const navigate = useNavigate();
+
+    const translations: Translations = {
+        [Language.English]: ['scale', 'note'],
+        [Language.French]: ['gamme', 'note'],
+        [Language.Spanish]: ['escala', 'nota'],
+        [Language.German]: ['Tonleiter', 'Ton'],
+    };
+
+    const translatedStrings = useTranslation(
+        selectedLanguage,
+        translations,
+        []
+    );
 
     return (
         <>
@@ -134,7 +149,7 @@ export function BottomNav() {
                             }}
                             className="ml-3"
                         >
-                            scale
+                            {translatedStrings[0]}
                         </Button>
                         <Button
                             disabled={location === ''}
@@ -143,7 +158,7 @@ export function BottomNav() {
                                 navigate('/');
                             }}
                         >
-                            note
+                            {translatedStrings[1]}
                         </Button>
                     </nav>
                 </div>

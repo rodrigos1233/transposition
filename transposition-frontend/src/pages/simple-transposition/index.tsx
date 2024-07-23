@@ -37,6 +37,18 @@ function SimpleTransposition({
             'note:',
             "tonalité d'arrivée:",
         ],
+        [Language.Spanish]: [
+            "Transpone una nota de una tonalidad a otra:",
+            "tonalidad de origen:",
+            'nota:',
+            "tonalidad de destino:",
+        ],
+        [Language.German]: [
+            "Transponiere eine Note einer Tonalität auf eine andere:",
+            "Tonalität der Ursprung:",
+            'Note:',
+            "Tonalität der Ziel:",
+        ],
     };
 
     const translatedText = useTranslation(selectedLanguage, translations, []);
@@ -73,9 +85,37 @@ function SimpleTransposition({
         </>
     );
 
+    const spanishMessage = (
+        <>
+            {`Una ${getNote(selectedNote, selectedNotation)} en ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} se convierte en`}{' '}
+            <span className={'font-bold text-lg'}>
+                {getNote(targetNote, selectedNotation)}
+            </span>{' '}
+            {`en ${getNote(selectedTargetKey, selectedNotation)}`}
+        </>
+    );
+
+    const germanMessage = (
+        <>
+            {`Eine ${getNote(selectedNote, selectedNotation)} in ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} wird in`}{' '}
+            <span className={'font-bold text-lg'}>
+                {getNote(targetNote, selectedNotation)}
+            </span>{' '}
+            {`in ${getNote(selectedTargetKey, selectedNotation)}`}
+        </>
+    );
+
     const resultTranslations: Translations = {
         [Language.English]: [englishMessage],
         [Language.French]: [frenchMessage],
+        [Language.Spanish]: [spanishMessage],
+        [Language.German]: [germanMessage],
     };
 
     const translatedResults = useTranslation(

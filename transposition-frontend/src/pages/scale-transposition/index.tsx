@@ -55,6 +55,22 @@ function ScaleTransposition({
             'gamme:',
             "tonalité d'arrivée:",
         ],
+        [Language.Spanish]: [
+            'mayor',
+            'menor',
+            "Transpone una escala completa de una tonalidad de instrumento transpositor a otra:",
+            "tonalidad de origen:",
+            'escala:',
+            "tonalidad de destino:",
+        ],
+        [Language.German]: [
+            'Dur',
+            'Moll',
+            "Transponiere eine vollständige Tonleiter eines Instrument auf eine andere:",
+            "Tonalität der Ursprung:",
+            'Tonleiter:',
+            "Tonalität der Ziel:",
+        ],
     };
 
     const translatedText = useTranslation(selectedLanguage, translations, []);
@@ -62,11 +78,19 @@ function ScaleTransposition({
     const modeNames: Translations = {
         [Language.English]: ['major', 'minor'],
         [Language.French]: ['majeur', 'mineur'],
+        [Language.Spanish]: ['mayor', 'menor'],
+        [Language.German]: ['Dur', 'Moll'],
     };
 
     const modeNameIndex = mode === 'major' ? 0 : 1;
 
-    let modeText = modeNames[selectedLanguage][modeNameIndex];
+    let modeText;
+    if (modeNames[selectedLanguage]) {
+        // @ts-ignore
+        modeText = modeNames[selectedLanguage][modeNameIndex];
+    } else {
+        modeText = mode; // Fallback to mode in case the selected language is not available
+    }
 
     const englishMessage = (
         <>
@@ -118,9 +142,64 @@ function ScaleTransposition({
         </>
     );
 
+    const spanishMessage = (
+        <>
+            {`La escala de ${getNote(
+                selectedNote,
+                selectedNotation
+            )} ${modeText}, que consiste en la siguiente escala de notas:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>{' '}
+            {`se convierte en la escala de ${getNote(
+                targetNote,
+                selectedNotation,
+                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+            )} ${modeText}, con la siguiente escala de notas: `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`cuando se transpone para un instrument transpositor en ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} a un instrument transpositor en ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )}.`}
+        </>
+    );
+
+    const germanMessage = (
+        <>
+            {`Die Tonleiter von ${getNote(
+                selectedNote,
+                selectedNotation
+            )}-${modeText}, die für ein Instrument in ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} besteht aus folgender Tonleiter:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>{' '}
+            {`wird in die Tonleiter von ${getNote(
+                targetNote,
+                selectedNotation,
+                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+            )}-${modeText} umgewandelt, mit folgender Tonleiter: `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`wenn es für ein Instrument in ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} transponiert wird, um ein Instrument in ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} transponiert wird.`}
+        </>
+    );
+
     const resultTranslations: Translations = {
         [Language.English]: [englishMessage],
         [Language.French]: [frenchMessage],
+        [Language.Spanish]: [spanishMessage],
+        [Language.German]: [germanMessage],
     };
 
     const translatedResults = useTranslation(
