@@ -40,7 +40,9 @@ export function scaleBuilder(
         }
     }
 
-    const reducedNotesCopy = JSON.parse(JSON.stringify(REDUCED_NOTES)); //to avoid mutation of the original array
+    const reducedNotesCopy = REDUCED_NOTES.map((reducedNote) => ({
+        ...reducedNote
+    }));
 
     const startingNoteName = getNote(
         startNote,
@@ -97,7 +99,7 @@ export function scaleBuilder(
     const notesInScale: NoteInScale[] = [];
 
     for (const reducedNote of reducedNotes) {
-        const note = reducedNotesCopy[reducedNote];
+        const note = { ...reducedNotesCopy[reducedNote] }; // Clone each note object
 
         if (!!alteration) {
             if (
