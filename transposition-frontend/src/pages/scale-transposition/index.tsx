@@ -226,7 +226,7 @@ function ScaleTransposition({
 
     return (
         <div className="content simple-transposition w-full">
-            <div className="mode-selector h-14">
+            <div className="mode-selector">
                 {modes}
             </div>
             <h2>{translatedText[2]}</h2>
@@ -245,6 +245,7 @@ function ScaleTransposition({
                     setSelected={setSelectedNote}
                     selectedNotation={selectedNotation}
                     usedScale={SCALES}
+                    blackNotesAreHalf={true}
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full">
