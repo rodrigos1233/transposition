@@ -6,7 +6,6 @@ import {
     REDUCED_NOTES, SCALES,
     SHARP_LIST,
 } from './notes';
-import {Mode} from "node:fs";
 import {MODES} from "./modes";
 
 const reducedCircleOfFifthMajorSuite = [

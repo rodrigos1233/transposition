@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {getNote, Note, SCALES} from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
-import {scaleTransposer, transposer} from '../../utils/transposer';
+import {scaleTransposer} from '../../utils/transposer';
 import { scaleBuilder } from '../../utils/scaleBuilder';
 import Button from '../../components/button';
 import useTranslation, {
