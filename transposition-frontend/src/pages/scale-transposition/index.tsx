@@ -97,23 +97,23 @@ function ScaleTransposition({
             {`The scale of ${getNote(
                 selectedNote,
                 selectedNotation
-            )} ${modeText}, which for an instrument in ${getNote(
+            )} ${modeText}, for an instrument in ${getNote(
                 selectedOriginKey,
                 selectedNotation
-            )} consists of the following note suite:`}{' '}
-            <span className="font-bold text-lg">{notesSuite}</span>{' '}
-            {`becomes a scale of ${getNote(
+            )}, consists of the following notes:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`This becomes the scale of ${getNote(
                 targetNote,
                 selectedNotation,
                 mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
-            )} ${modeText}, with the following note suite: `}{' '}
+            )} ${modeText}, with the following notes: `}{' '}
             <span className="font-bold text-lg">
-                {transposedScaleNotesSuite}
-            </span>{' '}
+            {transposedScaleNotesSuite}
+        </span>{' '}
             {`when transposed for an instrument in ${getNote(
                 selectedTargetKey,
                 selectedNotation
-            )}`}
+            )}.`}
         </>
     );
 
@@ -122,20 +122,23 @@ function ScaleTransposition({
             {`La gamme de ${getNote(
                 selectedNote,
                 selectedNotation
-            )} ${modeText}, qui consiste en la suite de notes suivante:`}{' '}
-            <span className="font-bold text-lg">{notesSuite}</span>{' '}
-            {`devient la gamme de ${getNote(
+            )} ${modeText}, qui pour un instrument en ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} consiste en la suite de notes suivante :`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`Elle devient la gamme de ${getNote(
                 targetNote,
                 selectedNotation,
                 mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
-            )} ${modeText}, avec la suite de notes suivante: `}{' '}
+            )} ${modeText}, avec la suite de notes suivante : `}{' '}
             <span className="font-bold text-lg">
-                {transposedScaleNotesSuite}
-            </span>{' '}
-            {`lorsqu'elle est transposée d'un instrument transpositeur en ${getNote(
+            {transposedScaleNotesSuite}
+        </span>,{' '}
+            {`lorsqu'elle est transposée d'un instrument en ${getNote(
                 selectedOriginKey,
                 selectedNotation
-            )} à un instrument transpositeur en ${getNote(
+            )} à un instrument en ${getNote(
                 selectedTargetKey,
                 selectedNotation
             )}.`}
@@ -147,20 +150,23 @@ function ScaleTransposition({
             {`La escala de ${getNote(
                 selectedNote,
                 selectedNotation
-            )} ${modeText}, que consiste en la siguiente escala de notas:`}{' '}
-            <span className="font-bold text-lg">{notesSuite}</span>{' '}
-            {`se convierte en la escala de ${getNote(
+            )} ${modeText}, que para un instrumento en ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} consiste en la siguiente secuencia de notas:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`Se convierte en la escala de ${getNote(
                 targetNote,
                 selectedNotation,
                 mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
-            )} ${modeText}, con la siguiente escala de notas: `}{' '}
+            )} ${modeText}, con la siguiente secuencia de notas: `}{' '}
             <span className="font-bold text-lg">
-                {transposedScaleNotesSuite}
-            </span>{' '}
-            {`cuando se transpone para un instrument transpositor en ${getNote(
+            {transposedScaleNotesSuite}
+        </span>,{' '}
+            {`cuando se transpone de un instrumento en ${getNote(
                 selectedOriginKey,
                 selectedNotation
-            )} a un instrument transpositor en ${getNote(
+            )} a un instrumento en ${getNote(
                 selectedTargetKey,
                 selectedNotation
             )}.`}
