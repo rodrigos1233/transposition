@@ -1,5 +1,5 @@
 import {
-    CIRCE_OF_FIFTH_MAJOR_SUITE,
+    CIRCLE_OF_FIFTH_MAJOR_SUITE,
     FLAT_LIST,
     getNote,
     MAJOR_SCALES,
@@ -26,7 +26,7 @@ export function scaleBuilder(
     startNote: number,
     mode: 'major' | 'minor'
 ): Scale {
-    let positionInCircleOfFifth = CIRCE_OF_FIFTH_MAJOR_SUITE[startNote];
+    let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
 
     if (mode === 'minor') {
         positionInCircleOfFifth -= 3;

@@ -1,4 +1,4 @@
-import {CIRCE_OF_FIFTH_MAJOR_SUITE} from "./notes";
+import {CIRCLE_OF_FIFTH_MAJOR_SUITE} from "./notes";
 
 export function transposer(
     originNote: number,
@@ -87,7 +87,7 @@ export function scaleTransposer(
     let targetNote = possibleTargetNotes[0];
 
     if (possibleTargetNotes.length > 1) {
-        let position = CIRCE_OF_FIFTH_MAJOR_SUITE[possibleTargetNotes[0]];
+        let position = CIRCLE_OF_FIFTH_MAJOR_SUITE[possibleTargetNotes[0]];
 
         if (mode === 'minor') {
             position -= 3;

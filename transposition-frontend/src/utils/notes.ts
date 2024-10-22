@@ -73,7 +73,7 @@ export const SCALES: Note[] = [
     { romance: 'si', english: 'B', german: 'h' },
 ]
 
-export const CIRCE_OF_FIFTH_MAJOR_SUITE = [
+export const CIRCLE_OF_FIFTH_MAJOR_SUITE = [
     0, // c
     7, // c#
     7, // db
