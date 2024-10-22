@@ -2,12 +2,12 @@ import {
     CIRCLE_OF_FIFTH_MAJOR_SUITE,
     FLAT_LIST,
     getNote,
-    MAJOR_SCALES,
-    MINOR_SCALES,
     Note,
     REDUCED_NOTES, SCALES,
     SHARP_LIST,
 } from './notes';
+import {Mode} from "node:fs";
+import {MODES} from "./modes";
 
 const reducedCircleOfFifthMajorSuite = [
     0, // c
@@ -24,12 +24,13 @@ const notesMinorSuite = [...notesMajorSuite.slice(5), ...notesMajorSuite.slice(0
 
 export function scaleBuilder(
     startNote: number,
-    mode: 'major' | 'minor'
+    modeIndex: number
 ): Scale {
     let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
+    const mode = MODES[modeIndex]
 
-    if (mode === 'minor') {
-        positionInCircleOfFifth -= 3;
+    if (modeIndex !== 0) {
+        positionInCircleOfFifth += mode.modePosition;
 
         if (positionInCircleOfFifth < 0) {
             positionInCircleOfFifth += 12;
@@ -60,7 +61,16 @@ export function scaleBuilder(
     let alteredNotes: number[] = [];
     let doubleAlteredNotes: number[] = [];
 
-    const usedSuite = mode === 'major' ? notesMajorSuite : notesMinorSuite;
+
+    let modeShift = reducedCircleOfFifthMajorSuite.indexOf(Math.abs(mode.modePosition));
+
+    console.log({modeShift});
+
+    const usedSuite = [...notesMajorSuite.slice(modeShift), ...notesMajorSuite.slice(0, modeShift)];
+
+    console.log({modeShift});
+
+
 
     let currentNote: number = startNote;
     let currentReducedNote: number = startingReducedNote;

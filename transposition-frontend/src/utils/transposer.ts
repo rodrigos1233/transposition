@@ -1,4 +1,5 @@
 import {CIRCLE_OF_FIFTH_MAJOR_SUITE} from "./notes";
+import {Mode} from "node:fs";
 
 export function transposer(
     originNote: number,
@@ -24,7 +25,7 @@ export function scaleTransposer(
     originNote: number,
     originKey: number,
     targetKey: number,
-    mode: 'major' | 'minor'
+    mode: Mode
 ) {
     let keyDifference = originKey - targetKey;
 
