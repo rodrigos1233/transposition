@@ -51,7 +51,7 @@ export function scaleBuilder(
     ).substring(0, 1);
 
     const startingReducedNote = reducedNotesCopy
-        .map((reducedNote: { english: 'string' }) => reducedNote.english)
+        .map((reducedNote: { english: string }) => reducedNote.english)
         .indexOf(startingNoteName);
 
     let alteration: 'flat' | 'sharp' | null = null;
