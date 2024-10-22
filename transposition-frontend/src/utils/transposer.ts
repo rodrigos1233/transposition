@@ -66,8 +66,6 @@ export function scaleTransposer(
     // If the note is part of an enharmonic group, return the index of the group
     const actualNote = enharmonicGroups[originNote];
 
-    console.log({actualNote, originNote})
-
     let actualTargetNote = actualNote + keyDifference;
 
     if (actualTargetNote > 11) {
@@ -102,7 +100,9 @@ export function scaleTransposer(
         const alteration2 = position;
 
         // Select the note with the smallest alteration
-        targetNote = Math.min(alteration1, alteration2);
+        if (alteration1 < alteration2) {
+            targetNote = possibleTargetNotes[1];
+        }
     }
 
     return targetNote;
