@@ -175,23 +175,23 @@ function ScaleTransposition({
             )}-${modeText}, die für ein Instrument in ${getNote(
                 selectedOriginKey,
                 selectedNotation
-            )} besteht aus folgender Tonleiter:`}{' '}
-            <span className="font-bold text-lg">{notesSuite}</span>{' '}
-            {`wird in die Tonleiter von ${getNote(
+            )} besteht, setzt sich wie folgt zusammen:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`Diese Tonleiter wird umgewandelt in die Tonleiter von ${getNote(
                 targetNote,
                 selectedNotation,
                 mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
-            )}-${modeText} umgewandelt, mit folgender Tonleiter: `}{' '}
+            )}-${modeText}, mit folgender Tonleiter: `}{' '}
             <span className="font-bold text-lg">
-                {transposedScaleNotesSuite}
-            </span>{' '}
-            {`wenn es für ein Instrument in ${getNote(
+            {transposedScaleNotesSuite}
+        </span>,{' '}
+            {`wenn sie für ein Instrument in ${getNote(
                 selectedOriginKey,
                 selectedNotation
-            )} transponiert wird, um ein Instrument in ${getNote(
+            )} transponiert wird, um für ein Instrument in ${getNote(
                 selectedTargetKey,
                 selectedNotation
-            )} transponiert wird.`}
+            )} zu spielen.`}
         </>
     );
 
