@@ -3,19 +3,22 @@ import { getNote } from '../../utils/notes';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import Text from '../text';
 
+type buttonProps = {
+    children: any;
+    props?: any;
+    onClick?: any;
+    disabled: boolean;
+    className?: string;
+    style?: any;
+}
 function Button({
     children,
     onClick,
     disabled,
     props,
     className,
-}: {
-    children: any;
-    props?: any;
-    onClick?: any;
-    disabled: boolean;
-    className?: string;
-}) {
+    style
+}: buttonProps) {
     const isMobile = useIsMobile();
 
     const sizingClasses = isMobile
@@ -26,6 +29,7 @@ function Button({
         <button
             onClick={onClick}
             {...props}
+            style={style}
             disabled={disabled ?? false}
             className={`${sizingClasses} border-neutral-800 rounded text-black hover:border-lime-300 disabled:border-lime-400 disabled:translate-y-1 ${className} transition-all relative z-0`}
         >

@@ -11,3 +11,10 @@
     column-gap: 0.4rem;
     row-gap: 0.4rem;
 }
+
+.black-note-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.4rem;
+}
