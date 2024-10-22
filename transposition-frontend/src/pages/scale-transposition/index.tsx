@@ -28,15 +28,15 @@ function ScaleTransposition({
     );
     const scale = scaleBuilder(selectedNote, mode);
 
-    const notesSuite = scale.notesInScale.map(
-        (noteInScale) => `${noteInScale.note[selectedNotation]}, `
-    );
+    const notesSuite = scale.notesInScale
+        .map((noteInScale) => noteInScale.note[selectedNotation])
+        .join(', ');
 
     const transposedScale = scaleBuilder(targetNote, mode);
 
-    const transposedScaleNotesSuite = transposedScale.notesInScale.map(
-        (noteInScale) => `${noteInScale.note[selectedNotation]}, `
-    );
+    const transposedScaleNotesSuite = transposedScale.notesInScale
+        .map((noteInScale) => noteInScale.note[selectedNotation])
+        .join(', ');
 
     const translations: Translations = {
         [Language.English]: [
