@@ -1,27 +1,23 @@
 import {
+    CIRCE_OF_FIFTH_MAJOR_SUITE,
     FLAT_LIST,
     getNote,
     MAJOR_SCALES,
     MINOR_SCALES,
     Note,
-    REDUCED_NOTES,
+    REDUCED_NOTES, SCALES,
     SHARP_LIST,
 } from './notes';
 
-const circleOfFifthMajorSuite = [
-    0, // do
-    7, // sol
-    2, // ré
-    9, // la
-    4, // mi
-    11, // si
-    6, // sol b / fa #
-    1, // ré b
-    8, // la b
-    3, // mi b
-    10, // si b
-    5, //fa
-];
+const reducedCircleOfFifthMajorSuite = [
+    0, // c
+    2, // d
+    4, // e
+    6, // f
+    1, // g
+    3, // a
+    5, // b
+]
 
 const notesMajorSuite = [2, 2, 1, 2, 2, 2, 1];
 const notesMinorSuite = [...notesMajorSuite.slice(5), ...notesMajorSuite.slice(0, 5)];
@@ -30,7 +26,7 @@ export function scaleBuilder(
     startNote: number,
     mode: 'major' | 'minor'
 ): Scale {
-    let positionInCircleOfFifth = circleOfFifthMajorSuite.indexOf(startNote);
+    let positionInCircleOfFifth = CIRCE_OF_FIFTH_MAJOR_SUITE[startNote];
 
     if (mode === 'minor') {
         positionInCircleOfFifth -= 3;
@@ -47,17 +43,22 @@ export function scaleBuilder(
     const startingNoteName = getNote(
         startNote,
         'english',
-        mode === 'major' ? MAJOR_SCALES : MINOR_SCALES
-    ).substring(0, 1);
+        SCALES
+    )
+
+    const startingNoteNameReduced = startingNoteName.substring(0, 1);
 
     const startingReducedNote = reducedNotesCopy
         .map((reducedNote: { english: string }) => reducedNote.english)
-        .indexOf(startingNoteName);
+        .indexOf(startingNoteNameReduced);
+
+    console.log({startingReducedNote, startingNoteNameReduced})
 
     let alteration: 'flat' | 'sharp' | null = null;
     let notes: number[] = [];
     let reducedNotes: number[] = [];
     let alteredNotes: number[] = [];
+    let doubleAlteredNotes: number[] = [];
 
     const usedSuite = mode === 'major' ? notesMajorSuite : notesMinorSuite;
 
@@ -82,16 +83,35 @@ export function scaleBuilder(
 
     if (positionInCircleOfFifth > 0 && positionInCircleOfFifth <= 6) {
         alteration = 'sharp';
-
-        for (let i = 1; i <= positionInCircleOfFifth; i++) {
-            alteredNotes.push(SHARP_LIST[i - 1]);
-        }
     }
 
     if (positionInCircleOfFifth > 6) {
         alteration = 'flat';
+    }
 
+    if (startingNoteName.includes('♭')) {
+        alteration = 'flat';
+    }
+
+    if (startingNoteName.includes('♯')) {
+        alteration = 'sharp';
+    }
+
+    if (alteration === 'sharp') {
+        for (let i = 1; i <= positionInCircleOfFifth; i++) {
+            if (alteredNotes.includes(SHARP_LIST[i - 1])) {
+                doubleAlteredNotes.push(SHARP_LIST[i - 1]);
+            }
+
+            alteredNotes.push(SHARP_LIST[i - 1]);
+        }
+    }
+
+    if (alteration === 'flat') {
         for (let i = 11; i >= positionInCircleOfFifth; i--) {
+            if (alteredNotes.includes(FLAT_LIST[-1 * i + 11])) {
+                doubleAlteredNotes.push(FLAT_LIST[-1 * i + 11]);
+            }
             alteredNotes.push(FLAT_LIST[-1 * i + 11]);
         }
     }
@@ -106,15 +126,27 @@ export function scaleBuilder(
                 alteredNotes.includes(reducedNote) &&
                 !(note.english.includes('♭') || note.english.includes('♯'))
             ) {
-                note.english = `${note.english}${
-                    alteration === 'flat' ? '♭' : '♯'
-                }`;
-                note.romance = `${note.romance}${
-                    alteration === 'flat' ? '♭' : '♯'
-                }`;
-                note.german = `${note.german}${
-                    alteration === 'flat' ? 'es' : 'is'
-                }`;
+                if (doubleAlteredNotes.includes(reducedNote)) {
+                    note.english = `${note.english}${
+                        alteration === 'flat' ? '𝄫' : '𝄪'
+                    }`;
+                    note.romance = `${note.romance}${
+                        alteration === 'flat' ? '𝄫' : '𝄪'
+                    }`;
+                    note.german = `${note.german}${
+                        alteration === 'flat' ? 'eses' : 'isis'
+                    }`;
+                } else {
+                    note.english = `${note.english}${
+                        alteration === 'flat' ? '♭' : '♯'
+                    }`;
+                    note.romance = `${note.romance}${
+                        alteration === 'flat' ? '♭' : '♯'
+                    }`;
+                    note.german = `${note.german}${
+                        alteration === 'flat' ? 'es' : 'is'
+                    }`;
+                }
             }
 
             //german exceptions
@@ -126,6 +158,15 @@ export function scaleBuilder(
             }
             if (note.german === 'aes') {
                 note.german = 'as';
+            }
+            if (note.german === 'heses') {
+                note.german = 'bes';
+            }
+            if (note.german === 'eeses') {
+                note.german = 'eses';
+            }
+            if (note.german === 'aeses') {
+                note.german = 'ases';
             }
         }
 

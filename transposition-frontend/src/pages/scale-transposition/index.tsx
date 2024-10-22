@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { getNote, MAJOR_SCALES, MINOR_SCALES, Note } from '../../utils/notes';
+import {getNote, MAJOR_SCALES, MINOR_SCALES, Note, SCALES} from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
-import { transposer } from '../../utils/transposer';
+import {scaleTransposer, transposer} from '../../utils/transposer';
 import { scaleBuilder } from '../../utils/scaleBuilder';
 import Button from '../../components/button';
 import useTranslation, {
@@ -21,10 +21,11 @@ function ScaleTransposition({
     const [selectedTargetKey, setSelectedTargetKey] = useState(0);
     const [mode, setMode] = useState<'major' | 'minor'>('major');
 
-    const targetNote = transposer(
+    const targetNote = scaleTransposer(
         selectedNote,
         selectedOriginKey,
-        selectedTargetKey
+        selectedTargetKey,
+        mode
     );
     const scale = scaleBuilder(selectedNote, mode);
 
@@ -96,7 +97,8 @@ function ScaleTransposition({
         <>
             {`The scale of ${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )} ${modeText}, for an instrument in ${getNote(
                 selectedOriginKey,
                 selectedNotation
@@ -105,7 +107,7 @@ function ScaleTransposition({
             {`This becomes the scale of ${getNote(
                 targetNote,
                 selectedNotation,
-                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+                SCALES
             )} ${modeText}, with the following notes: `}{' '}
             <span className="font-bold text-lg">
             {transposedScaleNotesSuite}
@@ -121,7 +123,8 @@ function ScaleTransposition({
         <>
             {`La gamme de ${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )} ${modeText}, qui pour un instrument en ${getNote(
                 selectedOriginKey,
                 selectedNotation
@@ -130,7 +133,7 @@ function ScaleTransposition({
             {`Elle devient la gamme de ${getNote(
                 targetNote,
                 selectedNotation,
-                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+                SCALES
             )} ${modeText}, avec la suite de notes suivante : `}{' '}
             <span className="font-bold text-lg">
             {transposedScaleNotesSuite}
@@ -149,7 +152,8 @@ function ScaleTransposition({
         <>
             {`La escala de ${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )} ${modeText}, que para un instrumento en ${getNote(
                 selectedOriginKey,
                 selectedNotation
@@ -158,7 +162,7 @@ function ScaleTransposition({
             {`Se convierte en la escala de ${getNote(
                 targetNote,
                 selectedNotation,
-                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+                SCALES
             )} ${modeText}, con la siguiente secuencia de notas: `}{' '}
             <span className="font-bold text-lg">
             {transposedScaleNotesSuite}
@@ -177,7 +181,8 @@ function ScaleTransposition({
         <>
             {`Die Tonleiter von ${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )}-${modeText}, die für ein Instrument in ${getNote(
                 selectedOriginKey,
                 selectedNotation
@@ -186,7 +191,7 @@ function ScaleTransposition({
             {`Diese Tonleiter wird umgewandelt in die Tonleiter von ${getNote(
                 targetNote,
                 selectedNotation,
-                mode === 'minor' ? MINOR_SCALES : MAJOR_SCALES
+                SCALES
             )}-${modeText}, mit folgender Tonleiter: `}{' '}
             <span className="font-bold text-lg">
             {transposedScaleNotesSuite}
@@ -255,7 +260,7 @@ function ScaleTransposition({
                     selected={selectedNote}
                     setSelected={setSelectedNote}
                     selectedNotation={selectedNotation}
-                    usedScale={mode === 'major' ? MAJOR_SCALES : MINOR_SCALES}
+                    usedScale={SCALES}
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full">
