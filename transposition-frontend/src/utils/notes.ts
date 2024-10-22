@@ -23,36 +23,6 @@ export const NOTES: Note[] = [
     { romance: 'si', english: 'B', german: 'h' },
 ];
 
-export const MAJOR_SCALES: Note[] = [
-    { romance: 'do', english: 'C', german: 'c' },
-    { romance: 'ré♭', english: 'D♭', german: 'des' },
-    { romance: 'ré', english: 'D', german: 'd' },
-    { romance: 'mi♭', english: 'E♭', german: 'es' },
-    { romance: 'mi', english: 'E', german: 'e' },
-    { romance: 'fa', english: 'F', german: 'f' },
-    { romance: 'fa♯', english: 'F♯', german: 'fis' },
-    { romance: 'sol', english: 'G', german: 'g' },
-    { romance: 'la♭', english: 'A♭', german: 'as' },
-    { romance: 'la', english: 'A', german: 'a' },
-    { romance: 'si♭', english: 'B♭', german: 'b' },
-    { romance: 'si', english: 'B', german: 'h' },
-];
-
-export const MINOR_SCALES: Note[] = [
-    { romance: 'do', english: 'C', german: 'c' },
-    { romance: 'do♯', english: 'C♯', german: 'cis' },
-    { romance: 'ré', english: 'D', german: 'd' },
-    { romance: 'ré♯', english: 'D♯', german: 'dis' },
-    { romance: 'mi', english: 'E', german: 'e' },
-    { romance: 'fa', english: 'F', german: 'f' },
-    { romance: 'fa♯', english: 'F♯', german: 'fis' },
-    { romance: 'sol', english: 'G', german: 'g' },
-    { romance: 'sol♯', english: 'G♯', german: 'gis' },
-    { romance: 'la', english: 'A', german: 'a' },
-    { romance: 'si♭', english: 'B♭', german: 'b' },
-    { romance: 'si', english: 'B', german: 'h' },
-];
-
 export const SCALES: Note[] = [
     { romance: 'do', english: 'C', german: 'c' },
     { romance: 'do♯', english: 'C♯', german: 'cis' },

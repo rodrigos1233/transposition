@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     getNote,
-    MAJOR_SCALES,
-    MINOR_SCALES,
     Note,
-    NOTES,
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { transposer } from '../../utils/transposer';

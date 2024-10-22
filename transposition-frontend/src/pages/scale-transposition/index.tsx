@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import {getNote, MAJOR_SCALES, MINOR_SCALES, Note, SCALES} from '../../utils/notes';
+import {getNote, Note, SCALES} from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
-import {scaleTransposer, transposer} from '../../utils/transposer';
+import {scaleTransposer} from '../../utils/transposer';
 import { scaleBuilder } from '../../utils/scaleBuilder';
 import Button from '../../components/button';
 import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
+import {getModeName, MODES} from "../../utils/modes";
 
 function ScaleTransposition({
     selectedNotation,
@@ -19,21 +20,21 @@ function ScaleTransposition({
     const [selectedOriginKey, setSelectedOriginKey] = useState(0);
     const [selectedNote, setSelectedNote] = useState(0);
     const [selectedTargetKey, setSelectedTargetKey] = useState(0);
-    const [mode, setMode] = useState<'major' | 'minor'>('major');
+    const [selectedMode, setSelectedMode] = useState<number>(0);
 
     const targetNote = scaleTransposer(
         selectedNote,
         selectedOriginKey,
         selectedTargetKey,
-        mode
+        selectedMode
     );
-    const scale = scaleBuilder(selectedNote, mode);
+    const scale = scaleBuilder(selectedNote, selectedMode);
 
     const notesSuite = scale.notesInScale
         .map((noteInScale) => noteInScale.note[selectedNotation])
         .join(', ');
 
-    const transposedScale = scaleBuilder(targetNote, mode);
+    const transposedScale = scaleBuilder(targetNote, selectedMode);
 
     const transposedScaleNotesSuite = transposedScale.notesInScale
         .map((noteInScale) => noteInScale.note[selectedNotation])
@@ -76,22 +77,7 @@ function ScaleTransposition({
 
     const translatedText = useTranslation(selectedLanguage, translations, []);
 
-    const modeNames: Translations = {
-        [Language.English]: ['major', 'minor'],
-        [Language.French]: ['majeur', 'mineur'],
-        [Language.Spanish]: ['mayor', 'menor'],
-        [Language.German]: ['Dur', 'Moll'],
-    };
-
-    const modeNameIndex = mode === 'major' ? 0 : 1;
-
-    let modeText;
-    if (modeNames[selectedLanguage]) {
-        // @ts-ignore
-        modeText = modeNames[selectedLanguage][modeNameIndex];
-    } else {
-        modeText = mode; // Fallback to mode in case the selected language is not available
-    }
+    const modeText = getModeName(selectedMode, selectedLanguage);
 
     const englishMessage = (
         <>
@@ -218,7 +204,7 @@ function ScaleTransposition({
         resultTranslations,
         [
             selectedNotation,
-            mode,
+            selectedMode,
             selectedNote,
             selectedOriginKey,
             selectedTargetKey,
@@ -227,23 +213,21 @@ function ScaleTransposition({
 
     const message = translatedResults[0];
 
+    const modes = MODES.map((mode, index) => (
+        <Button
+            key={index}
+            onClick={() => setSelectedMode(index)}
+            disabled={index === selectedMode}
+            className={'bg-neutral-100 ml-3'}
+        >
+            {getModeName(index, selectedLanguage)}
+        </Button>
+    ));
+
     return (
         <div className="content simple-transposition w-full">
             <div className="mode-selector h-14">
-                <Button
-                    onClick={() => setMode('major')}
-                    disabled={mode === 'major'}
-                    className={'bg-neutral-100 ml-3'}
-                >
-                    {translatedText[0]}
-                </Button>
-                <Button
-                    onClick={() => setMode('minor')}
-                    disabled={mode === 'minor'}
-                    className={'bg-neutral-100 ml-3'}
-                >
-                    {translatedText[1]}
-                </Button>
+                {modes}
             </div>
             <h2>{translatedText[2]}</h2>
             <div className="simple-transposition__origin-key-select w-full">
