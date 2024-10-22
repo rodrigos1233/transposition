@@ -10,6 +10,7 @@ import ReactDOM, { createRoot } from 'react-dom/client';
 import ScaleTransposition from './pages/scale-transposition';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Language } from './hooks/useTranslation';
+import AboutPage from "./pages/about";
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
@@ -74,6 +75,15 @@ function App() {
                             path="/scale"
                             element={
                                 <ScaleTransposition
+                                    selectedLanguage={selectedLanguage}
+                                    selectedNotation={selectedNotation}
+                                />
+                            }
+                        />
+                        <Route
+                            path="/about"
+                            element={
+                                <AboutPage
                                     selectedLanguage={selectedLanguage}
                                     selectedNotation={selectedNotation}
                                 />

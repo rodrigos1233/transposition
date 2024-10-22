@@ -31,10 +31,10 @@ export function Header({
     const isMobile = useIsMobile();
 
     const translations: Translations = {
-        [Language.English]: ['scale', 'note'],
-        [Language.French]: ['gamme', 'note'],
-        [Language.Spanish]: ['escala', 'nota'],
-        [Language.German]: ['Tonleiter', 'Ton'],
+        [Language.English]: ['scale', 'note', 'about'],
+        [Language.French]: ['gamme', 'note', 'à propos'],
+        [Language.Spanish]: ['escala', 'nota', 'info'],
+        [Language.German]: ['Tonleiter', 'Ton', 'Info'],
     };
 
     const translatedStrings = useTranslation(
@@ -71,6 +71,15 @@ export function Header({
                                 }}
                             >
                                 {translatedStrings[1]}
+                            </Button>
+                            <Button
+                                disabled={location === 'about'}
+                                className="ml-3"
+                                onClick={() => {
+                                    navigate('/about');
+                                }}
+                            >
+                                {translatedStrings[2]}
                             </Button>
                         </nav>
                     )}
