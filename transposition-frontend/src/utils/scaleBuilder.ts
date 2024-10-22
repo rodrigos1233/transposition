@@ -53,8 +53,6 @@ export function scaleBuilder(
         .map((reducedNote: { english: string }) => reducedNote.english)
         .indexOf(startingNoteNameReduced);
 
-    console.log({startingReducedNote, startingNoteNameReduced})
-
     let alteration: 'flat' | 'sharp' | null = null;
     let notes: number[] = [];
     let reducedNotes: number[] = [];
@@ -64,11 +62,8 @@ export function scaleBuilder(
 
     let modeShift = reducedCircleOfFifthMajorSuite.indexOf(Math.abs(mode.modePosition));
 
-    console.log({modeShift});
-
     const usedSuite = [...notesMajorSuite.slice(modeShift), ...notesMajorSuite.slice(0, modeShift)];
 
-    console.log({modeShift});
 
 
 
