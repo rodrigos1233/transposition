@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-    getNote,
-    Note,
-} from '../../utils/notes';
+import { getNote, Note } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { transposer } from '../../utils/transposer';
 import useTranslation, {
@@ -23,28 +20,28 @@ function SimpleTransposition({
 
     const translations: Translations = {
         [Language.English]: [
-            "Transpose a single note from a transposing instrument's key to another:",
-            'origin key:',
-            'note:',
-            'target key:',
+            'Transpose a single note from a tonality to another:',
+            'Origin key:',
+            'Note:',
+            'Target key:',
         ],
         [Language.French]: [
             "Transposez une note d'une tonalité à une autre:",
-            "tonalité d'origine:",
-            'note:',
-            "tonalité d'arrivée:",
+            "Tonalité d'origine:",
+            'Note:',
+            "Tonalité d'arrivée:",
         ],
         [Language.Spanish]: [
-            "Transpone una nota de una tonalidad a otra:",
-            "tonalidad de origen:",
-            'nota:',
-            "tonalidad de destino:",
+            'Transpone una nota de una tonalidad a otra:',
+            'Tonalidad de origen:',
+            'Nota:',
+            'Tonalidad de destino:',
         ],
         [Language.German]: [
-            "Transponiere eine Note einer Tonalität auf eine andere:",
-            "Tonalität der Ursprung:",
+            'Transponiere eine Note von einer Tonalität in eine andere:',
+            'Ursprungstonalität:',
             'Note:',
-            "Tonalität der Ziel:",
+            'Zieltonalität:',
         ],
     };
 
@@ -56,57 +53,92 @@ function SimpleTransposition({
         selectedTargetKey
     );
 
-    const englishMessage = (
-        <>
-            {`A ${getNote(selectedNote, selectedNotation)} in ${getNote(
-                selectedOriginKey,
-                selectedNotation
-            )} becomes a`}{' '}
-            <span className={'font-bold text-lg'}>
-                {getNote(targetNote, selectedNotation)}
-            </span>{' '}
-            {`in ${getNote(selectedTargetKey, selectedNotation)}`}
-        </>
-    );
+    const englishMessage =
+        selectedOriginKey === selectedTargetKey ? (
+            <>
+                {`A ${getNote(selectedNote, selectedNotation)} in ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} stays the same because the origin and target keys are the same.`}
+            </>
+        ) : (
+            <>
+                {`A ${getNote(selectedNote, selectedNotation)} in ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} becomes a`}{' '}
+                <span className={'font-bold text-lg'}>
+                    {getNote(targetNote, selectedNotation)}
+                </span>{' '}
+                {`in ${getNote(selectedTargetKey, selectedNotation)}`}
+            </>
+        );
 
-    const frenchMessage = (
-        <>
-            {`Un ${getNote(selectedNote, selectedNotation)} en ${getNote(
-                selectedOriginKey,
-                selectedNotation
-            )} devient un`}{' '}
-            <span className={'font-bold text-lg'}>
-                {getNote(targetNote, selectedNotation)}
-            </span>{' '}
-            {`en ${getNote(selectedTargetKey, selectedNotation)}`}
-        </>
-    );
+    const frenchMessage =
+        selectedOriginKey === selectedTargetKey ? (
+            <>
+                {`Un ${getNote(selectedNote, selectedNotation)} en ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} reste le même car les tonalités d'origine et de destination sont identiques.`}
+            </>
+        ) : (
+            <>
+                {`Un ${getNote(selectedNote, selectedNotation)} en ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} devient un`}{' '}
+                <span className={'font-bold text-lg'}>
+                    {getNote(targetNote, selectedNotation)}
+                </span>{' '}
+                {`en ${getNote(selectedTargetKey, selectedNotation)}`}
+            </>
+        );
 
-    const spanishMessage = (
-        <>
-            {`Una ${getNote(selectedNote, selectedNotation)} en ${getNote(
-                selectedOriginKey,
-                selectedNotation
-            )} se convierte en`}{' '}
-            <span className={'font-bold text-lg'}>
-                {getNote(targetNote, selectedNotation)}
-            </span>{' '}
-            {`en ${getNote(selectedTargetKey, selectedNotation)}`}
-        </>
-    );
+    const spanishMessage =
+        selectedOriginKey === selectedTargetKey ? (
+            <>
+                {`Una ${getNote(selectedNote, selectedNotation)} en ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} sigue siendo la misma porque las tonalidades de origen y destino son iguales.`}
+            </>
+        ) : (
+            <>
+                {`Una ${getNote(selectedNote, selectedNotation)} en ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} se convierte en`}{' '}
+                <span className={'font-bold text-lg'}>
+                    {getNote(targetNote, selectedNotation)}
+                </span>{' '}
+                {`en ${getNote(selectedTargetKey, selectedNotation)}`}
+            </>
+        );
 
-    const germanMessage = (
-        <>
-            {`Eine ${getNote(selectedNote, selectedNotation)} in ${getNote(
-                selectedOriginKey,
-                selectedNotation
-            )} wird in`}{' '}
-            <span className={'font-bold text-lg'}>
-                {getNote(targetNote, selectedNotation)}
-            </span>{' '}
-            {`in ${getNote(selectedTargetKey, selectedNotation)}`}
-        </>
-    );
+    const germanMessage =
+        selectedOriginKey === selectedTargetKey ? (
+            <>
+                {`Eine ${getNote(selectedNote, selectedNotation)} in ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} bleibt unverändert, da die Ursprungs- und Zieltonalität identisch sind.`}
+            </>
+        ) : (
+            <>
+                {`Eine ${getNote(selectedNote, selectedNotation)} in ${getNote(
+                    selectedOriginKey,
+                    selectedNotation
+                )} wird in`}{' '}
+                <span className={'font-bold text-lg'}>
+                    {getNote(targetNote, selectedNotation)}
+                </span>{' '}
+                {`in ${getNote(
+                    selectedTargetKey,
+                    selectedNotation
+                )} transponiert`}
+            </>
+        );
 
     const resultTranslations: Translations = {
         [Language.English]: [englishMessage],
