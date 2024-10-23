@@ -21,9 +21,7 @@ function Button({
 }: buttonProps) {
     const isMobile = useIsMobile();
 
-    const sizingClasses = isMobile
-        ? 'border-2 border-b-8 p-1 disabled:border-b-2'
-        : 'border-4 border-b-8 p-2 disabled:border-b-4';
+    const sizingClasses = 'border-2 border-b-8 p-1 disabled:border-b-2';
 
     return (
         <button
@@ -31,7 +29,7 @@ function Button({
             {...props}
             style={style}
             disabled={disabled ?? false}
-            className={`${sizingClasses} border-neutral-800 rounded text-black hover:border-lime-300 disabled:border-lime-400 disabled:translate-y-1 ${className} transition-all relative z-0`}
+            className={`${sizingClasses} border-neutral-800 rounded text-black hover:border-lime-300 disabled:border-lime-400 disabled:translate-y-0.5 ${className} transition-all relative z-0`}
         >
             <Text>{children}</Text>
         </button>
