@@ -35,340 +35,205 @@ function AboutPage({
         ],
     };
 
-    const listOfInstrumentsTranslations: Translations = {
+    const listOfInstrumentsTranslation: Translations = {
+        [Language.English]: [
+            [
+                'Piano',
+                'Guitar',
+                'Violin',
+                'Cello',
+                'Oboe',
+                'Bassoon',
+                'Flute',
+                'Accordion',
+            ],
+            ['Piccolo'],
+            ['Hunting horn'],
+            [
+                'Sopranino/piccolo clarinet',
+                'Alto saxophone',
+                'Baryton saxophone',
+            ],
+            [],
+            ['French horn', 'Alphorn', 'Basset horn', 'English horn'],
+            ['Alphorn'],
+            ['Alto flute'],
+            [],
+            ['Clarinet'],
+            [
+                'Clarinet',
+                'Bass clarinet',
+                'Trumpet',
+                'Soprano saxophone',
+                'Tenor saxophone',
+                'Cornet',
+                'Flugelhorn',
+                'Euphonium',
+            ],
+        ],
+        [Language.French]: [
+            [
+                'Piano',
+                'Guitare',
+                'Violon',
+                'Violoncelle',
+                'Hautbois',
+                'Basson',
+                'Flûte',
+                'Accordéon',
+            ],
+            ['Piccolo'],
+            ['Trompe de chasse'],
+            [
+                'Clarinette sopranino/piccolo',
+                'Saxophone alto',
+                'Saxophone baryton',
+            ],
+            [],
+            ["Cor d'harmonie", 'Cor des Alpes', 'Cor de basset', 'Cor anglais'],
+            ['Cor des Alpes'],
+            ['Flûte alto'],
+            [],
+            ['Clarinette'],
+            [
+                'Clarinette',
+                'Clarinette basse',
+                'Trompette',
+                'Saxophone soprano',
+                'Saxophone tenor',
+                'Cornet',
+                'Bugle',
+                'Euphonium',
+            ],
+        ],
+        [Language.Spanish]: [
+            [
+                'Piano',
+                'Guitarra',
+                'Violín',
+                'Violoncelo',
+                'Oboe',
+                'Fagot',
+                'Flauta',
+                'Acordeón',
+            ],
+            ['Piccolo'],
+            ['Corno de caza'],
+            ['Clarinete sopranino/piccolo', 'Saxofón alto', 'Saxofón barítono'],
+            [],
+            ['Trompa', 'Trompa de los Alpes', 'Corno inglés'],
+            ['Trompa de los Alpes'],
+            ['Flauta alto'],
+            [],
+            ['Clarinete'],
+            [
+                'Clarinete',
+                'Clarinete bajo',
+                'Trompeta',
+                'Saxofón soprano',
+                'Saxofón tenor',
+                'Flugelhorn',
+                'Eufonio',
+            ],
+        ],
+        [Language.German]: [
+            [
+                'Klavier',
+                'Gitarre',
+                'Violine',
+                'Violoncello',
+                'Oboe',
+                'Fagott',
+                'Akkordeon',
+            ],
+            ['Piccolo'],
+            ['Jagdhorn'],
+            ['Sopranino/Piccolo-Klarinette', 'Altsaxophon', 'Barytonsaxophon'],
+            [],
+            ['Horn', 'Alphorn', 'Bassethorn', 'Englischhorn'],
+            ['Alphorn'],
+            ['Altflöte'],
+            [],
+            ['Klarinette'],
+            [
+                'Klarinette',
+                'Bassklarinette',
+                'Trompete',
+                'Sopransaxophon',
+                'Tenorsaxophon',
+                'Cornett',
+                'Flöte',
+                'Euphonium',
+            ],
+        ],
+    };
+
+    const listOfInstrumentsTranslationTitle: Translations = {
         [Language.English]: [
             'Here is a non exhaustive list of instruments sorted by their possible key:',
-            <ul className="list-disc">
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Piano,</li>
-                        <li>Guitar,</li>
-                        <li>Violin,</li>
-                        <li>Cello,</li>
-                        <li>Oboe,</li>
-                        <li>Bassoon,</li>
-                        <li>Flute,</li>
-                        <li>Accordion</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Piccolo</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Hunting horn</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Sopranino/piccolo clarinet,</li>
-                        <li>Alto saxophone,</li>
-                        <li>Baryton saxophone</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>French horn,</li>
-                        <li>Alphorn,</li>
-                        <li>Basset horn,</li>
-                        <li>English horn</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Alphorn</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Alto flute</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinet</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">
-                        {getNote(10, selectedNotation)}:
-                    </h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinet,</li>
-                        <li>Bass clarinet,</li>
-                        <li>Trumpet,</li>
-                        <li>Soprano saxophone,</li>
-                        <li>Tenor saxophone,</li>
-                        <li>Cornet,</li>
-                        <li>Flugelhorn,</li>
-                        <li>Euphonium</li>
-                    </ul>
-                </li>
-            </ul>,
         ],
         [Language.French]: [
             "Voici une liste non exhaustive d'instruments triés par leur tonalité possible:",
-            <ul className="list-disc">
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Piano,</li>
-                        <li>Guitare,</li>
-                        <li>Violon,</li>
-                        <li>Violoncelle,</li>
-                        <li>Hautbois,</li>
-                        <li>Basson,</li>
-                        <li>Flûte,</li>
-                        <li>Accordéon</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Piccolo</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Trompe de chasse</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinette sopranino/piccolo,</li>
-                        <li>Saxophone alto,</li>
-                        <li>Saxophone baryton</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Cor d'harmonie,</li>
-                        <li>Cor des Alpes,</li>
-                        <li>Cor de basset,</li>
-                        <li>Cor anglais</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Cor des Alpes</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Flûte alto</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinette</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">
-                        {getNote(10, selectedNotation)}:
-                    </h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinette,</li>
-                        <li>Clarinette basse,</li>
-                        <li>Trompette,</li>
-                        <li>Saxophone soprano,</li>
-                        <li>Saxophone tenor,</li>
-                        <li>Cornet,</li>
-                        <li>Bugle,</li>
-                        <li>Euphonium</li>
-                    </ul>
-                </li>
-            </ul>,
         ],
         [Language.German]: [
             'Hier ist eine nicht exhaustive Liste von Instrumenten, sortiert nach ihren möglichen Tonarten:',
-            <ul className="list-disc">
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Klavier,</li>
-                        <li>Gitarre,</li>
-                        <li>Violine,</li>
-                        <li>Violoncello,</li>
-                        <li>Oboe,</li>
-                        <li>Fagott,</li>
-                        <li>Akkordeon</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Piccolo</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Jagdhorn</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Sopranino/Piccolo-Klarinette,</li>
-                        <li>Altsaxophon,</li>
-                        <li>Barytonsaxophon</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Horn,</li>
-                        <li>Alphorn,</li>
-                        <li>Bassethorn,</li>
-                        <li>Englischhorn</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Alphorn</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Altflöte</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Klarinette</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">
-                        {getNote(10, selectedNotation)}:
-                    </h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Klarinette,</li>
-                        <li>Bassklarinette,</li>
-                        <li>Trompete,</li>
-                        <li>Sopransaxophon,</li>
-                        <li>Tenorsaxophon,</li>
-                        <li>Cornett,</li>
-                        <li>Flöte,</li>
-                        <li>Euphonium</li>
-                    </ul>
-                </li>
-            </ul>,
         ],
         [Language.Spanish]: [
             'Aquí hay una lista no exhaustiva de instrumentos ordenados por su tonalidad posible:',
-            <ul className="list-disc">
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Piano</li>
-                        <li>Guitarra</li>
-                        <li>Violín</li>
-                        <li>Violoncelo</li>
-                        <li>Oboe</li>
-                        <li>Fagot</li>
-                        <li>Flauta</li>
-                        <li>Acordeón</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Piccolo</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Corno de caza</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
-                    <ul className="flex gap-3 flex-wrap">
-                        <li>Clarinete sopranino/piccolo</li>
-                        <li>Saxofón alto</li>
-                        <li>Saxofón barítono</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Trompa</li>
-                        <li>Trompa de los Alpes</li>
-                        <li>Corno inglés</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Trompa de los Alpes</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Flauta alto</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinete</li>
-                    </ul>
-                </li>
-                <li className="my-2">
-                    <h4 className="text-xl">
-                        {getNote(10, selectedNotation)}:
-                    </h4>
-                    <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinete</li>
-                        <li>Clarinete bajo</li>
-                        <li>Trompeta</li>
-                        <li>Saxofón soprano</li>
-                        <li>Saxofón tenor</li>
-                        <li>Flugelhorn</li>
-                        <li>Eufonio</li>
-                    </ul>
-                </li>
-            </ul>,
         ],
     };
 
     const translatedText = useTranslation(selectedLanguage, translations, []);
     const translatedListOfInstruments = useTranslation(
         selectedLanguage,
-        listOfInstrumentsTranslations,
+        listOfInstrumentsTranslation,
         [selectedNotation]
     );
+    const translatedListOfInstrumentsTitle = useTranslation(
+        selectedLanguage,
+        listOfInstrumentsTranslationTitle,
+        [selectedNotation]
+    );
+
+    function getInstrumentList(keyIndex: number) {
+        const instrumentsArray = translatedListOfInstruments[keyIndex];
+
+        if (!instrumentsArray) {
+            return null;
+        }
+
+        return (
+            <li className="my-2">
+                <h4 className="text-xl">
+                    {getNote(keyIndex, selectedNotation)}:
+                </h4>
+                <ul className="flex gap-2 flex-wrap">
+                    {instrumentsArray.map((instrument, k) => (
+                        <li key={k}>
+                            {instrument}
+                            {`${k === instrumentsArray.length - 1 ? '' : ', '}`}
+                        </li>
+                    ))}
+                </ul>
+            </li>
+        );
+    }
 
     return (
         <div className="content about-page w-full">
             <h1 className="my-2">{translatedText[0]}</h1>
             <p className="my-2">{translatedText[1]}</p>
             <p className="my-2">{translatedText[2]}</p>
-            <p className="my-2">{translatedListOfInstruments[0]}</p>
-            {translatedListOfInstruments[1]}
+            <p className="my-2">{translatedListOfInstrumentsTitle[0]}</p>
+            {getInstrumentList(0)}
+            {getInstrumentList(1)}
+            {getInstrumentList(2)}
+            {getInstrumentList(3)}
+            {getInstrumentList(5)}
+            {getInstrumentList(6)}
+            {getInstrumentList(7)}
+            {getInstrumentList(9)}
+            {getInstrumentList(10)}
         </div>
     );
 }
