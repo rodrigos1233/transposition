@@ -7,16 +7,24 @@ export enum Language {
     German = 'de',
 }
 
+// Update the type to allow either ReactNode or arrays of ReactNodes
 export type Translations = {
-    [K in Language]?: ReactNode[];
+    [K in Language]?: (ReactNode | ReactNode[])[];
+};
+
+const ensureArrayStructure = (value: ReactNode | ReactNode[]): ReactNode[] => {
+    // If it's already an array, return it as is. Otherwise, wrap it in an array.
+    return Array.isArray(value) ? value : [value];
 };
 
 const useTranslation = (
     selectedLanguage: Language,
     translations: Translations,
     customDependencies: any[]
-) => {
-    const [translatedStrings, setTranslatedStrings] = useState<ReactNode[]>([]);
+): ReactNode[][] => {
+    const [translatedStrings, setTranslatedStrings] = useState<ReactNode[][]>(
+        []
+    );
 
     useEffect(() => {
         const translate = () => {
@@ -25,7 +33,11 @@ const useTranslation = (
             const selectedStrings =
                 translations[selectedLanguage] || fallbackStrings;
 
-            setTranslatedStrings(selectedStrings);
+            // Ensure every element is an array of ReactNodes
+            const structuredStrings = selectedStrings.map(ensureArrayStructure);
+
+            // Set the structured array into state
+            setTranslatedStrings(structuredStrings);
         };
 
         translate();
