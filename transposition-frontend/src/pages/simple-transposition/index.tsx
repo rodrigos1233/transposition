@@ -23,28 +23,28 @@ function SimpleTransposition({
 
     const translations: Translations = {
         [Language.English]: [
-            "Transpose a single note from a transposing instrument's key to another:",
-            'origin key:',
-            'note:',
-            'target key:',
+            "Transpose a single note from a tonality to another:",
+            'Origin key:',
+            'Note:',
+            'Target key:',
         ],
         [Language.French]: [
             "Transposez une note d'une tonalité à une autre:",
-            "tonalité d'origine:",
-            'note:',
-            "tonalité d'arrivée:",
+            "Tonalité d'origine:",
+            'Note:',
+            "Tonalité d'arrivée:",
         ],
         [Language.Spanish]: [
             "Transpone una nota de una tonalidad a otra:",
-            "tonalidad de origen:",
-            'nota:',
-            "tonalidad de destino:",
+            "Tonalidad de origen:",
+            'Nota:',
+            "Tonalidad de destino:",
         ],
         [Language.German]: [
-            "Transponiere eine Note einer Tonalität auf eine andere:",
-            "Tonalität der Ursprung:",
+            "Transponiere eine Note von einer Tonalität in eine andere:",
+            "Ursprungstonalität:",
             'Note:',
-            "Tonalität der Ziel:",
+            "Zieltonalität:",
         ],
     };
 
