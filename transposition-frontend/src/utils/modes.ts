@@ -1,4 +1,4 @@
-import { Language } from "../hooks/useTranslation";
+import { Language } from '../hooks/useTranslation';
 
 export interface Mode {
     translations: {
@@ -29,18 +29,18 @@ export const MODES: Mode[] = [
     {
         translations: {
             [Language.English]: 'Dorian',
-            [Language.French]: 'Dorian',
-            [Language.Spanish]: 'Dorian',
-            [Language.German]: 'Dorian',
+            [Language.French]: 'Dorien',
+            [Language.Spanish]: 'Dórico',
+            [Language.German]: 'Dorisch',
         },
         modePosition: -2,
     },
     {
         translations: {
             [Language.English]: 'Phrygian',
-            [Language.French]: 'Phrygian',
-            [Language.Spanish]: 'Phrygian',
-            [Language.German]: 'Phrygian',
+            [Language.French]: 'Phrygien',
+            [Language.Spanish]: 'Frigio',
+            [Language.German]: 'Phrygisch',
         },
         modePosition: -4,
     },
@@ -48,8 +48,8 @@ export const MODES: Mode[] = [
         translations: {
             [Language.English]: 'Lydian',
             [Language.French]: 'Lydien',
-            [Language.Spanish]: 'Lydian',
-            [Language.German]: 'Lydian',
+            [Language.Spanish]: 'Lidio',
+            [Language.German]: 'Lydisch',
         },
         modePosition: 1,
     },
@@ -57,8 +57,8 @@ export const MODES: Mode[] = [
         translations: {
             [Language.English]: 'Mixolydian',
             [Language.French]: 'Mixolydien',
-            [Language.Spanish]: 'Mixolídia',
-            [Language.German]: 'Mixolydian',
+            [Language.Spanish]: 'Mixolídio',
+            [Language.German]: 'Mixolydisch',
         },
         modePosition: -1,
     },
@@ -66,8 +66,8 @@ export const MODES: Mode[] = [
         translations: {
             [Language.English]: 'Locrian',
             [Language.French]: 'Locrien',
-            [Language.Spanish]: 'Locrian',
-            [Language.German]: 'Locrian',
+            [Language.Spanish]: 'Locrio',
+            [Language.German]: 'Lokrisch',
         },
         modePosition: -5,
     },
@@ -75,5 +75,8 @@ export const MODES: Mode[] = [
 
 export function getModeName(index: number, language: Language): string {
     // Fallback to English if the selected language is not available
-    return MODES[index].translations[language] || MODES[index].translations[Language.English];
+    return (
+        MODES[index].translations[language] ||
+        MODES[index].translations[Language.English]
+    );
 }
