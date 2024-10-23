@@ -1,5 +1,6 @@
-import {CIRCLE_OF_FIFTH_MAJOR_SUITE} from "./notes";
-import {Mode} from "node:fs";
+import { CIRCLE_OF_FIFTH_MAJOR_SUITE } from './notes';
+import { Mode } from 'node:fs';
+import { MODES } from './modes';
 
 export function transposer(
     originNote: number,
@@ -25,7 +26,7 @@ export function scaleTransposer(
     originNote: number,
     originKey: number,
     targetKey: number,
-    mode: Mode
+    mode: number
 ) {
     let keyDifference = originKey - targetKey;
 
@@ -46,22 +47,22 @@ export function scaleTransposer(
         13: 9, // A
         14: 10, // A♯ is equivalent to B♭
         15: 10, // B♭ is equivalent to A♯
-        16: 11 // B
+        16: 11, // B
     };
 
     const reverseEnharmonicGroups: { [key: number]: number[] } = {
-        0: [0],       // C
-        1: [1, 2],    // C♯ / D♭
-        2: [3],       // D
-        3: [4, 5],    // D♯ / E♭
-        4: [6],       // E
-        5: [7],       // F
-        6: [8, 9],    // F♯ / G♭
-        7: [10],      // G
-        8: [11, 12],  // G♯ / A♭
-        9: [13],      // A
+        0: [0], // C
+        1: [1, 2], // C♯ / D♭
+        2: [3], // D
+        3: [4, 5], // D♯ / E♭
+        4: [6], // E
+        5: [7], // F
+        6: [8, 9], // F♯ / G♭
+        7: [10], // G
+        8: [11, 12], // G♯ / A♭
+        9: [13], // A
         10: [14, 15], // A♯ / B♭
-        11: [16]      // B
+        11: [16], // B
     };
 
     // If the note is part of an enharmonic group, return the index of the group
@@ -88,9 +89,8 @@ export function scaleTransposer(
     if (possibleTargetNotes.length > 1) {
         let position = CIRCLE_OF_FIFTH_MAJOR_SUITE[possibleTargetNotes[0]];
 
-        if (mode === 'minor') {
-            position -= 3;
-
+        if (mode !== 0) {
+            position += MODES[mode].modePosition;
 
             if (position < 0) {
                 position += 12;
