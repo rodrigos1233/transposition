@@ -40,8 +40,8 @@ function AboutPage({
             'Here is a non exhaustive list of instruments sorted by their possible key:',
             <ul className="list-disc">
                 <li className="my-2">
-                    {getNote(0, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Piano</li>
                         <li>Guitar</li>
                         <li>Violin</li>
@@ -53,28 +53,28 @@ function AboutPage({
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(1, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Piccolo</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(2, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Hunting horn</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(3, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Sopranino/piccolo clarinet</li>
                         <li>Alto saxophone</li>
                         <li>Baryton saxophone</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(5, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>French horn</li>
                         <li>Alphorn</li>
                         <li>Basset horn</li>
@@ -82,26 +82,28 @@ function AboutPage({
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(6, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Alphorn</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(7, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Alto flute</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(9, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Clarinet</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(10, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">
+                        {getNote(10, selectedNotation)}:
+                    </h4>
+                    <ul className="flex gap-2">
                         <li>Clarinet</li>
                         <li>Bass clarinet</li>
                         <li>Trumpet</li>
@@ -118,8 +120,8 @@ function AboutPage({
             "Voici une liste non exhaustive d'instruments triés par leur tonalité possible:",
             <ul className="list-disc">
                 <li className="my-2">
-                    {getNote(0, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Piano</li>
                         <li>Guitare</li>
                         <li>Violon</li>
@@ -131,28 +133,28 @@ function AboutPage({
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(1, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Piccolo</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(2, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Trompe de chasse</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(3, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Clarinette sopranino/piccolo</li>
                         <li>Saxophone alto</li>
                         <li>Saxophone baryton</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(5, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Cor d'harmonie</li>
                         <li>Cor des Alpes</li>
                         <li>Cor de basset</li>
@@ -160,26 +162,28 @@ function AboutPage({
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(6, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Cor des Alpes</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(7, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Flûte alto</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(9, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Clarinette</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(10, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">
+                        {getNote(10, selectedNotation)}:
+                    </h4>
+                    <ul className="flex gap-2">
                         <li>Clarinette</li>
                         <li>Clarinette basse</li>
                         <li>Trompette</li>
@@ -196,8 +200,8 @@ function AboutPage({
             'Hier ist eine nicht exhaustive Liste von Instrumenten, sortiert nach ihren möglichen Tonarten:',
             <ul className="list-disc">
                 <li className="my-2">
-                    {getNote(0, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Klavier</li>
                         <li>Gitarre</li>
                         <li>Violine</li>
@@ -208,28 +212,28 @@ function AboutPage({
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(1, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Piccolo</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(2, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Jagdhorn</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(3, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Sopranino/Piccolo-Klarinette</li>
                         <li>Altsaxophon</li>
                         <li>Barytonsaxophon</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(5, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Horn</li>
                         <li>Alphorn</li>
                         <li>Bassethorn</li>
@@ -237,26 +241,28 @@ function AboutPage({
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(6, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Alphorn</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(7, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Altflöte</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(9, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Klarinette</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(10, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">
+                        {getNote(10, selectedNotation)}:
+                    </h4>
+                    <ul className="flex gap-2">
                         <li>Klarinette</li>
                         <li>Bassklarinette</li>
                         <li>Trompete</li>
@@ -273,8 +279,8 @@ function AboutPage({
             'Aquí hay una lista no exhaustiva de instrumentos ordenados por su tonalidad posible:',
             <ul className="list-disc">
                 <li className="my-2">
-                    {getNote(0, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Piano</li>
                         <li>Guitarra</li>
                         <li>Violín</li>
@@ -286,54 +292,56 @@ function AboutPage({
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(1, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(1, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Piccolo</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(2, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(2, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Corno de caza</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(3, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Clarinete sopranino/piccolo</li>
                         <li>Saxofón alto</li>
                         <li>Saxofón barítono</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(5, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Trompa</li>
                         <li>Trompa de los Alpes</li>
                         <li>Corno inglés</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(6, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(6, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Trompa de los Alpes</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(7, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(7, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Flauta alto</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(9, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">{getNote(9, selectedNotation)}:</h4>
+                    <ul className="flex gap-2">
                         <li>Clarinete</li>
                     </ul>
                 </li>
                 <li className="my-2">
-                    {getNote(10, selectedNotation)}:
-                    <ul>
+                    <h4 className="text-xl">
+                        {getNote(10, selectedNotation)}:
+                    </h4>
+                    <ul className="flex gap-2">
                         <li>Clarinete</li>
                         <li>Clarinete bajo</li>
                         <li>Trompeta</li>
