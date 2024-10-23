@@ -276,9 +276,9 @@ function ScaleTransposition({
 
     return (
         <div className="content simple-transposition w-full">
-            <div className="mode-selector">{modes}</div>
-            <h2>{translatedText[0]}</h2>
-            <div className="simple-transposition__origin-key-select w-full">
+            <div className="mode-selector mb-3">{modes}</div>
+            <h2 className="mb-3">{translatedText[0]}</h2>
+            <div className="simple-transposition__origin-key-select w-full mb-3">
                 {translatedText[1]}
                 <NoteSelector
                     selected={selectedOriginKey}
@@ -286,7 +286,7 @@ function ScaleTransposition({
                     selectedNotation={selectedNotation}
                 />
             </div>
-            <div className="simple-transposition__note-select w-full">
+            <div className="simple-transposition__note-select w-full mb-3">
                 {translatedText[2]}
                 <NoteSelector
                     selected={selectedNote}
@@ -296,7 +296,7 @@ function ScaleTransposition({
                     blackNotesAreHalf={true}
                 />
             </div>
-            <div className="simple-transposition__target-key-select w-full">
+            <div className="simple-transposition__target-key-select w-full mb-3">
                 {translatedText[3]}
                 <NoteSelector
                     selected={selectedTargetKey}
@@ -304,7 +304,7 @@ function ScaleTransposition({
                     selectedNotation={selectedNotation}
                 />
             </div>
-            <p>{message}</p>
+            <p className="mb-3">{message}</p>
         </div>
     );
 }
