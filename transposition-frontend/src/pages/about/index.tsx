@@ -42,13 +42,13 @@ function AboutPage({
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Piano</li>
-                        <li>Guitar</li>
-                        <li>Violin</li>
-                        <li>Cello</li>
-                        <li>Oboe</li>
-                        <li>Bassoon</li>
-                        <li>Flute</li>
+                        <li>Piano,</li>
+                        <li>Guitar,</li>
+                        <li>Violin,</li>
+                        <li>Cello,</li>
+                        <li>Oboe,</li>
+                        <li>Bassoon,</li>
+                        <li>Flute,</li>
                         <li>Accordion</li>
                     </ul>
                 </li>
@@ -67,17 +67,17 @@ function AboutPage({
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Sopranino/piccolo clarinet</li>
-                        <li>Alto saxophone</li>
+                        <li>Sopranino/piccolo clarinet,</li>
+                        <li>Alto saxophone,</li>
                         <li>Baryton saxophone</li>
                     </ul>
                 </li>
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>French horn</li>
-                        <li>Alphorn</li>
-                        <li>Basset horn</li>
+                        <li>French horn,</li>
+                        <li>Alphorn,</li>
+                        <li>Basset horn,</li>
                         <li>English horn</li>
                     </ul>
                 </li>
@@ -104,13 +104,13 @@ function AboutPage({
                         {getNote(10, selectedNotation)}:
                     </h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinet</li>
-                        <li>Bass clarinet</li>
-                        <li>Trumpet</li>
-                        <li>Soprano saxophone</li>
-                        <li>Tenor saxophone</li>
-                        <li>Cornet</li>
-                        <li>Flugelhorn</li>
+                        <li>Clarinet,</li>
+                        <li>Bass clarinet,</li>
+                        <li>Trumpet,</li>
+                        <li>Soprano saxophone,</li>
+                        <li>Tenor saxophone,</li>
+                        <li>Cornet,</li>
+                        <li>Flugelhorn,</li>
                         <li>Euphonium</li>
                     </ul>
                 </li>
@@ -122,13 +122,13 @@ function AboutPage({
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Piano</li>
-                        <li>Guitare</li>
-                        <li>Violon</li>
-                        <li>Violoncelle</li>
-                        <li>Hautbois</li>
-                        <li>Basson</li>
-                        <li>Flûte</li>
+                        <li>Piano,</li>
+                        <li>Guitare,</li>
+                        <li>Violon,</li>
+                        <li>Violoncelle,</li>
+                        <li>Hautbois,</li>
+                        <li>Basson,</li>
+                        <li>Flûte,</li>
                         <li>Accordéon</li>
                     </ul>
                 </li>
@@ -147,17 +147,17 @@ function AboutPage({
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinette sopranino/piccolo</li>
-                        <li>Saxophone alto</li>
+                        <li>Clarinette sopranino/piccolo,</li>
+                        <li>Saxophone alto,</li>
                         <li>Saxophone baryton</li>
                     </ul>
                 </li>
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Cor d'harmonie</li>
-                        <li>Cor des Alpes</li>
-                        <li>Cor de basset</li>
+                        <li>Cor d'harmonie,</li>
+                        <li>Cor des Alpes,</li>
+                        <li>Cor de basset,</li>
                         <li>Cor anglais</li>
                     </ul>
                 </li>
@@ -184,13 +184,13 @@ function AboutPage({
                         {getNote(10, selectedNotation)}:
                     </h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Clarinette</li>
-                        <li>Clarinette basse</li>
-                        <li>Trompette</li>
-                        <li>Saxophone soprano</li>
-                        <li>Saxophone tenor</li>
-                        <li>Cornet</li>
-                        <li>Bugle</li>
+                        <li>Clarinette,</li>
+                        <li>Clarinette basse,</li>
+                        <li>Trompette,</li>
+                        <li>Saxophone soprano,</li>
+                        <li>Saxophone tenor,</li>
+                        <li>Cornet,</li>
+                        <li>Bugle,</li>
                         <li>Euphonium</li>
                     </ul>
                 </li>
@@ -202,12 +202,12 @@ function AboutPage({
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(0, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Klavier</li>
-                        <li>Gitarre</li>
-                        <li>Violine</li>
-                        <li>Violoncello</li>
-                        <li>Oboe</li>
-                        <li>Fagott</li>
+                        <li>Klavier,</li>
+                        <li>Gitarre,</li>
+                        <li>Violine,</li>
+                        <li>Violoncello,</li>
+                        <li>Oboe,</li>
+                        <li>Fagott,</li>
                         <li>Akkordeon</li>
                     </ul>
                 </li>
@@ -226,17 +226,17 @@ function AboutPage({
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(3, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Sopranino/Piccolo-Klarinette</li>
-                        <li>Altsaxophon</li>
+                        <li>Sopranino/Piccolo-Klarinette,</li>
+                        <li>Altsaxophon,</li>
                         <li>Barytonsaxophon</li>
                     </ul>
                 </li>
                 <li className="my-2">
                     <h4 className="text-xl">{getNote(5, selectedNotation)}:</h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Horn</li>
-                        <li>Alphorn</li>
-                        <li>Bassethorn</li>
+                        <li>Horn,</li>
+                        <li>Alphorn,</li>
+                        <li>Bassethorn,</li>
                         <li>Englischhorn</li>
                     </ul>
                 </li>
@@ -263,13 +263,13 @@ function AboutPage({
                         {getNote(10, selectedNotation)}:
                     </h4>
                     <ul className="flex gap-2 flex-wrap">
-                        <li>Klarinette</li>
-                        <li>Bassklarinette</li>
-                        <li>Trompete</li>
-                        <li>Sopransaxophon</li>
-                        <li>Tenorsaxophon</li>
-                        <li>Cornett</li>
-                        <li>Flöte</li>
+                        <li>Klarinette,</li>
+                        <li>Bassklarinette,</li>
+                        <li>Trompete,</li>
+                        <li>Sopransaxophon,</li>
+                        <li>Tenorsaxophon,</li>
+                        <li>Cornett,</li>
+                        <li>Flöte,</li>
                         <li>Euphonium</li>
                     </ul>
                 </li>
