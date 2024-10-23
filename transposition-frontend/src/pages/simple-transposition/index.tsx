@@ -157,8 +157,8 @@ function SimpleTransposition({
 
     return (
         <div className="content simple-transposition w-full">
-            <h2>{translatedText[0]}</h2>
-            <div className="simple-transposition__origin-key-select w-full">
+            <h2 className="mb-3">{translatedText[0]}</h2>
+            <div className="simple-transposition__origin-key-select w-full mb-3">
                 {translatedText[1]}
                 <NoteSelector
                     selected={selectedOriginKey}
@@ -166,7 +166,7 @@ function SimpleTransposition({
                     selectedNotation={selectedNotation}
                 />
             </div>
-            <div className="simple-transposition__note-select w-full">
+            <div className="simple-transposition__note-select w-full mb-3">
                 {translatedText[2]}
                 <NoteSelector
                     selected={selectedNote}
@@ -174,7 +174,7 @@ function SimpleTransposition({
                     selectedNotation={selectedNotation}
                 />
             </div>
-            <div className="simple-transposition__target-key-select w-full">
+            <div className="simple-transposition__target-key-select w-full mb-3">
                 {translatedText[3]}
                 <NoteSelector
                     selected={selectedTargetKey}
@@ -182,7 +182,7 @@ function SimpleTransposition({
                     selectedNotation={selectedNotation}
                 />
             </div>
-            <p>{message}</p>
+            <p className="mb-3">{message}</p>
         </div>
     );
 }

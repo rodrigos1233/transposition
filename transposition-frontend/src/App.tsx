@@ -10,7 +10,7 @@ import ReactDOM, { createRoot } from 'react-dom/client';
 import ScaleTransposition from './pages/scale-transposition';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Language } from './hooks/useTranslation';
-import AboutPage from "./pages/about";
+import AboutPage from './pages/about';
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];

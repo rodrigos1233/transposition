@@ -51,7 +51,7 @@ export function Header({
         >
             <div className="header__content p-2">
                 <div>
-                    <h1>Music Transpositor</h1>
+                    <h1 className="font-bold m-2">Music Transpositor</h1>
                     {!isMobile && (
                         <nav className="h-14">
                             <Button
