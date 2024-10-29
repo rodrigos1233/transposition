@@ -193,7 +193,7 @@ export function BottomNav({
                         <Button
                             disabled={location.startsWith('scale/')}
                             onClick={() => {
-                                navigate('/scale');
+                                handleNavigate('/scale');
                             }}
                             className="ml-3"
                         >
@@ -203,7 +203,7 @@ export function BottomNav({
                             disabled={location.startsWith('note/')}
                             className="ml-3"
                             onClick={() => {
-                                navigate('/note');
+                                handleNavigate('/note');
                             }}
                         >
                             {translatedStrings[1]}
