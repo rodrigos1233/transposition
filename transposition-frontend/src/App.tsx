@@ -2,15 +2,17 @@ import React, { useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './styles/output.css';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import SimpleTransposition from './pages/simple-transposition';
+import ScaleTransposition from './pages/scale-transposition';
+import AboutPage from './pages/about';
+import LandingPage from './pages/landing';
 import { BottomNav, Footer, Header } from './header';
 import { Note } from './utils/notes';
 import ReactDOM, { createRoot } from 'react-dom/client';
-import ScaleTransposition from './pages/scale-transposition';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Language } from './hooks/useTranslation';
-import AboutPage from './pages/about';
+import LanguageSelector from './header/LanguageSelector';
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
@@ -65,27 +67,57 @@ function App() {
                         <Route
                             path="/"
                             element={
-                                <SimpleTransposition
+                                <LandingPage
                                     selectedNotation={selectedNotation}
                                     selectedLanguage={selectedLanguage}
                                 />
                             }
                         />
+                        <Route path="note">
+                            <Route
+                                index
+                                element={<Navigate to="0-0-0" replace />}
+                            />
+                            <Route
+                                path=":linkParams"
+                                element={
+                                    <SimpleTransposition
+                                        selectedNotation={selectedNotation}
+                                        selectedLanguage={selectedLanguage}
+                                    />
+                                }
+                            />
+                        </Route>
+                        <Route path="scale">
+                            <Route
+                                index
+                                element={<Navigate to="0-0-0-0" replace />}
+                            />
+                            <Route
+                                path=":linkParams"
+                                element={
+                                    <ScaleTransposition
+                                        selectedLanguage={selectedLanguage}
+                                        selectedNotation={selectedNotation}
+                                    />
+                                }
+                            />
+                        </Route>
                         <Route
-                            path="/scale"
-                            element={
-                                <ScaleTransposition
-                                    selectedLanguage={selectedLanguage}
-                                    selectedNotation={selectedNotation}
-                                />
-                            }
-                        />
-                        <Route
-                            path="/about"
+                            path="about"
                             element={
                                 <AboutPage
                                     selectedLanguage={selectedLanguage}
                                     selectedNotation={selectedNotation}
+                                />
+                            }
+                        />
+                        <Route
+                            path="*"
+                            element={
+                                <LandingPage
+                                    selectedNotation={selectedNotation}
+                                    selectedLanguage={selectedLanguage}
                                 />
                             }
                         />

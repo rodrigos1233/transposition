@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getNote, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleTransposer } from '../../utils/transposer';
@@ -9,6 +9,12 @@ import useTranslation, {
     Translations,
 } from '../../hooks/useTranslation';
 import { getModeName, MODES } from '../../utils/modes';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const MAX_ORIGIN_KEY = 11;
+const MAX_NOTE = 16;
+const MAX_TARGET_KEY = 11;
+const MAX_MODE = 6;
 
 function ScaleTransposition({
     selectedNotation,
@@ -17,10 +23,30 @@ function ScaleTransposition({
     selectedNotation: keyof Note;
     selectedLanguage: Language;
 }) {
-    const [selectedOriginKey, setSelectedOriginKey] = useState(0);
-    const [selectedNote, setSelectedNote] = useState(0);
-    const [selectedTargetKey, setSelectedTargetKey] = useState(0);
-    const [selectedMode, setSelectedMode] = useState<number>(0);
+    const { linkParams } = useParams();
+    const navigate = useNavigate();
+
+    const [originKeyString, noteString, targetKeyString, modeString] =
+        linkParams?.split('-') || [];
+
+    function validateParam(value: string, max: number) {
+        const numValue = Number(value);
+        return !isNaN(numValue) && numValue <= max ? numValue : 0;
+    }
+
+    const originKey = validateParam(originKeyString, MAX_ORIGIN_KEY);
+    const note = validateParam(noteString, MAX_NOTE);
+    const targetKey = validateParam(targetKeyString, MAX_TARGET_KEY);
+    const mode = validateParam(modeString, MAX_MODE);
+
+    const [selectedOriginKey, setSelectedOriginKey] = useState<number>(
+        Number(originKey) || 0
+    );
+    const [selectedNote, setSelectedNote] = useState<number>(Number(note) || 0);
+    const [selectedTargetKey, setSelectedTargetKey] = useState<number>(
+        Number(targetKey) || 0
+    );
+    const [selectedMode, setSelectedMode] = useState<number>(Number(mode) || 0);
 
     const targetNote = scaleTransposer(
         selectedNote,
@@ -29,6 +55,12 @@ function ScaleTransposition({
         selectedMode
     );
     const scale = scaleBuilder(selectedNote, selectedMode);
+
+    useEffect(() => {
+        if ([originKey, note, targetKey].some(isNaN)) {
+            navigate('0-0-0-0', { replace: true }); // Redirect to default if invalid
+        }
+    }, [originKey, note, targetKey, navigate]);
 
     const notesSuite = scale.notesInScale
         .map((noteInScale) => noteInScale.note[selectedNotation])
@@ -70,6 +102,38 @@ function ScaleTransposition({
     const translatedText = useTranslation(selectedLanguage, translations, []);
 
     const modeText = getModeName(selectedMode, selectedLanguage);
+
+    function handleChangeOriginKey(newOriginKey: number) {
+        setSelectedOriginKey(newOriginKey);
+        navigate(
+            `/scale/${newOriginKey}-${selectedNote}-${selectedTargetKey}-${selectedMode}`,
+            { replace: true }
+        );
+    }
+
+    function handleChangeNote(newNote: number) {
+        setSelectedNote(newNote);
+        navigate(
+            `/scale/${selectedOriginKey}-${newNote}-${selectedTargetKey}-${selectedMode}`,
+            { replace: true }
+        );
+    }
+
+    function handleChangeTargetKey(newTargetKey: number) {
+        setSelectedTargetKey(newTargetKey);
+        navigate(
+            `/scale/${selectedOriginKey}-${selectedNote}-${newTargetKey}-${selectedMode}`,
+            { replace: true }
+        );
+    }
+
+    function handleChangeMode(newMode: number) {
+        setSelectedMode(newMode);
+        navigate(
+            `/scale/${selectedOriginKey}-${selectedNote}-${selectedTargetKey}-${newMode}`,
+            { replace: true }
+        );
+    }
 
     const englishMessage =
         selectedOriginKey === selectedTargetKey ? (
@@ -266,7 +330,7 @@ function ScaleTransposition({
     const modes = MODES.map((mode, index) => (
         <Button
             key={index}
-            onClick={() => setSelectedMode(index)}
+            onClick={() => handleChangeMode(index)}
             disabled={index === selectedMode}
             className={'bg-neutral-100 ml-3'}
         >
@@ -282,7 +346,7 @@ function ScaleTransposition({
                 {translatedText[1]}
                 <NoteSelector
                     selected={selectedOriginKey}
-                    setSelected={setSelectedOriginKey}
+                    setSelected={handleChangeOriginKey}
                     selectedNotation={selectedNotation}
                 />
             </div>
@@ -290,7 +354,7 @@ function ScaleTransposition({
                 {translatedText[2]}
                 <NoteSelector
                     selected={selectedNote}
-                    setSelected={setSelectedNote}
+                    setSelected={handleChangeNote}
                     selectedNotation={selectedNotation}
                     usedScale={SCALES}
                     blackNotesAreHalf={true}
@@ -300,7 +364,7 @@ function ScaleTransposition({
                 {translatedText[3]}
                 <NoteSelector
                     selected={selectedTargetKey}
-                    setSelected={setSelectedTargetKey}
+                    setSelected={handleChangeTargetKey}
                     selectedNotation={selectedNotation}
                 />
             </div>

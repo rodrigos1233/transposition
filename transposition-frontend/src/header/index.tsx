@@ -3,7 +3,7 @@ import NotationSelector from './NotationSelector';
 import { Note } from '../utils/notes';
 import './header.css';
 import Button from '../components/button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 import Text from '../components/text';
 import { HamburgerMenu } from './hamburgerMenu';
@@ -12,6 +12,10 @@ import useTranslation, {
     Translations,
 } from '../hooks/useTranslation';
 import LanguageSelector from './LanguageSelector';
+import {
+    enharmonicGroupTransposer,
+    enharmonicGroupTransposerReverse,
+} from '../utils/transposer';
 
 export function Header({
     selectedNotation,
@@ -43,6 +47,35 @@ export function Header({
         []
     );
 
+    function handleNavigate(path: string) {
+        if (location.startsWith('note/') && path === '/scale') {
+            const originParams = location.substring(5);
+            const [originKeyString, noteString, targetKeyString, modeString] =
+                originParams?.split('-') || [];
+            const note = Number(noteString);
+            const chosenNote = enharmonicGroupTransposerReverse(note, 0);
+            navigate(
+                `scale/${originKeyString}-${chosenNote}-${targetKeyString}-0`
+            );
+            return;
+        }
+
+        if (location.startsWith('scale/') && path === '/note') {
+            const originParams = location.substring(6);
+            const [originKeyString, noteString, targetKeyString] =
+                originParams?.split('-') || [];
+            const note = Number(noteString);
+            const chosenNote = enharmonicGroupTransposer(note);
+            navigate(
+                `note/${originKeyString}-${chosenNote}-${targetKeyString}`
+            );
+
+            return;
+        }
+
+        navigate(path);
+    }
+
     return (
         <header
             className={`header shadow-lg z-10 relative ${
@@ -51,23 +84,25 @@ export function Header({
         >
             <div className="header__content p-2">
                 <div>
-                    <h1 className="font-bold m-2">Music Transpositor</h1>
+                    <h1 className="font-bold m-2">
+                        <Link to="/">Music Transpositor</Link>
+                    </h1>
                     {!isMobile && (
                         <nav className="h-14">
                             <Button
-                                disabled={location === 'scale'}
+                                disabled={location.startsWith('scale/')}
                                 onClick={() => {
-                                    navigate('/scale');
+                                    handleNavigate('/scale');
                                 }}
                                 className="ml-3"
                             >
                                 {translatedStrings[0]}
                             </Button>
                             <Button
-                                disabled={location === ''}
+                                disabled={location.startsWith('note/')}
                                 className="ml-3"
                                 onClick={() => {
-                                    navigate('/');
+                                    handleNavigate('/note');
                                 }}
                             >
                                 {translatedStrings[1]}
@@ -156,7 +191,7 @@ export function BottomNav({
                 <div className="p-2 shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
                     <nav className="h-10">
                         <Button
-                            disabled={location === 'scale'}
+                            disabled={location.startsWith('scale/')}
                             onClick={() => {
                                 navigate('/scale');
                             }}
@@ -165,10 +200,10 @@ export function BottomNav({
                             {translatedStrings[0]}
                         </Button>
                         <Button
-                            disabled={location === ''}
+                            disabled={location.startsWith('note/')}
                             className="ml-3"
                             onClick={() => {
-                                navigate('/');
+                                navigate('/note');
                             }}
                         >
                             {translatedStrings[1]}
