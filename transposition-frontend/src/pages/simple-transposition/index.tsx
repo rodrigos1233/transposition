@@ -6,6 +6,9 @@ import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
+import { useNavigate, useParams } from 'react-router-dom';
+
+const MAX_NOTE = 11;
 
 function SimpleTransposition({
     selectedNotation,
@@ -14,9 +17,49 @@ function SimpleTransposition({
     selectedNotation: keyof Note;
     selectedLanguage: Language;
 }) {
-    const [selectedOriginKey, setSelectedOriginKey] = useState(0);
-    const [selectedNote, setSelectedNote] = useState(0);
-    const [selectedTargetKey, setSelectedTargetKey] = useState(0);
+    const { linkParams } = useParams();
+    const navigate = useNavigate();
+
+    const [originKeyString, noteString, targetKeyString, modeString] =
+        linkParams?.split('-') || [];
+
+    function validateParam(value: string, max: number) {
+        const numValue = Number(value);
+        return !isNaN(numValue) && numValue <= max ? numValue : 0;
+    }
+
+    const originKey = validateParam(originKeyString, MAX_NOTE);
+    const note = validateParam(noteString, MAX_NOTE);
+    const targetKey = validateParam(targetKeyString, MAX_NOTE);
+
+    const [selectedOriginKey, setSelectedOriginKey] = useState<number>(
+        Number(originKey) || 0
+    );
+    const [selectedNote, setSelectedNote] = useState<number>(Number(note) || 0);
+    const [selectedTargetKey, setSelectedTargetKey] = useState<number>(
+        Number(targetKey) || 0
+    );
+
+    function handleChangeOriginKey(newOriginKey: number) {
+        setSelectedOriginKey(newOriginKey);
+        navigate(`/note/${newOriginKey}-${selectedNote}-${selectedTargetKey}`, {
+            replace: true,
+        });
+    }
+
+    function handleChangeNote(newNote: number) {
+        setSelectedNote(newNote);
+        navigate(`/note/${selectedOriginKey}-${newNote}-${selectedTargetKey}`, {
+            replace: true,
+        });
+    }
+
+    function handleChangeTargetKey(newTargetKey: number) {
+        setSelectedTargetKey(newTargetKey);
+        navigate(`/note/${selectedOriginKey}-${selectedNote}-${newTargetKey}`, {
+            replace: true,
+        });
+    }
 
     const translations: Translations = {
         [Language.English]: [
@@ -162,7 +205,7 @@ function SimpleTransposition({
                 {translatedText[1]}
                 <NoteSelector
                     selected={selectedOriginKey}
-                    setSelected={setSelectedOriginKey}
+                    setSelected={handleChangeOriginKey}
                     selectedNotation={selectedNotation}
                 />
             </div>
@@ -170,7 +213,7 @@ function SimpleTransposition({
                 {translatedText[2]}
                 <NoteSelector
                     selected={selectedNote}
-                    setSelected={setSelectedNote}
+                    setSelected={handleChangeNote}
                     selectedNotation={selectedNotation}
                 />
             </div>
@@ -178,7 +221,7 @@ function SimpleTransposition({
                 {translatedText[3]}
                 <NoteSelector
                     selected={selectedTargetKey}
-                    setSelected={setSelectedTargetKey}
+                    setSelected={handleChangeTargetKey}
                     selectedNotation={selectedNotation}
                 />
             </div>

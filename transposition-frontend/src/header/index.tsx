@@ -12,6 +12,10 @@ import useTranslation, {
     Translations,
 } from '../hooks/useTranslation';
 import LanguageSelector from './LanguageSelector';
+import {
+    enharmonicGroupTransposer,
+    enharmonicGroupTransposerReverse,
+} from '../utils/transposer';
 
 export function Header({
     selectedNotation,
@@ -43,6 +47,35 @@ export function Header({
         []
     );
 
+    function handleNavigate(path: string) {
+        if (location.startsWith('note/') && path === '/scale') {
+            const originParams = location.substring(5);
+            const [originKeyString, noteString, targetKeyString, modeString] =
+                originParams?.split('-') || [];
+            const note = Number(noteString);
+            const chosenNote = enharmonicGroupTransposerReverse(note, 0);
+            navigate(
+                `scale/${originKeyString}-${chosenNote}-${targetKeyString}-0`
+            );
+            return;
+        }
+
+        if (location.startsWith('scale/') && path === '/note') {
+            const originParams = location.substring(6);
+            const [originKeyString, noteString, targetKeyString] =
+                originParams?.split('-') || [];
+            const note = Number(noteString);
+            const chosenNote = enharmonicGroupTransposer(note);
+            navigate(
+                `note/${originKeyString}-${chosenNote}-${targetKeyString}`
+            );
+
+            return;
+        }
+
+        navigate(path);
+    }
+
     return (
         <header
             className={`header shadow-lg z-10 relative ${
@@ -59,17 +92,17 @@ export function Header({
                             <Button
                                 disabled={location.startsWith('scale/')}
                                 onClick={() => {
-                                    navigate('/scale');
+                                    handleNavigate('/scale');
                                 }}
                                 className="ml-3"
                             >
                                 {translatedStrings[0]}
                             </Button>
                             <Button
-                                disabled={location === 'note'}
+                                disabled={location.startsWith('note/')}
                                 className="ml-3"
                                 onClick={() => {
-                                    navigate('/note');
+                                    handleNavigate('/note');
                                 }}
                             >
                                 {translatedStrings[1]}
@@ -167,7 +200,7 @@ export function BottomNav({
                             {translatedStrings[0]}
                         </Button>
                         <Button
-                            disabled={location === 'note'}
+                            disabled={location.startsWith('note/')}
                             className="ml-3"
                             onClick={() => {
                                 navigate('/note');

@@ -73,15 +73,21 @@ function App() {
                                 />
                             }
                         />
-                        <Route
-                            path="/note"
-                            element={
-                                <SimpleTransposition
-                                    selectedNotation={selectedNotation}
-                                    selectedLanguage={selectedLanguage}
-                                />
-                            }
-                        />
+                        <Route path="note">
+                            <Route
+                                index
+                                element={<Navigate to="0-0-0" replace />}
+                            />
+                            <Route
+                                path=":linkParams"
+                                element={
+                                    <SimpleTransposition
+                                        selectedNotation={selectedNotation}
+                                        selectedLanguage={selectedLanguage}
+                                    />
+                                }
+                            />
+                        </Route>
                         <Route path="scale">
                             <Route
                                 index
