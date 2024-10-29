@@ -3,7 +3,7 @@ import NotationSelector from './NotationSelector';
 import { Note } from '../utils/notes';
 import './header.css';
 import Button from '../components/button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 import Text from '../components/text';
 import { HamburgerMenu } from './hamburgerMenu';
@@ -51,11 +51,13 @@ export function Header({
         >
             <div className="header__content p-2">
                 <div>
-                    <h1 className="font-bold m-2">Music Transpositor</h1>
+                    <h1 className="font-bold m-2">
+                        <Link to="/">Music Transpositor</Link>
+                    </h1>
                     {!isMobile && (
                         <nav className="h-14">
                             <Button
-                                disabled={location === 'scale'}
+                                disabled={location.startsWith('scale/')}
                                 onClick={() => {
                                     navigate('/scale');
                                 }}
@@ -64,10 +66,10 @@ export function Header({
                                 {translatedStrings[0]}
                             </Button>
                             <Button
-                                disabled={location === ''}
+                                disabled={location === 'note'}
                                 className="ml-3"
                                 onClick={() => {
-                                    navigate('/');
+                                    navigate('/note');
                                 }}
                             >
                                 {translatedStrings[1]}
@@ -156,7 +158,7 @@ export function BottomNav({
                 <div className="p-2 shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
                     <nav className="h-10">
                         <Button
-                            disabled={location === 'scale'}
+                            disabled={location.startsWith('scale/')}
                             onClick={() => {
                                 navigate('/scale');
                             }}
@@ -165,10 +167,10 @@ export function BottomNav({
                             {translatedStrings[0]}
                         </Button>
                         <Button
-                            disabled={location === ''}
+                            disabled={location === 'note'}
                             className="ml-3"
                             onClick={() => {
-                                navigate('/');
+                                navigate('/note');
                             }}
                         >
                             {translatedStrings[1]}
