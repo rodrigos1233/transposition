@@ -1,0 +1,163 @@
+import React from 'react';
+import { Note, NOTES } from '../../utils/notes';
+import Button from '../button';
+import './../../styles/output.css';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import './staff.css';
+import TrebleClef from './../../assets/images/treble_clef.png';
+import NoteSimple from './../../assets/images/note_simple.png';
+import Flat from './../../assets/images/flat.png';
+import Sharp from './../../assets/images/sharp.png';
+import DoubleFlat from './../../assets/images/double_flat.png';
+import DoubleSharp from './../../assets/images/double_sharp.png';
+import { NoteInScale } from '../../utils/scaleBuilder';
+
+type MusicalCharacterProps = {
+    position: number;
+    characterType: 'note' | 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp';
+    noteInScale?: NoteInScale;
+    selectedNotation?: keyof Note;
+};
+
+function MusicalCharacter({
+    position,
+    characterType,
+    noteInScale,
+    selectedNotation,
+}: MusicalCharacterProps) {
+    const MusicalCharacters = {
+        note: NoteSimple,
+        flat: Flat,
+        sharp: Sharp,
+        doubleFlat: DoubleFlat,
+        doubleSharp: DoubleSharp,
+    };
+
+    const MusicalCharactersHeights = {
+        note: 43.25,
+        flat: 25,
+        sharp: 25,
+        doubleFlat: 25,
+        doubleSharp: 12,
+    };
+
+    const MusicalCharactersWidths = {
+        note: 15,
+        flat: 9.03,
+        sharp: 9.16,
+        doubleFlat: 15.46,
+        doubleSharp: 12,
+    };
+
+    const MusicalCharactersVerticalOffsets = {
+        note: 44,
+        flat: 44,
+        sharp: 38,
+        doubleFlat: 44,
+        doubleSharp: 44.4,
+    };
+
+    function additionalLinesNeeded(position: number): [number, boolean] {
+        if (position < 1) {
+            const count = Math.floor(Math.abs(position) / 2) + 1;
+            const isOnLine = Math.abs(position) % 2 === 0;
+            return [count, isOnLine];
+        }
+
+        if (position > 11) {
+            const count = Math.ceil((position - 11) / 2);
+            const isOnLine = Math.abs(position) % 2 === 0;
+            return [count, isOnLine];
+        }
+
+        return [0, false];
+    }
+
+    const [linesNeeded, isOnLine] = additionalLinesNeeded(position);
+
+    const pixelPosition = (position - 2) * (50 / 8) - 50;
+
+    function additionalLinesPosition() {
+        if (position < 1) {
+            if (isOnLine) {
+                return -linesNeeded * 12.5 + 11.75;
+            }
+
+            return -linesNeeded * 12.5 + 5.5;
+        }
+
+        if (isOnLine) {
+            return -1; // Adjust this offset for on-line positioning above
+        }
+
+        return -1 + 6.25;
+    }
+
+    return (
+        <div className="musical-character-container">
+            <div
+                className="musical-character"
+                style={{
+                    bottom: pixelPosition,
+                    width: `${MusicalCharactersWidths[characterType]}px`,
+                }}
+            >
+                <div
+                    className="position-indicator"
+                    style={{
+                        backgroundColor: '#ff0000',
+                        height: '0.1px',
+                        width: '10px',
+                        display: 'none',
+                    }}
+                ></div>
+
+                {linesNeeded > 0 && (
+                    <div
+                        className="additional-lines-container"
+                        style={{
+                            position: 'absolute',
+                            right: '-5px',
+                            top: `${additionalLinesPosition()}px`,
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'space-between',
+                            gap: '10.5px',
+                        }}
+                    >
+                        {new Array(linesNeeded).fill(0).map((_, i) => (
+                            <div
+                                key={i}
+                                className="additional-line"
+                                style={{
+                                    height: `0px`,
+                                    borderTop: `1px solid #000`,
+                                    borderBottom: `1px solid #000`,
+                                    width: `25px`,
+                                    bottom: `${MusicalCharactersVerticalOffsets[characterType]}px`,
+                                    backgroundColor: 'rgb(0,0,0)',
+                                }}
+                            />
+                        ))}
+                    </div>
+                )}
+                <img
+                    src={MusicalCharacters[characterType]}
+                    style={{
+                        height: `${MusicalCharactersHeights[characterType]}px`,
+                        width: `${MusicalCharactersWidths[characterType]}px`,
+                        bottom: `${MusicalCharactersVerticalOffsets[characterType]}px`,
+                    }}
+                    alt="treble clef"
+                />
+            </div>
+            <div className="musical-character__text">
+                {noteInScale &&
+                    selectedNotation &&
+                    noteInScale.note[selectedNotation]}
+            </div>
+        </div>
+    );
+}
+
+export default MusicalCharacter;
