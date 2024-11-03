@@ -11,6 +11,11 @@
     }
 }
 
+.staff__text {
+    position: absolute;
+    top: -40px;
+}
+
 .staff__lines {
     position: absolute;
     top: 0;

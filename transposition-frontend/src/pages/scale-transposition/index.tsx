@@ -11,6 +11,7 @@ import useTranslation, {
 import { getModeName, MODES } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -331,6 +332,31 @@ function ScaleTransposition({
 
     const message = translatedResults[0];
 
+    const musicalStaffTextTranslations: Translations = {
+        [Language.English]: [
+            `Instrument in ${getNote(selectedOriginKey, selectedNotation)}:`,
+            `Instrument in ${getNote(selectedTargetKey, selectedNotation)}:`,
+        ],
+        [Language.French]: [
+            `Instrument en ${getNote(selectedOriginKey, selectedNotation)}:`,
+            `Instrument en ${getNote(selectedTargetKey, selectedNotation)}:`,
+        ],
+        [Language.Spanish]: [
+            `Instrumento en ${getNote(selectedOriginKey, selectedNotation)}:`,
+            `Instrumento en ${getNote(selectedTargetKey, selectedNotation)}:`,
+        ],
+        [Language.German]: [
+            `Instrument in ${getNote(selectedOriginKey, selectedNotation)}:`,
+            `Instrument in ${getNote(selectedTargetKey, selectedNotation)}:`,
+        ],
+    };
+
+    const musicalStaffText = useTranslation(
+        selectedLanguage,
+        musicalStaffTextTranslations,
+        [selectedNotation, selectedOriginKey, selectedTargetKey]
+    );
+
     const modes = MODES.map((mode, index) => (
         <Button
             key={index}
@@ -341,6 +367,8 @@ function ScaleTransposition({
             {getModeName(index, selectedLanguage)}
         </Button>
     ));
+
+    const isMobile = useIsMobile();
 
     return (
         <div className="content simple-transposition w-full">
@@ -373,18 +401,26 @@ function ScaleTransposition({
                 />
             </div>
             <p className="mb-3">{message}</p>
-            <Staff
-                displayedNotes={scale.reducedNotes}
-                correspondingNotes={scale.notesInScale}
-                musicalKey={originKeySignature}
-                selectedNotation={selectedNotation}
-            />
-            <Staff
-                displayedNotes={transposedScale.reducedNotes}
-                correspondingNotes={transposedScale.notesInScale}
-                musicalKey={targetKeySignature}
-                selectedNotation={selectedNotation}
-            />
+            <div
+                className={`scale-transposition__staff-container flex ${
+                    isMobile ? 'flex-col gap-0' : 'flex-row gap-5'
+                }`}
+            >
+                <Staff
+                    displayedNotes={scale.reducedNotes}
+                    correspondingNotes={scale.notesInScale}
+                    musicalKey={originKeySignature}
+                    selectedNotation={selectedNotation}
+                    text={musicalStaffText[0]}
+                />
+                <Staff
+                    displayedNotes={transposedScale.reducedNotes}
+                    correspondingNotes={transposedScale.notesInScale}
+                    musicalKey={targetKeySignature}
+                    selectedNotation={selectedNotation}
+                    text={musicalStaffText[1]}
+                />
+            </div>
         </div>
     );
 }

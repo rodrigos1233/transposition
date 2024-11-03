@@ -13,6 +13,7 @@ type StaffProps = {
     correspondingNotes?: NoteInScale[];
     musicalKey: Key;
     selectedNotation?: keyof Note;
+    text?: React.ReactNode;
 };
 
 function Staff({
@@ -20,6 +21,7 @@ function Staff({
     musicalKey,
     correspondingNotes,
     selectedNotation,
+    text,
 }: StaffProps) {
     const doubleAlteredNotesCount = musicalKey.doubleAlteredNotes.length;
 
@@ -54,7 +56,10 @@ function Staff({
     let offset = 0;
 
     return (
-        <div className="staff mt-20 mb-20">
+        <div className="staff mt-20 mb-20 flex-grow">
+            <div className="staff__text">
+                <p className="staff__text__title">{text}</p>
+            </div>
             <div className="staff__lines">
                 {new Array(5).fill(0).map((_, i) => (
                     <div key={i} className="staff__line" />
