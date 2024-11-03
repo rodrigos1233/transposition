@@ -10,6 +10,7 @@ import useTranslation, {
 } from '../../hooks/useTranslation';
 import { getModeName, MODES } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
+import Staff from '../../components/staff';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -369,6 +370,7 @@ function ScaleTransposition({
                 />
             </div>
             <p className="mb-3">{message}</p>
+            <Staff displayedNotes={[0]} />
         </div>
     );
 }

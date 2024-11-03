@@ -1,0 +1,43 @@
+.staff {
+    height: 50px;
+    position: relative;
+}
+
+.staff__lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-left: 2px solid #000;
+    border-right: 2px solid #000;
+}
+
+.staff__line {
+    height: 0;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    width: 100%;
+    background-color: #000;
+}
+
+.staff__content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.staff__content__clef {
+    position: absolute;
+    height: 98px;
+    top: -22px
+}
+
+.staff__content__clef__png {
+    height: 100%;
+}
