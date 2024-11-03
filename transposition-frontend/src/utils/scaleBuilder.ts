@@ -3,10 +3,11 @@ import {
     FLAT_LIST,
     getNote,
     Note,
-    REDUCED_NOTES, SCALES,
+    REDUCED_NOTES,
+    SCALES,
     SHARP_LIST,
 } from './notes';
-import {MODES} from "./modes";
+import { MODES } from './modes';
 
 const reducedCircleOfFifthMajorSuite = [
     0, // c
@@ -16,17 +17,17 @@ const reducedCircleOfFifthMajorSuite = [
     1, // g
     3, // a
     5, // b
-]
+];
 
 const notesMajorSuite = [2, 2, 1, 2, 2, 2, 1];
-const notesMinorSuite = [...notesMajorSuite.slice(5), ...notesMajorSuite.slice(0, 5)];
+const notesMinorSuite = [
+    ...notesMajorSuite.slice(5),
+    ...notesMajorSuite.slice(0, 5),
+];
 
-export function scaleBuilder(
-    startNote: number,
-    modeIndex: number
-): Scale {
+export function scaleBuilder(startNote: number, modeIndex: number): Scale {
     let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
-    const mode = MODES[modeIndex]
+    const mode = MODES[modeIndex];
 
     if (modeIndex !== 0) {
         positionInCircleOfFifth += mode.modePosition;
@@ -37,14 +38,10 @@ export function scaleBuilder(
     }
 
     const reducedNotesCopy = REDUCED_NOTES.map((reducedNote) => ({
-        ...reducedNote
+        ...reducedNote,
     }));
 
-    const startingNoteName = getNote(
-        startNote,
-        'english',
-        SCALES
-    )
+    const startingNoteName = getNote(startNote, 'english', SCALES);
 
     const startingNoteNameReduced = startingNoteName.substring(0, 1);
 
@@ -58,13 +55,14 @@ export function scaleBuilder(
     let alteredNotes: number[] = [];
     let doubleAlteredNotes: number[] = [];
 
+    let modeShift = reducedCircleOfFifthMajorSuite.indexOf(
+        Math.abs(mode.modePosition)
+    );
 
-    let modeShift = reducedCircleOfFifthMajorSuite.indexOf(Math.abs(mode.modePosition));
-
-    const usedSuite = [...notesMajorSuite.slice(modeShift), ...notesMajorSuite.slice(0, modeShift)];
-
-
-
+    const usedSuite = [
+        ...notesMajorSuite.slice(modeShift),
+        ...notesMajorSuite.slice(0, modeShift),
+    ];
 
     let currentNote: number = startNote;
     let currentReducedNote: number = startingReducedNote;
@@ -177,22 +175,28 @@ export function scaleBuilder(
         notesInScale.push({ note });
     }
 
-    const key = { alteration, alteredNotes };
+    const key = {
+        alteration,
+        alteredNotes,
+        doubleAlteredNotes,
+    };
 
-    return { notes, notesInScale, key };
+    return { notes, notesInScale, key, reducedNotes };
 }
 
 type Scale = {
     notes: number[];
     key: Key;
     notesInScale: NoteInScale[];
+    reducedNotes: number[];
 };
 
-type Key = {
+export type Key = {
     alteration: 'flat' | 'sharp' | null;
     alteredNotes: number[];
+    doubleAlteredNotes: number[];
 };
 
-type NoteInScale = {
+export type NoteInScale = {
     note: Note;
 };

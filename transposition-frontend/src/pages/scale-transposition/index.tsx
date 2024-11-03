@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { getNote, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleTransposer } from '../../utils/transposer';
-import { scaleBuilder } from '../../utils/scaleBuilder';
+import { Key, scaleBuilder } from '../../utils/scaleBuilder';
 import Button from '../../components/button';
 import useTranslation, {
     Language,
@@ -10,6 +10,7 @@ import useTranslation, {
 } from '../../hooks/useTranslation';
 import { getModeName, MODES } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
+import Staff from '../../components/staff';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -67,6 +68,9 @@ function ScaleTransposition({
         .join(', ');
 
     const transposedScale = scaleBuilder(targetNote, selectedMode);
+
+    const originKeySignature: Key = scale.key;
+    const targetKeySignature: Key = transposedScale.key;
 
     const transposedScaleNotesSuite = transposedScale.notesInScale
         .map((noteInScale) => noteInScale.note[selectedNotation])
@@ -369,6 +373,18 @@ function ScaleTransposition({
                 />
             </div>
             <p className="mb-3">{message}</p>
+            <Staff
+                displayedNotes={scale.reducedNotes}
+                correspondingNotes={scale.notesInScale}
+                musicalKey={originKeySignature}
+                selectedNotation={selectedNotation}
+            />
+            <Staff
+                displayedNotes={transposedScale.reducedNotes}
+                correspondingNotes={transposedScale.notesInScale}
+                musicalKey={targetKeySignature}
+                selectedNotation={selectedNotation}
+            />
         </div>
     );
 }
