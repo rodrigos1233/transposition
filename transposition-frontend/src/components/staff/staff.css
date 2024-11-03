@@ -56,17 +56,18 @@
     display: flex;
     gap: 9px;
     top: 0;
-    left: 35px;
+    left: 38px;
     height: 50px;
 }
 
 .staff__content__notes {
     position: absolute;
     display: flex;
-    gap: 25px;
+    gap: 32px;
     top: 0;
-    left: 110px;
+    left: 113px;
     height: 50px;
+    transition: all 0.3s ease;
 }
 
 .musical-character-container {
