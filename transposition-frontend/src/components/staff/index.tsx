@@ -56,7 +56,7 @@ function Staff({
     let offset = 0;
 
     return (
-        <div className="staff mt-20 mb-20 flex-grow">
+        <div className="staff flex-grow">
             <div className="staff__text">
                 <p className="staff__text__title">{text}</p>
             </div>

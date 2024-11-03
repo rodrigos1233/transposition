@@ -403,7 +403,9 @@ function ScaleTransposition({
             <p className="mb-3">{message}</p>
             <div
                 className={`scale-transposition__staff-container flex ${
-                    isMobile ? 'flex-col gap-0' : 'flex-row gap-5'
+                    isMobile
+                        ? 'flex-col gap-24 mt-16 mb-16'
+                        : 'flex-row gap-5 mt-20 mb-20'
                 }`}
             >
                 <Staff
