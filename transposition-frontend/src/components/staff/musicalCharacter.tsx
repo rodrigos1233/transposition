@@ -141,15 +141,28 @@ function MusicalCharacter({
                         ))}
                     </div>
                 )}
-                <img
-                    src={MusicalCharacters[characterType]}
-                    style={{
-                        height: `${MusicalCharactersHeights[characterType]}px`,
-                        width: `${MusicalCharactersWidths[characterType]}px`,
-                        bottom: `${MusicalCharactersVerticalOffsets[characterType]}px`,
-                    }}
-                    alt="treble clef"
-                />
+                {characterType !== 'note' && (
+                    <img
+                        src={MusicalCharacters[characterType]}
+                        style={{
+                            height: `${MusicalCharactersHeights[characterType]}px`,
+                            width: `${MusicalCharactersWidths[characterType]}px`,
+                            bottom: `${MusicalCharactersVerticalOffsets[characterType]}px`,
+                        }}
+                        alt="treble clef"
+                    />
+                )}
+
+                {characterType === 'note' && (
+                    <div className="note">
+                        <div className="note__dot" />
+                        <div
+                            className={`note__line ${
+                                position > 5 ? 'note__line--reversed' : ''
+                            }`}
+                        />
+                    </div>
+                )}
             </div>
             <div className="musical-character__text">
                 {noteInScale &&
