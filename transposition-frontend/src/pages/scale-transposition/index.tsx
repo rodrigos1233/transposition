@@ -12,6 +12,7 @@ import { getModeName, MODES } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -367,6 +368,70 @@ function ScaleTransposition({
             {getModeName(index, selectedLanguage)}
         </Button>
     ));
+
+    const titleTextTranslations: Translations = {
+        [Language.English]: [
+            `${getNote(
+                selectedNote,
+                selectedNotation
+            )} ${modeText} from ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} to ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Scale Transposition`,
+        ],
+        [Language.French]: [
+            `${getNote(
+                selectedNote,
+                selectedNotation
+            )} ${modeText} de ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} à ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Transposition de gamme`,
+        ],
+        [Language.Spanish]: [
+            `${getNote(
+                selectedNote,
+                selectedNotation
+            )} ${modeText} de ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} a ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Transposición de escala`,
+        ],
+        [Language.German]: [
+            `${getNote(
+                selectedNote,
+                selectedNotation
+            )} ${modeText} von ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} nach ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Tonleiter-Transposition`,
+        ],
+    };
+
+    const pageTitleText = useTranslation(
+        selectedLanguage,
+        titleTextTranslations,
+        [
+            selectedTargetKey,
+            selectedNotation,
+            selectedMode,
+            selectedNote,
+            selectedOriginKey,
+        ]
+    );
+    useChangePageTitle(pageTitleText[0] as unknown as string);
 
     const isMobile = useIsMobile();
 

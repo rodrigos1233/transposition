@@ -5,6 +5,7 @@ import useTranslation, {
 } from '../../hooks/useTranslation';
 import { getNote, Note } from '../../utils/notes';
 import { listOfInstrumentsTranslation } from '../../utils/instruments';
+import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 
 function AboutPage({
     selectedLanguage,
@@ -86,6 +87,20 @@ function AboutPage({
             </li>
         );
     }
+
+    const titleTextTranslations: Translations = {
+        [Language.English]: [`About`],
+        [Language.French]: [`À propos`],
+        [Language.Spanish]: [`Info`],
+        [Language.German]: [`Info`],
+    };
+
+    const pageTitleText = useTranslation(
+        selectedLanguage,
+        titleTextTranslations,
+        []
+    );
+    useChangePageTitle(pageTitleText[0] as unknown as string);
 
     return (
         <div className="content about-page w-full">
