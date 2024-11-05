@@ -7,6 +7,7 @@ import useTranslation, {
     Translations,
 } from '../../hooks/useTranslation';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 
 const MAX_NOTE = 11;
 
@@ -197,6 +198,52 @@ function SimpleTransposition({
     );
 
     const message = translatedResults[0];
+
+    const titleTextTranslations: Translations = {
+        [Language.English]: [
+            `${getNote(selectedNote, selectedNotation)} from ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} to ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Note Transposition`,
+        ],
+        [Language.French]: [
+            `${getNote(selectedNote, selectedNotation)} de ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} à ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Transposition de note`,
+        ],
+        [Language.Spanish]: [
+            `${getNote(selectedNote, selectedNotation)} de ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} a ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Transposición de nota`,
+        ],
+        [Language.German]: [
+            `${getNote(selectedNote, selectedNotation)} von ${getNote(
+                selectedOriginKey,
+                selectedNotation
+            )} nach ${getNote(
+                selectedTargetKey,
+                selectedNotation
+            )} | Tontransposition`,
+        ],
+    };
+
+    const pageTitleText = useTranslation(
+        selectedLanguage,
+        titleTextTranslations,
+        [selectedTargetKey, selectedNotation, selectedNote, selectedOriginKey]
+    );
+    useChangePageTitle(pageTitleText[0] as unknown as string);
 
     return (
         <div className="content simple-transposition w-full">

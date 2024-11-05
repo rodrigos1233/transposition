@@ -6,6 +6,7 @@ import useTranslation, {
 import { getNote, Note, SCALES } from '../../utils/notes';
 import Button from '../../components/button';
 import { useNavigate } from 'react-router-dom';
+import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 
 function LandingPage({
     selectedLanguage,
@@ -15,6 +16,20 @@ function LandingPage({
     selectedNotation: keyof Note;
 }) {
     const navigate = useNavigate();
+
+    const titleTextTranslations: Translations = {
+        [Language.English]: [`Transposition`],
+        [Language.French]: [`Transposition`],
+        [Language.Spanish]: [`Transposición`],
+        [Language.German]: [`Transposition`],
+    };
+
+    const pageTitleText = useTranslation(
+        selectedLanguage,
+        titleTextTranslations,
+        []
+    );
+    useChangePageTitle(pageTitleText[0] as unknown as string);
 
     const translations: Translations = {
         [Language.English]: [

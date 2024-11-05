@@ -94,3 +94,34 @@
     position: absolute;
     top: 70px;
 }
+
+.note {
+    position: absolute;
+}
+
+.note__dot {
+    position: absolute;
+    background: #000;
+    height: 11px;
+    width: 16px;
+    top: -5.5px;
+    left: -0.5px;
+    border-radius: 50%;
+    transform: rotate(-22deg); /* This should rotate the entire element */
+}
+
+.note__line {
+    position: absolute;
+    top: -37px;
+    right: -15.25px;
+    background: #000;
+    border-radius: 1.5px;
+    height: 37px;
+    width: 1.5px;
+}
+
+.note__line--reversed {
+    top: 0;
+    right: -1.5px;
+
+}
