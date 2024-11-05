@@ -373,7 +373,8 @@ function ScaleTransposition({
         [Language.English]: [
             `${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )} ${modeText} from ${getNote(
                 selectedOriginKey,
                 selectedNotation
@@ -385,7 +386,8 @@ function ScaleTransposition({
         [Language.French]: [
             `${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )} ${modeText} de ${getNote(
                 selectedOriginKey,
                 selectedNotation
@@ -397,7 +399,8 @@ function ScaleTransposition({
         [Language.Spanish]: [
             `${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )} ${modeText} de ${getNote(
                 selectedOriginKey,
                 selectedNotation
@@ -409,7 +412,8 @@ function ScaleTransposition({
         [Language.German]: [
             `${getNote(
                 selectedNote,
-                selectedNotation
+                selectedNotation,
+                SCALES
             )} ${modeText} von ${getNote(
                 selectedOriginKey,
                 selectedNotation
