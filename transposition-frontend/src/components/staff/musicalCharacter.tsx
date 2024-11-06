@@ -17,6 +17,7 @@ type MusicalCharacterProps = {
     characterType: 'note' | 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp';
     noteInScale?: NoteInScale;
     selectedNotation?: keyof Note;
+    colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple' | 'black';
 };
 
 function MusicalCharacter({
@@ -24,6 +25,7 @@ function MusicalCharacter({
     characterType,
     noteInScale,
     selectedNotation,
+    colour,
 }: MusicalCharacterProps) {
     const MusicalCharacters = {
         note: NoteSimple,
@@ -93,6 +95,15 @@ function MusicalCharacter({
         return -1 + 6.25;
     }
 
+    const colourClasses = {
+        lime: `border-lime-300 border-b-2`,
+        red: `border-red-300 border-b-2`,
+        sky: `border-sky-300 border-b-2`,
+        yellow: `border-yellow-300 border-b-2`,
+        purple: `border-purple-400 border-b-2`,
+        black: '',
+    };
+
     return (
         <div className="musical-character-container">
             <div
@@ -155,7 +166,7 @@ function MusicalCharacter({
 
                 {characterType === 'note' && (
                     <div className="note">
-                        <div className="note__dot" />
+                        <div className={`note__dot`} />
                         <div
                             className={`note__line ${
                                 position > 5 ? 'note__line--reversed' : ''
@@ -165,9 +176,11 @@ function MusicalCharacter({
                 )}
             </div>
             <div className="musical-character__text">
-                {noteInScale &&
-                    selectedNotation &&
-                    noteInScale.note[selectedNotation]}
+                {noteInScale && selectedNotation && (
+                    <p className={colourClasses[colour ?? 'black']}>
+                        {noteInScale.note[selectedNotation]}
+                    </p>
+                )}
             </div>
         </div>
     );

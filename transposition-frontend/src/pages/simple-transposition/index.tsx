@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { getNote, Note } from '../../utils/notes';
+import React, { useState } from 'react';
+import { getNote, Note, REDUCED_NOTES, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { transposer } from '../../utils/transposer';
 import useTranslation, {
@@ -8,6 +8,9 @@ import useTranslation, {
 } from '../../hooks/useTranslation';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
+import Staff from '../../components/staff';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import { NoteInScale } from '../../utils/scaleBuilder';
 
 const MAX_NOTE = 11;
 
@@ -91,7 +94,13 @@ function SimpleTransposition({
 
     const translatedText = useTranslation(selectedLanguage, translations, []);
 
-    const targetNote = transposer(
+    const [_, reversedEnharmonicOriginGroupNotes] = transposer(
+        selectedNote,
+        selectedOriginKey,
+        selectedOriginKey
+    );
+
+    const [targetNote, reversedEnharmonicTargetGroupNotes] = transposer(
         selectedNote,
         selectedOriginKey,
         selectedTargetKey
@@ -100,63 +109,105 @@ function SimpleTransposition({
     const englishMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`A ${getNote(selectedNote, selectedNotation)} in ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} stays the same because the origin and target keys are the same.`}
+                {`A `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation)}
+                </span>
+                {` in `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` stays the same because the origin and target keys are the same.`}
             </>
         ) : (
             <>
-                {`A ${getNote(selectedNote, selectedNotation)} in ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} becomes a`}{' '}
-                <span className={'font-bold text-lg'}>
+                {`A `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation)}
+                </span>
+                {` in `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` becomes a `}
+                <span className="border-b-4 border-yellow-300 font-bold text-lg">
                     {getNote(targetNote, selectedNotation)}
-                </span>{' '}
-                {`in ${getNote(selectedTargetKey, selectedNotation)}`}
+                </span>
+                {` in `}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                .
             </>
         );
 
     const frenchMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`Un ${getNote(selectedNote, selectedNotation)} en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} reste le même car les tonalités d'origine et de destination sont identiques.`}
+                {`Un `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation)}
+                </span>
+                {` en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` reste le même car les tonalités d'origine et de destination sont identiques.`}
             </>
         ) : (
             <>
-                {`Un ${getNote(selectedNote, selectedNotation)} en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} devient un`}{' '}
-                <span className={'font-bold text-lg'}>
+                {`Un `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation)}
+                </span>
+                {` en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` devient un `}
+                <span className="border-b-4 border-yellow-300 font-bold text-lg">
                     {getNote(targetNote, selectedNotation)}
-                </span>{' '}
-                {`en ${getNote(selectedTargetKey, selectedNotation)}`}
+                </span>
+                {` en `}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                .
             </>
         );
 
     const spanishMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`Una ${getNote(selectedNote, selectedNotation)} en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} sigue siendo la misma porque las tonalidades de origen y destino son iguales.`}
+                {`Una `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation)}
+                </span>
+                {` en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` sigue siendo la misma porque las tonalidades de origen y destino son iguales.`}
             </>
         ) : (
             <>
-                {`Una ${getNote(selectedNote, selectedNotation)} en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} se convierte en`}{' '}
-                <span className={'font-bold text-lg'}>
+                {`Una `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation)}
+                </span>
+                {` en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` se convierte en `}
+                <span className="border-b-4 border-yellow-300 font-bold text-lg">
                     {getNote(targetNote, selectedNotation)}
-                </span>{' '}
-                {`en ${getNote(selectedTargetKey, selectedNotation)}`}
+                </span>
+                {` en `}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                .
             </>
         );
 
@@ -245,6 +296,48 @@ function SimpleTransposition({
     );
     useChangePageTitle(pageTitleText[0] as unknown as string);
 
+    const isMobile = useIsMobile();
+
+    function defineCorrespondingNotes(reversedEnharmonicGroupNotes: number[]) {
+        let correspondingNotes: Note[] = [];
+
+        if (reversedEnharmonicGroupNotes.length > 1) {
+            const firstNote = SCALES[reversedEnharmonicGroupNotes[0]];
+            const secondNote = SCALES[reversedEnharmonicGroupNotes[1]];
+
+            return [{ note: firstNote }, { note: secondNote }];
+        }
+
+        return [{ note: SCALES[reversedEnharmonicGroupNotes[0]] }];
+    }
+
+    const correspondingOriginNotes = defineCorrespondingNotes(
+        reversedEnharmonicOriginGroupNotes
+    );
+    const correspondingTargetNotes = defineCorrespondingNotes(
+        reversedEnharmonicTargetGroupNotes
+    );
+
+    function defineDisplayedNotes(reversedEnharmonicGroupNotes: number[]) {
+        return reversedEnharmonicGroupNotes
+            .map((noteIndex) => {
+                const note = SCALES[noteIndex].english;
+                return REDUCED_NOTES.findIndex(
+                    (reducedNote) => reducedNote.english === note
+                );
+            })
+            .filter((index) => index !== null); // Remove any null values
+    }
+
+    const displayedOriginNotes = defineDisplayedNotes(
+        reversedEnharmonicOriginGroupNotes
+    );
+    const displayedTargetNotes = defineDisplayedNotes(
+        reversedEnharmonicTargetGroupNotes
+    );
+
+    console.log({ correspondingOriginNotes, correspondingTargetNotes });
+
     return (
         <div className="content simple-transposition w-full">
             <h2 className="mb-3">{translatedText[0]}</h2>
@@ -254,6 +347,7 @@ function SimpleTransposition({
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
                     selectedNotation={selectedNotation}
+                    colour="sky"
                 />
             </div>
             <div className="simple-transposition__note-select w-full mb-3">
@@ -262,6 +356,7 @@ function SimpleTransposition({
                     selected={selectedNote}
                     setSelected={handleChangeNote}
                     selectedNotation={selectedNotation}
+                    colour="purple"
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full mb-3">
@@ -270,9 +365,56 @@ function SimpleTransposition({
                     selected={selectedTargetKey}
                     setSelected={handleChangeTargetKey}
                     selectedNotation={selectedNotation}
+                    colour="red"
                 />
             </div>
             <p className="mb-3">{message}</p>
+            <div
+                className={`note-transposition__staff-container flex ${
+                    isMobile
+                        ? 'flex-col gap-24 mt-16 mb-16'
+                        : 'flex-row gap-5 mt-20 mb-20'
+                }`}
+            >
+                <Staff
+                    displayedNotes={displayedOriginNotes}
+                    correspondingNotes={
+                        correspondingOriginNotes as unknown as NoteInScale[]
+                    }
+                    musicalKey={{
+                        alteration: null,
+                        doubleAlteredNotes: [],
+                        alteredNotes: [],
+                    }}
+                    selectedNotation={selectedNotation}
+                    text={`Original Note: ${getNote(
+                        selectedOriginKey,
+                        selectedNotation
+                    )}`}
+                    colour="sky"
+                    noteColour="purple"
+                />
+                {selectedOriginKey !== selectedTargetKey && (
+                    <Staff
+                        displayedNotes={displayedTargetNotes}
+                        correspondingNotes={
+                            correspondingTargetNotes as unknown as NoteInScale[]
+                        }
+                        musicalKey={{
+                            alteration: null,
+                            doubleAlteredNotes: [],
+                            alteredNotes: [],
+                        }}
+                        selectedNotation={selectedNotation}
+                        text={`Transposed Note: ${getNote(
+                            selectedTargetKey,
+                            selectedNotation
+                        )}`}
+                        colour="red"
+                        noteColour="yellow"
+                    />
+                )}
+            </div>
         </div>
     );
 }

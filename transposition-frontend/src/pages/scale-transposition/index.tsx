@@ -144,14 +144,15 @@ function ScaleTransposition({
     const englishMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`The scale of ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, for an instrument in ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )}, consists of the following notes:`}{' '}
+                {`The scale of `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` for an instrument in `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                ,{` consists of the following notes:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
                 {
                     'No transposition is needed because the origin and target keys are the same.'
@@ -159,41 +160,44 @@ function ScaleTransposition({
             </>
         ) : (
             <>
-                {`The scale of ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, for an instrument in ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )}, consists of the following notes:`}{' '}
+                {`The scale of `}
+                <span className="border-b-4 border-purple-400">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` for an instrument in `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                ,{` consists of the following notes:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`This becomes the scale of ${getNote(
-                    targetNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, with the following notes: `}{' '}
+                {`This becomes the scale of `}
+                <span className="border-b-4 border-yellow-300">
+                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` with the following notes: `}{' '}
                 <span className="font-bold text-lg">
                     {transposedScaleNotesSuite}
                 </span>{' '}
-                {`when transposed for an instrument in ${getNote(
-                    selectedTargetKey,
-                    selectedNotation
-                )}.`}
+                {`when transposed for an instrument in `}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                .
             </>
         );
 
     const frenchMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`La gamme de ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, pour un instrument en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} consiste en la suite de notes suivante :`}{' '}
+                {`La gamme de `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` pour un instrument en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` consiste en la suite de notes suivante :`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
                 {
                     "Aucune transposition n'est nécessaire car les tonalités d'origine et de destination sont identiques."
@@ -201,42 +205,44 @@ function ScaleTransposition({
             </>
         ) : (
             <>
-                {`La gamme de ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, qui pour un instrument en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} consiste en la suite de notes suivante :`}{' '}
+                {`La gamme de `}
+                <span className="border-b-4 border-purple-400">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` qui pour un instrument en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` consiste en la suite de notes suivante :`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`Elle devient la gamme de ${getNote(
-                    targetNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, avec la suite de notes suivante : `}{' '}
+                {`Elle devient la gamme de `}
+                <span className="border-b-4 border-yellow-300">
+                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` avec la suite de notes suivante : `}{' '}
                 <span className="font-bold text-lg">
                     {transposedScaleNotesSuite}
                 </span>
-                ,{' '}
-                {`lorsqu'elle est transposée pour un instrument en ${getNote(
-                    selectedTargetKey,
-                    selectedNotation
-                )}.`}
+                , {`lorsqu'elle est transposée pour un instrument en `}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                .
             </>
         );
 
     const spanishMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`La escala de ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, que para un instrumento en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} consiste en la siguiente secuencia de notas:`}{' '}
+                {`La escala de `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` que para un instrumento en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` consiste en la siguiente secuencia de notas:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.
                 {
                     ' No hay transposición porque las tonalidades seleccionadas son iguales.'
@@ -244,42 +250,44 @@ function ScaleTransposition({
             </>
         ) : (
             <>
-                {`La escala de ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, que para un instrumento en ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} consiste en la siguiente secuencia de notas:`}{' '}
+                {`La escala de `}
+                <span className="border-b-4 border-purple-400">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` que para un instrumento en `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` consiste en la siguiente secuencia de notas:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`Se convierte en la escala de ${getNote(
-                    targetNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, con la siguiente secuencia de notas: `}{' '}
+                {`Se convierte en la escala de `}
+                <span className="border-b-4 border-yellow-300">
+                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` con la siguiente secuencia de notas: `}{' '}
                 <span className="font-bold text-lg">
                     {transposedScaleNotesSuite}
                 </span>
-                ,{' '}
-                {`cuando se transpone por un instrumento en ${getNote(
-                    selectedTargetKey,
-                    selectedNotation
-                )}.`}
+                , {`cuando se transpone por un instrumento en `}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                .
             </>
         );
 
     const germanMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`Die Tonleiter von ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )} ${modeText}, die für ein Instrument in ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} notiert ist, setzt sich wie folgt zusammen:`}{' '}
+                {`Die Tonleiter von `}
+                <span className="border-b-4 border-purple-300">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` die für ein Instrument in `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` notiert ist, setzt sich wie folgt zusammen:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
                 {
                     'Keine Transposition erforderlich, da die Ursprungs- und Zieltonalität identisch sind.'
@@ -287,28 +295,29 @@ function ScaleTransposition({
             </>
         ) : (
             <>
-                {`Die Tonleiter von ${getNote(
-                    selectedNote,
-                    selectedNotation,
-                    SCALES
-                )}-${modeText}, die für ein Instrument in ${getNote(
-                    selectedOriginKey,
-                    selectedNotation
-                )} besteht, setzt sich wie folgt zusammen:`}{' '}
+                {`Die Tonleiter von `}
+                <span className="border-b-4 border-purple-400">
+                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` die für ein Instrument in `}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                {` besteht, setzt sich wie folgt zusammen:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`Diese Tonleiter wird umgewandelt in die Tonleiter von ${getNote(
-                    targetNote,
-                    selectedNotation,
-                    SCALES
-                )}-${modeText}, mit folgender Tonfolge: `}{' '}
+                {`Diese Tonleiter wird umgewandelt in die Tonleiter von `}
+                <span className="border-b-4 border-yellow-300">
+                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+                </span>
+                ,{` mit folgender Tonfolge: `}{' '}
                 <span className="font-bold text-lg">
                     {transposedScaleNotesSuite}
                 </span>
-                ,{' '}
-                {`wenn sie für ein Instrument in ${getNote(
-                    selectedTargetKey,
-                    selectedNotation
-                )} zu spielen.`}
+                , {`wenn sie für ein Instrument in `}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                {` zu spielen.`}
             </>
         );
 
@@ -335,20 +344,68 @@ function ScaleTransposition({
 
     const musicalStaffTextTranslations: Translations = {
         [Language.English]: [
-            `Instrument in ${getNote(selectedOriginKey, selectedNotation)}:`,
-            `Instrument in ${getNote(selectedTargetKey, selectedNotation)}:`,
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
         ],
         [Language.French]: [
-            `Instrument en ${getNote(selectedOriginKey, selectedNotation)}:`,
-            `Instrument en ${getNote(selectedTargetKey, selectedNotation)}:`,
+            <>
+                Instrument en{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrument en{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
         ],
         [Language.Spanish]: [
-            `Instrumento en ${getNote(selectedOriginKey, selectedNotation)}:`,
-            `Instrumento en ${getNote(selectedTargetKey, selectedNotation)}:`,
+            <>
+                Instrumento en{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrumento en{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
         ],
         [Language.German]: [
-            `Instrument in ${getNote(selectedOriginKey, selectedNotation)}:`,
-            `Instrument in ${getNote(selectedTargetKey, selectedNotation)}:`,
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
         ],
     };
 
@@ -449,6 +506,7 @@ function ScaleTransposition({
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
                     selectedNotation={selectedNotation}
+                    colour="sky"
                 />
             </div>
             <div className="simple-transposition__note-select w-full mb-3">
@@ -459,6 +517,7 @@ function ScaleTransposition({
                     selectedNotation={selectedNotation}
                     usedScale={SCALES}
                     blackNotesAreHalf={true}
+                    colour="purple"
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full mb-3">
@@ -467,6 +526,7 @@ function ScaleTransposition({
                     selected={selectedTargetKey}
                     setSelected={handleChangeTargetKey}
                     selectedNotation={selectedNotation}
+                    colour="red"
                 />
             </div>
             <p className="mb-3">{message}</p>
@@ -483,6 +543,8 @@ function ScaleTransposition({
                     musicalKey={originKeySignature}
                     selectedNotation={selectedNotation}
                     text={musicalStaffText[0]}
+                    colour="sky"
+                    noteColour="purple"
                 />
                 <Staff
                     displayedNotes={transposedScale.reducedNotes}
@@ -490,6 +552,8 @@ function ScaleTransposition({
                     musicalKey={targetKeySignature}
                     selectedNotation={selectedNotation}
                     text={musicalStaffText[1]}
+                    colour="red"
+                    noteColour="yellow"
                 />
             </div>
         </div>
