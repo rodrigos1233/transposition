@@ -63,7 +63,7 @@ function AboutPage({
             <>
                 <span className={'font-bold'}>Shift</span>
                 {
-                    ' : "Shift" (changement) exprime l\'action de passer d\'une tonalité à une autre, ce que cet outil fait précisément : il permet de déplacer des notes et des gammes entre tonalités pour faciliter la transposition pour les musiciens.'
+                    ' : "Shift" (changement, décalage) exprime l\'action de passer d\'une tonalité à une autre, ce que cet outil fait précisément : il permet de déplacer des notes et des gammes entre tonalités pour faciliter la transposition pour les musiciens.'
                 }
             </>,
         ],
@@ -85,7 +85,7 @@ function AboutPage({
             <>
                 <span className={'font-bold'}>Shift</span>
                 {
-                    ': "Shift" (cambio) sugiere el acto de mover una nota o una escala de una tonalidad a otra, que es exactamente lo que hace esta herramienta—mueve notas y escalas entre tonalidades para facilitar la transposición a los músicos.'
+                    ': "Shift" (cambio, desplazamiento) sugiere el acto de mover una nota o una escala de una tonalidad a otra, que es exactamente lo que hace esta herramienta—mueve notas y escalas entre tonalidades para facilitar la transposición a los músicos.'
                 }
             </>,
         ],
@@ -107,7 +107,7 @@ function AboutPage({
             <>
                 <span className={'font-bold'}>Shift</span>
                 {
-                    ': "Shift" (Wechsel) beschreibt die Aktion, eine Note oder eine Tonleiter von einer Tonart in eine andere zu verschieben, was genau das ist, was dieses Tool tut – es verschiebt Noten und Tonleitern zwischen Tonarten, um Musikern die Transposition zu erleichtern.'
+                    ': "Shift" (Wechsel, Verschiebung) beschreibt die Aktion, eine Note oder eine Tonleiter von einer Tonart in eine andere zu verschieben, was genau das ist, was dieses Tool tut – es verschiebt Noten und Tonleitern zwischen Tonarten, um Musikern die Transposition zu erleichtern.'
                 }
             </>,
         ],
