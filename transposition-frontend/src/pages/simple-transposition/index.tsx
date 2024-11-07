@@ -319,7 +319,6 @@ function SimpleTransposition({
     );
 
     function defineDisplayedNotes(reversedEnharmonicGroupNotes: number[]) {
-        console.log({ reversedEnharmonicGroupNotes });
         return reversedEnharmonicGroupNotes
             .map((noteIndex) => {
                 const note = SCALES[noteIndex].english.charAt(0);
@@ -336,13 +335,6 @@ function SimpleTransposition({
     const displayedTargetNotes = defineDisplayedNotes(
         reversedEnharmonicTargetGroupNotes
     );
-
-    console.log({
-        correspondingOriginNotes,
-        displayedOriginNotes,
-        correspondingTargetNotes,
-        displayedTargetNotes,
-    });
 
     const musicalStaffTextTranslations: Translations = {
         [Language.English]: [
