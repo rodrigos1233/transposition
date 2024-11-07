@@ -119,8 +119,14 @@
     width: 1.5px;
 }
 
+.note__accidental {
+    position: absolute;
+    right: 0px;
+    width: 10px;
+    top: 50px;
+}
+
 .note__line--reversed {
     top: 0;
     right: -1.5px;
-
 }

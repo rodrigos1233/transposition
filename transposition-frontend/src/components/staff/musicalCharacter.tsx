@@ -15,6 +15,7 @@ import { NoteInScale } from '../../utils/scaleBuilder';
 type MusicalCharacterProps = {
     position: number;
     characterType: 'note' | 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp';
+    accidental?: 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp';
     noteInScale?: NoteInScale;
     selectedNotation?: keyof Note;
     colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple' | 'black';
@@ -26,6 +27,7 @@ function MusicalCharacter({
     noteInScale,
     selectedNotation,
     colour,
+    accidental,
 }: MusicalCharacterProps) {
     const MusicalCharacters = {
         note: NoteSimple,
@@ -165,14 +167,29 @@ function MusicalCharacter({
                 )}
 
                 {characterType === 'note' && (
-                    <div className="note">
-                        <div className={`note__dot`} />
-                        <div
-                            className={`note__line ${
-                                position > 5 ? 'note__line--reversed' : ''
-                            }`}
-                        />
-                    </div>
+                    <>
+                        <div className="note">
+                            <div className={`note__dot`} />
+                            <div
+                                className={`note__line ${
+                                    position > 5 ? 'note__line--reversed' : ''
+                                }`}
+                            />
+                            {accidental && (
+                                <div className={`note__accidental`}>
+                                    <img
+                                        src={MusicalCharacters[accidental]}
+                                        style={{
+                                            height: `${MusicalCharactersHeights[accidental]}px`,
+                                            width: `${MusicalCharactersWidths[accidental]}px`,
+                                            bottom: `${MusicalCharactersVerticalOffsets[accidental]}px`,
+                                        }}
+                                        alt={accidental}
+                                    />
+                                </div>
+                            )}
+                        </div>
+                    </>
                 )}
             </div>
             <div className="musical-character__text">
