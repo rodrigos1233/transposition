@@ -319,9 +319,10 @@ function SimpleTransposition({
     );
 
     function defineDisplayedNotes(reversedEnharmonicGroupNotes: number[]) {
+        console.log({ reversedEnharmonicGroupNotes });
         return reversedEnharmonicGroupNotes
             .map((noteIndex) => {
-                const note = SCALES[noteIndex].english;
+                const note = SCALES[noteIndex].english.charAt(0);
                 return REDUCED_NOTES.findIndex(
                     (reducedNote) => reducedNote.english === note
                 );
@@ -336,7 +337,12 @@ function SimpleTransposition({
         reversedEnharmonicTargetGroupNotes
     );
 
-    console.log({ correspondingOriginNotes, correspondingTargetNotes });
+    console.log({
+        correspondingOriginNotes,
+        displayedOriginNotes,
+        correspondingTargetNotes,
+        displayedTargetNotes,
+    });
 
     return (
         <div className="content simple-transposition w-full">
