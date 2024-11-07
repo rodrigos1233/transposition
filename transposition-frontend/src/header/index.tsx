@@ -53,7 +53,7 @@ export function Header({
             <div className="header__content p-2">
                 <div>
                     <h1 className="font-bold m-2">
-                        <Link to="/">Music Transpositor</Link>
+                        <Link to="/">ClaveShift</Link>
                     </h1>
                     {!isMobile && (
                         <nav className="h-14">
