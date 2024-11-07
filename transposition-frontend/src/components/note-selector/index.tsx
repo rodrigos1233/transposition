@@ -11,6 +11,7 @@ type NoteSelectorProps = {
     selectedNotation: keyof Note;
     usedScale?: Note[];
     blackNotesAreHalf?: boolean;
+    colour?: 'sky' | 'lime' | 'yellow' | 'red' | 'purple';
 };
 
 function NoteSelector({
@@ -19,6 +20,7 @@ function NoteSelector({
     selectedNotation,
     usedScale,
     blackNotesAreHalf,
+    colour,
 }: NoteSelectorProps) {
     const selectedNotes = usedScale ?? NOTES;
     const isMobile = useIsMobile();
@@ -49,6 +51,7 @@ function NoteSelector({
                                 disabled={k === selected}
                                 className="bg-neutral-800 text-white"
                                 style={{ flex: `0.5 2 0` }}
+                                colour={colour ?? 'lime'}
                             >
                                 {note[selectedNotation]}
                             </Button>
@@ -57,6 +60,7 @@ function NoteSelector({
                                 disabled={k + 1 === selected}
                                 className="bg-neutral-800 text-white"
                                 style={{ flex: `0.5 2 0` }}
+                                colour={colour ?? 'lime'}
                             >
                                 {selectedNotes[k + 1][selectedNotation]}
                             </Button>
@@ -84,6 +88,7 @@ function NoteSelector({
                                 : 'bg-neutral-100'
                         }
                         style={blackNotesAreHalf ? { flex: `1 1 0` } : {}}
+                        colour={colour ?? 'lime'}
                     >
                         {note[selectedNotation]}
                     </Button>

@@ -14,6 +14,9 @@ type StaffProps = {
     musicalKey: Key;
     selectedNotation?: keyof Note;
     text?: React.ReactNode;
+    colour?: 'sky' | 'lime' | 'yellow' | 'red' | 'purple';
+    noteColour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
+    accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
 };
 
 function Staff({
@@ -22,6 +25,9 @@ function Staff({
     correspondingNotes,
     selectedNotation,
     text,
+    colour,
+    noteColour,
+    accidentals,
 }: StaffProps) {
     const doubleAlteredNotesCount = musicalKey.doubleAlteredNotes.length;
 
@@ -53,6 +59,15 @@ function Staff({
         return note;
     }
 
+    const colourClasses = {
+        lime: 'border-l-lime-400 border-l-4',
+        red: 'border-l-red-400 border-l-4',
+        sky: 'border-l-sky-400 border-l-4',
+        yellow: 'border-l-yellow-400 border-l-4',
+        black: 'border-l-black-400 border-l-2',
+        purple: 'border-l-purple-400 border-l-4',
+    };
+
     let offset = 0;
 
     return (
@@ -60,7 +75,11 @@ function Staff({
             <div className="staff__text">
                 <p className="staff__text__title">{text}</p>
             </div>
-            <div className="staff__lines">
+            <div
+                className={`staff__lines ${
+                    colourClasses[colour ?? 'black']
+                } border-l-2`}
+            >
                 {new Array(5).fill(0).map((_, i) => (
                     <div key={i} className="staff__line" />
                 ))}
@@ -104,8 +123,14 @@ function Staff({
                                 noteInScale={
                                     correspondingNotes?.[k] ?? undefined
                                 }
+                                accidental={accidentals?.[k]}
                                 selectedNotation={selectedNotation}
-                                key={adjustedNote}
+                                key={`${adjustedNote}-${k}`}
+                                colour={
+                                    [0, displayedNotes.length - 1].includes(k)
+                                        ? noteColour
+                                        : undefined
+                                }
                             />
                         );
                     })}

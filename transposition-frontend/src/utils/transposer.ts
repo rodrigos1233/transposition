@@ -2,26 +2,6 @@ import { CIRCLE_OF_FIFTH_MAJOR_SUITE } from './notes';
 import { Mode } from 'node:fs';
 import { MODES } from './modes';
 
-export function transposer(
-    originNote: number,
-    originKey: number,
-    targetKey: number
-) {
-    let keyDifference = originKey - targetKey;
-
-    let targetNote = originNote + keyDifference;
-
-    if (targetNote > 11) {
-        targetNote = targetNote - 12;
-    }
-
-    if (targetNote < 0) {
-        targetNote = targetNote + 12;
-    }
-
-    return targetNote;
-}
-
 const enharmonicGroups: { [key: number]: number } = {
     0: 0, // C
     1: 1, // C♯ is equivalent to D♭
@@ -56,6 +36,28 @@ const reverseEnharmonicGroups: { [key: number]: number[] } = {
     10: [14, 15], // A♯ / B♭
     11: [16], // B
 };
+
+export function transposer(
+    originNote: number,
+    originKey: number,
+    targetKey: number
+): [number, number[]] {
+    let keyDifference = originKey - targetKey;
+
+    let targetNote = originNote + keyDifference;
+
+    if (targetNote > 11) {
+        targetNote = targetNote - 12;
+    }
+
+    if (targetNote < 0) {
+        targetNote = targetNote + 12;
+    }
+
+    const reversedEnharmonicGroupNotes = reverseEnharmonicGroups[targetNote];
+
+    return [targetNote, reversedEnharmonicGroupNotes];
+}
 
 export function enharmonicGroupTransposer(originNote: number) {
     return enharmonicGroups[originNote];
