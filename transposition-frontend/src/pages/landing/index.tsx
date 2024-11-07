@@ -34,7 +34,7 @@ function LandingPage({
     const translations: Translations = {
         [Language.English]: [
             'Welcome to ClaveShift.com!',
-            'ClaveShift.com is an online transposer tool that allows you to easily transpose a single note from one key to another.',
+            'ClaveShift.com, formerly MusicTranspositor.com, is an online transposer tool that allows you to easily transpose a single note from one key to another.',
             <>
                 For more detailed information about music transposition, please
                 visit the <a href={'/about'}>About page</a>.
@@ -51,7 +51,7 @@ function LandingPage({
         ],
         [Language.French]: [
             'Bienvenue sur Claveshift.com!',
-            "ClaveShift.com est un outil en ligne de transposition musicale qui vous permet de transposer facilement une note d'une tonalité à une autre.",
+            "ClaveShift.com, anciennement MusicTranspositor.com est un outil en ligne de transposition musicale qui vous permet de transposer facilement une note d'une tonalité à une autre.",
             <>
                 Pour plus d'informations sur la transposition musicale, veuillez
                 visiter la page <a href={'/about'}>À propos</a>.
@@ -66,7 +66,7 @@ function LandingPage({
         ],
         [Language.Spanish]: [
             'Bienvenido a Claveshift.com!',
-            'ClaveShift.com es una herramienta en línea de transposición musical que te permite transponer fácilmente una nota de una tonalidad a otra.',
+            'ClaveShift.com, antes llamado MusicTranspositor.com, es una herramienta en línea de transposición musical que te permite transponer fácilmente una nota de una tonalidad a otra.',
             <>
                 Para más información sobre la transposición musical, por favor
                 visite la página <a href={'/about'}>Acerca de.</a>
@@ -81,7 +81,7 @@ function LandingPage({
         ],
         [Language.German]: [
             'Willkommen bei Claveshift.com!',
-            'ClaveShift.com ist ein Online-Transpositionswerkzeug, mit dem Sie einfach eine Note von einer Tonart in eine andere transponieren können.',
+            'ClaveShift.com, früher MusicTranspositor.com, ist ein Online-Transpositionswerkzeug, mit dem Sie einfach eine Note von einer Tonart in eine andere transponieren können.',
             <>
                 Für detailliertere Informationen zur Musiktransposition besuchen
                 Sie bitte die <a href={'/about'}>Über-Seite.</a>
