@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 export function useChangePageTitle(pageTitle: string) {
     useEffect(() => {
-        document.title = `${pageTitle} - musictranspositor`;
+        document.title = `${pageTitle} - claveshift`;
 
         let ogTitleTag = document.querySelector('meta[property="og:title"]');
         if (!ogTitleTag) {
