@@ -16,6 +16,7 @@ type StaffProps = {
     text?: React.ReactNode;
     colour?: 'sky' | 'lime' | 'yellow' | 'red' | 'purple';
     noteColour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
+    accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
 };
 
 function Staff({
@@ -26,6 +27,7 @@ function Staff({
     text,
     colour,
     noteColour,
+    accidentals,
 }: StaffProps) {
     const doubleAlteredNotesCount = musicalKey.doubleAlteredNotes.length;
 
@@ -121,8 +123,9 @@ function Staff({
                                 noteInScale={
                                     correspondingNotes?.[k] ?? undefined
                                 }
+                                accidental={accidentals?.[k]}
                                 selectedNotation={selectedNotation}
-                                key={adjustedNote}
+                                key={`${adjustedNote}-${k}`}
                                 colour={
                                     [0, displayedNotes.length - 1].includes(k)
                                         ? noteColour

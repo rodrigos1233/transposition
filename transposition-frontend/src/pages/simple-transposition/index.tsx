@@ -344,6 +344,79 @@ function SimpleTransposition({
         displayedTargetNotes,
     });
 
+    const musicalStaffTextTranslations: Translations = {
+        [Language.English]: [
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
+        ],
+        [Language.French]: [
+            <>
+                Instrument en{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrument en{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
+        ],
+        [Language.Spanish]: [
+            <>
+                Instrumento en{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrumento en{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
+        ],
+        [Language.German]: [
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-sky-300">
+                    {getNote(selectedOriginKey, selectedNotation)}
+                </span>
+                :
+            </>,
+            <>
+                Instrument in{' '}
+                <span className="border-b-4 border-red-300">
+                    {getNote(selectedTargetKey, selectedNotation)}
+                </span>
+                :
+            </>,
+        ],
+    };
+
+    const musicalStaffText = useTranslation(
+        selectedLanguage,
+        musicalStaffTextTranslations,
+        [selectedNotation, selectedOriginKey, selectedTargetKey]
+    );
+
     return (
         <div className="content simple-transposition w-full">
             <h2 className="mb-3">{translatedText[0]}</h2>
@@ -392,11 +465,13 @@ function SimpleTransposition({
                         doubleAlteredNotes: [],
                         alteredNotes: [],
                     }}
+                    accidentals={
+                        displayedOriginNotes.length > 1
+                            ? ['sharp', 'flat']
+                            : undefined
+                    }
                     selectedNotation={selectedNotation}
-                    text={`Original Note: ${getNote(
-                        selectedOriginKey,
-                        selectedNotation
-                    )}`}
+                    text={musicalStaffText[0]}
                     colour="sky"
                     noteColour="purple"
                 />
@@ -411,11 +486,13 @@ function SimpleTransposition({
                             doubleAlteredNotes: [],
                             alteredNotes: [],
                         }}
+                        accidentals={
+                            displayedTargetNotes.length > 1
+                                ? ['sharp', 'flat']
+                                : undefined
+                        }
                         selectedNotation={selectedNotation}
-                        text={`Transposed Note: ${getNote(
-                            selectedTargetKey,
-                            selectedNotation
-                        )}`}
+                        text={musicalStaffText[1]}
                         colour="red"
                         noteColour="yellow"
                     />

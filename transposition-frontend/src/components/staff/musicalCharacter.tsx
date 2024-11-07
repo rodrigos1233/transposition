@@ -15,7 +15,7 @@ import { NoteInScale } from '../../utils/scaleBuilder';
 type MusicalCharacterProps = {
     position: number;
     characterType: 'note' | 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp';
-    accidental?: 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp';
+    accidental?: 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp' | null;
     noteInScale?: NoteInScale;
     selectedNotation?: keyof Note;
     colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple' | 'black';
