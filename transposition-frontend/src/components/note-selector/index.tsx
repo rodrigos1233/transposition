@@ -4,6 +4,7 @@ import Button from '../button';
 import './../../styles/output.css';
 import './note-selector.css';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import ButtonsGridContainer from '../button/ButtonsGridContainer';
 
 type NoteSelectorProps = {
     setSelected: (index: number) => void;
@@ -23,14 +24,9 @@ function NoteSelector({
     colour,
 }: NoteSelectorProps) {
     const selectedNotes = usedScale ?? NOTES;
-    const isMobile = useIsMobile();
 
     return (
-        <div
-            className={`note-selector ${
-                isMobile ? 'note-selector--mobile' : ''
-            } mt-2 mb-2`}
-        >
+        <ButtonsGridContainer className={`mt-2 mb-2`}>
             {selectedNotes.map((note, k) => {
                 const isBlackNote =
                     note.english.includes('♭') || note.english.includes('♯');
@@ -94,7 +90,7 @@ function NoteSelector({
                     </Button>
                 );
             })}
-        </div>
+        </ButtonsGridContainer>
     );
 }
 

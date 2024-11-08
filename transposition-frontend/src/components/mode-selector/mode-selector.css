@@ -1,0 +1,17 @@
+.mode-selector {
+
+}
+
+@media (max-width: 475px) {
+    .mode-selector--simple {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+@media (max-width: 768px) {
+    .mode-selector--advanced {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
