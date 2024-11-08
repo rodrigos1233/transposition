@@ -6,6 +6,7 @@ import useTranslation, {
     Translations,
 } from '../hooks/useTranslation';
 import Text from '../components/text';
+import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 
 function LanguageSelector({
     selectedLanguage,
@@ -28,7 +29,7 @@ function LanguageSelector({
     );
 
     return (
-        <div className="notation-selector">
+        <ButtonsFlexContainer>
             <Text size={'small'}>{translatedStrings[0]}</Text>
             {AvailableLanguages.map((language, k) => (
                 <Button
@@ -40,7 +41,7 @@ function LanguageSelector({
                     <Text size={'small'}>{language}</Text>
                 </Button>
             ))}
-        </div>
+        </ButtonsFlexContainer>
     );
 }
 

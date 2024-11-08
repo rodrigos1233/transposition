@@ -13,6 +13,7 @@ import useTranslation, {
 } from '../hooks/useTranslation';
 import LanguageSelector from './LanguageSelector';
 import { handleNavigate } from '../utils/handleNavigate';
+import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 
 export function Header({
     selectedNotation,
@@ -57,7 +58,7 @@ export function Header({
                     </h1>
                     {!isMobile && (
                         <nav className="h-14">
-                            <div className="notation-selector">
+                            <ButtonsFlexContainer>
                                 <Button
                                     disabled={location.startsWith('scale/')}
                                     href="/scale"
@@ -93,7 +94,7 @@ export function Header({
                                 >
                                     {translatedStrings[2]}
                                 </Button>
-                            </div>
+                            </ButtonsFlexContainer>
                         </nav>
                     )}
                 </div>
@@ -168,33 +169,43 @@ export function BottomNav({
             {isMobile && (
                 <div className="p-2 shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
                     <nav className="h-10">
-                        <Button
-                            disabled={location.startsWith('scale/')}
-                            onClick={() => {
-                                handleNavigate(navigate, '/scale');
-                            }}
-                            className="ml-3"
-                        >
-                            {translatedStrings[0]}
-                        </Button>
-                        <Button
-                            disabled={location.startsWith('note/')}
-                            className="ml-3"
-                            onClick={() => {
-                                handleNavigate(navigate, '/note');
-                            }}
-                        >
-                            {translatedStrings[1]}
-                        </Button>
-                        <Button
-                            disabled={location === 'about'}
-                            className="ml-3"
-                            onClick={() => {
-                                navigate('/about');
-                            }}
-                        >
-                            {translatedStrings[2]}
-                        </Button>
+                        <ButtonsFlexContainer>
+                            <Button
+                                disabled={location.startsWith('scale/')}
+                                href="/scale"
+                                onClick={(
+                                    e: React.MouseEvent<HTMLAnchorElement>
+                                ) => {
+                                    e.preventDefault(); // Prevent default link behavior
+                                    handleNavigate(navigate, '/scale'); // Use custom navigate function
+                                }}
+                                className="ml-3 grow"
+                            >
+                                {translatedStrings[0]}
+                            </Button>
+
+                            <Button
+                                disabled={location.startsWith('note/')}
+                                href="/note"
+                                onClick={(
+                                    e: React.MouseEvent<HTMLAnchorElement>
+                                ) => {
+                                    e.preventDefault();
+                                    handleNavigate(navigate, '/note'); // Use custom navigate function
+                                }}
+                                className="ml-3"
+                            >
+                                {translatedStrings[1]}
+                            </Button>
+
+                            <Button
+                                disabled={location === 'about'}
+                                href="/about"
+                                className="ml-3"
+                            >
+                                {translatedStrings[2]}
+                            </Button>
+                        </ButtonsFlexContainer>
                     </nav>
                 </div>
             )}

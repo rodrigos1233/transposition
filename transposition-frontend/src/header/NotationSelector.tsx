@@ -6,6 +6,7 @@ import useTranslation, {
     Language,
     Translations,
 } from '../hooks/useTranslation';
+import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 
 function NotationSelector({
     selectedNotation,
@@ -87,7 +88,7 @@ function NotationSelector({
     );
 
     return (
-        <div className="notation-selector">
+        <ButtonsFlexContainer>
             <p>{translatedTitles[0]}</p>
             {availableNotations.map((notation, k) => (
                 <Button
@@ -99,7 +100,7 @@ function NotationSelector({
                     {translatedStrings[k]}
                 </Button>
             ))}
-        </div>
+        </ButtonsFlexContainer>
     );
 }
 
