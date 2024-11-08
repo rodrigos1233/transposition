@@ -54,8 +54,9 @@ header {
 }
 
 .collapsed-menu {
+    width: 100vw;
     position: absolute;
-    bottom: -250%;
+    bottom: -224%;
     right: 0;
     transition: all 0.3s ease;
     z-index: 10;
