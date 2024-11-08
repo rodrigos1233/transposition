@@ -48,7 +48,7 @@ export function Header({
     return (
         <header
             className={`header shadow-lg z-10 relative ${
-                isMobile ? 'header--mobile sticky top-0 bg-white' : ''
+                isMobile ? 'header--mobile sticky top-0 bg-white pl-4 pr-4' : ''
             }`}
         >
             <div className="header__content p-2">
@@ -121,7 +121,7 @@ export function Header({
             </div>
             {isMobile && (
                 <div
-                    className={`collapsed-menu p-2 shadow-lg rounded-sm bg-white ${
+                    className={`collapsed-menu p-4 shadow-lg rounded-sm flex flex-col gap-2 bg-white ${
                         openMenu
                             ? 'collapsed-menu--open'
                             : 'collapsed-menu--closed'
@@ -167,7 +167,7 @@ export function BottomNav({
     return (
         <>
             {isMobile && (
-                <div className="p-2 shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
+                <div className="p-4 shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
                     <nav className="h-10">
                         <ButtonsFlexContainer>
                             <Button
