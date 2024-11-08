@@ -13,6 +13,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
+import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -499,7 +500,7 @@ function ScaleTransposition({
     return (
         <div className="content simple-transposition w-full">
             <div className="mode-selector mb-3">
-                <div className="notation-selector">{modes}</div>
+                <ButtonsFlexContainer wrap>{modes}</ButtonsFlexContainer>
             </div>
             <h2 className="mb-3">{translatedText[0]}</h2>
             <div className="simple-transposition__origin-key-select w-full mb-3">
