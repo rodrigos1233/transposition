@@ -47,7 +47,7 @@ function Button({
         purple: 'hover:border-purple-300 disabled:border-purple-400',
     };
 
-    const combinedClasses = `${sizingClasses} border-neutral-800 rounded text-black ${
+    const combinedClasses = `${sizingClasses} active:translate-y-0.5 active:border-b-2 border-neutral-800 rounded text-black ${
         colourClasses[colour]
     } ${
         disabled ? 'cursor-not-allowed disabled:translate-y-0.5' : ''

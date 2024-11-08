@@ -14,6 +14,7 @@ import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
+import ModeSelector from '../../components/mode-selector';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -416,17 +417,6 @@ function ScaleTransposition({
         [selectedNotation, selectedOriginKey, selectedTargetKey]
     );
 
-    const modes = MODES.map((mode, index) => (
-        <Button
-            key={index}
-            onClick={() => handleChangeMode(index)}
-            disabled={index === selectedMode}
-            className={'bg-neutral-100 ml-3'}
-        >
-            {getModeName(index, selectedLanguage)}
-        </Button>
-    ));
-
     const titleTextTranslations: Translations = {
         [Language.English]: [
             `${getNote(
@@ -499,9 +489,11 @@ function ScaleTransposition({
 
     return (
         <div className="content simple-transposition w-full">
-            <div className="mode-selector mb-3">
-                <ButtonsFlexContainer wrap>{modes}</ButtonsFlexContainer>
-            </div>
+            <ModeSelector
+                selectedLanguage={selectedLanguage}
+                selectedMode={selectedMode}
+                handleChangeMode={handleChangeMode}
+            />
             <h2 className="mb-3">{translatedText[0]}</h2>
             <div className="simple-transposition__origin-key-select w-full mb-3">
                 {translatedText[1]}
