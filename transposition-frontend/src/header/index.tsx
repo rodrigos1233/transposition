@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import NotationSelector from './NotationSelector';
 import { Note } from '../utils/notes';
 import './header.css';
@@ -32,6 +32,24 @@ export function Header({
 
     const isMobile = useIsMobile();
 
+    const headerRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (
+                headerRef.current &&
+                !headerRef.current.contains(event.target as Node)
+            ) {
+                setOpenMenu(false);
+            }
+        }
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
+
     const translations: Translations = {
         [Language.English]: ['scale', 'note', 'about'],
         [Language.French]: ['gamme', 'note', 'à propos'],
@@ -47,6 +65,7 @@ export function Header({
 
     return (
         <header
+            ref={headerRef}
             className={`header shadow-lg z-10 relative ${
                 isMobile ? 'header--mobile sticky top-0 bg-white pl-4 pr-4' : ''
             }`}
@@ -65,8 +84,8 @@ export function Header({
                                     onClick={(
                                         e: React.MouseEvent<HTMLAnchorElement>
                                     ) => {
-                                        e.preventDefault(); // Prevent default link behavior
-                                        handleNavigate(navigate, '/scale'); // Use custom navigate function
+                                        e.preventDefault();
+                                        handleNavigate(navigate, '/scale');
                                     }}
                                     className="ml-3"
                                 >
@@ -80,7 +99,7 @@ export function Header({
                                         e: React.MouseEvent<HTMLAnchorElement>
                                     ) => {
                                         e.preventDefault();
-                                        handleNavigate(navigate, '/note'); // Use custom navigate function
+                                        handleNavigate(navigate, '/note');
                                     }}
                                     className="ml-3"
                                 >
