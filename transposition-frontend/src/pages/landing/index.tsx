@@ -243,12 +243,12 @@ function LandingPage({
             <h1 className="my-2">{translatedText[0]}</h1>
             <p>{translatedText[1]}</p>
             <p>{translatedText[2]}</p>
-            <h2 className="quick-start">{translatedText[3]}</h2>
-            <p>{translatedText[4]}</p>
-            <ul className="common-keys-list">
-                <li>{translatedText[5]}</li>
-                <li>{translatedText[6]}</li>
-            </ul>
+            {/*<h2 className="quick-start">{translatedText[3]}</h2>*/}
+            {/*<p>{translatedText[4]}</p>*/}
+            {/*<ul className="common-keys-list">*/}
+            {/*    <li>{translatedText[5]}</li>*/}
+            {/*    <li>{translatedText[6]}</li>*/}
+            {/*</ul>*/}
         </div>
     );
 }
