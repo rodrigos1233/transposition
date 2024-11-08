@@ -1,27 +1,42 @@
 import React from 'react';
-import { getNote } from '../../utils/notes';
-import { useIsMobile } from '../../hooks/useIsMobile';
+import { useNavigate } from 'react-router-dom';
 import Text from '../text';
 
 type buttonProps = {
     children: any;
-    props?: any;
+    href?: string;
     onClick?: any;
-    disabled: boolean;
+    disabled?: boolean;
     className?: string;
     style?: any;
     colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
 };
+
 function Button({
     children,
+    href,
     onClick,
-    disabled,
-    props,
+    disabled = false,
     className,
     style,
-    colour,
+    colour = 'lime',
 }: buttonProps) {
-    const isMobile = useIsMobile();
+    const navigate = useNavigate();
+
+    const handleClick = (e: {
+        preventDefault: () => void;
+        defaultPrevented: any;
+    }) => {
+        if (disabled) {
+            e.preventDefault();
+            return;
+        }
+        if (onClick) onClick(e);
+        if (href && !e.defaultPrevented) {
+            e.preventDefault();
+            navigate(href);
+        }
+    };
 
     const sizingClasses = 'border-2 border-b-8 p-1 disabled:border-b-2';
     const colourClasses = {
@@ -32,18 +47,34 @@ function Button({
         purple: 'hover:border-purple-300 disabled:border-purple-400',
     };
 
-    return (
+    const combinedClasses = `${sizingClasses} border-neutral-800 rounded text-black ${
+        colourClasses[colour]
+    } ${
+        disabled ? 'cursor-not-allowed disabled:translate-y-0.5' : ''
+    } ${className} transition-all relative z-0`;
+
+    const buttonElement = (
         <button
-            onClick={onClick}
-            {...props}
+            onClick={handleClick}
+            disabled={disabled}
+            className={combinedClasses}
             style={style}
-            disabled={disabled ?? false}
-            className={`${sizingClasses} border-neutral-800 rounded text-black ${
-                colourClasses[colour ?? 'lime']
-            } disabled:translate-y-0.5 ${className} transition-all relative z-0`}
         >
             <Text>{children}</Text>
         </button>
+    );
+
+    return href ? (
+        <a
+            href={href}
+            onClick={(e) => e.preventDefault()}
+            role="button"
+            style={{ textDecoration: 'none' }}
+        >
+            {buttonElement}
+        </a>
+    ) : (
+        buttonElement
     );
 }
 

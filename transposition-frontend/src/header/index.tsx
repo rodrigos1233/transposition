@@ -57,33 +57,43 @@ export function Header({
                     </h1>
                     {!isMobile && (
                         <nav className="h-14">
-                            <Button
-                                disabled={location.startsWith('scale/')}
-                                onClick={() => {
-                                    handleNavigate(navigate, '/scale');
-                                }}
-                                className="ml-3"
-                            >
-                                {translatedStrings[0]}
-                            </Button>
-                            <Button
-                                disabled={location.startsWith('note/')}
-                                className="ml-3"
-                                onClick={() => {
-                                    handleNavigate(navigate, '/note');
-                                }}
-                            >
-                                {translatedStrings[1]}
-                            </Button>
-                            <Button
-                                disabled={location === 'about'}
-                                className="ml-3"
-                                onClick={() => {
-                                    navigate('/about');
-                                }}
-                            >
-                                {translatedStrings[2]}
-                            </Button>
+                            <div className="notation-selector">
+                                <Button
+                                    disabled={location.startsWith('scale/')}
+                                    href="/scale"
+                                    onClick={(
+                                        e: React.MouseEvent<HTMLAnchorElement>
+                                    ) => {
+                                        e.preventDefault(); // Prevent default link behavior
+                                        handleNavigate(navigate, '/scale'); // Use custom navigate function
+                                    }}
+                                    className="ml-3"
+                                >
+                                    {translatedStrings[0]}
+                                </Button>
+
+                                <Button
+                                    disabled={location.startsWith('note/')}
+                                    href="/note"
+                                    onClick={(
+                                        e: React.MouseEvent<HTMLAnchorElement>
+                                    ) => {
+                                        e.preventDefault();
+                                        handleNavigate(navigate, '/note'); // Use custom navigate function
+                                    }}
+                                    className="ml-3"
+                                >
+                                    {translatedStrings[1]}
+                                </Button>
+
+                                <Button
+                                    disabled={location === 'about'}
+                                    href="/about"
+                                    className="ml-3"
+                                >
+                                    {translatedStrings[2]}
+                                </Button>
+                            </div>
                         </nav>
                     )}
                 </div>

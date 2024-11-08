@@ -83,13 +83,13 @@ function ScaleTransposition({
             "Transpose a full scale in any mode from one instrument's key to another:",
             'Origin key:',
             'Scale:',
-            'target key:',
+            'Target key:',
         ],
         [Language.French]: [
             "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
             "Tonalité d'origine:",
             'Gamme:',
-            'tonalité cible:',
+            'Tonalité cible:',
         ],
         [Language.Spanish]: [
             'Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:',
@@ -498,7 +498,9 @@ function ScaleTransposition({
 
     return (
         <div className="content simple-transposition w-full">
-            <div className="mode-selector mb-3">{modes}</div>
+            <div className="mode-selector mb-3">
+                <div className="notation-selector">{modes}</div>
+            </div>
             <h2 className="mb-3">{translatedText[0]}</h2>
             <div className="simple-transposition__origin-key-select w-full mb-3">
                 {translatedText[1]}
