@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 
 import Button from '../../components/button';
-import { Language } from '../../hooks/useTranslation';
+import useTranslation, {
+    Language,
+    Translations,
+} from '../../hooks/useTranslation';
 import { getModeName, MODES } from '../../utils/modes';
 import './mode-selector.css';
 
@@ -48,6 +51,33 @@ function ModeSelector({
         });
     }
 
+    const toggleButtonTextTranslations: Translations = {
+        [Language.English]: [
+            `${!showAdditionalModes ? 'Show' : 'Hide'} advanced modes`,
+        ],
+        [Language.French]: [
+            `${
+                !showAdditionalModes ? 'Afficher' : 'Masquer'
+            } les modes avancés`,
+        ],
+        [Language.Spanish]: [
+            `${
+                !showAdditionalModes ? 'Mostrar' : 'Ocultar'
+            } los modos avanzados`,
+        ],
+        [Language.German]: [
+            `Erweiterte Modi ${
+                !showAdditionalModes ? 'Anzeigen' : 'Verstecken'
+            }`,
+        ],
+    };
+
+    const toggleButtonText = useTranslation(
+        selectedLanguage,
+        toggleButtonTextTranslations,
+        [showAdditionalModes]
+    );
+
     return (
         <div
             className={`mb-3 flex gap-5 items-start justify-between mode-selector ${
@@ -62,9 +92,9 @@ function ModeSelector({
             <Button
                 onClick={handleSwitchClick}
                 disabled={false}
-                className={'w-52 shrink-0'}
+                className={'shrink-0'}
             >
-                {`${showAdditionalModes ? 'Hide' : 'Show'} advanced modes`}
+                {toggleButtonText}
             </Button>
         </div>
     );
