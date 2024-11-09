@@ -238,7 +238,7 @@ export function Footer() {
     const isMobile = useIsMobile();
 
     return (
-        <footer className={`p-2 ${isMobile ? 'mb-14' : ''}`}>
+        <footer className={`p-2 ${isMobile ? 'mb-20' : ''}`}>
             <p>
                 <Text size={'small'}>
                     &copy; {startYear} - {currentYear} Rodrigo Salazar. All
