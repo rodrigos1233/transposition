@@ -6,10 +6,12 @@ function Text({
     size,
     color,
     children,
+    className,
 }: {
     size?: 'big' | 'small' | 'medium';
     color?: string;
     children: React.ReactNode;
+    className?: string;
 }) {
     const isMobile = useIsMobile();
 
@@ -29,7 +31,11 @@ function Text({
     const sizingClass =
         sizingClasses[isMobile ? 'mobile' : 'desktop'][size ?? 'medium'];
 
-    return <span className={`${sizingClass} ${color}`}>{children}</span>;
+    return (
+        <span className={`${sizingClass} ${color} ${className}`}>
+            {children}
+        </span>
+    );
 }
 
 export default Text;
