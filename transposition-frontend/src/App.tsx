@@ -16,6 +16,13 @@ import LanguageSelector from './header/LanguageSelector';
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
+    const localStorageLanguage = localStorage.getItem(
+        'selectedLanguage'
+    ) as Language;
+
+    if (localStorageLanguage) {
+        return localStorageLanguage;
+    }
 
     switch (userLanguage) {
         case 'fr':
@@ -66,9 +73,18 @@ function App() {
         localStorage.setItem('selectedNotation', selectedNotation);
     }
 
+    function handleChangeLanguage(language: Language) {
+        setSelectedLanguage(language);
+        localStorage.setItem('selectedLanguage', language);
+    }
+
     useEffect(() => {
         localStorage.setItem('selectedNotation', selectedNotation);
     }, [selectedNotation]);
+
+    useEffect(() => {
+        localStorage.setItem('selectedLanguage', selectedLanguage);
+    }, [selectedLanguage]);
 
     return (
         <div className="App container mx-auto overflow-clip">
@@ -77,7 +93,7 @@ function App() {
                     selectedNotation={selectedNotation}
                     setSelectedNotation={handleChangeNotation}
                     selectedLanguage={selectedLanguage}
-                    setSelectedLanguage={setSelectedLanguage}
+                    setSelectedLanguage={handleChangeLanguage}
                 />
                 <div className={`contents flex p-2 z-0 relative`}>
                     <Routes>
