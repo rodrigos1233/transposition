@@ -24,24 +24,28 @@ export const NOTES: Note[] = [
 ];
 
 export const SCALES: Note[] = [
+    //0
     { romance: 'do', english: 'C', german: 'c' },
     { romance: 'do♯', english: 'C♯', german: 'cis' },
     { romance: 'ré♭', english: 'D♭', german: 'des' },
     { romance: 'ré', english: 'D', german: 'd' },
     { romance: 'ré♯', english: 'D♯', german: 'dis' },
+    //5
     { romance: 'mi♭', english: 'E♭', german: 'es' },
     { romance: 'mi', english: 'E', german: 'e' },
     { romance: 'fa', english: 'F', german: 'f' },
     { romance: 'fa♯', english: 'F♯', german: 'fis' },
     { romance: 'sol♭', english: 'G♭', german: 'ges' },
+    //10
     { romance: 'sol', english: 'G', german: 'g' },
     { romance: 'sol♯', english: 'G♯', german: 'gis' },
     { romance: 'la♭', english: 'A♭', german: 'as' },
     { romance: 'la', english: 'A', german: 'a' },
     { romance: 'la♯', english: 'A♯', german: 'ais' },
+    //15
     { romance: 'si♭', english: 'B♭', german: 'b' },
     { romance: 'si', english: 'B', german: 'h' },
-]
+];
 
 export const CIRCLE_OF_FIFTH_MAJOR_SUITE = [
     0, // c

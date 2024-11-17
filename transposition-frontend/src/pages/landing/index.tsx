@@ -7,6 +7,9 @@ import { getNote, Note, SCALES } from '../../utils/notes';
 import Button from '../../components/button';
 import { useNavigate } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
+import Text from '../../components/text';
+import { getModeName } from '../../utils/modes';
+import { enharmonicGroupTransposer } from '../../utils/transposer';
 
 function LandingPage({
     selectedLanguage,
@@ -44,16 +47,9 @@ function LandingPage({
                 .
             </>,
             'Quick Start:',
-            'You play an instrument in B♭ and want to find out the corresponding scales for an instrument in C. Here are some common keys:',
-
-            `${getNote(0, selectedNotation, SCALES)} to ${getNote(
-                1,
-                selectedNotation
-            )}`, // C to Bb
-            `${getNote(1, selectedNotation, SCALES)} to ${getNote(
-                2,
-                selectedNotation
-            )}`, // Bb to F
+            `You play an instrument in `,
+            ` and want to find out the corresponding scales for an instrument in `,
+            `. Here are some common keys:`,
         ],
         [Language.French]: [
             'Bienvenue sur ClaveShift.com!',
@@ -67,15 +63,9 @@ function LandingPage({
                 .
             </>,
             'Prise en main rapide :',
-            'Vous jouez d’un instrument en si bémol et souhaitez connaître les gammes correspondantes pour un instrument en do. Voici quelques tonalités courantes :',
-            `${getNote(0, selectedNotation, SCALES)} à ${getNote(
-                1,
-                selectedNotation
-            )}`, // C to Bb
-            `${getNote(1, selectedNotation, SCALES)} à ${getNote(
-                2,
-                selectedNotation
-            )}`, // Bb to F
+            'Vous jouez d’un instrument en ',
+            ' et souhaitez connaître les gammes correspondantes pour un instrument en ',
+            '. Voici quelques tonalités courantes:',
         ],
         [Language.Spanish]: [
             'Bienvenido a ClaveShift.com!',
@@ -89,15 +79,9 @@ function LandingPage({
                 .
             </>,
             'Inicio rápido:',
-            'Tocas un instrumento en si bemol y quieres averiguar las escalas correspondientes para un instrumento en do. Aquí tienes algunas tonalidades comunes:',
-            `${getNote(0, selectedNotation, SCALES)} a ${getNote(
-                1,
-                selectedNotation
-            )}`, // C to Bb
-            `${getNote(1, selectedNotation, SCALES)} a ${getNote(
-                2,
-                selectedNotation
-            )}`, // Bb to F
+            'Tocas un instrumento en ',
+            ' y quieres averiguar las escalas correspondientes para un instrumento en ',
+            '. Aquí tienes algunas tonalidades comunes:',
         ],
         [Language.German]: [
             'Willkommen bei ClaveShift.com!',
@@ -111,144 +95,182 @@ function LandingPage({
                 .
             </>,
             'Schnellstart:',
-            'Du spielst ein Instrument in B♭ und möchtest die entsprechenden Tonarten für ein Instrument in C herausfinden. Hier sind einige gängige Tonarten:',
-            `${getNote(0, selectedNotation, SCALES)} zu ${getNote(
-                1,
-                selectedNotation
-            )}`, // C to Bb
-            `${getNote(1, selectedNotation, SCALES)} zu ${getNote(
-                2,
-                selectedNotation
-            )}`, // Bb to F
+            'Sie spielen ein Instrument in ',
+            ' und möchten Sie entsprechenden Tonarten für ein Instrument in ',
+            ' herausfinden. Hier sind einige gängige Tonarten:',
         ],
     };
 
     const commonScaleTranspositions = [
         // B♭ Instrument (e.g., Clarinet, Trumpet) to C Instrument (e.g., Piano, Flute)
         {
-            from: 10, // B♭
+            from: 15, // B♭
             to: 0, // C
             scales: [
-                { scale: 0, mode: 0 }, // C Major (B♭ instrument reads C as concert pitch B♭)
-                { scale: 9, mode: 1 }, // A Minor (B♭ instrument reads A as concert pitch G)
+                { scale: 0, mode: 0 }, // C Major
+                { scale: 9, mode: 1 }, // A Minor
             ],
         },
         // E♭ Instrument (e.g., Alto Saxophone) to C Instrument
-        {
-            from: 3, // E♭
-            to: 0, // C
-            scales: [
-                { scale: 0, mode: 0 }, // C Major (E♭ instrument reads C as concert pitch E♭)
-                { scale: 9, mode: 1 }, // A Minor (E♭ instrument reads A as concert pitch C)
-            ],
-        },
+        // {
+        //     from: 5, // E♭
+        //     to: 0, // C
+        //     scales: [
+        //         { scale: 0, mode: 0 }, // C Major
+        //         { scale: 13, mode: 1 }, // A Minor
+        //     ],
+        // },
         // F Instrument (e.g., French Horn) to C Instrument
         {
-            from: 5, // F
+            from: 7, // F
             to: 0, // C
             scales: [
-                { scale: 0, mode: 0 }, // C Major (F instrument reads C as concert pitch F)
-                { scale: 9, mode: 1 }, // A Minor (F instrument reads A as concert pitch D)
+                { scale: 0, mode: 0 }, // C Major
+                { scale: 13, mode: 1 }, // A Minor
             ],
         },
         // C Instrument (e.g., Piano, Flute) to B♭ Instrument (e.g., Trumpet, Clarinet)
         {
             from: 0, // C
-            to: 10, // B♭
+            to: 15, // B♭
             scales: [
-                { scale: 10, mode: 0 }, // B♭ Major (C instrument reads B♭ as concert pitch C)
-                { scale: 7, mode: 1 }, // G Minor (C instrument reads G as concert pitch A)
+                { scale: 15, mode: 0 }, // B♭ Major
+                { scale: 10, mode: 1 }, // G Minor
             ],
         },
         // C Instrument to E♭ Instrument
-        {
-            from: 0, // C
-            to: 3, // E♭
-            scales: [
-                { scale: 3, mode: 0 }, // E♭ Major (C instrument reads E♭ as concert pitch C)
-                { scale: 0, mode: 1 }, // C Minor (C instrument reads C as concert pitch E♭)
-            ],
-        },
+        // {
+        //     from: 0, // C
+        //     to: 5, // E♭
+        //     scales: [
+        //         { scale: 5, mode: 0 }, // E♭ Major
+        //         { scale: 0, mode: 1 }, // C Minor
+        //     ],
+        // },
         // C Instrument to F Instrument
-        {
-            from: 0, // C
-            to: 5, // F
-            scales: [
-                { scale: 5, mode: 0 }, // F Major (C instrument reads F as concert pitch C)
-                { scale: 2, mode: 1 }, // D Minor (C instrument reads D as concert pitch F)
-            ],
-        },
+        // {
+        //     from: 0, // C
+        //     to: 7, // F
+        //     scales: [
+        //         { scale: 7, mode: 0 }, // F Major
+        //         { scale: 3, mode: 1 }, // D Minor
+        //     ],
+        // },
         // B♭ Instrument to E♭ Instrument
-        {
-            from: 10, // B♭
-            to: 3, // E♭
-            scales: [
-                { scale: 3, mode: 0 }, // E♭ Major (B♭ instrument reads E♭ as concert pitch G♭)
-                { scale: 0, mode: 1 }, // C Minor (B♭ instrument reads C as concert pitch E♭)
-            ],
-        },
+        // {
+        //     from: 15, // B♭
+        //     to: 5, // E♭
+        //     scales: [
+        //         { scale: 3, mode: 0 }, // E♭ Major
+        //         { scale: 0, mode: 1 }, // C Minor
+        //     ],
+        // },
         // B♭ Instrument to F Instrument
-        {
-            from: 10, // B♭
-            to: 5, // F
-            scales: [
-                { scale: 5, mode: 0 }, // F Major (B♭ instrument reads F as concert pitch A♭)
-                { scale: 2, mode: 1 }, // D Minor (B♭ instrument reads D as concert pitch F)
-            ],
-        },
+        // {
+        //     from: 15, // B♭
+        //     to: 7, // F
+        //     scales: [
+        //         { scale: 5, mode: 0 }, // F Major
+        //         { scale: 3, mode: 1 }, // D Minor
+        //     ],
+        // },
         // E♭ Instrument to B♭ Instrument
-        {
-            from: 3, // E♭
-            to: 10, // B♭
-            scales: [
-                { scale: 10, mode: 0 }, // B♭ Major (E♭ instrument reads B♭ as concert pitch D♭)
-                { scale: 7, mode: 1 }, // G Minor (E♭ instrument reads G as concert pitch B♭)
-            ],
-        },
+        // {
+        //     from: 5, // E♭
+        //     to: 15, // B♭
+        //     scales: [
+        //         { scale: 15, mode: 0 }, // B♭ Major
+        //         { scale: 10, mode: 1 }, // G Minor
+        //     ],
+        // },
         // F Instrument to B♭ Instrument
-        {
-            from: 5, // F
-            to: 10, // B♭
-            scales: [
-                { scale: 10, mode: 0 }, // B♭ Major (F instrument reads B♭ as concert pitch E♭)
-                { scale: 7, mode: 1 }, // G Minor (F instrument reads G as concert pitch D)
-            ],
-        },
+        // {
+        //     from: 7, // F
+        //     to: 15, // B♭
+        //     scales: [
+        //         { scale: 15, mode: 0 }, // B♭ Major
+        //         { scale: 10, mode: 1 }, // G Minor
+        //     ],
+        // },
         // E♭ Instrument to F Instrument
-        {
-            from: 3, // E♭
-            to: 5, // F
-            scales: [
-                { scale: 5, mode: 0 }, // F Major (E♭ instrument reads F as concert pitch A♭)
-                { scale: 2, mode: 1 }, // D Minor (E♭ instrument reads D as concert pitch F)
-            ],
-        },
+        // {
+        //     from: 5, // E♭
+        //     to: 7, // F
+        //     scales: [
+        //         { scale: 7, mode: 0 }, // F Major
+        //         { scale: 3, mode: 1 }, // D Minor
+        //     ],
+        // },
         // F Instrument to E♭ Instrument
-        {
-            from: 5, // F
-            to: 3, // E♭
-            scales: [
-                { scale: 3, mode: 0 }, // E♭ Major (F instrument reads E♭ as concert pitch C)
-                { scale: 0, mode: 1 }, // C Minor (F instrument reads C as concert pitch A♭)
-            ],
-        },
+        // {
+        //     from: 7, // F
+        //     to: 5, // E♭
+        //     scales: [
+        //         { scale: 5, mode: 0 }, // E♭ Major
+        //         { scale: 0, mode: 1 }, // C Minor
+        //     ],
+        // },
     ];
 
     const translatedText = useTranslation(selectedLanguage, translations, [
         selectedNotation,
     ]);
 
+    const commonKeyTranspositions = commonScaleTranspositions.map(
+        (transposition) => (
+            <>
+                <p className="mb-2 mt-5">
+                    <Text size="small">
+                        {translatedText[4]}
+                        <span className={'font-bold'}>
+                            {getNote(
+                                transposition.from,
+                                selectedNotation,
+                                SCALES
+                            )}
+                        </span>
+                        {translatedText[5]}
+                        <span className={'font-bold'}>
+                            {getNote(
+                                transposition.to,
+                                selectedNotation,
+                                SCALES
+                            )}
+                        </span>
+                        {translatedText[6]}
+                    </Text>
+                </p>
+
+                <ul className="common-keys-list mt-2">
+                    {transposition.scales.map((scale, k) => (
+                        <li key={k}>
+                            <a
+                                href={`/scale/${enharmonicGroupTransposer(
+                                    transposition.from
+                                )}-${scale.scale}-${enharmonicGroupTransposer(
+                                    transposition.to
+                                )}-${scale.mode}`}
+                                className="underline text-lime-700"
+                            >
+                                {getNote(scale.scale, selectedNotation, SCALES)}{' '}
+                                {getModeName(scale.mode, selectedLanguage)}
+                            </a>
+                        </li>
+                    ))}
+                </ul>
+            </>
+        )
+    );
+
     return (
         <div className="content landing-page w-full">
             <h1 className="my-2">{translatedText[0]}</h1>
-            <p>{translatedText[1]}</p>
-            <p>{translatedText[2]}</p>
-            {/*<h2 className="quick-start">{translatedText[3]}</h2>*/}
-            {/*<p>{translatedText[4]}</p>*/}
-            {/*<ul className="common-keys-list">*/}
-            {/*    <li>{translatedText[5]}</li>*/}
-            {/*    <li>{translatedText[6]}</li>*/}
-            {/*</ul>*/}
+            <Text size={'small'}>{translatedText[1]}</Text>
+            <Text size={'small'}>{translatedText[2]}</Text>
+            <h2 className="quick-start mt-5">
+                <Text size={'medium'}>{translatedText[3]}</Text>
+            </h2>
+            {commonKeyTranspositions}
         </div>
     );
 }
