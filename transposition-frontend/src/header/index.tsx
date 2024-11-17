@@ -22,7 +22,7 @@ export function Header({
     setSelectedLanguage,
 }: {
     selectedNotation: keyof Note;
-    setSelectedNotation: () => void;
+    setSelectedNotation: (notation: keyof Note) => void;
     selectedLanguage: Language;
     setSelectedLanguage: (language: Language) => void;
 }) {

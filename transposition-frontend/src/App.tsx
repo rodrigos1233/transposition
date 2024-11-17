@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './styles/output.css';
@@ -29,6 +29,14 @@ const detectUserBrowserLanguage = (): Language => {
 const defaultNotation = (): keyof Note => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
 
+    const localStorageNotation = localStorage.getItem('selectedNotation') as
+        | keyof Note
+        | null;
+
+    if (localStorageNotation) {
+        return localStorageNotation;
+    }
+
     switch (userLanguage) {
         case 'fr':
             return 'romance';
@@ -53,12 +61,21 @@ function App() {
     );
     const isMobile = useIsMobile();
 
+    function handleChangeNotation(notation: keyof Note) {
+        setSelectedNotation(notation);
+        localStorage.setItem('selectedNotation', selectedNotation);
+    }
+
+    useEffect(() => {
+        localStorage.setItem('selectedNotation', selectedNotation);
+    }, [selectedNotation]);
+
     return (
         <div className="App container mx-auto overflow-clip">
             <BrowserRouter>
                 <Header
                     selectedNotation={selectedNotation}
-                    setSelectedNotation={setSelectedNotation}
+                    setSelectedNotation={handleChangeNotation}
                     selectedLanguage={selectedLanguage}
                     setSelectedLanguage={setSelectedLanguage}
                 />
