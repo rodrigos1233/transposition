@@ -108,7 +108,7 @@ function LandingPage({
             to: 0, // C
             scales: [
                 { scale: 0, mode: 0 }, // C Major
-                { scale: 9, mode: 1 }, // A Minor
+                { scale: 13, mode: 1 }, // A Minor
             ],
         },
         // E♭ Instrument (e.g., Alto Saxophone) to C Instrument
