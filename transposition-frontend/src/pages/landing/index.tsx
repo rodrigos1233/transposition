@@ -96,7 +96,7 @@ function LandingPage({
             </>,
             'Schnellstart:',
             'Sie spielen ein Instrument in ',
-            ' und möchten Sie entsprechenden Tonarten für ein Instrument in ',
+            ' und möchten die entsprechenden Tonarten für ein Instrument in ',
             ' herausfinden. Hier sind einige gängige Tonarten:',
         ],
     };
