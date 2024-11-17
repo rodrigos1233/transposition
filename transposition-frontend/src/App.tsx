@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './styles/output.css';
@@ -16,6 +16,13 @@ import LanguageSelector from './header/LanguageSelector';
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
+    const localStorageLanguage = localStorage.getItem(
+        'selectedLanguage'
+    ) as Language;
+
+    if (localStorageLanguage) {
+        return localStorageLanguage;
+    }
 
     switch (userLanguage) {
         case 'fr':
@@ -28,6 +35,14 @@ const detectUserBrowserLanguage = (): Language => {
 
 const defaultNotation = (): keyof Note => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
+
+    const localStorageNotation = localStorage.getItem('selectedNotation') as
+        | keyof Note
+        | null;
+
+    if (localStorageNotation) {
+        return localStorageNotation;
+    }
 
     switch (userLanguage) {
         case 'fr':
@@ -53,14 +68,32 @@ function App() {
     );
     const isMobile = useIsMobile();
 
+    function handleChangeNotation(notation: keyof Note) {
+        setSelectedNotation(notation);
+        localStorage.setItem('selectedNotation', selectedNotation);
+    }
+
+    function handleChangeLanguage(language: Language) {
+        setSelectedLanguage(language);
+        localStorage.setItem('selectedLanguage', language);
+    }
+
+    useEffect(() => {
+        localStorage.setItem('selectedNotation', selectedNotation);
+    }, [selectedNotation]);
+
+    useEffect(() => {
+        localStorage.setItem('selectedLanguage', selectedLanguage);
+    }, [selectedLanguage]);
+
     return (
         <div className="App container mx-auto overflow-clip">
             <BrowserRouter>
                 <Header
                     selectedNotation={selectedNotation}
-                    setSelectedNotation={setSelectedNotation}
+                    setSelectedNotation={handleChangeNotation}
                     selectedLanguage={selectedLanguage}
-                    setSelectedLanguage={setSelectedLanguage}
+                    setSelectedLanguage={handleChangeLanguage}
                 />
                 <div className={`contents flex p-2 z-0 relative`}>
                     <Routes>
