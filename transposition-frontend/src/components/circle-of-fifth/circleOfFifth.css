@@ -1,0 +1,78 @@
+.circle-of-fifth {
+    width: 30em;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle-outer {
+    position: absolute;
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 50%; /* round its corners to turn the square into a disc */
+    background:
+            conic-gradient(from var(--start, -15deg) /* specify the angle to start from */,
+            #DDD var(--angle, 30deg) /* specify the sector angle */,
+            #0000 0% /* abruptly switch to transparent after */)
+}
+.circle-outer__content-container {
+    position: absolute;
+    width: 20%;
+    top: 0;
+    aspect-ratio: 1;
+    //background: white;
+    border-radius: 50%;
+    z-index: 3;
+    transform-origin: center 250%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.circle-outer__content {
+    width: 100%;
+
+}
+
+.circle-outer__content .staff {
+    width: 120%;
+    scale: 0.5;
+}
+
+.circle-outer__content .staff:last-child {
+    margin-top: -20px;
+}
+.circle-inner {
+    position: absolute;
+    width: 70%;
+    aspect-ratio: 1;
+    border-radius: 50%; /* round its corners to turn the square into a disc */
+    background:
+            conic-gradient(from var(--start, -15deg) /* specify the angle to start from */,
+            #222 var(--angle, 30deg) /* specify the sector angle */,
+            #0000 0% /* abruptly switch to transparent after */)
+}
+.circle-inner__content-container {
+    position: absolute;
+    width: 12%;
+    left: 44%;
+    top: 20%;
+    aspect-ratio: 1;
+    //background: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform-origin: center 250%;
+}
+.circle-center {
+    width: 35%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: white;
+    z-index: 2;
+}
