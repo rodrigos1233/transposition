@@ -25,8 +25,10 @@ const notesMinorSuite = [
     ...notesMajorSuite.slice(0, 5),
 ];
 
-export function scaleBuilder(startNote: number, modeIndex: number): Scale {
-    let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
+export function circleOfFifthModeShifter(
+    modeIndex: number,
+    positionInCircleOfFifth: number
+) {
     const mode = MODES[modeIndex];
 
     if (modeIndex !== 0) {
@@ -36,6 +38,18 @@ export function scaleBuilder(startNote: number, modeIndex: number): Scale {
             positionInCircleOfFifth += 12;
         }
     }
+
+    return positionInCircleOfFifth;
+}
+
+export function scaleBuilder(startNote: number, modeIndex: number): Scale {
+    let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
+    const mode = MODES[modeIndex];
+
+    positionInCircleOfFifth = circleOfFifthModeShifter(
+        modeIndex,
+        positionInCircleOfFifth
+    );
 
     const reducedNotesCopy = REDUCED_NOTES.map((reducedNote) => ({
         ...reducedNote,

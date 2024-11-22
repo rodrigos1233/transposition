@@ -1,0 +1,9 @@
+.circle {
+    width: 20em; /* give it the desired width */
+    aspect-ratio: 1; /* make it square */
+    border-radius: 50%; /* round its corners to turn the square into a disc */
+    background:
+            conic-gradient(from var(--start, -15deg) /* specify the angle to start from */,
+            hotpink var(--angle, 30deg) /* specify the sector angle */,
+            #0000 0% /* abruptly switch to transparent after */)
+}
