@@ -553,7 +553,7 @@ function ScaleTransposition({
                     noteColour="yellow"
                 />
             </div>
-            <CircleOfFifth />
+            {/*<CircleOfFifth />*/}
         </div>
     );
 }
