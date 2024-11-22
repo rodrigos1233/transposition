@@ -95,67 +95,69 @@ function App() {
                     selectedLanguage={selectedLanguage}
                     setSelectedLanguage={handleChangeLanguage}
                 />
-                <div className={`contents flex p-2 z-0 relative`}>
-                    <Routes>
-                        <Route
-                            path="/"
-                            element={
-                                <LandingPage
-                                    selectedNotation={selectedNotation}
-                                    selectedLanguage={selectedLanguage}
-                                />
-                            }
-                        />
-                        <Route path="note">
+                <main className="w-full m-auto flex flex-col items-center">
+                    <div className={`contents flex p-2 z-0 relative`}>
+                        <Routes>
                             <Route
-                                index
-                                element={<Navigate to="0-0-0" replace />}
-                            />
-                            <Route
-                                path=":linkParams"
+                                path="/"
                                 element={
-                                    <SimpleTransposition
+                                    <LandingPage
                                         selectedNotation={selectedNotation}
                                         selectedLanguage={selectedLanguage}
                                     />
                                 }
                             />
-                        </Route>
-                        <Route path="scale">
+                            <Route path="note">
+                                <Route
+                                    index
+                                    element={<Navigate to="0-0-0" replace />}
+                                />
+                                <Route
+                                    path=":linkParams"
+                                    element={
+                                        <SimpleTransposition
+                                            selectedNotation={selectedNotation}
+                                            selectedLanguage={selectedLanguage}
+                                        />
+                                    }
+                                />
+                            </Route>
+                            <Route path="scale">
+                                <Route
+                                    index
+                                    element={<Navigate to="0-0-0-0" replace />}
+                                />
+                                <Route
+                                    path=":linkParams"
+                                    element={
+                                        <ScaleTransposition
+                                            selectedLanguage={selectedLanguage}
+                                            selectedNotation={selectedNotation}
+                                        />
+                                    }
+                                />
+                            </Route>
                             <Route
-                                index
-                                element={<Navigate to="0-0-0-0" replace />}
-                            />
-                            <Route
-                                path=":linkParams"
+                                path="about"
                                 element={
-                                    <ScaleTransposition
+                                    <AboutPage
                                         selectedLanguage={selectedLanguage}
                                         selectedNotation={selectedNotation}
                                     />
                                 }
                             />
-                        </Route>
-                        <Route
-                            path="about"
-                            element={
-                                <AboutPage
-                                    selectedLanguage={selectedLanguage}
-                                    selectedNotation={selectedNotation}
-                                />
-                            }
-                        />
-                        <Route
-                            path="*"
-                            element={
-                                <LandingPage
-                                    selectedNotation={selectedNotation}
-                                    selectedLanguage={selectedLanguage}
-                                />
-                            }
-                        />
-                    </Routes>
-                </div>
+                            <Route
+                                path="*"
+                                element={
+                                    <LandingPage
+                                        selectedNotation={selectedNotation}
+                                        selectedLanguage={selectedLanguage}
+                                    />
+                                }
+                            />
+                        </Routes>
+                    </div>
+                </main>
                 <BottomNav selectedLanguage={selectedLanguage} />
                 <Footer />
             </BrowserRouter>
