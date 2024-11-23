@@ -56,13 +56,13 @@
 @media (max-width: 475px) {
     .circle-outer__content .staff {
         scale: 0.3;
-        width: 150%;
-        margin-left: -15px;
+        width: 180%;
+        margin-left: -20px;
     }
 
     .circle-outer__content .staff:last-child {
-        margin-top: -30px;
-        margin-left: -2px;
+        margin-top: -25px;
+        margin-left: -18px;
     }
 }
 .circle-inner {
