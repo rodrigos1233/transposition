@@ -7,6 +7,7 @@
     justify-content: center;
     align-items: center;
     border: 1px solid #000;
+    max-width: calc(100vw - 40px);
 }
 
 .circle-outer {
@@ -45,9 +46,24 @@
     scale: 0.5;
 }
 
+
+
 .circle-outer__content .staff:last-child {
     margin-top: -20px;
     margin-left: 5px;
+}
+
+@media (max-width: 475px) {
+    .circle-outer__content .staff {
+        scale: 0.3;
+        width: 150%;
+        margin-left: -15px;
+    }
+
+    .circle-outer__content .staff:last-child {
+        margin-top: -30px;
+        margin-left: -2px;
+    }
 }
 .circle-inner {
     position: absolute;
