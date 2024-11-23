@@ -22,7 +22,7 @@ const enharmonicGroups: { [key: number]: number } = {
     16: 11, // B
 };
 
-const reverseEnharmonicGroups: { [key: number]: number[] } = {
+export const reverseEnharmonicGroups: { [key: number]: number[] } = {
     0: [0], // C
     1: [1, 2], // C♯ / D♭
     2: [3], // D

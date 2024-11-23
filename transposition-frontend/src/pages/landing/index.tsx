@@ -217,8 +217,10 @@ function LandingPage({
     ]);
 
     const commonKeyTranspositions = commonScaleTranspositions.map(
-        (transposition) => (
-            <>
+        (transposition, index) => (
+            <React.Fragment
+                key={`${transposition.from}-${transposition.to}-${index}`}
+            >
                 <p className="mb-2 mt-5">
                     <Text size="small">
                         {translatedText[4]}
@@ -243,7 +245,7 @@ function LandingPage({
 
                 <ul className="common-keys-list mt-2">
                     {transposition.scales.map((scale, k) => (
-                        <li key={k}>
+                        <li key={`${k}-${scale.scale}-${scale.mode}`}>
                             <a
                                 href={`/scale/${enharmonicGroupTransposer(
                                     transposition.from
@@ -258,15 +260,19 @@ function LandingPage({
                         </li>
                     ))}
                 </ul>
-            </>
+            </React.Fragment>
         )
     );
 
     return (
         <div className="content landing-page w-full">
             <h1 className="my-2">{translatedText[0]}</h1>
-            <Text size={'small'}>{translatedText[1]}</Text>
-            <Text size={'small'}>{translatedText[2]}</Text>
+            <Text key={'text-1'} size={'small'}>
+                {translatedText[1]}
+            </Text>
+            <Text key={'text-2'} size={'small'}>
+                {translatedText[2]}
+            </Text>
             <h2 className="quick-start mt-5">
                 <Text size={'medium'}>{translatedText[3]}</Text>
             </h2>
