@@ -2,28 +2,37 @@ import React, { useEffect, useState } from 'react';
 
 import './circleOfFifth.css';
 import Staff from '../staff';
-import { scaleBuilder } from '../../utils/scaleBuilder';
+import {
+    getKeySignaturesForPositionInCircleOfFifth,
+    startNotesFromCirclePosition,
+} from '../../utils/scaleBuilder';
+import { getNote, Note, SCALES } from '../../utils/notes';
+import { getModeName, MODES } from '../../utils/modes';
+import Text from '../../components/text';
+import { Language } from '../../hooks/useTranslation';
 
-const MAX_ORIGIN_KEY = 11;
-const MAX_NOTE = 16;
-const MAX_TARGET_KEY = 11;
-const MAX_MODE = 6;
+type CircleOfFifthProps = {
+    modeIndex: number;
+    selectedNotation: keyof Note;
+    selectedLanguage: Language;
+};
 
-function CircleOfFifth() {
-    const circlePositions = [
-        { angle: 0, majorScales: [scaleBuilder(0, 0)] },
-        { angle: 30, majorScales: [scaleBuilder(10, 0)] },
-        { angle: 60, majorScales: [scaleBuilder(3, 0)] },
-        { angle: 90, majorScales: [scaleBuilder(13, 0)] },
-        { angle: 120, majorScales: [scaleBuilder(6, 0)] },
-        { angle: 150, majorScales: [scaleBuilder(16, 0)] },
-        { angle: 180, majorScales: [scaleBuilder(8, 0), scaleBuilder(9, 0)] },
-        { angle: 210, majorScales: [scaleBuilder(1, 0), scaleBuilder(2, 0)] },
-        { angle: 240, majorScales: [scaleBuilder(11, 0), scaleBuilder(12, 0)] },
-        { angle: 270, majorScales: [scaleBuilder(4, 0), scaleBuilder(5, 0)] },
-        { angle: 300, majorScales: [scaleBuilder(14, 0), scaleBuilder(15, 0)] },
-        { angle: 330, majorScales: [scaleBuilder(7, 0)] },
-    ];
+function CircleOfFifth({
+    modeIndex,
+    selectedNotation,
+    selectedLanguage,
+}: CircleOfFifthProps): JSX.Element {
+    const circlePositions = new Array(12).fill(0).map((_, i) => {
+        const keySignatures = getKeySignaturesForPositionInCircleOfFifth(
+            i,
+            modeIndex
+        );
+        const angle = i * 30;
+        return { angle, keySignatures };
+    });
+
+    const modeText = getModeName(modeIndex, selectedLanguage);
+
     return (
         <div className="circle-of-fifth">
             {circlePositions.map(({ angle }, i) => (
@@ -43,40 +52,76 @@ function CircleOfFifth() {
                             className="circle-outer__content"
                             style={{ transform: `rotate(-${angle}deg)` }}
                         >
-                            {circlePositions[i].majorScales.map((scale, k) => (
-                                <Staff
-                                    key={k}
-                                    displayedNotes={[]}
-                                    musicalKey={scale.key}
-                                />
-                            ))}
+                            {circlePositions[i].keySignatures.map(
+                                (scale, k) => (
+                                    <Staff
+                                        key={k}
+                                        displayedNotes={[]}
+                                        musicalKey={scale}
+                                    />
+                                )
+                            )}
                         </div>
                     </div>
                 </>
             ))}
-            {circlePositions.map(({ angle }, i) => (
-                <>
-                    {/*<div*/}
-                    {/*    className="circle-inner"*/}
-                    {/*    style={{*/}
-                    {/*        transform: `rotate(${angle}deg)`,*/}
-                    {/*        filter: `hue-rotate(-${angle}deg)`,*/}
-                    {/*    }}*/}
-                    {/*></div>*/}
-                    <div
-                        className="circle-inner__content-container"
-                        style={{ transform: `rotate(${angle}deg)` }}
-                    >
+            {circlePositions.map(({ angle }, i) => {
+                const possibleStartNotes = startNotesFromCirclePosition(i, 0);
+
+                const notesText = possibleStartNotes.map((startNote) => {
+                    const startNoteName = getNote(
+                        startNote,
+                        selectedNotation,
+                        SCALES
+                    );
+                    return startNoteName;
+                });
+
+                const text = notesText.join(' / ');
+
+                const modeRotation = MODES[modeIndex].modePosition * 30;
+
+                let totalAngle = angle + modeRotation;
+
+                if (totalAngle > 360) {
+                    totalAngle -= 360;
+                }
+
+                if (totalAngle < 0) {
+                    totalAngle += 360;
+                }
+
+                return (
+                    <>
                         <div
-                            className="circle-inner__content"
-                            style={{ transform: `rotate(-${angle}deg)` }}
+                            className="circle-inner__content-container"
+                            style={{
+                                transform: `rotate(${angle + modeRotation}deg)`,
+                                transition: 'all ease 0.5s',
+                            }}
                         >
-                            <p>{i}</p>
+                            <div
+                                className="circle-inner__content"
+                                style={{
+                                    transform: `rotate(-${totalAngle}deg)`,
+                                    transition: 'all ease 0.5s',
+                                }}
+                            >
+                                <p>
+                                    <Text size={'small'}>{text}</Text>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </>
-            ))}
-            <div className="circle-center"></div>
+                    </>
+                );
+            })}
+            <div className="circle-center">
+                <div className="circle-center__content">
+                    <p>
+                        <Text size={'small'}>{modeText}</Text>
+                    </p>
+                </div>
+            </div>
         </div>
     );
 }

@@ -42,14 +42,114 @@ export function circleOfFifthModeShifter(
     return positionInCircleOfFifth;
 }
 
-export function scaleBuilder(startNote: number, modeIndex: number): Scale {
-    let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
+export function startNotesFromCirclePosition(
+    positionInCircleOfFifth: number,
+    modeIndex: number
+) {
     const mode = MODES[modeIndex];
+    const circleOfFifthSuite = CIRCLE_OF_FIFTH_MAJOR_SUITE.map((position) => {
+        position += mode.modePosition;
+        if (position < 0) {
+            position += 12;
+        }
+        if (position > 11) {
+            position -= 12;
+        }
+        return position;
+    });
+
+    const startNotes = circleOfFifthSuite.reduce(
+        (indexes: number[], value, index) => {
+            if (value === positionInCircleOfFifth) {
+                indexes.push(index);
+            }
+            return indexes;
+        },
+        []
+    );
+
+    return startNotes;
+}
+
+export function keySignatureBuilder(
+    startNote: number,
+    modeIndex: number,
+    alterationFromStartNote?: 'flat' | 'sharp'
+) {
+    let alteredNotes: number[] = [];
+    let doubleAlteredNotes: number[] = [];
+    let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
+    let alteration = alterationFromStartNote;
 
     positionInCircleOfFifth = circleOfFifthModeShifter(
         modeIndex,
         positionInCircleOfFifth
     );
+
+    if (!alterationFromStartNote) {
+        if (positionInCircleOfFifth > 0 && positionInCircleOfFifth <= 6) {
+            alteration = 'sharp';
+        }
+
+        if (positionInCircleOfFifth > 6) {
+            alteration = 'flat';
+        }
+    }
+
+    if (alteration === 'sharp') {
+        for (let i = 1; i <= positionInCircleOfFifth; i++) {
+            if (alteredNotes.includes(SHARP_LIST[i - 1])) {
+                doubleAlteredNotes.push(SHARP_LIST[i - 1]);
+            }
+
+            alteredNotes.push(SHARP_LIST[i - 1]);
+        }
+    }
+
+    if (alteration === 'flat') {
+        for (let i = 11; i >= positionInCircleOfFifth; i--) {
+            if (alteredNotes.includes(FLAT_LIST[-1 * i + 11])) {
+                doubleAlteredNotes.push(FLAT_LIST[-1 * i + 11]);
+            }
+            alteredNotes.push(FLAT_LIST[-1 * i + 11]);
+        }
+    }
+
+    const key = {
+        alteration,
+        alteredNotes,
+        doubleAlteredNotes,
+    };
+
+    return key as Key;
+}
+
+export function getKeySignaturesForPositionInCircleOfFifth(
+    circlePosition: number,
+    modeIndex: number
+): Key[] {
+    const possibleStartNotes = startNotesFromCirclePosition(
+        circlePosition,
+        modeIndex
+    );
+
+    return possibleStartNotes.map((startNote) => {
+        const startNoteName = getNote(startNote, 'english', SCALES);
+        const alterationFromStartNote = startNoteName.includes('♭')
+            ? 'flat'
+            : startNoteName.includes('♯')
+            ? 'sharp'
+            : undefined;
+        return keySignatureBuilder(
+            startNote,
+            modeIndex,
+            alterationFromStartNote
+        );
+    });
+}
+
+export function scaleBuilder(startNote: number, modeIndex: number): Scale {
+    const mode = MODES[modeIndex];
 
     const reducedNotesCopy = REDUCED_NOTES.map((reducedNote) => ({
         ...reducedNote,
@@ -63,11 +163,8 @@ export function scaleBuilder(startNote: number, modeIndex: number): Scale {
         .map((reducedNote: { english: string }) => reducedNote.english)
         .indexOf(startingNoteNameReduced);
 
-    let alteration: 'flat' | 'sharp' | null = null;
     let notes: number[] = [];
     let reducedNotes: number[] = [];
-    let alteredNotes: number[] = [];
-    let doubleAlteredNotes: number[] = [];
 
     let modeShift = reducedCircleOfFifthMajorSuite.indexOf(
         Math.abs(mode.modePosition)
@@ -97,42 +194,21 @@ export function scaleBuilder(startNote: number, modeIndex: number): Scale {
         notes.push(currentNote);
     }
 
-    if (positionInCircleOfFifth > 0 && positionInCircleOfFifth <= 6) {
-        alteration = 'sharp';
-    }
-
-    if (positionInCircleOfFifth > 6) {
-        alteration = 'flat';
-    }
-
-    if (startingNoteName.includes('♭')) {
-        alteration = 'flat';
-    }
-
-    if (startingNoteName.includes('♯')) {
-        alteration = 'sharp';
-    }
-
-    if (alteration === 'sharp') {
-        for (let i = 1; i <= positionInCircleOfFifth; i++) {
-            if (alteredNotes.includes(SHARP_LIST[i - 1])) {
-                doubleAlteredNotes.push(SHARP_LIST[i - 1]);
-            }
-
-            alteredNotes.push(SHARP_LIST[i - 1]);
-        }
-    }
-
-    if (alteration === 'flat') {
-        for (let i = 11; i >= positionInCircleOfFifth; i--) {
-            if (alteredNotes.includes(FLAT_LIST[-1 * i + 11])) {
-                doubleAlteredNotes.push(FLAT_LIST[-1 * i + 11]);
-            }
-            alteredNotes.push(FLAT_LIST[-1 * i + 11]);
-        }
-    }
-
     const notesInScale: NoteInScale[] = [];
+
+    const alterationFromStartNote = startingNoteName.includes('♭')
+        ? 'flat'
+        : startingNoteName.includes('♯')
+        ? 'sharp'
+        : undefined;
+
+    const key = keySignatureBuilder(
+        startNote,
+        modeIndex,
+        alterationFromStartNote
+    );
+
+    const { alteration, alteredNotes, doubleAlteredNotes } = key;
 
     for (const reducedNote of reducedNotes) {
         const note = { ...reducedNotesCopy[reducedNote] }; // Clone each note object
@@ -188,12 +264,6 @@ export function scaleBuilder(startNote: number, modeIndex: number): Scale {
 
         notesInScale.push({ note });
     }
-
-    const key = {
-        alteration,
-        alteredNotes,
-        doubleAlteredNotes,
-    };
 
     return { notes, notesInScale, key, reducedNotes };
 }
