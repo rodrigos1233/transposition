@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { getNote } from '../../utils/notes';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
@@ -7,11 +7,15 @@ function Text({
     color,
     children,
     className,
+    noWrap,
+    style,
 }: {
     size?: 'big' | 'small' | 'medium';
     color?: string;
     children: React.ReactNode;
     className?: string;
+    noWrap?: boolean;
+    style?: CSSProperties;
 }) {
     const isMobile = useIsMobile();
 
@@ -32,7 +36,12 @@ function Text({
         sizingClasses[isMobile ? 'mobile' : 'desktop'][size ?? 'medium'];
 
     return (
-        <span className={`${sizingClass} ${color} ${className}`}>
+        <span
+            className={`${sizingClass} ${color} ${className} ${
+                noWrap ? 'text-nowrap' : ''
+            }`}
+            style={style}
+        >
             {children}
         </span>
     );

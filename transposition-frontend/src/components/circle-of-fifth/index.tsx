@@ -107,8 +107,13 @@ function CircleOfFifth({
                                     transition: 'all ease 0.5s',
                                 }}
                             >
-                                <p>
-                                    <Text size={'small'}>{text}</Text>
+                                <p className="text-nowrap">
+                                    <Text
+                                        size={'small'}
+                                        style={{ whiteSpace: 'nowrap' }}
+                                    >
+                                        {text}
+                                    </Text>
                                 </p>
                             </div>
                         </div>
@@ -118,7 +123,9 @@ function CircleOfFifth({
             <div className="circle-center">
                 <div className="circle-center__content">
                     <p>
-                        <Text size={'small'}>{modeText}</Text>
+                        <Text noWrap size={'small'}>
+                            {modeText}
+                        </Text>
                     </p>
                 </div>
             </div>
