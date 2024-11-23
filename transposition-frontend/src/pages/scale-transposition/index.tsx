@@ -489,7 +489,7 @@ function ScaleTransposition({
     const isMobile = useIsMobile();
 
     return (
-        <div className="content simple-transposition w-full overflow-x-hidden">
+        <div className="content simple-transposition w-full">
             <ModeSelector
                 selectedLanguage={selectedLanguage}
                 selectedMode={selectedMode}

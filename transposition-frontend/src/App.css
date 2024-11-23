@@ -23,6 +23,11 @@
     width: 100%;
 }
 
+.content {
+    overflow-x: hidden;
+    overflow-y: visible;
+}
+
 main {
     overflow: auto;
     position: relative;
