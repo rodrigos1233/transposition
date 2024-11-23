@@ -15,7 +15,6 @@ import { useIsMobile } from '../../hooks/useIsMobile';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 import ModeSelector from '../../components/mode-selector';
-import './circle.css';
 import CircleOfFifth from '../../components/circle-of-fifth';
 
 const MAX_ORIGIN_KEY = 11;
@@ -553,7 +552,11 @@ function ScaleTransposition({
                     noteColour="yellow"
                 />
             </div>
-            {/*<CircleOfFifth />*/}
+            <CircleOfFifth
+                modeIndex={selectedMode}
+                selectedNotation={selectedNotation}
+                selectedLanguage={selectedLanguage}
+            />
         </div>
     );
 }

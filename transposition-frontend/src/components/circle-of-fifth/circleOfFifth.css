@@ -6,6 +6,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid #000;
 }
 
 .circle-outer {
@@ -31,20 +32,22 @@
     justify-content: center;
     align-items: center;
     overflow: hidden;
+
 }
 
 .circle-outer__content {
     width: 100%;
-
 }
 
 .circle-outer__content .staff {
+    margin-left: -10px;
     width: 120%;
     scale: 0.5;
 }
 
 .circle-outer__content .staff:last-child {
     margin-top: -20px;
+    margin-left: 5px;
 }
 .circle-inner {
     position: absolute;
@@ -70,9 +73,36 @@
     transform-origin: center 250%;
 }
 .circle-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 35%;
     aspect-ratio: 1;
     border-radius: 50%;
-    background: white;
     z-index: 2;
+    border: 1px solid #000;
+    position: relative;
+    overflow: hidden; /* Ensures the blurred background doesn't spill */
+}
+
+.circle-center::before {
+    content: "";
+    position: absolute; /* Match the main background's fixed position */
+    z-index: 3;
+
+
+    display: block;
+    background-image: url('./../../assets/images/main-background.jpeg');
+    background-size: 600px;
+    background-attachment: fixed; /* Matches the main background's behavior */
+    width: 100vw;
+    height: 100vh;
+
+    filter: blur(9px) grayscale(0.7) contrast(0.1) brightness(1.8);
+}
+
+.circle-center__content {
+    position: relative;
+    z-index: 3;
+
 }
