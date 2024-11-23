@@ -10,17 +10,25 @@ import { getNote, Note, SCALES } from '../../utils/notes';
 import { getModeName, MODES } from '../../utils/modes';
 import Text from '../../components/text';
 import { Language } from '../../hooks/useTranslation';
+import {
+    enharmonicGroupTransposer,
+    enharmonicGroupTransposerReverse,
+} from '../../utils/transposer';
 
 type CircleOfFifthProps = {
     modeIndex: number;
     selectedNotation: keyof Note;
     selectedLanguage: Language;
+    selectedStartNote?: number;
+    targetNote?: number;
 };
 
 function CircleOfFifth({
     modeIndex,
     selectedNotation,
     selectedLanguage,
+    selectedStartNote,
+    targetNote,
 }: CircleOfFifthProps): JSX.Element {
     const circlePositions = new Array(12).fill(0).map((_, i) => {
         const keySignatures = getKeySignaturesForPositionInCircleOfFifth(
@@ -32,6 +40,12 @@ function CircleOfFifth({
     });
 
     const modeText = getModeName(modeIndex, selectedLanguage);
+
+    let selectedStartNoteIndex = undefined;
+
+    if (selectedStartNote) {
+        selectedStartNoteIndex = enharmonicGroupTransposer(selectedStartNote);
+    }
 
     return (
         <div className="circle-of-fifth">
@@ -68,16 +82,38 @@ function CircleOfFifth({
             {circlePositions.map(({ angle }, i) => {
                 const possibleStartNotes = startNotesFromCirclePosition(i, 0);
 
-                const notesText = possibleStartNotes.map((startNote) => {
+                const notesText = possibleStartNotes.map((startNote, i) => {
                     const startNoteName = getNote(
                         startNote,
                         selectedNotation,
                         SCALES
                     );
-                    return startNoteName;
+                    console.log({
+                        isStart: startNote === selectedStartNote,
+                        isTarget: startNote === targetNote,
+                        startNote,
+                        targetNote,
+                        selectedStartNote,
+                    });
+                    return (
+                        <React.Fragment key={i}>
+                            <span
+                                className={
+                                    startNote === selectedStartNote
+                                        ? 'border-b-4 border-purple-400'
+                                        : startNote === targetNote
+                                        ? 'border-b-4 border-yellow-400'
+                                        : ''
+                                }
+                            >
+                                {startNoteName}
+                            </span>
+                            {i < possibleStartNotes.length - 1 && ' / '}
+                        </React.Fragment>
+                    );
                 });
 
-                const text = notesText.join(' / ');
+                const text = <>{notesText}</>;
 
                 const modeRotation = MODES[modeIndex].modePosition * 30;
 
