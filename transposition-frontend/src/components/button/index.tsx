@@ -51,7 +51,7 @@ function Button({
         colourClasses[colour]
     } ${
         disabled ? 'cursor-not-allowed disabled:translate-y-0.5' : ''
-    } ${className} transition-all relative z-0`;
+    } ${className} transition-all relative z-0 bg-white`;
 
     const buttonElement = (
         <button
