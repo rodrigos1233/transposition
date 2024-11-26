@@ -15,25 +15,50 @@ export const listOfInstrumentsTranslation: Translations = {
             'Bassoon',
             'Flute',
             'Accordion',
+            'Recorder',
+            'Fife',
+            'Banjo',
+            'Bass trombone',
+            'Tin whistle',
+            'Xylophone',
         ],
-        // C#
+        // Db
         ['Piccolo'],
         // D
-        ['Hunting horn'],
-        // D#
-        ['Sopranino/piccolo clarinet', 'Alto saxophone', 'Baryton saxophone'],
+        ['Hunting horn', 'Hardanger Fiddle', 'Fife'],
+        // Eb
+        [
+            'Sopranino/piccolo clarinet',
+            'Alto saxophone',
+            'Baritone saxophone',
+            'E-flat tuba',
+            'E-flat piccolo oboe',
+            'E-flat trumpet',
+            'Tenor horn',
+            'Soprano cornet',
+        ],
         // E
-        [],
+        ['E trumpet'],
         // F
-        ['French horn', 'Alphorn', 'Basset horn', 'English horn'],
-        // F#
+        [
+            'French horn',
+            'Alphorn',
+            'Basset horn',
+            'English horn',
+            'Mellophone',
+            'Oboe d’amore',
+            'Basset recorder',
+            'F flute',
+            'F alto saxophone',
+        ],
+        // F#/Gb
         ['Alphorn'],
         // G
-        ['Alto flute'],
-        // G#
-        [],
+        ['Alto flute', 'Treble flute', 'Basset clarinet', 'Contra-alto flute'],
+        // /Ab
+        ['A-flat soprano clarinet', 'B-flat fife', 'Csakan'],
         // A
-        ['Clarinet'],
+        ['Clarinet in A', 'Trumpet in A', "Oboe d'amore in A"],
         // Bb
         [
             'Clarinet',
@@ -44,9 +69,12 @@ export const listOfInstrumentsTranslation: Translations = {
             'Cornet',
             'Flugelhorn',
             'Euphonium',
+            'Piccolo trumpet',
+            'Bass saxophone',
+            'Tenor Wagner tuba',
         ],
         // B
-        [],
+        ['B soprano clarinet'],
     ],
     [Language.French]: [
         [
