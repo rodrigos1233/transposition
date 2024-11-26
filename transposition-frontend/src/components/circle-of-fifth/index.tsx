@@ -14,6 +14,7 @@ import {
     enharmonicGroupTransposer,
     enharmonicGroupTransposerReverse,
 } from '../../utils/transposer';
+import Button from '../button';
 
 type CircleOfFifthProps = {
     modeIndex: number;
@@ -21,6 +22,8 @@ type CircleOfFifthProps = {
     selectedLanguage: Language;
     selectedStartNote?: number;
     targetNote?: number;
+    setSelectedMode: (mode: number) => void;
+    showAdditionalModes: boolean;
 };
 
 function CircleOfFifth({
@@ -29,6 +32,8 @@ function CircleOfFifth({
     selectedLanguage,
     selectedStartNote,
     targetNote,
+    setSelectedMode,
+    showAdditionalModes,
 }: CircleOfFifthProps): JSX.Element {
     const circlePositions = new Array(12).fill(0).map((_, i) => {
         const keySignatures = getKeySignaturesForPositionInCircleOfFifth(
@@ -45,6 +50,18 @@ function CircleOfFifth({
 
     if (selectedStartNote) {
         selectedStartNoteIndex = enharmonicGroupTransposer(selectedStartNote);
+    }
+
+    function handleModeClick() {
+        const modeLimit = showAdditionalModes ? 6 : 1;
+
+        if (modeIndex + 1 > modeLimit) {
+            setSelectedMode(0);
+            return;
+        }
+
+        setSelectedMode(modeIndex + 1);
+        return;
     }
 
     return (
@@ -159,9 +176,7 @@ function CircleOfFifth({
             <div className="circle-center">
                 <div className="circle-center__content">
                     <p>
-                        <Text noWrap size={'small'}>
-                            {modeText}
-                        </Text>
+                        <Button onClick={handleModeClick}>{modeText}</Button>
                     </p>
                 </div>
             </div>

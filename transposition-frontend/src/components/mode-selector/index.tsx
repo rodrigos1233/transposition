@@ -14,17 +14,17 @@ type ModeSelectorProps = {
     selectedLanguage: Language;
     selectedMode: number;
     handleChangeMode: (mode: number) => void;
+    showAdditionalModes: boolean;
+    setShowAdditionalModes: (showAdditionalModes: boolean) => void;
 };
 
 function ModeSelector({
     selectedLanguage,
     selectedMode,
     handleChangeMode,
+    showAdditionalModes,
+    setShowAdditionalModes,
 }: ModeSelectorProps) {
-    const [showAdditionalModes, setShowAdditionalModes] = useState(
-        selectedMode > 1
-    );
-
     const modes = MODES.map((mode, index) => (
         <Button
             key={index}
@@ -39,16 +39,14 @@ function ModeSelector({
     ));
 
     function handleSwitchClick() {
-        setShowAdditionalModes((prevShowAdditionalModes) => {
-            const newShowAdditionalModes = !prevShowAdditionalModes;
+        const newShowAdditionalModes = !showAdditionalModes;
 
-            // Switch back to basic mode if currently in advanced mode and hiding advanced modes
-            if (!newShowAdditionalModes && selectedMode >= 2) {
-                handleChangeMode(0);
-            }
+        // Switch back to basic mode if currently in advanced mode and hiding advanced modes
+        if (!newShowAdditionalModes && selectedMode >= 2) {
+            handleChangeMode(0);
+        }
 
-            return newShowAdditionalModes;
-        });
+        setShowAdditionalModes(newShowAdditionalModes);
     }
 
     const toggleButtonTextTranslations: Translations = {
