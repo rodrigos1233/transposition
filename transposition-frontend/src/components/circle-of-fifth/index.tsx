@@ -11,10 +11,6 @@ import { getNote, Note, SCALES } from '../../utils/notes';
 import { getModeName, MODES } from '../../utils/modes';
 import Text from '../../components/text';
 import { Language } from '../../hooks/useTranslation';
-import {
-    enharmonicGroupTransposer,
-    enharmonicGroupTransposerReverse,
-} from '../../utils/transposer';
 import Button from '../button';
 
 type CircleOfFifthProps = {
@@ -103,7 +99,7 @@ function CircleOfFifth({
     }
 
     return (
-        <div className="circle-of-fifth">
+        <div className="circle-of-fifth pb-10">
             <div className="circle-center__controls">
                 <Button onClick={handleModeClick}>{modeText}</Button>
             </div>
@@ -235,9 +231,7 @@ function CircleOfFifth({
                             }}
                         />
                     </div>
-                    <div className="circle-center__content">
-                        <p></p>
-                    </div>
+                    <div className="circle-center__content"></div>
                 </div>
             </div>
         </div>

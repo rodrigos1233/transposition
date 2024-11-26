@@ -3,7 +3,7 @@ import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
-import { getNote, Note } from '../../utils/notes';
+import { getNote, INSTRUMENTS_PITCHES, Note } from '../../utils/notes';
 import { listOfInstrumentsTranslation } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 
@@ -55,6 +55,15 @@ function AboutPage({
                 {' :'}
             </>,
             <>
+                {'Le nom '}
+                <span className={'font-bold'}>"ClaveShift"</span>
+                {' combine deux termes : '}
+                <span className={'font-bold'}>"clave"</span>
+                {' et '}
+                <span className={'font-bold'}>"shift"</span>
+                {'.'}
+            </>,
+            <>
                 <span className={'font-bold'}>Clave</span>
                 {
                     ' : En espagnol, "clave" signifie "tonalité" ou "clé", ce qui se rapporte directement aux tonalités musicales et à la transposition. En théorie musicale, changer de tonalité est un concept clé, et "Clave" reflète l\'objectif de cet outil axé sur les changements de tonalité.'
@@ -77,6 +86,15 @@ function AboutPage({
                 {':'}
             </>,
             <>
+                {'El nombre '}
+                <span className={'font-bold'}>"ClaveShift"</span>
+                {' combina dos términos: '}
+                <span className={'font-bold'}>"clave"</span>
+                {' y '}
+                <span className={'font-bold'}>"shift"</span>
+                {'.'}
+            </>,
+            <>
                 <span className={'font-bold'}>Clave</span>
                 {
                     ': La palabra "clave" hace referencia directamente a las tonalidades musicales y a la transposición. En teoría musical, cambiar de tonalidad es un concepto fundamental, y "Clave" captura el enfoque de esta herramienta en los cambios de tonalidad.'
@@ -97,6 +115,15 @@ function AboutPage({
                 {'Über den Namen '}
                 <span className={'font-bold'}>"ClaveShift"</span>
                 {':'}
+            </>,
+            <>
+                {'Der Name '}
+                <span className={'font-bold'}>"ClaveShift"</span>
+                {' kombiniert zwei Begriffe: '}
+                <span className={'font-bold'}>"clave"</span>
+                {' und '}
+                <span className={'font-bold'}>"shift"</span>
+                {'.'}
             </>,
             <>
                 <span className={'font-bold'}>Clave</span>
@@ -150,7 +177,7 @@ function AboutPage({
         return (
             <li className="my-2">
                 <h4 className="text-xl">
-                    {getNote(keyIndex, selectedNotation)}:
+                    {getNote(keyIndex, selectedNotation, INSTRUMENTS_PITCHES)}:
                 </h4>
                 <ul className="flex gap-2 flex-wrap">
                     {instrumentsArray.map((instrument, k) => (
@@ -191,15 +218,13 @@ function AboutPage({
             </ul>
             <p className="my-2">{translatedListOfInstrumentsTitle[0]}</p>
             <ul className="list-disc ml-4 my-2">
-                {getInstrumentList(0)}
-                {getInstrumentList(1)}
-                {getInstrumentList(2)}
-                {getInstrumentList(3)}
-                {getInstrumentList(5)}
-                {getInstrumentList(6)}
-                {getInstrumentList(7)}
-                {getInstrumentList(9)}
-                {getInstrumentList(10)}
+                {Array.from({ length: 12 }, (_, i) => {
+                    const instrumentList = getInstrumentList(i);
+                    if (instrumentList) {
+                        return <div key={i}>{instrumentList}</div>;
+                    }
+                    return null;
+                })}
             </ul>
         </div>
     );

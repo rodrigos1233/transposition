@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getNote, Note, SCALES } from '../../utils/notes';
+import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleTransposer } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
@@ -508,6 +508,7 @@ function ScaleTransposition({
                     setSelected={handleChangeOriginKey}
                     selectedNotation={selectedNotation}
                     colour="sky"
+                    usedScale={INSTRUMENTS_PITCHES}
                 />
             </div>
             <div className="simple-transposition__note-select w-full mb-3">
@@ -528,6 +529,7 @@ function ScaleTransposition({
                     setSelected={handleChangeTargetKey}
                     selectedNotation={selectedNotation}
                     colour="red"
+                    usedScale={INSTRUMENTS_PITCHES}
                 />
             </div>
             <p className="mb-3">{message}</p>
