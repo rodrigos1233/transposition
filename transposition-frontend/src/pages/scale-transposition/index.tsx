@@ -564,6 +564,8 @@ function ScaleTransposition({
                 selectedStartNote={selectedNote}
                 targetNote={targetNote}
                 setSelectedMode={handleChangeMode}
+                selectedOriginKey={selectedOriginKey}
+                selectedTargetKey={selectedTargetKey}
                 showAdditionalModes={showAdditionalModes}
             />
         </div>
