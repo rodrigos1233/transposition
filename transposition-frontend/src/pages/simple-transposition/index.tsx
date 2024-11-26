@@ -260,37 +260,45 @@ function SimpleTransposition({
         [Language.English]: [
             `${getNote(selectedNote, selectedNotation)} from ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} to ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Note Transposition`,
         ],
         [Language.French]: [
             `${getNote(selectedNote, selectedNotation)} de ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} à ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Transposition de note`,
         ],
         [Language.Spanish]: [
             `${getNote(selectedNote, selectedNotation)} de ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} a ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Transposición de nota`,
         ],
         [Language.German]: [
             `${getNote(selectedNote, selectedNotation)} von ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} nach ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Tontransposition`,
         ],
     };

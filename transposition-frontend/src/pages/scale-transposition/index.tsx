@@ -429,10 +429,12 @@ function ScaleTransposition({
                 SCALES
             )} ${modeText} from ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} to ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Scale Transposition`,
         ],
         [Language.French]: [
@@ -442,10 +444,12 @@ function ScaleTransposition({
                 SCALES
             )} ${modeText} de ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} à ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Transposition de gamme`,
         ],
         [Language.Spanish]: [
@@ -455,10 +459,12 @@ function ScaleTransposition({
                 SCALES
             )} ${modeText} de ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} a ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Transposición de escala`,
         ],
         [Language.German]: [
@@ -468,10 +474,12 @@ function ScaleTransposition({
                 SCALES
             )} ${modeText} von ${getNote(
                 selectedOriginKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} nach ${getNote(
                 selectedTargetKey,
-                selectedNotation
+                selectedNotation,
+                INSTRUMENTS_PITCHES
             )} | Tonleiter-Transposition`,
         ],
     };
