@@ -21,6 +21,7 @@ export const listOfInstrumentsTranslation: Translations = {
             'Bass trombone',
             'Tin whistle',
             'Xylophone',
+            'Büchel in C',
         ],
         // Db
         ['Piccolo'],
@@ -38,11 +39,11 @@ export const listOfInstrumentsTranslation: Translations = {
             'Soprano cornet',
         ],
         // E
-        ['E trumpet'],
+        ['E trumpet', 'Alporn in E'],
         // F
         [
             'French horn',
-            'Alphorn',
+            'Alphorn in F',
             'Basset horn',
             'English horn',
             'Mellophone',
@@ -52,7 +53,7 @@ export const listOfInstrumentsTranslation: Translations = {
             'F alto saxophone',
         ],
         // F#/Gb
-        ['Alphorn'],
+        ['F-sharp Alphorn'],
         // G
         ['Alto flute', 'Treble flute', 'Basset clarinet', 'Contra-alto flute'],
         // /Ab
@@ -72,11 +73,13 @@ export const listOfInstrumentsTranslation: Translations = {
             'Piccolo trumpet',
             'Bass saxophone',
             'Tenor Wagner tuba',
+            'Büchel in B-flat',
         ],
         // B
         ['B soprano clarinet'],
     ],
     [Language.French]: [
+        // C
         [
             'Piano',
             'Guitare',
@@ -86,28 +89,76 @@ export const listOfInstrumentsTranslation: Translations = {
             'Basson',
             'Flûte',
             'Accordéon',
+            'Flûte à bec',
+            'Fifre',
+            'Banjo',
+            'Trombone basse',
+            'Flûte irlandaise',
+            'Xylophone',
+            'Büchel en ut',
         ],
+        // Db
         ['Piccolo'],
-        ['Trompe de chasse'],
-        ['Clarinette sopranino/piccolo', 'Saxophone alto', 'Saxophone baryton'],
-        [],
-        ["Cor d'harmonie", 'Cor des Alpes', 'Cor de basset', 'Cor anglais'],
-        ['Cor des Alpes'],
-        ['Flûte alto'],
-        [],
-        ['Clarinette'],
+        // D
+        ['Trompe de chasse', 'Violon Hardanger', 'Fifre en ré'],
+        // Eb
+        [
+            'Clarinette sopranino/piccolo',
+            'Saxophone alto',
+            'Saxophone baryton',
+            'Tuba en mi bémol',
+            'Hautbois piccolo en mi bémol',
+            'Trompette en mi bémol',
+            'Saxhorn alto',
+            'Cornet soprano',
+        ],
+        // E
+        ['Trompette en mi', 'Cor des Alpes en mi'],
+        // F
+        [
+            "Cor d'harmonie",
+            'Cor des Alpes en fa',
+            'Cor de basset',
+            'Cor anglais',
+            'Mellophone',
+            'Hautbois d’amour',
+            'Flûte de basset',
+            'Flûte en fa',
+            'Saxophone alto en fa',
+        ],
+        // F#/Gb
+        ['Cor des Alpes en fa-dièse'],
+        // G
+        [
+            'Flûte alto',
+            'Flûte de basset',
+            'Clarinette alto',
+            'Flûte contre-alto',
+        ],
+        // Ab
+        ['Clarinette soprano en la bémol', 'Fifre en si bémol', 'Csakan'],
+        // A
+        ['Clarinette en la', 'Trompette en la', "Hautbois d'amour en la"],
+        // Bb
         [
             'Clarinette',
             'Clarinette basse',
             'Trompette',
             'Saxophone soprano',
-            'Saxophone tenor',
+            'Saxophone ténor',
             'Cornet',
             'Bugle',
             'Euphonium',
+            'Trompette piccolo',
+            'Saxophone basse',
+            'Tuba Wagner ténor',
+            'Büchel en si-bémol',
         ],
+        // B
+        ['Clarinette soprano en si'],
     ],
     [Language.Spanish]: [
+        // C
         [
             'Piano',
             'Guitarra',
@@ -117,27 +168,78 @@ export const listOfInstrumentsTranslation: Translations = {
             'Fagot',
             'Flauta',
             'Acordeón',
+            'Flauta dulce',
+            'Flauta irlandesa',
+            'Banjo',
+            'Trombón bajo',
+            'Silbato',
+            'Xilófono',
         ],
+        // Db
         ['Piccolo'],
-        ['Corno de caza'],
-        ['Clarinete sopranino/piccolo', 'Saxofón alto', 'Saxofón barítono'],
-        [],
-        ['Trompa', 'Trompa de los Alpes', 'Corno inglés'],
-        ['Trompa de los Alpes'],
-        ['Flauta alto'],
-        [],
-        ['Clarinete'],
+        // D
+        ['Cuerno de caza', 'Violín Hardanger', 'Flauta irlandesa'],
+        // Eb
+        [
+            'Clarinete sopranino/piccolo',
+            'Saxofón alto',
+            'Saxofón barítono',
+            'Tuba en mi bemol',
+            'Oboe piccolo en mi bemol',
+            'Trompeta en mi bemol',
+            'Trompa tenor',
+            'Corneta soprano',
+        ],
+        // E
+        ['Trompeta en mi', 'Trompa alpina en mi'],
+        // F
+        [
+            'Trompa francesa',
+            'Trompa alpina',
+            'Corno di bassetto',
+            'Corno inglés',
+            'Mellófono',
+            'Oboe d’amore',
+            'Flauta de basset',
+            'Flauta en fa',
+            'Saxofón alto en fa',
+        ],
+        // F#/Gb
+        ['Trompa alpina en fa-sostenido'],
+        // G
+        [
+            'Flauta alto',
+            'Flauta de basset',
+            'Clarinete alto',
+            'Flauta contra-alto',
+        ],
+        // Ab
+        [
+            'Clarinete soprano en la bemol',
+            'Flauta irlandesa en si bemol',
+            'Csakan',
+        ],
+        // A
+        ['Clarinete en la', 'Trompeta en la', 'Oboe d’amore en la'],
+        // Bb
         [
             'Clarinete',
             'Clarinete bajo',
             'Trompeta',
             'Saxofón soprano',
             'Saxofón tenor',
-            'Flugelhorn',
+            'Corneta',
+            'Fliscorno',
             'Eufonio',
+            'Trompeta piccolo',
+            'Saxofón bajo',
+            'Tuba Wagner tenor',
         ],
+        // B
+        ['Clarinete soprano en si'],
     ],
     [Language.German]: [
+        // C
         [
             'Klavier',
             'Gitarre',
@@ -145,17 +247,54 @@ export const listOfInstrumentsTranslation: Translations = {
             'Violoncello',
             'Oboe',
             'Fagott',
+            'Flöte',
             'Akkordeon',
+            'Blockflöte',
+            'Querpfeife',
+            'Banjo',
+            'Bassposaune',
+            'Tin Whistle',
+            'Xylophon',
+            'Büchel',
         ],
+        // Db
         ['Piccolo'],
-        ['Jagdhorn'],
-        ['Sopranino/Piccolo-Klarinette', 'Altsaxophon', 'Barytonsaxophon'],
-        [],
-        ['Horn', 'Alphorn', 'Bassethorn', 'Englischhorn'],
-        ['Alphorn'],
-        ['Altflöte'],
-        [],
-        ['Klarinette'],
+        // D
+        ['Jagdhorn', 'Hardangerfiedel', 'Querpfeife'],
+        // Eb
+        [
+            'Sopranino/Piccolo-Klarinette',
+            'Altsaxophon',
+            'Baritonsaxophon',
+            'Es-Tuba',
+            'Es-Piccolo-Oboe',
+            'Es-Trompete',
+            'Tenorhorn',
+            'Soprancornet',
+        ],
+        // E
+        ['E-Trompete', 'Alphorn in E'],
+        // F
+        [
+            'Horn',
+            'Alphorn in F',
+            'Bassethorn',
+            'Englischhorn',
+            'Mellophon',
+            'Liebesoboe',
+            'Bassflöte',
+            'Flöte in F',
+            'Alt-Saxophon in F',
+        ],
+        // F#/Gb
+        ['Alphorn in Fis'],
+        // G
+        ['Altflöte', 'Bassethorn', 'Alt-Klarinette', 'Kontraaltflöte'],
+        // Ab
+        ['Sopran-Klarinette in As', 'Querpfeife in B', 'Csakan'],
+        // A
+        ['Klarinette in A', 'Trompete in A', 'Liebesoboe in A'],
+        // Bb
         [
             'Klarinette',
             'Bassklarinette',
@@ -163,8 +302,14 @@ export const listOfInstrumentsTranslation: Translations = {
             'Sopransaxophon',
             'Tenorsaxophon',
             'Cornett',
-            'Flöte',
+            'Flügelhorn',
             'Euphonium',
+            'Piccolo-Trompete',
+            'Basssaxophon',
+            'Tenor-Wagner-Tuba',
+            'Büchel in B',
         ],
+        // B
+        ['Sopran-Klarinette in H'],
     ],
 };
