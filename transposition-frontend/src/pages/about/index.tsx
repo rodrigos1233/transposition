@@ -3,7 +3,7 @@ import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
-import { getNote, Note } from '../../utils/notes';
+import { getNote, INSTRUMENTS_PITCHES, Note } from '../../utils/notes';
 import { listOfInstrumentsTranslation } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 
@@ -150,7 +150,7 @@ function AboutPage({
         return (
             <li className="my-2">
                 <h4 className="text-xl">
-                    {getNote(keyIndex, selectedNotation)}:
+                    {getNote(keyIndex, selectedNotation, INSTRUMENTS_PITCHES)}:
                 </h4>
                 <ul className="flex gap-2 flex-wrap">
                     {instrumentsArray.map((instrument, k) => (
