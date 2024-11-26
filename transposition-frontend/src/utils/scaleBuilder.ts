@@ -71,6 +71,17 @@ export function startNotesFromCirclePosition(
     return startNotes;
 }
 
+export function positionInCircleOfFifthDeterminer(
+    noteIndex: number,
+    modeIndex: number
+) {
+    let position = CIRCLE_OF_FIFTH_MAJOR_SUITE[noteIndex];
+
+    position = circleOfFifthModeShifter(modeIndex, position);
+
+    return position;
+}
+
 export function keySignatureBuilder(
     startNote: number,
     modeIndex: number,
@@ -78,12 +89,11 @@ export function keySignatureBuilder(
 ) {
     let alteredNotes: number[] = [];
     let doubleAlteredNotes: number[] = [];
-    let positionInCircleOfFifth = CIRCLE_OF_FIFTH_MAJOR_SUITE[startNote];
     let alteration = alterationFromStartNote;
 
-    positionInCircleOfFifth = circleOfFifthModeShifter(
-        modeIndex,
-        positionInCircleOfFifth
+    const positionInCircleOfFifth = positionInCircleOfFifthDeterminer(
+        startNote,
+        modeIndex
     );
 
     if (!alterationFromStartNote) {

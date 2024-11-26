@@ -53,6 +53,9 @@ function ScaleTransposition({
         Number(targetKey) || 0
     );
     const [selectedMode, setSelectedMode] = useState<number>(Number(mode) || 0);
+    const [showAdditionalModes, setShowAdditionalModes] = useState(
+        selectedMode > 1
+    );
 
     const targetNote = scaleTransposer(
         selectedNote,
@@ -494,6 +497,8 @@ function ScaleTransposition({
                 selectedLanguage={selectedLanguage}
                 selectedMode={selectedMode}
                 handleChangeMode={handleChangeMode}
+                showAdditionalModes={showAdditionalModes}
+                setShowAdditionalModes={setShowAdditionalModes}
             />
             <h2 className="mb-3">{translatedText[0]}</h2>
             <div className="simple-transposition__origin-key-select w-full mb-3">
@@ -558,6 +563,10 @@ function ScaleTransposition({
                 selectedLanguage={selectedLanguage}
                 selectedStartNote={selectedNote}
                 targetNote={targetNote}
+                setSelectedMode={handleChangeMode}
+                selectedOriginKey={selectedOriginKey}
+                selectedTargetKey={selectedTargetKey}
+                showAdditionalModes={showAdditionalModes}
             />
         </div>
     );
