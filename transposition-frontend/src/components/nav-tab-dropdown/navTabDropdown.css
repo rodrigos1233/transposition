@@ -1,0 +1,11 @@
+.nav-dropdown-container:hover .nav-dropdown-items-container {
+    display: flex;
+}
+
+.nav-dropdown-container {
+    position: relative;
+}
+
+.nav-dropdown-items-container {
+    position: absolute;
+}

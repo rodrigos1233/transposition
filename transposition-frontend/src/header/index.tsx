@@ -14,6 +14,7 @@ import useTranslation, {
 import LanguageSelector from './LanguageSelector';
 import { handleNavigate } from '../utils/handleNavigate';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
+import NavTabDropdown from '../components/nav-tab-dropdown';
 
 export function Header({
     selectedNotation,
@@ -51,10 +52,38 @@ export function Header({
     }, []);
 
     const translations: Translations = {
-        [Language.English]: ['scale', 'note', 'about'],
-        [Language.French]: ['gamme', 'note', 'à propos'],
-        [Language.Spanish]: ['escala', 'nota', 'info'],
-        [Language.German]: ['Tonleiter', 'Ton', 'Info'],
+        [Language.English]: [
+            'scale',
+            'note',
+            'about',
+            'home',
+            'cross instruments',
+            'intervals',
+        ],
+        [Language.French]: [
+            'gamme',
+            'note',
+            'à propos',
+            'accueil',
+            'instruments',
+            'intervalles',
+        ],
+        [Language.Spanish]: [
+            'escala',
+            'nota',
+            'info',
+            'inicio',
+            'instrumentos',
+            'intervalos',
+        ],
+        [Language.German]: [
+            'Tonleiter',
+            'Ton',
+            'Info',
+            'Start',
+            'Instrumente',
+            'Intervalle',
+        ],
     };
 
     const translatedStrings = useTranslation(
@@ -62,6 +91,55 @@ export function Header({
         translations,
         []
     );
+
+    const scaleLinkElements = [
+        {
+            content: translatedStrings[4],
+            href: '/scale-cross-instruments',
+            isCurrentPage: location.startsWith('scale-cross-instruments'),
+            onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                handleNavigate(navigate, '/scale-cross-instruments');
+            },
+        },
+        {
+            content: translatedStrings[5],
+            href: '/scale-intervals',
+            isCurrentPage: location.startsWith('scale-intervals'),
+            onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                handleNavigate(navigate, '/scale-intervals');
+            },
+        },
+
+        // Add more dropdown items for the scale here if needed
+    ];
+
+    const noteLinkElements = [
+        {
+            content: translatedStrings[1],
+            href: '/note',
+            isCurrentPage: location.startsWith('note'),
+            onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                handleNavigate(navigate, '/note');
+            },
+        },
+        // Add more dropdown items for the note here if needed
+    ];
+
+    const aboutLinkElement = [
+        {
+            content: translatedStrings[2],
+            href: '/about',
+            isCurrentPage: location === 'about',
+            // No onClick needed if default navigation is desired
+        },
+    ];
+
+    console.log(location === '/about');
+
+    console.log({ location });
 
     return (
         <header
@@ -78,41 +156,32 @@ export function Header({
                     {!isMobile && (
                         <nav className="h-14">
                             <ButtonsFlexContainer>
-                                <Button
-                                    disabled={location.startsWith('scale/')}
-                                    href="/scale"
-                                    onClick={(
-                                        e: React.MouseEvent<HTMLAnchorElement>
-                                    ) => {
-                                        e.preventDefault();
-                                        handleNavigate(navigate, '/scale');
-                                    }}
-                                    className="ml-3"
+                                <NavTabDropdown
+                                    elements={scaleLinkElements}
+                                    isCurrentPage={scaleLinkElements.some(
+                                        (link) => link.isCurrentPage
+                                    )}
                                 >
                                     {translatedStrings[0]}
-                                </Button>
+                                </NavTabDropdown>
 
-                                <Button
-                                    disabled={location.startsWith('note/')}
-                                    href="/note"
-                                    onClick={(
-                                        e: React.MouseEvent<HTMLAnchorElement>
-                                    ) => {
-                                        e.preventDefault();
-                                        handleNavigate(navigate, '/note');
-                                    }}
-                                    className="ml-3"
+                                <NavTabDropdown
+                                    elements={noteLinkElements}
+                                    isCurrentPage={noteLinkElements.some(
+                                        (link) => link.isCurrentPage
+                                    )}
                                 >
                                     {translatedStrings[1]}
-                                </Button>
+                                </NavTabDropdown>
 
-                                <Button
-                                    disabled={location === 'about'}
-                                    href="/about"
-                                    className="ml-3"
+                                <NavTabDropdown
+                                    elements={aboutLinkElement}
+                                    isCurrentPage={aboutLinkElement.some(
+                                        (link) => link.isCurrentPage
+                                    )}
                                 >
                                     {translatedStrings[2]}
-                                </Button>
+                                </NavTabDropdown>
                             </ButtonsFlexContainer>
                         </nav>
                     )}
