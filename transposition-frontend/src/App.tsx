@@ -4,7 +4,7 @@ import './App.css';
 import './styles/output.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import SimpleTransposition from './pages/simple-transposition';
-import ScaleTransposition from './pages/scale-transposition';
+import CrossInstrumentsScaleTransposition from './pages/scale-transposition/crossInstruments';
 import AboutPage from './pages/about';
 import LandingPage from './pages/landing';
 import { BottomNav, Footer, Header } from './header';
@@ -13,6 +13,7 @@ import ReactDOM, { createRoot } from 'react-dom/client';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Language } from './hooks/useTranslation';
 import LanguageSelector from './header/LanguageSelector';
+import IntervalsScaleTransposition from './pages/scale-transposition/intervals';
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
@@ -122,7 +123,7 @@ function App() {
                                     }
                                 />
                             </Route>
-                            <Route path="scale">
+                            <Route path="scale-cross-instruments">
                                 <Route
                                     index
                                     element={<Navigate to="0-0-0-0" replace />}
@@ -130,7 +131,22 @@ function App() {
                                 <Route
                                     path=":linkParams"
                                     element={
-                                        <ScaleTransposition
+                                        <CrossInstrumentsScaleTransposition
+                                            selectedLanguage={selectedLanguage}
+                                            selectedNotation={selectedNotation}
+                                        />
+                                    }
+                                />
+                            </Route>
+                            <Route path="scale-intervals">
+                                <Route
+                                    index
+                                    element={<Navigate to="0-5-up" replace />}
+                                />
+                                <Route
+                                    path=":linkParams"
+                                    element={
+                                        <IntervalsScaleTransposition
                                             selectedLanguage={selectedLanguage}
                                             selectedNotation={selectedNotation}
                                         />
