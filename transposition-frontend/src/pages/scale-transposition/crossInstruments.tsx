@@ -22,7 +22,7 @@ const MAX_NOTE = 16;
 const MAX_TARGET_KEY = 11;
 const MAX_MODE = 6;
 
-function ScaleTransposition({
+function CrossInstrumentsScaleTransposition({
     selectedNotation,
     selectedLanguage,
 }: {
@@ -118,7 +118,7 @@ function ScaleTransposition({
     function handleChangeOriginKey(newOriginKey: number) {
         setSelectedOriginKey(newOriginKey);
         navigate(
-            `/scale/${newOriginKey}-${selectedNote}-${selectedTargetKey}-${selectedMode}`,
+            `/scale-cross-instruments/${newOriginKey}-${selectedNote}-${selectedTargetKey}-${selectedMode}`,
             { replace: true }
         );
     }
@@ -126,7 +126,7 @@ function ScaleTransposition({
     function handleChangeNote(newNote: number) {
         setSelectedNote(newNote);
         navigate(
-            `/scale/${selectedOriginKey}-${newNote}-${selectedTargetKey}-${selectedMode}`,
+            `/scale-cross-instruments/${selectedOriginKey}-${newNote}-${selectedTargetKey}-${selectedMode}`,
             { replace: true }
         );
     }
@@ -134,7 +134,7 @@ function ScaleTransposition({
     function handleChangeTargetKey(newTargetKey: number) {
         setSelectedTargetKey(newTargetKey);
         navigate(
-            `/scale/${selectedOriginKey}-${selectedNote}-${newTargetKey}-${selectedMode}`,
+            `/scale-cross-instruments/${selectedOriginKey}-${selectedNote}-${newTargetKey}-${selectedMode}`,
             { replace: true }
         );
     }
@@ -142,7 +142,7 @@ function ScaleTransposition({
     function handleChangeMode(newMode: number) {
         setSelectedMode(newMode);
         navigate(
-            `/scale/${selectedOriginKey}-${selectedNote}-${selectedTargetKey}-${newMode}`,
+            `/scale-cross-instruments/${selectedOriginKey}-${selectedNote}-${selectedTargetKey}-${newMode}`,
             { replace: true }
         );
     }
@@ -582,4 +582,4 @@ function ScaleTransposition({
     );
 }
 
-export default ScaleTransposition;
+export default CrossInstrumentsScaleTransposition;
