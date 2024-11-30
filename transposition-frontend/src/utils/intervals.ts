@@ -5,9 +5,9 @@ export const INTERVALS: Interval[] = [
     {
         translations: {
             [Language.English]: 'Perfect unison',
-            [Language.French]: 'Unison parfait',
-            [Language.Spanish]: 'Unísono',
-            [Language.German]: 'Vollständiger Ton',
+            [Language.French]: 'Unisson parfait',
+            [Language.Spanish]: 'Unísono perfecto',
+            [Language.German]: 'Reiner Einklang',
         },
         intervalValue: 0,
     },
@@ -33,7 +33,7 @@ export const INTERVALS: Interval[] = [
         translations: {
             [Language.English]: 'Minor third',
             [Language.French]: 'Tierce mineure',
-            [Language.Spanish]: 'Tercer menor',
+            [Language.Spanish]: 'Tercera menor',
             [Language.German]: 'Kleine Terz',
         },
         intervalValue: 3,
@@ -42,17 +42,17 @@ export const INTERVALS: Interval[] = [
         translations: {
             [Language.English]: 'Major third',
             [Language.French]: 'Tierce majeure',
-            [Language.Spanish]: 'Tercer mayor',
-            [Language.German]: 'Großer Terz',
+            [Language.Spanish]: 'Tercera mayor',
+            [Language.German]: 'Große Terz',
         },
         intervalValue: 4,
     },
     {
         translations: {
             [Language.English]: 'Perfect fourth',
-            [Language.French]: 'Quarte',
-            [Language.Spanish]: 'Cuarto menor',
-            [Language.German]: 'Cuarta',
+            [Language.French]: 'Quarte juste',
+            [Language.Spanish]: 'Cuarta justa',
+            [Language.German]: 'Reine Quarte',
         },
         intervalValue: 5,
     },
@@ -68,45 +68,45 @@ export const INTERVALS: Interval[] = [
     {
         translations: {
             [Language.English]: 'Perfect fifth',
-            [Language.French]: 'Quinte',
-            [Language.Spanish]: 'Quinto menor',
-            [Language.German]: 'Quinta',
+            [Language.French]: 'Quinte juste',
+            [Language.Spanish]: 'Quinta justa',
+            [Language.German]: 'Reine Quinte',
         },
         intervalValue: 7,
     },
     {
         translations: {
             [Language.English]: 'Minor sixth',
-            [Language.French]: 'Sixthe mineure',
-            [Language.Spanish]: 'Sexto menor',
-            [Language.German]: 'Kleine Sechs',
+            [Language.French]: 'Sixte mineure',
+            [Language.Spanish]: 'Sexta menor',
+            [Language.German]: 'Kleine Sexte',
         },
         intervalValue: 8,
     },
     {
         translations: {
             [Language.English]: 'Major sixth',
-            [Language.French]: 'Sixthe majeure',
-            [Language.Spanish]: 'Sexto mayor',
-            [Language.German]: 'Große Sechs',
+            [Language.French]: 'Sixte majeure',
+            [Language.Spanish]: 'Sexta mayor',
+            [Language.German]: 'Große Sexte',
         },
         intervalValue: 9,
     },
     {
         translations: {
             [Language.English]: 'Minor seventh',
-            [Language.French]: 'Septieme mineure',
+            [Language.French]: 'Septième mineure',
             [Language.Spanish]: 'Séptima menor',
-            [Language.German]: 'Kleine Sieben',
+            [Language.German]: 'Kleine Septime',
         },
         intervalValue: 10,
     },
     {
         translations: {
             [Language.English]: 'Major seventh',
-            [Language.French]: 'Septieme majeure',
+            [Language.French]: 'Septième majeure',
             [Language.Spanish]: 'Séptima mayor',
-            [Language.German]: 'Große Sieben',
+            [Language.German]: 'Große Septime',
         },
         intervalValue: 11,
     },
@@ -120,6 +120,7 @@ export const INTERVALS: Interval[] = [
         intervalValue: 12,
     },
 ];
+
 export interface Interval {
     translations: {
         [key in Language]: string;
