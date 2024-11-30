@@ -1,4 +1,5 @@
 import { Language } from '../hooks/useTranslation';
+import { MODES } from './modes';
 
 export const INTERVALS: Interval[] = [
     {
@@ -124,4 +125,12 @@ export interface Interval {
         [key in Language]: string;
     };
     intervalValue: number;
+}
+
+export function getIntervalName(index: number, language: Language): string {
+    // Fallback to English if the selected language is not available
+    return (
+        INTERVALS[index].translations[language] ||
+        INTERVALS[index].translations[Language.English]
+    );
 }
