@@ -209,15 +209,165 @@ function IntervalsScaleTransposition({
             <span className="font-bold text-lg">
                 {transposedScaleNotesSuite}
             </span>{' '}
-            {`when transposed ${selectedDirection} by one ${getIntervalName(
+            {`when transposed ${selectedDirection.toLowerCase()} by one ${getIntervalName(
                 selectedInterval,
                 selectedLanguage
             )}.`}
         </>
     );
 
+    const frenchMessage = [0, 12].includes(selectedInterval) ? (
+        <>
+            {`L'échelle de `}
+            <span className="border-b-4 border-purple-300">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            {` se compose des notes suivantes : `}
+            <span className="font-bold text-lg">{notesSuite}</span>.
+            {selectedInterval === 0 &&
+                ` Aucun changement de tonalité n'est nécessaire car l'intervalle de demi-tons est de 0.`}
+            {originKeySignature.alteration !==
+                targetKeySignature.alteration && (
+                <>
+                    {` Cependant, un équivalent enharmonique potentiellement plus simple est l'échelle de `}
+                    <span className="border-b-4 border-yellow-300">
+                        {getNote(targetNote, selectedNotation, SCALES)}{' '}
+                        {modeText}
+                    </span>
+                    {`, qui se compose des notes suivantes : `}
+                    <span className="font-bold text-lg">
+                        {transposedScaleNotesSuite}
+                    </span>
+                    {'.'}
+                </>
+            )}
+        </>
+    ) : (
+        <>
+            {`La gamme de `}
+            <span className="border-b-4 border-purple-400">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` se compose des notes suivantes : `}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`Elle devient l'échelle de `}
+            <span className="border-b-4 border-yellow-300">
+                {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` avec les notes suivantes : `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`lorsqu'elle est transposée en ${
+                selectedDirection === 'up' ? 'haut' : 'bas'
+            } d'une ${getIntervalName(selectedInterval, selectedLanguage)}.`}
+        </>
+    );
+
+    const spanishMessage = [0, 12].includes(selectedInterval) ? (
+        <>
+            {`La escala de `}
+            <span className="border-b-4 border-purple-300">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            {` se compone de las siguientes notas: `}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.
+            {selectedInterval === 0 &&
+                ` No hay necesidad de cambiar de tonalidad porque el intervalo de semitono es de 0.`}
+            {originKeySignature.alteration !==
+                targetKeySignature.alteration && (
+                <>
+                    {` Sin embargo, una enharmónica equivalente potencialmente más simple es la escala de `}
+                    <span className="border-b-4 border-yellow-300">
+                        {getNote(targetNote, selectedNotation, SCALES)}{' '}
+                        {modeText}
+                    </span>
+                    {`, que se compone de las siguientes notas: `}
+                    <span className="font-bold text-lg">
+                        {transposedScaleNotesSuite}
+                    </span>
+                    {'.'}
+                </>
+            )}
+        </>
+    ) : (
+        <>
+            {`La escala de `}
+            <span className="border-b-4 border-purple-400">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` se compone de las siguientes notas: `}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`Se convierte en la escala de `}
+            <span className="border-b-4 border-yellow-300">
+                {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` con las siguientes notas: `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`cuando se transpone ${
+                selectedDirection === 'up' ? 'hacia arriba' : 'hacia abajo'
+            } por una ${getIntervalName(selectedInterval, selectedLanguage)}.`}
+        </>
+    );
+
+    const germanMessage = [0, 12].includes(selectedInterval) ? (
+        <>
+            {`Die Tonleiter von `}
+            <span className="border-b-4 border-purple-300">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            {` besteht aus den folgenden Noten: `}
+            <span className="font-bold text-lg">{notesSuite}</span>.
+            {selectedInterval === 0 &&
+                ` Es ist keine Tonartänderung erforderlich, da das Intervall in Halbtönen 0 beträgt.`}
+            {originKeySignature.alteration !==
+                targetKeySignature.alteration && (
+                <>
+                    {` Ein potenziell einfacheres enharmonisches Äquivalent ist jedoch die Tonleiter von `}
+                    <span className="border-b-4 border-yellow-300">
+                        {getNote(targetNote, selectedNotation, SCALES)}{' '}
+                        {modeText}
+                    </span>
+                    {`, die aus den folgenden Noten besteht: `}
+                    <span className="font-bold text-lg">
+                        {transposedScaleNotesSuite}
+                    </span>
+                    {'.'}
+                </>
+            )}
+        </>
+    ) : (
+        <>
+            {`Die Tonleiter von `}
+            <span className="border-b-4 border-purple-400">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` besteht aus den folgenden Noten: `}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`Dies wird zur Tonleiter von `}
+            <span className="border-b-4 border-yellow-300">
+                {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` mit den folgenden Noten: `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`wenn es ${
+                selectedDirection === 'up' ? 'nach oben' : 'nach unten'
+            } ${getIntervalName(
+                selectedInterval,
+                selectedLanguage
+            )} transponiert wird.`}
+        </>
+    );
+
     const resultTranslations: Translations = {
         [Language.English]: [englishMessage],
+        [Language.French]: [frenchMessage],
+        [Language.Spanish]: [spanishMessage],
+        [Language.German]: [germanMessage],
     };
 
     const translatedResults = useTranslation(
@@ -234,11 +384,13 @@ function IntervalsScaleTransposition({
 
     const message = translatedResults[0];
 
+    console.log({ message, englishMessage });
+
     const titleTextTranslations: Translations = {
         [Language.English]: [
             `${getNote(originKey, selectedNotation, SCALES)} ${modeText} ${
                 selectedInterval !== 0 ? `${selectedDirection} one` : ' '
-            }${getIntervalName(
+            } ${getIntervalName(
                 selectedInterval,
                 selectedLanguage
             )} | Scale Transposition`,
