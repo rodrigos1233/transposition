@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
-import { scaleTransposer } from '../../utils/transposer';
+import {
+    enharmonicGroupTransposer,
+    scaleCrossInstrumentsTransposer,
+    scaleTransposer,
+} from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
 import Button from '../../components/button';
 import useTranslation, {
@@ -16,10 +20,12 @@ import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
+import { getIntervalName } from '../../utils/intervals';
+import IntervalSelector from '../../components/interval-selector';
 
-const MAX_ORIGIN_KEY = 11;
+const MAX_ORIGIN_KEY = 16;
 const MAX_NOTE = 16;
-const MAX_TARGET_KEY = 11;
+const MAX_INTERVAL = 12;
 const MAX_MODE = 6;
 
 function IntervalsScaleTransposition({
@@ -32,7 +38,7 @@ function IntervalsScaleTransposition({
     const { linkParams } = useParams();
     const navigate = useNavigate();
 
-    const [originKeyString, noteString, targetKeyString, modeString] =
+    const [originKeyString, intervalString, modeString, directionString] =
         linkParams?.split('-') || [];
 
     function validateParam(value: string, max: number) {
@@ -41,35 +47,51 @@ function IntervalsScaleTransposition({
     }
 
     const originKey = validateParam(originKeyString, MAX_ORIGIN_KEY);
-    const note = validateParam(noteString, MAX_NOTE);
-    const targetKey = validateParam(targetKeyString, MAX_TARGET_KEY);
     const mode = validateParam(modeString, MAX_MODE);
+    const interval = validateParam(intervalString, MAX_INTERVAL);
+    const direction: 'up' | 'down' = directionString === 'down' ? 'down' : 'up';
 
     const [selectedOriginKey, setSelectedOriginKey] = useState<number>(
         Number(originKey) || 0
     );
-    const [selectedNote, setSelectedNote] = useState<number>(Number(note) || 0);
-    const [selectedTargetKey, setSelectedTargetKey] = useState<number>(
-        Number(targetKey) || 0
+    const [selectedInterval, setSelectedInterval] = useState<number>(
+        Number(interval) || 0
     );
     const [selectedMode, setSelectedMode] = useState<number>(Number(mode) || 0);
+    const [selectedDirection, setSelectedDirection] = useState<'up' | 'down'>(
+        direction
+    );
     const [showAdditionalModes, setShowAdditionalModes] = useState(
         selectedMode > 1
     );
 
+    let targetKey = selectedOriginKey;
+
+    if (selectedDirection === 'down') {
+        targetKey =
+            enharmonicGroupTransposer(selectedOriginKey) - selectedInterval;
+    }
+
+    if (selectedDirection === 'up') {
+        targetKey =
+            enharmonicGroupTransposer(selectedOriginKey) + selectedInterval;
+    }
+
     const targetNote = scaleTransposer(
-        selectedNote,
-        selectedOriginKey,
-        selectedTargetKey,
-        selectedMode
+        originKey,
+        selectedInterval,
+        selectedMode,
+        selectedDirection
     );
-    const scale = scaleBuilder(selectedNote, selectedMode);
+    const scale = scaleBuilder(originKey, selectedMode);
+
+    console.log(targetNote - selectedOriginKey);
 
     useEffect(() => {
-        if ([originKey, note, targetKey].some(isNaN)) {
-            navigate('0-0-0-0', { replace: true }); // Redirect to default if invalid
+        if ([originKey, targetKey].some(isNaN)) {
+            navigate('0-0-0-up', { replace: true }); // Redirect to default if invalid
         }
-    }, [originKey, note, targetKey, navigate]);
+    }, [originKey, direction, targetKey, navigate]);
 
     const notesSuite = scale.notesInScale
         .map((noteInScale) => noteInScale.note[selectedNotation])
@@ -118,23 +140,23 @@ function IntervalsScaleTransposition({
     function handleChangeOriginKey(newOriginKey: number) {
         setSelectedOriginKey(newOriginKey);
         navigate(
-            `/scale/${newOriginKey}-${selectedNote}-${selectedTargetKey}-${selectedMode}`,
+            `/scale-intervals/${newOriginKey}-${selectedInterval}-${selectedMode}-${selectedDirection}`,
             { replace: true }
         );
     }
 
-    function handleChangeNote(newNote: number) {
-        setSelectedNote(newNote);
+    function handleChangeInterval(newInterval: number) {
+        setSelectedInterval(newInterval);
         navigate(
-            `/scale/${selectedOriginKey}-${newNote}-${selectedTargetKey}-${selectedMode}`,
+            `/scale-intervals/${selectedOriginKey}-${newInterval}-${selectedMode}-${selectedDirection}`,
             { replace: true }
         );
     }
 
-    function handleChangeTargetKey(newTargetKey: number) {
-        setSelectedTargetKey(newTargetKey);
+    function handleChangeDirection(newDirection: 'up' | 'down') {
+        setSelectedDirection(newDirection);
         navigate(
-            `/scale/${selectedOriginKey}-${selectedNote}-${newTargetKey}-${selectedMode}`,
+            `/scale-intervals/${selectedOriginKey}-${selectedInterval}-${selectedMode}-${newDirection}`,
             { replace: true }
         );
     }
@@ -142,196 +164,64 @@ function IntervalsScaleTransposition({
     function handleChangeMode(newMode: number) {
         setSelectedMode(newMode);
         navigate(
-            `/scale/${selectedOriginKey}-${selectedNote}-${selectedTargetKey}-${newMode}`,
+            `/scale-intervals/${selectedOriginKey}-${selectedInterval}-${newMode}-${selectedDirection}`,
             { replace: true }
         );
     }
 
-    const englishMessage =
-        selectedOriginKey === selectedTargetKey ? (
-            <>
-                {`The scale of `}
-                <span className="border-b-4 border-purple-300">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` for an instrument in `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                ,{` consists of the following notes:`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {
-                    'No transposition is needed because the origin and target keys are the same.'
-                }
-            </>
-        ) : (
-            <>
-                {`The scale of `}
-                <span className="border-b-4 border-purple-400">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` for an instrument in `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                ,{` consists of the following notes:`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`This becomes the scale of `}
-                <span className="border-b-4 border-yellow-300">
-                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` with the following notes: `}{' '}
-                <span className="font-bold text-lg">
-                    {transposedScaleNotesSuite}
-                </span>{' '}
-                {`when transposed for an instrument in `}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                .
-            </>
-        );
+    console.log({ originKeySignature, targetKeySignature });
 
-    const frenchMessage =
-        selectedOriginKey === selectedTargetKey ? (
-            <>
-                {`La gamme de `}
-                <span className="border-b-4 border-purple-300">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` pour un instrument en `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                {` consiste en la suite de notes suivante :`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {
-                    "Aucune transposition n'est nécessaire car les tonalités d'origine et de destination sont identiques."
-                }
-            </>
-        ) : (
-            <>
-                {`La gamme de `}
-                <span className="border-b-4 border-purple-400">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` qui pour un instrument en `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                {` consiste en la suite de notes suivante :`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`Elle devient la gamme de `}
-                <span className="border-b-4 border-yellow-300">
-                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` avec la suite de notes suivante : `}{' '}
-                <span className="font-bold text-lg">
-                    {transposedScaleNotesSuite}
-                </span>
-                , {`lorsqu'elle est transposée pour un instrument en `}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                .
-            </>
-        );
-
-    const spanishMessage =
-        selectedOriginKey === selectedTargetKey ? (
-            <>
-                {`La escala de `}
-                <span className="border-b-4 border-purple-300">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` que para un instrumento en `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                {` consiste en la siguiente secuencia de notas:`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.
-                {
-                    ' No hay transposición porque las tonalidades seleccionadas son iguales.'
-                }
-            </>
-        ) : (
-            <>
-                {`La escala de `}
-                <span className="border-b-4 border-purple-400">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` que para un instrumento en `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                {` consiste en la siguiente secuencia de notas:`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`Se convierte en la escala de `}
-                <span className="border-b-4 border-yellow-300">
-                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` con la siguiente secuencia de notas: `}{' '}
-                <span className="font-bold text-lg">
-                    {transposedScaleNotesSuite}
-                </span>
-                , {`cuando se transpone por un instrumento en `}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                .
-            </>
-        );
-
-    const germanMessage =
-        selectedOriginKey === selectedTargetKey ? (
-            <>
-                {`Die Tonleiter von `}
-                <span className="border-b-4 border-purple-300">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` die für ein Instrument in `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                {` notiert ist, setzt sich wie folgt zusammen:`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {
-                    'Keine Transposition erforderlich, da die Ursprungs- und Zieltonalität identisch sind.'
-                }
-            </>
-        ) : (
-            <>
-                {`Die Tonleiter von `}
-                <span className="border-b-4 border-purple-400">
-                    {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` die für ein Instrument in `}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                {` besteht, setzt sich wie folgt zusammen:`}{' '}
-                <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-                {`Diese Tonleiter wird umgewandelt in die Tonleiter von `}
-                <span className="border-b-4 border-yellow-300">
-                    {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-                </span>
-                ,{` mit folgender Tonfolge: `}{' '}
-                <span className="font-bold text-lg">
-                    {transposedScaleNotesSuite}
-                </span>
-                , {`wenn sie für ein Instrument in `}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                {` zu spielen.`}
-            </>
-        );
+    const englishMessage = [0, 12].includes(selectedInterval) ? (
+        <>
+            {`The scale of `}
+            <span className="border-b-4 border-purple-300">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            {` consists of the following notes:`}
+            <span className="font-bold text-lg">{notesSuite}</span>.
+            {selectedInterval === 0 &&
+                ` No key change is needed because the interval of semitones is 0.`}
+            {originKeySignature.alteration !==
+                targetKeySignature.alteration && (
+                <>
+                    {` However, a potentially simpler enharmonic equivalent is the scale of `}
+                    <span className="border-b-4 border-yellow-300">
+                        {getNote(targetNote, selectedNotation, SCALES)}{' '}
+                        {modeText}
+                    </span>
+                    {`, consisting of the following notes: `}
+                    <span className="font-bold text-lg">
+                        {transposedScaleNotesSuite}
+                    </span>
+                    {'.'}
+                </>
+            )}
+        </>
+    ) : (
+        <>
+            {`The scale of `}
+            <span className="border-b-4 border-purple-400">
+                {getNote(originKey, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` consists of the following notes:`}{' '}
+            <span className="font-bold text-lg">{notesSuite}</span>.{' '}
+            {`This becomes the scale of `}
+            <span className="border-b-4 border-yellow-300">
+                {getNote(targetNote, selectedNotation, SCALES)} {modeText}
+            </span>
+            ,{` with the following notes: `}{' '}
+            <span className="font-bold text-lg">
+                {transposedScaleNotesSuite}
+            </span>{' '}
+            {`when transposed ${selectedDirection} by one ${getIntervalName(
+                selectedInterval,
+                selectedLanguage
+            )}.`}
+        </>
+    );
 
     const resultTranslations: Translations = {
         [Language.English]: [englishMessage],
-        [Language.French]: [frenchMessage],
-        [Language.Spanish]: [spanishMessage],
-        [Language.German]: [germanMessage],
     };
 
     const translatedResults = useTranslation(
@@ -340,147 +230,22 @@ function IntervalsScaleTransposition({
         [
             selectedNotation,
             selectedMode,
-            selectedNote,
             selectedOriginKey,
-            selectedTargetKey,
+            selectedDirection,
+            selectedInterval,
         ]
     );
 
     const message = translatedResults[0];
 
-    const musicalStaffTextTranslations: Translations = {
-        [Language.English]: [
-            <>
-                Instrument in{' '}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                :
-            </>,
-            <>
-                Instrument in{' '}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                :
-            </>,
-        ],
-        [Language.French]: [
-            <>
-                Instrument en{' '}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                :
-            </>,
-            <>
-                Instrument en{' '}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                :
-            </>,
-        ],
-        [Language.Spanish]: [
-            <>
-                Instrumento en{' '}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                :
-            </>,
-            <>
-                Instrumento en{' '}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                :
-            </>,
-        ],
-        [Language.German]: [
-            <>
-                Instrument in{' '}
-                <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
-                </span>
-                :
-            </>,
-            <>
-                Instrument in{' '}
-                <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
-                </span>
-                :
-            </>,
-        ],
-    };
-
-    const musicalStaffText = useTranslation(
-        selectedLanguage,
-        musicalStaffTextTranslations,
-        [selectedNotation, selectedOriginKey, selectedTargetKey]
-    );
-
     const titleTextTranslations: Translations = {
         [Language.English]: [
-            `${getNote(
-                selectedNote,
-                selectedNotation,
-                SCALES
-            )} ${modeText} from ${getNote(
-                selectedOriginKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
-            )} to ${getNote(
-                selectedTargetKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
+            `${getNote(originKey, selectedNotation, SCALES)} ${modeText} ${
+                selectedInterval !== 0 ? `${selectedDirection} one` : ' '
+            }${getIntervalName(
+                selectedInterval,
+                selectedLanguage
             )} | Scale Transposition`,
-        ],
-        [Language.French]: [
-            `${getNote(
-                selectedNote,
-                selectedNotation,
-                SCALES
-            )} ${modeText} de ${getNote(
-                selectedOriginKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
-            )} à ${getNote(
-                selectedTargetKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
-            )} | Transposition de gamme`,
-        ],
-        [Language.Spanish]: [
-            `${getNote(
-                selectedNote,
-                selectedNotation,
-                SCALES
-            )} ${modeText} de ${getNote(
-                selectedOriginKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
-            )} a ${getNote(
-                selectedTargetKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
-            )} | Transposición de escala`,
-        ],
-        [Language.German]: [
-            `${getNote(
-                selectedNote,
-                selectedNotation,
-                SCALES
-            )} ${modeText} von ${getNote(
-                selectedOriginKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
-            )} nach ${getNote(
-                selectedTargetKey,
-                selectedNotation,
-                INSTRUMENTS_PITCHES
-            )} | Tonleiter-Transposition`,
         ],
     };
 
@@ -488,16 +253,43 @@ function IntervalsScaleTransposition({
         selectedLanguage,
         titleTextTranslations,
         [
-            selectedTargetKey,
             selectedNotation,
             selectedMode,
-            selectedNote,
             selectedOriginKey,
+            selectedDirection,
+            selectedInterval,
         ]
     );
     useChangePageTitle(pageTitleText[0] as unknown as string);
 
     const isMobile = useIsMobile();
+
+    const displayedNotes = scale.reducedNotes.map((note, i) => {
+        if (selectedDirection === 'up') {
+            if (scale.reducedNotes[i] > transposedScale.reducedNotes[i]) {
+                return {
+                    origin: note,
+                    target: transposedScale.reducedNotes[i] + 7,
+                };
+            }
+        }
+        if (selectedDirection === 'down') {
+            if (scale.reducedNotes[i] < transposedScale.reducedNotes[i]) {
+                return {
+                    origin: note,
+                    target: transposedScale.reducedNotes[i] - 7,
+                };
+            }
+        }
+
+        return {
+            origin: note,
+            target: transposedScale.reducedNotes[i],
+        };
+    });
+
+    const displayedOriginNotes = displayedNotes.map((note, i) => note.origin);
+    const displayedTargetNotes = displayedNotes.map((note, i) => note.target);
 
     return (
         <div className="content simple-transposition w-full">
@@ -516,29 +308,22 @@ function IntervalsScaleTransposition({
                     setSelected={handleChangeOriginKey}
                     selectedNotation={selectedNotation}
                     colour="sky"
-                    usedScale={INSTRUMENTS_PITCHES}
+                    usedScale={SCALES}
+                    blackNotesAreHalf={true}
                 />
             </div>
             <div className="simple-transposition__note-select w-full mb-3">
                 {translatedText[2]}
-                <NoteSelector
-                    selected={selectedNote}
-                    setSelected={handleChangeNote}
-                    selectedNotation={selectedNotation}
-                    usedScale={SCALES}
-                    blackNotesAreHalf={true}
-                    colour="purple"
+                <IntervalSelector
+                    selectedInterval={selectedInterval}
+                    handleChangeInterval={handleChangeInterval}
+                    selectedDirection={selectedDirection}
+                    selectedLanguage={selectedLanguage}
+                    setSelectedDirection={handleChangeDirection}
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full mb-3">
                 {translatedText[3]}
-                <NoteSelector
-                    selected={selectedTargetKey}
-                    setSelected={handleChangeTargetKey}
-                    selectedNotation={selectedNotation}
-                    colour="red"
-                    usedScale={INSTRUMENTS_PITCHES}
-                />
             </div>
             <p className="mb-3">{message}</p>
             <div
@@ -549,35 +334,33 @@ function IntervalsScaleTransposition({
                 }`}
             >
                 <Staff
-                    displayedNotes={scale.reducedNotes}
+                    displayedNotes={displayedOriginNotes}
                     correspondingNotes={scale.notesInScale}
                     musicalKey={originKeySignature}
                     selectedNotation={selectedNotation}
-                    text={musicalStaffText[0]}
                     colour="sky"
                     noteColour="purple"
                 />
                 <Staff
-                    displayedNotes={transposedScale.reducedNotes}
+                    displayedNotes={displayedTargetNotes}
                     correspondingNotes={transposedScale.notesInScale}
                     musicalKey={targetKeySignature}
                     selectedNotation={selectedNotation}
-                    text={musicalStaffText[1]}
                     colour="red"
                     noteColour="yellow"
                 />
             </div>
-            <CircleOfFifth
-                modeIndex={selectedMode}
-                selectedNotation={selectedNotation}
-                selectedLanguage={selectedLanguage}
-                selectedStartNote={selectedNote}
-                targetNote={targetNote}
-                setSelectedMode={handleChangeMode}
-                selectedOriginKey={selectedOriginKey}
-                selectedTargetKey={selectedTargetKey}
-                showAdditionalModes={showAdditionalModes}
-            />
+            {/*<CircleOfFifth*/}
+            {/*    modeIndex={selectedMode}*/}
+            {/*    selectedNotation={selectedNotation}*/}
+            {/*    selectedLanguage={selectedLanguage}*/}
+            {/*    selectedStartNote={selectedNote}*/}
+            {/*    targetNote={targetNote}*/}
+            {/*    setSelectedMode={handleChangeMode}*/}
+            {/*    selectedOriginKey={selectedOriginKey}*/}
+            {/*    selectedTargetKey={selectedTargetKey}*/}
+            {/*    showAdditionalModes={showAdditionalModes}*/}
+            {/*/>*/}
         </div>
     );
 }
