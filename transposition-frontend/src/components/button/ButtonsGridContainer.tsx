@@ -8,7 +8,10 @@ type ButtonsGridContainerProps = {
     className?: string;
 };
 
-function NoteSelector({ children, className }: ButtonsGridContainerProps) {
+function ButtonsGridContainer({
+    children,
+    className,
+}: ButtonsGridContainerProps) {
     const isMobile = useIsMobile();
 
     return (
@@ -22,4 +25,4 @@ function NoteSelector({ children, className }: ButtonsGridContainerProps) {
     );
 }
 
-export default NoteSelector;
+export default ButtonsGridContainer;

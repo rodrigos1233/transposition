@@ -192,7 +192,16 @@ function MusicalCharacter({
                     </>
                 )}
             </div>
-            <div className="musical-character__text">
+            <div
+                className="musical-character__text"
+                style={{
+                    top: `${
+                        position < -1
+                            ? `calc(71px + ${(Math.abs(position) - 1) * 6}px)`
+                            : `70px`
+                    }`,
+                }}
+            >
                 {noteInScale && selectedNotation && (
                     <p className={colourClasses[colour ?? 'black']}>
                         {noteInScale.note[selectedNotation]}

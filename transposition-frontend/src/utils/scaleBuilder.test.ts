@@ -74,8 +74,6 @@ describe('scaleBuilder', () => {
         // C major scale in indices: C D E F G A B C
         expect(scale.reducedNotes).toEqual([0, 1, 2, 3, 4, 5, 6, 0]);
 
-        console.log(scale);
-
         // Since C major has no sharps or flats
         expect(scale.key.alteration).toEqual(undefined);
         expect(scale.key.alteredNotes).toEqual([]);
@@ -84,8 +82,6 @@ describe('scaleBuilder', () => {
 
     it('builds A minor scale (Aeolian mode)', () => {
         const scale = scaleBuilder(13, 1); // 9 represents A, and mode 1 is Minor
-
-        console.log(scale);
 
         // A minor scale in indices: A B C D E F G A
         expect(scale.reducedNotes).toEqual([5, 6, 0, 1, 2, 3, 4, 5]);

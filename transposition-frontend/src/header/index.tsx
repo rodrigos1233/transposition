@@ -98,6 +98,7 @@ export function Header({
             href: '/scale-cross-instruments',
             isCurrentPage: location.startsWith('scale-cross-instruments'),
             onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                console.log('click on scale-cross-instruments');
                 e.preventDefault();
                 handleNavigate(navigate, '/scale-cross-instruments');
             },
@@ -107,6 +108,7 @@ export function Header({
             href: '/scale-intervals',
             isCurrentPage: location.startsWith('scale-intervals'),
             onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                console.log('click on scale-cross-instruments');
                 e.preventDefault();
                 handleNavigate(navigate, '/scale-intervals');
             },
@@ -136,10 +138,6 @@ export function Header({
             // No onClick needed if default navigation is desired
         },
     ];
-
-    console.log(location === '/about');
-
-    console.log({ location });
 
     return (
         <header

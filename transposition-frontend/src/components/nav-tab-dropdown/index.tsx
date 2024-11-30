@@ -76,7 +76,7 @@ function NavTabDropdown({
                         const handleClick = (
                             e: React.MouseEvent<HTMLAnchorElement>
                         ) => {
-                            if (isCurrentPage) {
+                            if (element.isCurrentPage) {
                                 e.preventDefault();
                                 return;
                             }
