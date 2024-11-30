@@ -73,7 +73,6 @@ export function enharmonicGroupTransposerReverse(
     mode: number
 ) {
     const possibleTargetNotes = reverseEnharmonicGroups[originNote];
-    console.log({ possibleTargetNotes, originNote });
 
     if (possibleTargetNotes.length === 1) {
         return possibleTargetNotes[0];

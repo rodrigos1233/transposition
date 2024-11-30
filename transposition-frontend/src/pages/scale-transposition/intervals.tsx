@@ -85,8 +85,6 @@ function IntervalsScaleTransposition({
     );
     const scale = scaleBuilder(originKey, selectedMode);
 
-    console.log(targetNote - selectedOriginKey);
-
     useEffect(() => {
         if ([originKey, targetKey].some(isNaN)) {
             navigate('0-0-0-up', { replace: true }); // Redirect to default if invalid
@@ -168,8 +166,6 @@ function IntervalsScaleTransposition({
             { replace: true }
         );
     }
-
-    console.log({ originKeySignature, targetKeySignature });
 
     const englishMessage = [0, 12].includes(selectedInterval) ? (
         <>

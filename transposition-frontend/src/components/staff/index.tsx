@@ -30,7 +30,6 @@ function Staff({
     accidentals,
 }: StaffProps) {
     const doubleAlteredNotesCount = musicalKey.doubleAlteredNotes.length;
-    console.log({ displayedNotes });
 
     function characterTypeDeterminer(
         k: number

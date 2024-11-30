@@ -9,3 +9,8 @@
 .nav-dropdown-items-container {
     position: absolute;
 }
+
+.nav-dropdown-container--mobile .nav-dropdown-items-container--active {
+    display: flex;
+    bottom: 100%;
+}

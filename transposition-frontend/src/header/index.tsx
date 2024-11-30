@@ -53,28 +53,28 @@ export function Header({
 
     const translations: Translations = {
         [Language.English]: [
-            'scale',
-            'note',
-            'about',
-            'home',
-            'cross instruments',
-            'intervals',
+            'Scale',
+            'Note',
+            'About',
+            'Home',
+            'Cross instruments',
+            'Intervals',
         ],
         [Language.French]: [
-            'gamme',
-            'note',
-            'à propos',
-            'accueil',
-            'instruments',
-            'intervalles',
+            'Gamme',
+            'Note',
+            'À propos',
+            'Accueil',
+            'Instruments',
+            'Intervalles',
         ],
         [Language.Spanish]: [
-            'escala',
-            'nota',
-            'info',
-            'inicio',
-            'instrumentos',
-            'intervalos',
+            'Escala',
+            'Nota',
+            'Info',
+            'Inicio',
+            'Instrumentos',
+            'Intervalos',
         ],
         [Language.German]: [
             'Tonleiter',
@@ -98,7 +98,6 @@ export function Header({
             href: '/scale-cross-instruments',
             isCurrentPage: location.startsWith('scale-cross-instruments'),
             onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
-                console.log('click on scale-cross-instruments');
                 e.preventDefault();
                 handleNavigate(navigate, '/scale-cross-instruments');
             },
@@ -108,13 +107,10 @@ export function Header({
             href: '/scale-intervals',
             isCurrentPage: location.startsWith('scale-intervals'),
             onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
-                console.log('click on scale-cross-instruments');
                 e.preventDefault();
                 handleNavigate(navigate, '/scale-intervals');
             },
         },
-
-        // Add more dropdown items for the scale here if needed
     ];
 
     const noteLinkElements = [
@@ -127,7 +123,6 @@ export function Header({
                 handleNavigate(navigate, '/note');
             },
         },
-        // Add more dropdown items for the note here if needed
     ];
 
     const aboutLinkElement = [
@@ -135,7 +130,6 @@ export function Header({
             content: translatedStrings[2],
             href: '/about',
             isCurrentPage: location === 'about',
-            // No onClick needed if default navigation is desired
         },
     ];
 
@@ -146,41 +140,39 @@ export function Header({
                 isMobile ? 'header--mobile sticky top-0 bg-white pl-4 pr-4' : ''
             }`}
         >
-            <div className="header__content p-2">
-                <div>
+            <div className="header__content">
+                <div className="flex flex-col justify-between">
                     <h1 className="font-bold m-2">
                         <Link to="/">ClaveShift</Link>
                     </h1>
                     {!isMobile && (
-                        <nav className="h-14">
-                            <ButtonsFlexContainer>
-                                <NavTabDropdown
-                                    elements={scaleLinkElements}
-                                    isCurrentPage={scaleLinkElements.some(
-                                        (link) => link.isCurrentPage
-                                    )}
-                                >
-                                    {translatedStrings[0]}
-                                </NavTabDropdown>
+                        <nav className="h-14 flex">
+                            <NavTabDropdown
+                                elements={scaleLinkElements}
+                                isCurrentPage={scaleLinkElements.some(
+                                    (link) => link.isCurrentPage
+                                )}
+                            >
+                                {translatedStrings[0]}
+                            </NavTabDropdown>
 
-                                <NavTabDropdown
-                                    elements={noteLinkElements}
-                                    isCurrentPage={noteLinkElements.some(
-                                        (link) => link.isCurrentPage
-                                    )}
-                                >
-                                    {translatedStrings[1]}
-                                </NavTabDropdown>
+                            <NavTabDropdown
+                                elements={noteLinkElements}
+                                isCurrentPage={noteLinkElements.some(
+                                    (link) => link.isCurrentPage
+                                )}
+                            >
+                                {translatedStrings[1]}
+                            </NavTabDropdown>
 
-                                <NavTabDropdown
-                                    elements={aboutLinkElement}
-                                    isCurrentPage={aboutLinkElement.some(
-                                        (link) => link.isCurrentPage
-                                    )}
-                                >
-                                    {translatedStrings[2]}
-                                </NavTabDropdown>
-                            </ButtonsFlexContainer>
+                            <NavTabDropdown
+                                elements={aboutLinkElement}
+                                isCurrentPage={aboutLinkElement.some(
+                                    (link) => link.isCurrentPage
+                                )}
+                            >
+                                {translatedStrings[2]}
+                            </NavTabDropdown>
                         </nav>
                     )}
                 </div>
@@ -238,10 +230,42 @@ export function BottomNav({
     const navigate = useNavigate();
 
     const translations: Translations = {
-        [Language.English]: ['scale', 'note', 'about'],
-        [Language.French]: ['gamme', 'note', 'à propos'],
-        [Language.Spanish]: ['escala', 'nota', 'info'],
-        [Language.German]: ['Tonleiter', 'Ton', 'Info'],
+        [Language.English]: [
+            'Scale',
+            'Note',
+            'About',
+            'Home',
+            'Cross instruments',
+            'Intervals',
+            'Home',
+        ],
+        [Language.French]: [
+            'Gamme',
+            'Note',
+            'À propos',
+            'Accueil',
+            'Instruments',
+            'Intervalles',
+            'Accueil',
+        ],
+        [Language.Spanish]: [
+            'Escala',
+            'Nota',
+            'Info',
+            'Inicio',
+            'Instrumentos',
+            'Intervalos',
+            'Inicio',
+        ],
+        [Language.German]: [
+            'Tonleiter',
+            'Ton',
+            'Info',
+            'Start',
+            'Instrumente',
+            'Intervalle',
+            'Start',
+        ],
     };
 
     const translatedStrings = useTranslation(
@@ -250,48 +274,98 @@ export function BottomNav({
         []
     );
 
+    const startLinkElement = [
+        {
+            content: translatedStrings[6],
+            href: '/',
+            isCurrentPage: location === '',
+        },
+    ];
+
+    const scaleLinkElements = [
+        {
+            content: translatedStrings[4],
+            href: '/scale-cross-instruments',
+            isCurrentPage: location.startsWith('scale-cross-instruments'),
+            onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                handleNavigate(navigate, '/scale-cross-instruments');
+            },
+        },
+        {
+            content: translatedStrings[5],
+            href: '/scale-intervals',
+            isCurrentPage: location.startsWith('scale-intervals'),
+            onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                handleNavigate(navigate, '/scale-intervals');
+            },
+        },
+    ];
+
+    const noteLinkElements = [
+        {
+            content: translatedStrings[1],
+            href: '/note',
+            isCurrentPage: location.startsWith('note'),
+            onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
+                e.preventDefault();
+                handleNavigate(navigate, '/note');
+            },
+        },
+    ];
+
+    const aboutLinkElement = [
+        {
+            content: translatedStrings[2],
+            href: '/about',
+            isCurrentPage: location === 'about',
+        },
+    ];
+
     return (
         <>
             {isMobile && (
-                <div className="p-4 shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
-                    <nav className="h-10">
-                        <ButtonsFlexContainer>
-                            <Button
-                                disabled={location.startsWith('scale/')}
-                                href="/scale"
-                                onClick={(
-                                    e: React.MouseEvent<HTMLAnchorElement>
-                                ) => {
-                                    e.preventDefault(); // Prevent default link behavior
-                                    handleNavigate(navigate, '/scale'); // Use custom navigate function
-                                }}
-                                className="ml-3 grow"
-                            >
-                                {translatedStrings[0]}
-                            </Button>
+                <div className="shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
+                    <nav className="h-10 flex gap-0.5 bg-neutral-600">
+                        <NavTabDropdown
+                            elements={startLinkElement}
+                            isCurrentPage={startLinkElement.some(
+                                (link) => link.isCurrentPage
+                            )}
+                            isMobile
+                        >
+                            {translatedStrings[0]}
+                        </NavTabDropdown>
+                        <NavTabDropdown
+                            elements={scaleLinkElements}
+                            isCurrentPage={scaleLinkElements.some(
+                                (link) => link.isCurrentPage
+                            )}
+                            isMobile
+                        >
+                            {translatedStrings[0]}
+                        </NavTabDropdown>
 
-                            <Button
-                                disabled={location.startsWith('note/')}
-                                href="/note"
-                                onClick={(
-                                    e: React.MouseEvent<HTMLAnchorElement>
-                                ) => {
-                                    e.preventDefault();
-                                    handleNavigate(navigate, '/note'); // Use custom navigate function
-                                }}
-                                className="ml-3"
-                            >
-                                {translatedStrings[1]}
-                            </Button>
+                        <NavTabDropdown
+                            elements={noteLinkElements}
+                            isCurrentPage={noteLinkElements.some(
+                                (link) => link.isCurrentPage
+                            )}
+                            isMobile
+                        >
+                            {translatedStrings[1]}
+                        </NavTabDropdown>
 
-                            <Button
-                                disabled={location === 'about'}
-                                href="/about"
-                                className="ml-3"
-                            >
-                                {translatedStrings[2]}
-                            </Button>
-                        </ButtonsFlexContainer>
+                        <NavTabDropdown
+                            elements={aboutLinkElement}
+                            isCurrentPage={aboutLinkElement.some(
+                                (link) => link.isCurrentPage
+                            )}
+                            isMobile
+                        >
+                            {translatedStrings[2]}
+                        </NavTabDropdown>
                     </nav>
                 </div>
             )}
