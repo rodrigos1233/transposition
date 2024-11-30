@@ -1,5 +1,4 @@
 import { CIRCLE_OF_FIFTH_MAJOR_SUITE } from './notes';
-import { Mode } from 'node:fs';
 import { MODES } from './modes';
 
 const enharmonicGroups: { [key: number]: number } = {
@@ -39,24 +38,30 @@ export const reverseEnharmonicGroups: { [key: number]: number[] } = {
 
 export function transposer(
     originNote: number,
+    interval: number,
+    direction: 'up' | 'down'
+): [number, number[]] {
+    let transposedNote =
+        direction === 'up' ? originNote + interval : originNote - interval;
+
+    // Wrap the note within octave limits
+    transposedNote = ((transposedNote % 12) + 12) % 12;
+
+    const reversedEnharmonicGroupNotes =
+        reverseEnharmonicGroups[transposedNote];
+
+    return [transposedNote, reversedEnharmonicGroupNotes];
+}
+
+export function crossInstrumentsTransposer(
+    originNote: number,
     originKey: number,
     targetKey: number
 ): [number, number[]] {
-    let keyDifference = originKey - targetKey;
+    const direction = targetKey > originKey ? 'down' : 'up';
+    const keyDifference = Math.abs(originKey - targetKey);
 
-    let targetNote = originNote + keyDifference;
-
-    if (targetNote > 11) {
-        targetNote = targetNote - 12;
-    }
-
-    if (targetNote < 0) {
-        targetNote = targetNote + 12;
-    }
-
-    const reversedEnharmonicGroupNotes = reverseEnharmonicGroups[targetNote];
-
-    return [targetNote, reversedEnharmonicGroupNotes];
+    return transposer(originNote, keyDifference, direction);
 }
 
 export function enharmonicGroupTransposer(originNote: number) {
@@ -99,27 +104,35 @@ export function enharmonicGroupTransposerReverse(
 }
 
 export function scaleTransposer(
+    originStartNote: number,
+    interval: number,
+    mode: number,
+    direction: 'up' | 'down'
+) {
+    let actualNote = enharmonicGroupTransposer(originStartNote);
+
+    let transposedNote =
+        direction === 'up' ? actualNote + interval : actualNote - interval;
+
+    // Wrap the note within octave limits
+    if (transposedNote > 11) {
+        transposedNote = transposedNote - 12;
+    }
+    if (transposedNote < 0) {
+        transposedNote = transposedNote + 12;
+    }
+
+    return enharmonicGroupTransposerReverse(transposedNote, mode);
+}
+
+export function scaleCrossInstrumentsTransposer(
     originNote: number,
     originKey: number,
     targetKey: number,
     mode: number
 ) {
-    let keyDifference = originKey - targetKey;
+    const direction = targetKey > originKey ? 'down' : 'up';
+    const keyDifference = Math.abs(originKey - targetKey);
 
-    // If the note is part of an enharmonic group, return the index of the group
-    const actualNote = enharmonicGroupTransposer(originNote);
-
-    let actualTargetNote = actualNote + keyDifference;
-
-    if (actualTargetNote > 11) {
-        actualTargetNote = actualTargetNote - 12;
-    }
-
-    if (actualTargetNote < 0) {
-        actualTargetNote = actualTargetNote + 12;
-    }
-
-    const targetNote = enharmonicGroupTransposerReverse(actualTargetNote, mode);
-
-    return targetNote;
+    return scaleTransposer(originNote, keyDifference, mode, direction);
 }

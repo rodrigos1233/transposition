@@ -1,19 +1,21 @@
 import {
+    enharmonicGroupTransposer,
     enharmonicGroupTransposerReverse,
     reverseEnharmonicGroups,
+    scaleCrossInstrumentsTransposer,
     scaleTransposer,
-    transposer,
+    crossInstrumentsTransposer,
 } from './transposer';
 
 describe('Transposer', () => {
     it('Should return the correct transposed notes', () => {
-        const result = transposer(0, 0, 0);
+        const result = crossInstrumentsTransposer(0, 0, 0);
         expect(result).toEqual([0, reverseEnharmonicGroups[0]]);
     });
 
     it('Should return the correct transposed notes for any n', () => {
         for (let n = 0; n <= 12; n++) {
-            const result = transposer(0, n, 0);
+            const result = crossInstrumentsTransposer(0, n, 0);
             expect(result).toEqual([n % 12, reverseEnharmonicGroups[n % 12]]);
         }
     });
@@ -21,7 +23,7 @@ describe('Transposer', () => {
 
 describe('Enharmonic Group Transposer', () => {
     it('Should return the correct enharmonic group', () => {
-        const result = transposer(0, 0, 0);
+        const result = crossInstrumentsTransposer(0, 0, 0);
         expect(result).toEqual([0, [0]]);
     });
 });
@@ -29,7 +31,7 @@ describe('Enharmonic Group Transposer', () => {
 // Test transposing notes with different `originKey` and `targetKey`
 describe('Transposer - Key Variation', () => {
     it('should correctly transpose C to G', () => {
-        const result = transposer(0, 0, 7); // C to G key
+        const result = crossInstrumentsTransposer(0, 0, 7); // C to G key
         expect(result).toEqual([5, reverseEnharmonicGroups[5]]); // Expect G to be the target
     });
 });
@@ -43,9 +45,9 @@ describe('Enharmonic Group Transposer Reverse - Mode Variation', () => {
 });
 
 // Test scale transposer with modes
-describe('Scale Transposer', () => {
+describe('Scale Transposer Cross instruments', () => {
     it('should return correct transposed scales for mode 0', () => {
-        const result = scaleTransposer(0, 0, 7, 0); // C to G in major mode
+        const result = scaleCrossInstrumentsTransposer(0, 0, 7, 0); // C to G in major mode
         expect(result).toBe(7); // Expect G
     });
 });

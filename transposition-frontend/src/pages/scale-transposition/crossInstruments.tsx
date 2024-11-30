@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
-import { scaleTransposer } from '../../utils/transposer';
+import { scaleCrossInstrumentsTransposer } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
 import Button from '../../components/button';
 import useTranslation, {
@@ -22,7 +22,7 @@ const MAX_NOTE = 16;
 const MAX_TARGET_KEY = 11;
 const MAX_MODE = 6;
 
-function ScaleTransposition({
+function CrossInstrumentsScaleTransposition({
     selectedNotation,
     selectedLanguage,
 }: {
@@ -57,7 +57,7 @@ function ScaleTransposition({
         selectedMode > 1
     );
 
-    const targetNote = scaleTransposer(
+    const targetNote = scaleCrossInstrumentsTransposer(
         selectedNote,
         selectedOriginKey,
         selectedTargetKey,
@@ -118,7 +118,7 @@ function ScaleTransposition({
     function handleChangeOriginKey(newOriginKey: number) {
         setSelectedOriginKey(newOriginKey);
         navigate(
-            `/scale/${newOriginKey}-${selectedNote}-${selectedTargetKey}-${selectedMode}`,
+            `/scale-cross-instruments/${newOriginKey}-${selectedNote}-${selectedTargetKey}-${selectedMode}`,
             { replace: true }
         );
     }
@@ -126,7 +126,7 @@ function ScaleTransposition({
     function handleChangeNote(newNote: number) {
         setSelectedNote(newNote);
         navigate(
-            `/scale/${selectedOriginKey}-${newNote}-${selectedTargetKey}-${selectedMode}`,
+            `/scale-cross-instruments/${selectedOriginKey}-${newNote}-${selectedTargetKey}-${selectedMode}`,
             { replace: true }
         );
     }
@@ -134,7 +134,7 @@ function ScaleTransposition({
     function handleChangeTargetKey(newTargetKey: number) {
         setSelectedTargetKey(newTargetKey);
         navigate(
-            `/scale/${selectedOriginKey}-${selectedNote}-${newTargetKey}-${selectedMode}`,
+            `/scale-cross-instruments/${selectedOriginKey}-${selectedNote}-${newTargetKey}-${selectedMode}`,
             { replace: true }
         );
     }
@@ -142,7 +142,7 @@ function ScaleTransposition({
     function handleChangeMode(newMode: number) {
         setSelectedMode(newMode);
         navigate(
-            `/scale/${selectedOriginKey}-${selectedNote}-${selectedTargetKey}-${newMode}`,
+            `/scale-cross-instruments/${selectedOriginKey}-${selectedNote}-${selectedTargetKey}-${newMode}`,
             { replace: true }
         );
     }
@@ -156,7 +156,11 @@ function ScaleTransposition({
                 </span>
                 ,{` for an instrument in `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 ,{` consists of the following notes:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
@@ -172,7 +176,11 @@ function ScaleTransposition({
                 </span>
                 ,{` for an instrument in `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 ,{` consists of the following notes:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
@@ -186,7 +194,11 @@ function ScaleTransposition({
                 </span>{' '}
                 {`when transposed for an instrument in `}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 .
             </>
@@ -201,7 +213,11 @@ function ScaleTransposition({
                 </span>
                 ,{` pour un instrument en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` consiste en la suite de notes suivante :`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
@@ -217,7 +233,11 @@ function ScaleTransposition({
                 </span>
                 ,{` qui pour un instrument en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` consiste en la suite de notes suivante :`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
@@ -231,7 +251,11 @@ function ScaleTransposition({
                 </span>
                 , {`lorsqu'elle est transposée pour un instrument en `}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 .
             </>
@@ -246,7 +270,11 @@ function ScaleTransposition({
                 </span>
                 ,{` que para un instrumento en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` consiste en la siguiente secuencia de notas:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.
@@ -262,7 +290,11 @@ function ScaleTransposition({
                 </span>
                 ,{` que para un instrumento en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` consiste en la siguiente secuencia de notas:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
@@ -276,7 +308,11 @@ function ScaleTransposition({
                 </span>
                 , {`cuando se transpone por un instrumento en `}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 .
             </>
@@ -307,7 +343,11 @@ function ScaleTransposition({
                 </span>
                 ,{` die für ein Instrument in `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` besteht, setzt sich wie folgt zusammen:`}{' '}
                 <span className="font-bold text-lg">{notesSuite}</span>.{' '}
@@ -321,7 +361,11 @@ function ScaleTransposition({
                 </span>
                 , {`wenn sie für ein Instrument in `}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` zu spielen.`}
             </>
@@ -582,4 +626,4 @@ function ScaleTransposition({
     );
 }
 
-export default ScaleTransposition;
+export default CrossInstrumentsScaleTransposition;

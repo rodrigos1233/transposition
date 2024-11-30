@@ -7,7 +7,7 @@ import {
     SCALES,
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
-import { transposer } from '../../utils/transposer';
+import { crossInstrumentsTransposer } from '../../utils/transposer';
 import useTranslation, {
     Language,
     Translations,
@@ -100,17 +100,18 @@ function SimpleTransposition({
 
     const translatedText = useTranslation(selectedLanguage, translations, []);
 
-    const [_, reversedEnharmonicOriginGroupNotes] = transposer(
+    const [_, reversedEnharmonicOriginGroupNotes] = crossInstrumentsTransposer(
         selectedNote,
         selectedOriginKey,
         selectedOriginKey
     );
 
-    const [targetNote, reversedEnharmonicTargetGroupNotes] = transposer(
-        selectedNote,
-        selectedOriginKey,
-        selectedTargetKey
-    );
+    const [targetNote, reversedEnharmonicTargetGroupNotes] =
+        crossInstrumentsTransposer(
+            selectedNote,
+            selectedOriginKey,
+            selectedTargetKey
+        );
 
     const englishMessage =
         selectedOriginKey === selectedTargetKey ? (
@@ -119,9 +120,13 @@ function SimpleTransposition({
                 <span className="border-b-4 border-purple-300">
                     {getNote(selectedNote, selectedNotation)}
                 </span>
-                {` in `}
+                {` for an instrument in `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` stays the same because the origin and target keys are the same.`}
             </>
@@ -131,17 +136,25 @@ function SimpleTransposition({
                 <span className="border-b-4 border-purple-300">
                     {getNote(selectedNote, selectedNotation)}
                 </span>
-                {` in `}
+                {` in for an instrument in `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` becomes a `}
                 <span className="border-b-4 border-yellow-300 font-bold text-lg">
                     {getNote(targetNote, selectedNotation)}
                 </span>
-                {` in `}
+                {` for an instrument in `}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 .
             </>
@@ -154,9 +167,13 @@ function SimpleTransposition({
                 <span className="border-b-4 border-purple-300">
                     {getNote(selectedNote, selectedNotation)}
                 </span>
-                {` en `}
+                {` pour un instrument en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` reste le même car les tonalités d'origine et de destination sont identiques.`}
             </>
@@ -166,17 +183,25 @@ function SimpleTransposition({
                 <span className="border-b-4 border-purple-300">
                     {getNote(selectedNote, selectedNotation)}
                 </span>
-                {` en `}
+                {` pour un instrument en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` devient un `}
                 <span className="border-b-4 border-yellow-300 font-bold text-lg">
                     {getNote(targetNote, selectedNotation)}
                 </span>
-                {` en `}
+                {` pour un instrument en `}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 .
             </>
@@ -189,9 +214,13 @@ function SimpleTransposition({
                 <span className="border-b-4 border-purple-300">
                     {getNote(selectedNote, selectedNotation)}
                 </span>
-                {` en `}
+                {` para un instrumento en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` sigue siendo la misma porque las tonalidades de origen y destino son iguales.`}
             </>
@@ -201,17 +230,25 @@ function SimpleTransposition({
                 <span className="border-b-4 border-purple-300">
                     {getNote(selectedNote, selectedNotation)}
                 </span>
-                {` en `}
+                {` para un instrumento en `}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 {` se convierte en `}
                 <span className="border-b-4 border-yellow-300 font-bold text-lg">
                     {getNote(targetNote, selectedNotation)}
                 </span>
-                {` en `}
+                {` para un instrumento en `}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 .
             </>
@@ -220,23 +257,32 @@ function SimpleTransposition({
     const germanMessage =
         selectedOriginKey === selectedTargetKey ? (
             <>
-                {`Eine ${getNote(selectedNote, selectedNotation)} in ${getNote(
-                    selectedOriginKey,
+                {`Eine ${getNote(
+                    selectedNote,
                     selectedNotation
+                )} für ein Instrument in ${getNote(
+                    selectedOriginKey,
+                    selectedNotation,
+                    INSTRUMENTS_PITCHES
                 )} bleibt unverändert, da die Ursprungs- und Zieltonalität identisch sind.`}
             </>
         ) : (
             <>
-                {`Eine ${getNote(selectedNote, selectedNotation)} in ${getNote(
-                    selectedOriginKey,
+                {`Eine ${getNote(
+                    selectedNote,
                     selectedNotation
+                )} für ein Instrument in ${getNote(
+                    selectedOriginKey,
+                    selectedNotation,
+                    INSTRUMENTS_PITCHES
                 )} wird in`}{' '}
                 <span className={'font-bold text-lg'}>
                     {getNote(targetNote, selectedNotation)}
                 </span>{' '}
-                {`in ${getNote(
+                {`für ein Instrumentin ${getNote(
                     selectedTargetKey,
-                    selectedNotation
+                    selectedNotation,
+                    INSTRUMENTS_PITCHES
                 )} transponiert`}
             </>
         );
