@@ -106,27 +106,27 @@ function IntervalsScaleTransposition({
 
     const translations: Translations = {
         [Language.English]: [
-            "Transpose a full scale in any mode from one instrument's key to another:",
+            'Transpose a full scale in any mode from one origin key by a selected interval:',
             'Origin key:',
-            'Scale:',
+            "Interval's direction and interval",
             'Target key:',
         ],
         [Language.French]: [
             "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
             "Tonalité d'origine:",
-            'Gamme:',
+            'Direction et intervalle:',
             'Tonalité cible:',
         ],
         [Language.Spanish]: [
             'Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:',
             'Tonalidad de origen:',
-            'Escala:',
+            'Dirección y intervalo:',
             'Tonalidad objetivo:',
         ],
         [Language.German]: [
             'Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:',
             'Ursprungstonalität:',
-            'Tonleiter:',
+            'Richtung und Intervall:',
             'Zieltonalität:',
         ],
     };
@@ -250,7 +250,7 @@ function IntervalsScaleTransposition({
             </span>
             ,{` se compose des notes suivantes : `}{' '}
             <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-            {`Elle devient l'échelle de `}
+            {`Elle devient la gamme de `}
             <span className="border-b-4 border-yellow-300">
                 {getNote(targetNote, selectedNotation, SCALES)} {modeText}
             </span>
@@ -469,9 +469,6 @@ function IntervalsScaleTransposition({
                     selectedLanguage={selectedLanguage}
                     setSelectedDirection={handleChangeDirection}
                 />
-            </div>
-            <div className="simple-transposition__target-key-select w-full mb-3">
-                {translatedText[3]}
             </div>
             <p className="mb-3">{message}</p>
             <div
