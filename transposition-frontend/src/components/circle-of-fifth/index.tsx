@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 
 import './circleOfFifth.css';
 import Staff from '../staff';
@@ -10,13 +10,12 @@ import {
 import { getNote, Note, SCALES } from '../../utils/notes';
 import { getModeName, MODES } from '../../utils/modes';
 import Text from '../../components/text';
-import { Language } from '../../hooks/useTranslation';
 import Button from '../button';
+import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 type CircleOfFifthProps = {
     modeIndex: number;
-    selectedNotation: keyof Note;
-    selectedLanguage: Language;
     selectedStartNote?: number;
     targetNote?: number;
     setSelectedMode: (mode: number) => void;
@@ -27,8 +26,6 @@ type CircleOfFifthProps = {
 
 function CircleOfFifth({
     modeIndex,
-    selectedNotation,
-    selectedLanguage,
     selectedStartNote,
     targetNote,
     setSelectedMode,
@@ -36,6 +33,7 @@ function CircleOfFifth({
     selectedOriginKey,
     selectedTargetKey,
 }: CircleOfFifthProps): JSX.Element {
+    const { selectedNotation } = useContext(NotationContext);
     const circlePositions = new Array(12).fill(0).map((_, i) => {
         const keySignatures = getKeySignaturesForPositionInCircleOfFifth(
             i,
@@ -44,6 +42,9 @@ function CircleOfFifth({
         const angle = i * 30;
         return { angle, keySignatures };
     });
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const [positions, setPositions] = useState({
         start: 0,

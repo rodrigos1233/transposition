@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Button from '../components/button';
 import './header.css';
 import useTranslation, {
@@ -7,15 +7,14 @@ import useTranslation, {
 } from '../hooks/useTranslation';
 import Text from '../components/text';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
+import LanguageContext from '../contexts/LanguageContext';
 
-function LanguageSelector({
-    selectedLanguage,
-    setSelectedLanguage,
-}: {
-    selectedLanguage: Language;
-    setSelectedLanguage: (language: Language) => void;
-}) {
+function LanguageSelector() {
     const AvailableLanguages = Object.values(Language);
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
+    const setSelectedLanguage = languageContext.setSelectedLanguage;
 
     const translations: Translations = {
         [Language.English]: ['Language:'],

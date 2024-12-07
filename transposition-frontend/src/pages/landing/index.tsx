@@ -1,24 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
 import { getNote, Note, SCALES } from '../../utils/notes';
-import Button from '../../components/button';
 import { useNavigate } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import Text from '../../components/text';
 import { getModeName } from '../../utils/modes';
 import { enharmonicGroupTransposer } from '../../utils/transposer';
+import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
-function LandingPage({
-    selectedLanguage,
-    selectedNotation,
-}: {
-    selectedLanguage: Language;
-    selectedNotation: keyof Note;
-}) {
+function LandingPage() {
     const navigate = useNavigate();
+
+    const { selectedNotation } = useContext(NotationContext);
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const titleTextTranslations: Translations = {
         [Language.English]: [`Transposition`],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Note, NOTES } from '../utils/notes';
 import Button from '../components/button';
 import './header.css';
@@ -7,17 +7,16 @@ import useTranslation, {
     Translations,
 } from '../hooks/useTranslation';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
+import LanguageContext from '../contexts/LanguageContext';
+import NotationContext from '../contexts/NotationContext';
 
-function NotationSelector({
-    selectedNotation,
-    setSelectedNotation,
-    selectedLanguage,
-}: {
-    selectedNotation: keyof Note;
-    setSelectedNotation: any;
-    selectedLanguage: Language;
-}) {
+function NotationSelector() {
     const availableNotations = Object.keys(NOTES[0]);
+    const { selectedNotation, setSelectedNotation } =
+        useContext(NotationContext);
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const titleTranslations: Translations = {
         [Language.English]: ['Notation:'],
@@ -93,7 +92,7 @@ function NotationSelector({
             {availableNotations.map((notation, k) => (
                 <Button
                     key={k}
-                    onClick={() => setSelectedNotation(notation)}
+                    onClick={() => setSelectedNotation(notation as keyof Note)}
                     disabled={notation === selectedNotation}
                     className="ml-3"
                 >

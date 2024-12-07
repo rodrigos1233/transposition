@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleCrossInstrumentsTransposer } from '../../utils/transposer';
@@ -16,21 +16,22 @@ import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
+import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
 const MAX_TARGET_KEY = 11;
 const MAX_MODE = 6;
 
-function CrossInstrumentsScaleTransposition({
-    selectedNotation,
-    selectedLanguage,
-}: {
-    selectedNotation: keyof Note;
-    selectedLanguage: Language;
-}) {
+function CrossInstrumentsScaleTransposition() {
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const { selectedNotation } = useContext(NotationContext);
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const [originKeyString, noteString, targetKeyString, modeString] =
         linkParams?.split('-') || [];
@@ -546,7 +547,6 @@ function CrossInstrumentsScaleTransposition({
     return (
         <div className="content simple-transposition w-full">
             <ModeSelector
-                selectedLanguage={selectedLanguage}
                 selectedMode={selectedMode}
                 handleChangeMode={handleChangeMode}
                 showAdditionalModes={showAdditionalModes}
@@ -558,7 +558,6 @@ function CrossInstrumentsScaleTransposition({
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -568,7 +567,6 @@ function CrossInstrumentsScaleTransposition({
                 <NoteSelector
                     selected={selectedNote}
                     setSelected={handleChangeNote}
-                    selectedNotation={selectedNotation}
                     usedScale={SCALES}
                     blackNotesAreHalf={true}
                     colour="purple"
@@ -579,7 +577,6 @@ function CrossInstrumentsScaleTransposition({
                 <NoteSelector
                     selected={selectedTargetKey}
                     setSelected={handleChangeTargetKey}
-                    selectedNotation={selectedNotation}
                     colour="red"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -596,7 +593,6 @@ function CrossInstrumentsScaleTransposition({
                     displayedNotes={scale.reducedNotes}
                     correspondingNotes={scale.notesInScale}
                     musicalKey={originKeySignature}
-                    selectedNotation={selectedNotation}
                     text={musicalStaffText[0]}
                     colour="sky"
                     noteColour="purple"
@@ -605,7 +601,6 @@ function CrossInstrumentsScaleTransposition({
                     displayedNotes={transposedScale.reducedNotes}
                     correspondingNotes={transposedScale.notesInScale}
                     musicalKey={targetKeySignature}
-                    selectedNotation={selectedNotation}
                     text={musicalStaffText[1]}
                     colour="red"
                     noteColour="yellow"
@@ -613,8 +608,6 @@ function CrossInstrumentsScaleTransposition({
             </div>
             <CircleOfFifth
                 modeIndex={selectedMode}
-                selectedNotation={selectedNotation}
-                selectedLanguage={selectedLanguage}
                 selectedStartNote={selectedNote}
                 targetNote={targetNote}
                 setSelectedMode={handleChangeMode}

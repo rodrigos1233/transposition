@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     getNote,
     INSTRUMENTS_PITCHES,
@@ -17,18 +17,18 @@ import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { NoteInScale } from '../../utils/scaleBuilder';
+import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 const MAX_NOTE = 11;
 
-function SimpleTransposition({
-    selectedNotation,
-    selectedLanguage,
-}: {
-    selectedNotation: keyof Note;
-    selectedLanguage: Language;
-}) {
+function SimpleTransposition() {
+    const { selectedNotation } = useContext(NotationContext);
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const [originKeyString, noteString, targetKeyString, modeString] =
         linkParams?.split('-') || [];
@@ -477,7 +477,6 @@ function SimpleTransposition({
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -487,7 +486,6 @@ function SimpleTransposition({
                 <NoteSelector
                     selected={selectedNote}
                     setSelected={handleChangeNote}
-                    selectedNotation={selectedNotation}
                     colour="purple"
                 />
             </div>
@@ -496,7 +494,6 @@ function SimpleTransposition({
                 <NoteSelector
                     selected={selectedTargetKey}
                     setSelected={handleChangeTargetKey}
-                    selectedNotation={selectedNotation}
                     colour="red"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -524,7 +521,6 @@ function SimpleTransposition({
                             ? ['sharp', 'flat']
                             : undefined
                     }
-                    selectedNotation={selectedNotation}
                     text={musicalStaffText[0]}
                     colour="sky"
                     noteColour="purple"
@@ -545,7 +541,6 @@ function SimpleTransposition({
                                 ? ['sharp', 'flat']
                                 : undefined
                         }
-                        selectedNotation={selectedNotation}
                         text={musicalStaffText[1]}
                         colour="red"
                         noteColour="yellow"

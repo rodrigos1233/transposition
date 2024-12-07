@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import {
@@ -22,21 +22,22 @@ import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import { getIntervalName } from '../../utils/intervals';
 import IntervalSelector from '../../components/interval-selector';
+import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_NOTE = 16;
 const MAX_INTERVAL = 12;
 const MAX_MODE = 6;
 
-function IntervalsScaleTransposition({
-    selectedNotation,
-    selectedLanguage,
-}: {
-    selectedNotation: keyof Note;
-    selectedLanguage: Language;
-}) {
+function IntervalsScaleTransposition() {
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const { selectedNotation } = useContext(NotationContext);
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const [originKeyString, intervalString, modeString, directionString] =
         linkParams?.split('-') || [];
@@ -442,7 +443,6 @@ function IntervalsScaleTransposition({
     return (
         <div className="content simple-transposition w-full">
             <ModeSelector
-                selectedLanguage={selectedLanguage}
                 selectedMode={selectedMode}
                 handleChangeMode={handleChangeMode}
                 showAdditionalModes={showAdditionalModes}
@@ -454,7 +454,6 @@ function IntervalsScaleTransposition({
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     usedScale={SCALES}
                     blackNotesAreHalf={true}
@@ -466,7 +465,6 @@ function IntervalsScaleTransposition({
                     selectedInterval={selectedInterval}
                     handleChangeInterval={handleChangeInterval}
                     selectedDirection={selectedDirection}
-                    selectedLanguage={selectedLanguage}
                     setSelectedDirection={handleChangeDirection}
                 />
             </div>
@@ -482,7 +480,6 @@ function IntervalsScaleTransposition({
                     displayedNotes={displayedOriginNotes}
                     correspondingNotes={scale.notesInScale}
                     musicalKey={originKeySignature}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     noteColour="purple"
                 />
@@ -490,14 +487,12 @@ function IntervalsScaleTransposition({
                     displayedNotes={displayedTargetNotes}
                     correspondingNotes={transposedScale.notesInScale}
                     musicalKey={targetKeySignature}
-                    selectedNotation={selectedNotation}
                     colour="red"
                     noteColour="yellow"
                 />
             </div>
             {/*<CircleOfFifth*/}
             {/*    modeIndex={selectedMode}*/}
-            {/*    selectedNotation={selectedNotation}*/}
             {/*    selectedLanguage={selectedLanguage}*/}
             {/*    selectedStartNote={selectedNote}*/}
             {/*    targetNote={targetNote}*/}
