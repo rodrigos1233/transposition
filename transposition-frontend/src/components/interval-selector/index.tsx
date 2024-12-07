@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Button from '../../components/button';
 import useTranslation, {
@@ -10,9 +10,9 @@ import { getModeName, MODES } from '../../utils/modes';
 import ButtonsGridContainer from '../button/ButtonsGridContainer';
 import { getIntervalName, INTERVALS } from '../../utils/intervals';
 import ButtonsFlexContainer from '../button/ButtonsFlexContainer';
+import LanguageContext from '../../contexts/LanguageContext';
 
 type IntervalSelectorProps = {
-    selectedLanguage: Language;
     selectedInterval: number;
     handleChangeInterval: (mode: number) => void;
     selectedDirection: 'up' | 'down';
@@ -20,12 +20,14 @@ type IntervalSelectorProps = {
 };
 
 function IntervalSelector({
-    selectedLanguage,
     selectedInterval,
     handleChangeInterval,
     selectedDirection,
     setSelectedDirection,
 }: IntervalSelectorProps) {
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
+
     const semitonesTextTranslations: Translations = {
         [Language.English]: ['semitones'],
         [Language.French]: ['demi-tons'],

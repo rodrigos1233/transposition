@@ -548,7 +548,6 @@ function CrossInstrumentsScaleTransposition({
     return (
         <div className="content simple-transposition w-full">
             <ModeSelector
-                selectedLanguage={selectedLanguage}
                 selectedMode={selectedMode}
                 handleChangeMode={handleChangeMode}
                 showAdditionalModes={showAdditionalModes}
@@ -616,7 +615,6 @@ function CrossInstrumentsScaleTransposition({
             <CircleOfFifth
                 modeIndex={selectedMode}
                 selectedNotation={selectedNotation}
-                selectedLanguage={selectedLanguage}
                 selectedStartNote={selectedNote}
                 targetNote={targetNote}
                 setSelectedMode={handleChangeMode}

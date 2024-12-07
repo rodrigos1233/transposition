@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 
 import Button from '../../components/button';
 import useTranslation, {
@@ -9,9 +9,9 @@ import { getModeName, MODES } from '../../utils/modes';
 import './mode-selector.css';
 
 import ButtonsGridContainer from '../button/ButtonsGridContainer';
+import LanguageContext from '../../contexts/LanguageContext';
 
 type ModeSelectorProps = {
-    selectedLanguage: Language;
     selectedMode: number;
     handleChangeMode: (mode: number) => void;
     showAdditionalModes: boolean;
@@ -19,12 +19,14 @@ type ModeSelectorProps = {
 };
 
 function ModeSelector({
-    selectedLanguage,
     selectedMode,
     handleChangeMode,
     showAdditionalModes,
     setShowAdditionalModes,
 }: ModeSelectorProps) {
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
+
     const modes = MODES.map((mode, index) => (
         <Button
             key={index}

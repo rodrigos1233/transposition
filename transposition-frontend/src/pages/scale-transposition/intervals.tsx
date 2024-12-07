@@ -444,7 +444,6 @@ function IntervalsScaleTransposition({
     return (
         <div className="content simple-transposition w-full">
             <ModeSelector
-                selectedLanguage={selectedLanguage}
                 selectedMode={selectedMode}
                 handleChangeMode={handleChangeMode}
                 showAdditionalModes={showAdditionalModes}
@@ -468,7 +467,6 @@ function IntervalsScaleTransposition({
                     selectedInterval={selectedInterval}
                     handleChangeInterval={handleChangeInterval}
                     selectedDirection={selectedDirection}
-                    selectedLanguage={selectedLanguage}
                     setSelectedDirection={handleChangeDirection}
                 />
             </div>
