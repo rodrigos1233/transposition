@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, createContext } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import './styles/output.css';
@@ -69,6 +69,11 @@ function App() {
     );
     const isMobile = useIsMobile();
 
+    const LanguageContext = createContext({
+        selectedLanguage,
+        setSelectedLanguage,
+    });
+
     function handleChangeNotation(notation: keyof Note) {
         setSelectedNotation(notation);
         localStorage.setItem('selectedNotation', selectedNotation);
@@ -97,82 +102,104 @@ function App() {
                     setSelectedLanguage={handleChangeLanguage}
                 />
                 <main className="w-full m-auto flex flex-col items-center">
-                    <div className={`contents flex p-2 z-0 relative`}>
-                        <Routes>
-                            <Route
-                                path="/"
-                                element={
-                                    <LandingPage
-                                        selectedNotation={selectedNotation}
-                                        selectedLanguage={selectedLanguage}
-                                    />
-                                }
-                            />
-                            <Route path="note">
+                    <LanguageContext.Provider
+                        value={{ selectedLanguage, setSelectedLanguage }}
+                    >
+                        <div className={`contents flex p-2 z-0 relative`}>
+                            <Routes>
                                 <Route
-                                    index
-                                    element={<Navigate to="0-0-0" replace />}
-                                />
-                                <Route
-                                    path=":linkParams"
+                                    path="/"
                                     element={
-                                        <SimpleTransposition
+                                        <LandingPage
                                             selectedNotation={selectedNotation}
                                             selectedLanguage={selectedLanguage}
                                         />
                                     }
                                 />
-                            </Route>
-                            <Route path="scale-cross-instruments">
+                                <Route path="note">
+                                    <Route
+                                        index
+                                        element={
+                                            <Navigate to="0-0-0" replace />
+                                        }
+                                    />
+                                    <Route
+                                        path=":linkParams"
+                                        element={
+                                            <SimpleTransposition
+                                                selectedNotation={
+                                                    selectedNotation
+                                                }
+                                                selectedLanguage={
+                                                    selectedLanguage
+                                                }
+                                            />
+                                        }
+                                    />
+                                </Route>
+                                <Route path="scale-cross-instruments">
+                                    <Route
+                                        index
+                                        element={
+                                            <Navigate to="0-0-0-0" replace />
+                                        }
+                                    />
+                                    <Route
+                                        path=":linkParams"
+                                        element={
+                                            <CrossInstrumentsScaleTransposition
+                                                selectedLanguage={
+                                                    selectedLanguage
+                                                }
+                                                selectedNotation={
+                                                    selectedNotation
+                                                }
+                                            />
+                                        }
+                                    />
+                                </Route>
+                                <Route path="scale-intervals">
+                                    <Route
+                                        index
+                                        element={
+                                            <Navigate to="0-5-up" replace />
+                                        }
+                                    />
+                                    <Route
+                                        path=":linkParams"
+                                        element={
+                                            <IntervalsScaleTransposition
+                                                selectedLanguage={
+                                                    selectedLanguage
+                                                }
+                                                selectedNotation={
+                                                    selectedNotation
+                                                }
+                                            />
+                                        }
+                                    />
+                                </Route>
                                 <Route
-                                    index
-                                    element={<Navigate to="0-0-0-0" replace />}
-                                />
-                                <Route
-                                    path=":linkParams"
+                                    path="about"
                                     element={
-                                        <CrossInstrumentsScaleTransposition
+                                        <AboutPage
                                             selectedLanguage={selectedLanguage}
                                             selectedNotation={selectedNotation}
                                         />
                                     }
                                 />
-                            </Route>
-                            <Route path="scale-intervals">
                                 <Route
-                                    index
-                                    element={<Navigate to="0-5-up" replace />}
-                                />
-                                <Route
-                                    path=":linkParams"
+                                    path="*"
                                     element={
-                                        <IntervalsScaleTransposition
-                                            selectedLanguage={selectedLanguage}
+                                        <LandingPage
                                             selectedNotation={selectedNotation}
+                                            selectedLanguage={selectedLanguage}
                                         />
                                     }
                                 />
-                            </Route>
-                            <Route
-                                path="about"
-                                element={
-                                    <AboutPage
-                                        selectedLanguage={selectedLanguage}
-                                        selectedNotation={selectedNotation}
-                                    />
-                                }
-                            />
-                            <Route
-                                path="*"
-                                element={
-                                    <LandingPage
-                                        selectedNotation={selectedNotation}
-                                        selectedLanguage={selectedLanguage}
-                                    />
-                                }
-                            />
-                        </Routes>
-                    </div>
+                            </Routes>
+                        </div>
+                    </LanguageContext.Provider>
                 </main>
                 <BottomNav selectedLanguage={selectedLanguage} />
                 <Footer />
