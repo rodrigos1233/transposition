@@ -259,7 +259,7 @@ function IntervalsScaleTransposition() {
             <span className="font-bold text-lg">
                 {transposedScaleNotesSuite}
             </span>{' '}
-            {`lorsqu'elle est transposée en ${
+            {`lorsqu'elle est transposée vers le ${
                 selectedDirection === 'up' ? 'haut' : 'bas'
             } d'une ${getIntervalName(selectedInterval, selectedLanguage)}.`}
         </>
@@ -421,9 +421,23 @@ function IntervalsScaleTransposition() {
                     target: transposedScale.reducedNotes[i] + 7,
                 };
             }
+
+            if (selectedInterval === 12) {
+                return {
+                    origin: note,
+                    target: transposedScale.reducedNotes[i] + 7,
+                };
+            }
         }
         if (selectedDirection === 'down') {
             if (scale.reducedNotes[i] < transposedScale.reducedNotes[i]) {
+                return {
+                    origin: note,
+                    target: transposedScale.reducedNotes[i] - 7,
+                };
+            }
+
+            if (selectedInterval === 12) {
                 return {
                     origin: note,
                     target: transposedScale.reducedNotes[i] - 7,
