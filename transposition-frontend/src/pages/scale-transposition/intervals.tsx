@@ -259,7 +259,7 @@ function IntervalsScaleTransposition() {
             <span className="font-bold text-lg">
                 {transposedScaleNotesSuite}
             </span>{' '}
-            {`lorsqu'elle est transposée en ${
+            {`lorsqu'elle est transposée vers le ${
                 selectedDirection === 'up' ? 'haut' : 'bas'
             } d'une ${getIntervalName(selectedInterval, selectedLanguage)}.`}
         </>
