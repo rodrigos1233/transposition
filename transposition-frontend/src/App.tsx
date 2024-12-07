@@ -12,6 +12,7 @@ import { useIsMobile } from './hooks/useIsMobile';
 import { Language } from './hooks/useTranslation';
 import IntervalsScaleTransposition from './pages/scale-transposition/intervals';
 import LanguageContext from './contexts/LanguageContext';
+import NotationContext from './contexts/NotationContext';
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
@@ -91,98 +92,76 @@ function App() {
         <div className="App container mx-auto overflow-clip">
             <BrowserRouter>
                 <LanguageContext.Provider
-                    value={{ selectedLanguage, setSelectedLanguage }}
+                    value={{
+                        selectedLanguage,
+                        setSelectedLanguage: handleChangeLanguage,
+                    }}
                 >
-                    <Header
-                        selectedNotation={selectedNotation}
-                        setSelectedNotation={handleChangeNotation}
-                    />
-                    <main className="w-full m-auto flex flex-col items-center">
-                        <div className={`contents flex p-2 z-0 relative`}>
-                            <Routes>
-                                <Route
-                                    path="/"
-                                    element={
-                                        <LandingPage
-                                            selectedNotation={selectedNotation}
+                    <NotationContext.Provider
+                        value={{
+                            selectedNotation,
+                            setSelectedNotation: handleChangeNotation,
+                        }}
+                    >
+                        <Header />
+                        <main className="w-full m-auto flex flex-col items-center">
+                            <div className={`contents flex p-2 z-0 relative`}>
+                                <Routes>
+                                    <Route path="/" element={<LandingPage />} />
+                                    <Route path="note">
+                                        <Route
+                                            index
+                                            element={
+                                                <Navigate to="0-0-0" replace />
+                                            }
                                         />
-                                    }
-                                />
-                                <Route path="note">
-                                    <Route
-                                        index
-                                        element={
-                                            <Navigate to="0-0-0" replace />
-                                        }
-                                    />
-                                    <Route
-                                        path=":linkParams"
-                                        element={
-                                            <SimpleTransposition
-                                                selectedNotation={
-                                                    selectedNotation
-                                                }
-                                            />
-                                        }
-                                    />
-                                </Route>
-                                <Route path="scale-cross-instruments">
-                                    <Route
-                                        index
-                                        element={
-                                            <Navigate to="0-0-0-0" replace />
-                                        }
-                                    />
-                                    <Route
-                                        path=":linkParams"
-                                        element={
-                                            <CrossInstrumentsScaleTransposition
-                                                selectedNotation={
-                                                    selectedNotation
-                                                }
-                                            />
-                                        }
-                                    />
-                                </Route>
-                                <Route path="scale-intervals">
-                                    <Route
-                                        index
-                                        element={
-                                            <Navigate to="0-5-up" replace />
-                                        }
-                                    />
-                                    <Route
-                                        path=":linkParams"
-                                        element={
-                                            <IntervalsScaleTransposition
-                                                selectedNotation={
-                                                    selectedNotation
-                                                }
-                                            />
-                                        }
-                                    />
-                                </Route>
-                                <Route
-                                    path="about"
-                                    element={
-                                        <AboutPage
-                                            selectedNotation={selectedNotation}
+                                        <Route
+                                            path=":linkParams"
+                                            element={<SimpleTransposition />}
                                         />
-                                    }
-                                />
-                                <Route
-                                    path="*"
-                                    element={
-                                        <LandingPage
-                                            selectedNotation={selectedNotation}
+                                    </Route>
+                                    <Route path="scale-cross-instruments">
+                                        <Route
+                                            index
+                                            element={
+                                                <Navigate
+                                                    to="0-0-0-0"
+                                                    replace
+                                                />
+                                            }
                                         />
-                                    }
-                                />
-                            </Routes>
-                        </div>
-                    </main>
-                    <BottomNav />
-                    <Footer />
+                                        <Route
+                                            path=":linkParams"
+                                            element={
+                                                <CrossInstrumentsScaleTransposition />
+                                            }
+                                        />
+                                    </Route>
+                                    <Route path="scale-intervals">
+                                        <Route
+                                            index
+                                            element={
+                                                <Navigate to="0-5-up" replace />
+                                            }
+                                        />
+                                        <Route
+                                            path=":linkParams"
+                                            element={
+                                                <IntervalsScaleTransposition />
+                                            }
+                                        />
+                                    </Route>
+                                    <Route
+                                        path="about"
+                                        element={<AboutPage />}
+                                    />
+                                    <Route path="*" element={<LandingPage />} />
+                                </Routes>
+                            </div>
+                        </main>
+                        <BottomNav />
+                        <Footer />
+                    </NotationContext.Provider>
                 </LanguageContext.Provider>
             </BrowserRouter>
         </div>
