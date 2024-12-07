@@ -421,9 +421,23 @@ function IntervalsScaleTransposition() {
                     target: transposedScale.reducedNotes[i] + 7,
                 };
             }
+
+            if (selectedInterval === 12) {
+                return {
+                    origin: note,
+                    target: transposedScale.reducedNotes[i] + 7,
+                };
+            }
         }
         if (selectedDirection === 'down') {
             if (scale.reducedNotes[i] < transposedScale.reducedNotes[i]) {
+                return {
+                    origin: note,
+                    target: transposedScale.reducedNotes[i] - 7,
+                };
+            }
+
+            if (selectedInterval === 12) {
                 return {
                     origin: note,
                     target: transposedScale.reducedNotes[i] - 7,
