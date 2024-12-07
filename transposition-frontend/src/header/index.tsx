@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import NotationSelector from './NotationSelector';
 import { Note } from '../utils/notes';
 import './header.css';
-import Button from '../components/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 import Text from '../components/text';
@@ -13,23 +12,22 @@ import useTranslation, {
 } from '../hooks/useTranslation';
 import LanguageSelector from './LanguageSelector';
 import { handleNavigate } from '../utils/handleNavigate';
-import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 import NavTabDropdown from '../components/nav-tab-dropdown';
+import LanguageContext from '../contexts/LanguageContext';
 
 export function Header({
     selectedNotation,
     setSelectedNotation,
-    selectedLanguage,
-    setSelectedLanguage,
 }: {
     selectedNotation: keyof Note;
     setSelectedNotation: (notation: keyof Note) => void;
-    selectedLanguage: Language;
-    setSelectedLanguage: (language: Language) => void;
 }) {
     const location = window.location.pathname.substring(1);
     const navigate = useNavigate();
     const [openMenu, setOpenMenu] = useState(false);
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const isMobile = useIsMobile();
 
@@ -182,12 +180,8 @@ export function Header({
                         <NotationSelector
                             selectedNotation={selectedNotation}
                             setSelectedNotation={setSelectedNotation}
-                            selectedLanguage={selectedLanguage}
                         />
-                        <LanguageSelector
-                            selectedLanguage={selectedLanguage}
-                            setSelectedLanguage={setSelectedLanguage}
-                        />
+                        <LanguageSelector />
                     </>
                 )}
                 {isMobile && (
@@ -208,26 +202,21 @@ export function Header({
                     <NotationSelector
                         selectedNotation={selectedNotation}
                         setSelectedNotation={setSelectedNotation}
-                        selectedLanguage={selectedLanguage}
                     />
-                    <LanguageSelector
-                        selectedLanguage={selectedLanguage}
-                        setSelectedLanguage={setSelectedLanguage}
-                    />
+                    <LanguageSelector />
                 </div>
             )}
         </header>
     );
 }
 
-export function BottomNav({
-    selectedLanguage,
-}: {
-    selectedLanguage: Language;
-}) {
+export function BottomNav() {
     const isMobile = useIsMobile();
     const location = window.location.pathname.substring(1);
     const navigate = useNavigate();
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const translations: Translations = {
         [Language.English]: [

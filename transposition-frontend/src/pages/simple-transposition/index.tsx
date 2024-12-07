@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     getNote,
     INSTRUMENTS_PITCHES,
@@ -17,18 +17,20 @@ import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { NoteInScale } from '../../utils/scaleBuilder';
+import LanguageContext from '../../contexts/LanguageContext';
 
 const MAX_NOTE = 11;
 
 function SimpleTransposition({
     selectedNotation,
-    selectedLanguage,
 }: {
     selectedNotation: keyof Note;
-    selectedLanguage: Language;
 }) {
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const [originKeyString, noteString, targetKeyString, modeString] =
         linkParams?.split('-') || [];

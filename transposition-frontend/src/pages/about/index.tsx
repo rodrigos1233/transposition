@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import useTranslation, {
     Language,
     Translations,
@@ -6,14 +6,12 @@ import useTranslation, {
 import { getNote, INSTRUMENTS_PITCHES, Note } from '../../utils/notes';
 import { listOfInstrumentsTranslation } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
+import LanguageContext from '../../contexts/LanguageContext';
 
-function AboutPage({
-    selectedLanguage,
-    selectedNotation,
-}: {
-    selectedLanguage: Language;
-    selectedNotation: keyof Note;
-}) {
+function AboutPage({ selectedNotation }: { selectedNotation: keyof Note }) {
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
+
     const translations: Translations = {
         [Language.English]: [
             'About Musical Transposition:',

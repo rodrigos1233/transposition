@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import {
@@ -22,6 +22,7 @@ import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import { getIntervalName } from '../../utils/intervals';
 import IntervalSelector from '../../components/interval-selector';
+import LanguageContext from '../../contexts/LanguageContext';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_NOTE = 16;
@@ -30,13 +31,14 @@ const MAX_MODE = 6;
 
 function IntervalsScaleTransposition({
     selectedNotation,
-    selectedLanguage,
 }: {
     selectedNotation: keyof Note;
-    selectedLanguage: Language;
 }) {
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const [originKeyString, intervalString, modeString, directionString] =
         linkParams?.split('-') || [];

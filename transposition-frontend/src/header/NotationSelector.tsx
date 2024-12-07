@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Note, NOTES } from '../utils/notes';
 import Button from '../components/button';
 import './header.css';
@@ -7,17 +7,19 @@ import useTranslation, {
     Translations,
 } from '../hooks/useTranslation';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
+import LanguageContext from '../contexts/LanguageContext';
 
 function NotationSelector({
     selectedNotation,
     setSelectedNotation,
-    selectedLanguage,
 }: {
     selectedNotation: keyof Note;
     setSelectedNotation: any;
-    selectedLanguage: Language;
 }) {
     const availableNotations = Object.keys(NOTES[0]);
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const titleTranslations: Translations = {
         [Language.English]: ['Notation:'],

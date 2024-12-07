@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleCrossInstrumentsTransposer } from '../../utils/transposer';
@@ -16,6 +16,7 @@ import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
+import LanguageContext from '../../contexts/LanguageContext';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -24,13 +25,14 @@ const MAX_MODE = 6;
 
 function CrossInstrumentsScaleTransposition({
     selectedNotation,
-    selectedLanguage,
 }: {
     selectedNotation: keyof Note;
-    selectedLanguage: Language;
 }) {
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const languageContext = useContext(LanguageContext);
+    const selectedLanguage = languageContext.selectedLanguage;
 
     const [originKeyString, noteString, targetKeyString, modeString] =
         linkParams?.split('-') || [];

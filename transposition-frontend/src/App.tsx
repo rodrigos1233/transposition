@@ -1,5 +1,4 @@
-import React, { useEffect, useState, createContext } from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
 import './styles/output.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
@@ -9,10 +8,8 @@ import AboutPage from './pages/about';
 import LandingPage from './pages/landing';
 import { BottomNav, Footer, Header } from './header';
 import { Note } from './utils/notes';
-import ReactDOM, { createRoot } from 'react-dom/client';
 import { useIsMobile } from './hooks/useIsMobile';
 import { Language } from './hooks/useTranslation';
-import LanguageSelector from './header/LanguageSelector';
 import IntervalsScaleTransposition from './pages/scale-transposition/intervals';
 import LanguageContext from './contexts/LanguageContext';
 
@@ -93,16 +90,14 @@ function App() {
     return (
         <div className="App container mx-auto overflow-clip">
             <BrowserRouter>
-                <Header
-                    selectedNotation={selectedNotation}
-                    setSelectedNotation={handleChangeNotation}
-                    selectedLanguage={selectedLanguage}
-                    setSelectedLanguage={handleChangeLanguage}
-                />
-                <main className="w-full m-auto flex flex-col items-center">
-                    <LanguageContext.Provider
-                        value={{ selectedLanguage, setSelectedLanguage }}
-                    >
+                <LanguageContext.Provider
+                    value={{ selectedLanguage, setSelectedLanguage }}
+                >
+                    <Header
+                        selectedNotation={selectedNotation}
+                        setSelectedNotation={handleChangeNotation}
+                    />
+                    <main className="w-full m-auto flex flex-col items-center">
                         <div className={`contents flex p-2 z-0 relative`}>
                             <Routes>
                                 <Route
@@ -110,7 +105,6 @@ function App() {
                                     element={
                                         <LandingPage
                                             selectedNotation={selectedNotation}
-                                            selectedLanguage={selectedLanguage}
                                         />
                                     }
                                 />
@@ -128,9 +122,6 @@ function App() {
                                                 selectedNotation={
                                                     selectedNotation
                                                 }
-                                                selectedLanguage={
-                                                    selectedLanguage
-                                                }
                                             />
                                         }
                                     />
@@ -146,9 +137,6 @@ function App() {
                                         path=":linkParams"
                                         element={
                                             <CrossInstrumentsScaleTransposition
-                                                selectedLanguage={
-                                                    selectedLanguage
-                                                }
                                                 selectedNotation={
                                                     selectedNotation
                                                 }
@@ -167,9 +155,6 @@ function App() {
                                         path=":linkParams"
                                         element={
                                             <IntervalsScaleTransposition
-                                                selectedLanguage={
-                                                    selectedLanguage
-                                                }
                                                 selectedNotation={
                                                     selectedNotation
                                                 }
@@ -181,7 +166,6 @@ function App() {
                                     path="about"
                                     element={
                                         <AboutPage
-                                            selectedLanguage={selectedLanguage}
                                             selectedNotation={selectedNotation}
                                         />
                                     }
@@ -191,16 +175,15 @@ function App() {
                                     element={
                                         <LandingPage
                                             selectedNotation={selectedNotation}
-                                            selectedLanguage={selectedLanguage}
                                         />
                                     }
                                 />
                             </Routes>
                         </div>
-                    </LanguageContext.Provider>
-                </main>
-                <BottomNav selectedLanguage={selectedLanguage} />
-                <Footer />
+                    </main>
+                    <BottomNav />
+                    <Footer />
+                </LanguageContext.Provider>
             </BrowserRouter>
         </div>
     );
