@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Note, NOTES } from '../../utils/notes';
 import Button from '../button';
 import './../../styles/output.css';
 import './note-selector.css';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import ButtonsGridContainer from '../button/ButtonsGridContainer';
+import NotationContext from '../../contexts/NotationContext';
 
 type NoteSelectorProps = {
     setSelected: (index: number) => void;
     selected: number;
-    selectedNotation: keyof Note;
     usedScale?: Note[];
     blackNotesAreHalf?: boolean;
     colour?: 'sky' | 'lime' | 'yellow' | 'red' | 'purple';
@@ -18,12 +18,12 @@ type NoteSelectorProps = {
 function NoteSelector({
     setSelected,
     selected,
-    selectedNotation,
     usedScale,
     blackNotesAreHalf,
     colour,
 }: NoteSelectorProps) {
     const selectedNotes = usedScale ?? NOTES;
+    const { selectedNotation } = useContext(NotationContext);
 
     return (
         <ButtonsGridContainer className={`mt-2 mb-2`}>

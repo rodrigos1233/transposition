@@ -12,10 +12,10 @@ import { getModeName, MODES } from '../../utils/modes';
 import Text from '../../components/text';
 import Button from '../button';
 import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 type CircleOfFifthProps = {
     modeIndex: number;
-    selectedNotation: keyof Note;
     selectedStartNote?: number;
     targetNote?: number;
     setSelectedMode: (mode: number) => void;
@@ -26,7 +26,6 @@ type CircleOfFifthProps = {
 
 function CircleOfFifth({
     modeIndex,
-    selectedNotation,
     selectedStartNote,
     targetNote,
     setSelectedMode,
@@ -34,6 +33,7 @@ function CircleOfFifth({
     selectedOriginKey,
     selectedTargetKey,
 }: CircleOfFifthProps): JSX.Element {
+    const { selectedNotation } = useContext(NotationContext);
     const circlePositions = new Array(12).fill(0).map((_, i) => {
         const keySignatures = getKeySignaturesForPositionInCircleOfFifth(
             i,

@@ -17,19 +17,18 @@ import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
 const MAX_TARGET_KEY = 11;
 const MAX_MODE = 6;
 
-function CrossInstrumentsScaleTransposition({
-    selectedNotation,
-}: {
-    selectedNotation: keyof Note;
-}) {
+function CrossInstrumentsScaleTransposition() {
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const { selectedNotation } = useContext(NotationContext);
 
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
@@ -559,7 +558,6 @@ function CrossInstrumentsScaleTransposition({
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -569,7 +567,6 @@ function CrossInstrumentsScaleTransposition({
                 <NoteSelector
                     selected={selectedNote}
                     setSelected={handleChangeNote}
-                    selectedNotation={selectedNotation}
                     usedScale={SCALES}
                     blackNotesAreHalf={true}
                     colour="purple"
@@ -580,7 +577,6 @@ function CrossInstrumentsScaleTransposition({
                 <NoteSelector
                     selected={selectedTargetKey}
                     setSelected={handleChangeTargetKey}
-                    selectedNotation={selectedNotation}
                     colour="red"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -597,7 +593,6 @@ function CrossInstrumentsScaleTransposition({
                     displayedNotes={scale.reducedNotes}
                     correspondingNotes={scale.notesInScale}
                     musicalKey={originKeySignature}
-                    selectedNotation={selectedNotation}
                     text={musicalStaffText[0]}
                     colour="sky"
                     noteColour="purple"
@@ -606,7 +601,6 @@ function CrossInstrumentsScaleTransposition({
                     displayedNotes={transposedScale.reducedNotes}
                     correspondingNotes={transposedScale.notesInScale}
                     musicalKey={targetKeySignature}
-                    selectedNotation={selectedNotation}
                     text={musicalStaffText[1]}
                     colour="red"
                     noteColour="yellow"
@@ -614,7 +608,6 @@ function CrossInstrumentsScaleTransposition({
             </div>
             <CircleOfFifth
                 modeIndex={selectedMode}
-                selectedNotation={selectedNotation}
                 selectedStartNote={selectedNote}
                 targetNote={targetNote}
                 setSelectedMode={handleChangeMode}

@@ -18,14 +18,12 @@ import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { NoteInScale } from '../../utils/scaleBuilder';
 import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 const MAX_NOTE = 11;
 
-function SimpleTransposition({
-    selectedNotation,
-}: {
-    selectedNotation: keyof Note;
-}) {
+function SimpleTransposition() {
+    const { selectedNotation } = useContext(NotationContext);
     const { linkParams } = useParams();
     const navigate = useNavigate();
 
@@ -479,7 +477,6 @@ function SimpleTransposition({
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -489,7 +486,6 @@ function SimpleTransposition({
                 <NoteSelector
                     selected={selectedNote}
                     setSelected={handleChangeNote}
-                    selectedNotation={selectedNotation}
                     colour="purple"
                 />
             </div>
@@ -498,7 +494,6 @@ function SimpleTransposition({
                 <NoteSelector
                     selected={selectedTargetKey}
                     setSelected={handleChangeTargetKey}
-                    selectedNotation={selectedNotation}
                     colour="red"
                     usedScale={INSTRUMENTS_PITCHES}
                 />
@@ -526,7 +521,6 @@ function SimpleTransposition({
                             ? ['sharp', 'flat']
                             : undefined
                     }
-                    selectedNotation={selectedNotation}
                     text={musicalStaffText[0]}
                     colour="sky"
                     noteColour="purple"
@@ -547,7 +541,6 @@ function SimpleTransposition({
                                 ? ['sharp', 'flat']
                                 : undefined
                         }
-                        selectedNotation={selectedNotation}
                         text={musicalStaffText[1]}
                         colour="red"
                         noteColour="yellow"

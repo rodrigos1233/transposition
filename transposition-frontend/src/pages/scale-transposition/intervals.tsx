@@ -23,19 +23,18 @@ import CircleOfFifth from '../../components/circle-of-fifth';
 import { getIntervalName } from '../../utils/intervals';
 import IntervalSelector from '../../components/interval-selector';
 import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_NOTE = 16;
 const MAX_INTERVAL = 12;
 const MAX_MODE = 6;
 
-function IntervalsScaleTransposition({
-    selectedNotation,
-}: {
-    selectedNotation: keyof Note;
-}) {
+function IntervalsScaleTransposition() {
     const { linkParams } = useParams();
     const navigate = useNavigate();
+
+    const { selectedNotation } = useContext(NotationContext);
 
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
@@ -455,7 +454,6 @@ function IntervalsScaleTransposition({
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     usedScale={SCALES}
                     blackNotesAreHalf={true}
@@ -482,7 +480,6 @@ function IntervalsScaleTransposition({
                     displayedNotes={displayedOriginNotes}
                     correspondingNotes={scale.notesInScale}
                     musicalKey={originKeySignature}
-                    selectedNotation={selectedNotation}
                     colour="sky"
                     noteColour="purple"
                 />
@@ -490,14 +487,12 @@ function IntervalsScaleTransposition({
                     displayedNotes={displayedTargetNotes}
                     correspondingNotes={transposedScale.notesInScale}
                     musicalKey={targetKeySignature}
-                    selectedNotation={selectedNotation}
                     colour="red"
                     noteColour="yellow"
                 />
             </div>
             {/*<CircleOfFifth*/}
             {/*    modeIndex={selectedMode}*/}
-            {/*    selectedNotation={selectedNotation}*/}
             {/*    selectedLanguage={selectedLanguage}*/}
             {/*    selectedStartNote={selectedNote}*/}
             {/*    targetNote={targetNote}*/}

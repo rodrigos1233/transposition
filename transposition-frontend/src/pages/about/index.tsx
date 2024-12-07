@@ -7,8 +7,10 @@ import { getNote, INSTRUMENTS_PITCHES, Note } from '../../utils/notes';
 import { listOfInstrumentsTranslation } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
-function AboutPage({ selectedNotation }: { selectedNotation: keyof Note }) {
+function AboutPage() {
+    const { selectedNotation } = useContext(NotationContext);
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
 

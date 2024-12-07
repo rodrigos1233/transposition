@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Note, NOTES } from '../../utils/notes';
 import Button from '../button';
 import './../../styles/output.css';
@@ -7,6 +7,7 @@ import './staff.css';
 import TrebleClef from './../../assets/images/treble_clef.png';
 import MusicalCharacter from './musicalCharacter';
 import { Key, NoteInScale } from '../../utils/scaleBuilder';
+import NotationContext from '../../contexts/NotationContext';
 
 type StaffProps = {
     displayedNotes: number[];
@@ -23,13 +24,13 @@ function Staff({
     displayedNotes,
     musicalKey,
     correspondingNotes,
-    selectedNotation,
     text,
     colour,
     noteColour,
     accidentals,
 }: StaffProps) {
     const doubleAlteredNotesCount = musicalKey.doubleAlteredNotes.length;
+    const { selectedNotation } = useContext(NotationContext);
 
     function characterTypeDeterminer(
         k: number
@@ -124,7 +125,6 @@ function Staff({
                                     correspondingNotes?.[k] ?? undefined
                                 }
                                 accidental={accidentals?.[k]}
-                                selectedNotation={selectedNotation}
                                 key={`${adjustedNote}-${k}`}
                                 colour={
                                     [0, displayedNotes.length - 1].includes(k)

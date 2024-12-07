@@ -15,13 +15,7 @@ import { handleNavigate } from '../utils/handleNavigate';
 import NavTabDropdown from '../components/nav-tab-dropdown';
 import LanguageContext from '../contexts/LanguageContext';
 
-export function Header({
-    selectedNotation,
-    setSelectedNotation,
-}: {
-    selectedNotation: keyof Note;
-    setSelectedNotation: (notation: keyof Note) => void;
-}) {
+export function Header() {
     const location = window.location.pathname.substring(1);
     const navigate = useNavigate();
     const [openMenu, setOpenMenu] = useState(false);
@@ -177,10 +171,7 @@ export function Header({
 
                 {!isMobile && (
                     <>
-                        <NotationSelector
-                            selectedNotation={selectedNotation}
-                            setSelectedNotation={setSelectedNotation}
-                        />
+                        <NotationSelector />
                         <LanguageSelector />
                     </>
                 )}
@@ -199,10 +190,7 @@ export function Header({
                             : 'collapsed-menu--closed'
                     }`}
                 >
-                    <NotationSelector
-                        selectedNotation={selectedNotation}
-                        setSelectedNotation={setSelectedNotation}
-                    />
+                    <NotationSelector />
                     <LanguageSelector />
                 </div>
             )}

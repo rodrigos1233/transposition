@@ -8,15 +8,12 @@ import useTranslation, {
 } from '../hooks/useTranslation';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 import LanguageContext from '../contexts/LanguageContext';
+import NotationContext from '../contexts/NotationContext';
 
-function NotationSelector({
-    selectedNotation,
-    setSelectedNotation,
-}: {
-    selectedNotation: keyof Note;
-    setSelectedNotation: any;
-}) {
+function NotationSelector() {
     const availableNotations = Object.keys(NOTES[0]);
+    const { selectedNotation, setSelectedNotation } =
+        useContext(NotationContext);
 
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
@@ -95,7 +92,7 @@ function NotationSelector({
             {availableNotations.map((notation, k) => (
                 <Button
                     key={k}
-                    onClick={() => setSelectedNotation(notation)}
+                    onClick={() => setSelectedNotation(notation as keyof Note)}
                     disabled={notation === selectedNotation}
                     className="ml-3"
                 >

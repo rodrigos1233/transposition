@@ -10,9 +10,12 @@ import Text from '../../components/text';
 import { getModeName } from '../../utils/modes';
 import { enharmonicGroupTransposer } from '../../utils/transposer';
 import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 
-function LandingPage({ selectedNotation }: { selectedNotation: keyof Note }) {
+function LandingPage() {
     const navigate = useNavigate();
+
+    const { selectedNotation } = useContext(NotationContext);
 
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
