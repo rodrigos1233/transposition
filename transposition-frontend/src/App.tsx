@@ -56,6 +56,8 @@ const defaultNotation = (): keyof Note => {
             return 'romance';
         case 'de':
             return 'german';
+        case 'nl':
+            return 'german';
         default:
             return 'english';
     }
