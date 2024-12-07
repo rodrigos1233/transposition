@@ -14,6 +14,7 @@ import { useIsMobile } from './hooks/useIsMobile';
 import { Language } from './hooks/useTranslation';
 import LanguageSelector from './header/LanguageSelector';
 import IntervalsScaleTransposition from './pages/scale-transposition/intervals';
+import LanguageContext from './contexts/LanguageContext';
 
 const detectUserBrowserLanguage = (): Language => {
     const userLanguage = navigator.language.toLowerCase().split('-')[0];
@@ -70,11 +71,6 @@ function App() {
         detectUserBrowserLanguage
     );
     const isMobile = useIsMobile();
-
-    const LanguageContext = createContext({
-        selectedLanguage,
-        setSelectedLanguage,
-    });
 
     function handleChangeNotation(notation: keyof Note) {
         setSelectedNotation(notation);
