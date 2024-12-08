@@ -4,7 +4,7 @@ import useTranslation, {
     Translations,
 } from '../../hooks/useTranslation';
 import { getNote, INSTRUMENTS_PITCHES, Note } from '../../utils/notes';
-import { listOfInstrumentsTranslation } from '../../utils/instruments';
+import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
@@ -158,7 +158,7 @@ function AboutPage() {
     const translatedText = useTranslation(selectedLanguage, translations, []);
     const translatedListOfInstruments = useTranslation(
         selectedLanguage,
-        listOfInstrumentsTranslation,
+        LIST_OF_INSTRUMENTS,
         [selectedNotation]
     );
     const translatedListOfInstrumentsTitle = useTranslation(
