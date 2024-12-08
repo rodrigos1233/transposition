@@ -219,7 +219,7 @@ function IntervalsScaleTransposition() {
 
     const frenchMessage = [0, 12].includes(selectedInterval) ? (
         <>
-            {`L'échelle de `}
+            {`La gamme de `}
             <span className="border-b-4 border-purple-300">
                 {getNote(originKey, selectedNotation, SCALES)} {modeText}
             </span>
@@ -230,7 +230,7 @@ function IntervalsScaleTransposition() {
             {originKeySignature.alteration !==
                 targetKeySignature.alteration && (
                 <>
-                    {` Cependant, un équivalent enharmonique potentiellement plus simple est l'échelle de `}
+                    {` Cependant, un équivalent enharmonique potentiellement plus simple est la gamme de `}
                     <span className="border-b-4 border-yellow-300">
                         {getNote(targetNote, selectedNotation, SCALES)}{' '}
                         {modeText}
