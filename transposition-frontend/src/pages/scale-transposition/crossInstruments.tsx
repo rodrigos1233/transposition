@@ -18,6 +18,9 @@ import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
+import SelectComponent, { OptionType } from '../../components/select';
+import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
+import { SingleValue } from 'react-select';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -57,6 +60,10 @@ function CrossInstrumentsScaleTransposition() {
     const [showAdditionalModes, setShowAdditionalModes] = useState(
         selectedMode > 1
     );
+    const [selectedOriginOption, setSelectedOriginOption] =
+        useState<SingleValue<OptionType>>(null);
+    const [selectedTargetOption, setSelectedTargetOption] =
+        useState<SingleValue<OptionType>>(null);
 
     const targetNote = scaleCrossInstrumentsTransposer(
         selectedNote,
@@ -68,7 +75,7 @@ function CrossInstrumentsScaleTransposition() {
 
     useEffect(() => {
         if ([originKey, note, targetKey].some(isNaN)) {
-            navigate('0-0-0-0', { replace: true }); // Redirect to default if invalid
+            navigate('0-0-0-0', { replace: true });
         }
     }, [originKey, note, targetKey, navigate]);
 
@@ -118,6 +125,7 @@ function CrossInstrumentsScaleTransposition() {
 
     function handleChangeOriginKey(newOriginKey: number) {
         setSelectedOriginKey(newOriginKey);
+        setSelectedOriginOption(null);
         navigate(
             `/scale-cross-instruments/${newOriginKey}-${selectedNote}-${selectedTargetKey}-${selectedMode}`,
             { replace: true }
@@ -134,6 +142,7 @@ function CrossInstrumentsScaleTransposition() {
 
     function handleChangeTargetKey(newTargetKey: number) {
         setSelectedTargetKey(newTargetKey);
+        setSelectedTargetOption(null);
         navigate(
             `/scale-cross-instruments/${selectedOriginKey}-${selectedNote}-${newTargetKey}-${selectedMode}`,
             { replace: true }
@@ -398,14 +407,22 @@ function CrossInstrumentsScaleTransposition() {
             <>
                 Instrument in{' '}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
             <>
                 Instrument in{' '}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
@@ -414,14 +431,22 @@ function CrossInstrumentsScaleTransposition() {
             <>
                 Instrument en{' '}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
             <>
                 Instrument en{' '}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
@@ -430,14 +455,22 @@ function CrossInstrumentsScaleTransposition() {
             <>
                 Instrumento en{' '}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
             <>
                 Instrumento en{' '}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
@@ -446,14 +479,22 @@ function CrossInstrumentsScaleTransposition() {
             <>
                 Instrument in{' '}
                 <span className="border-b-4 border-sky-300">
-                    {getNote(selectedOriginKey, selectedNotation)}
+                    {getNote(
+                        selectedOriginKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
             <>
                 Instrument in{' '}
                 <span className="border-b-4 border-red-300">
-                    {getNote(selectedTargetKey, selectedNotation)}
+                    {getNote(
+                        selectedTargetKey,
+                        selectedNotation,
+                        INSTRUMENTS_PITCHES
+                    )}
                 </span>
                 :
             </>,
@@ -544,6 +585,59 @@ function CrossInstrumentsScaleTransposition() {
 
     const isMobile = useIsMobile();
 
+    const listOfInstruments = LIST_OF_INSTRUMENTS[selectedLanguage];
+
+    const selectOptions: OptionType[] = INSTRUMENTS_PITCHES.flatMap(
+        (pitch, index) => {
+            const instruments = listOfInstruments?.[index] as
+                | string[]
+                | undefined;
+            const pitchName = pitch[selectedNotation];
+
+            return instruments
+                ? instruments.map((instrument) => ({
+                      label: `${pitchName} | ${instrument}`,
+                      value: `${pitchName}_${instrument}`.replace(/\s/g, '_'),
+                  }))
+                : [];
+        }
+    ).sort((a, b) => {
+        const instrumentNameA = a.label.split('|')[1].trim();
+        const instrumentNameB = b.label.split('|')[1].trim();
+        return instrumentNameA.localeCompare(instrumentNameB);
+    });
+
+    function getInstrumentKey(value: string, notation: keyof Note): number {
+        const trimmedValue = value.trim();
+        return INSTRUMENTS_PITCHES.findIndex((note) => {
+            const parts = note[notation]
+                .split(' / ')
+                .map((part) => part.trim());
+
+            return parts.includes(trimmedValue);
+        });
+    }
+
+    function createHandleChange(
+        setState: React.Dispatch<React.SetStateAction<number>>,
+        setInstrumentState: React.Dispatch<
+            React.SetStateAction<SingleValue<OptionType>>
+        >
+    ) {
+        return (option: SingleValue<OptionType>) => {
+            if (option) {
+                setInstrumentState(option);
+
+                const [pitch] = option.value.split('_');
+                const instrumentKey = getInstrumentKey(pitch, selectedNotation);
+
+                if (!isNaN(instrumentKey)) {
+                    setState(instrumentKey);
+                }
+            }
+        };
+    }
+
     return (
         <div className="content simple-transposition w-full">
             <ModeSelector
@@ -554,7 +648,19 @@ function CrossInstrumentsScaleTransposition() {
             />
             <h2 className="mb-3">{translatedText[0]}</h2>
             <div className="simple-transposition__origin-key-select w-full mb-3">
-                {translatedText[1]}
+                <div className="flex items-center gap-2">
+                    {translatedText[1]}
+                    <SelectComponent
+                        onChange={createHandleChange(
+                            setSelectedOriginKey,
+                            setSelectedOriginOption
+                        )}
+                        options={selectOptions}
+                        value={selectedOriginOption}
+                        placeHolder="Select or search for an instrument"
+                    />
+                </div>
+
                 <NoteSelector
                     selected={selectedOriginKey}
                     setSelected={handleChangeOriginKey}
@@ -573,7 +679,18 @@ function CrossInstrumentsScaleTransposition() {
                 />
             </div>
             <div className="simple-transposition__target-key-select w-full mb-3">
-                {translatedText[3]}
+                <div className="flex items-center gap-2">
+                    {translatedText[3]}
+                    <SelectComponent
+                        onChange={createHandleChange(
+                            setSelectedTargetKey,
+                            setSelectedTargetOption
+                        )}
+                        options={selectOptions}
+                        value={selectedTargetOption}
+                        placeHolder="Select or search for an instrument"
+                    />
+                </div>
                 <NoteSelector
                     selected={selectedTargetKey}
                     setSelected={handleChangeTargetKey}

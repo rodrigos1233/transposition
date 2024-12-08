@@ -1,13 +1,11 @@
 import React from 'react';
 import Select, { SingleValue } from 'react-select';
 
-// General option type with a label and value
 export interface OptionType {
     label: string;
     value: string;
 }
 
-// Props interface
 interface SelectComponentProps {
     options: OptionType[];
     onChange: (option: SingleValue<OptionType>) => void;
