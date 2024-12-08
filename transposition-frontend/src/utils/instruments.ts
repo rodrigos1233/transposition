@@ -3,7 +3,7 @@ import useTranslation, {
     Translations,
 } from '../hooks/useTranslation';
 
-export const listOfInstrumentsTranslation: Translations = {
+export const LIST_OF_INSTRUMENTS: Translations = {
     [Language.English]: [
         // C
         [
@@ -55,7 +55,7 @@ export const listOfInstrumentsTranslation: Translations = {
         // F#/Gb
         ['F-sharp Alphorn'],
         // G
-        ['Alto flute', 'Treble flute', 'Basset clarinet', 'Contra-alto flute'],
+        ['Alto flute', 'Treble flute', 'Contra-alto flute'],
         // /Ab
         ['A-flat soprano clarinet', 'B-flat fife', 'Csakan'],
         // A
@@ -129,12 +129,7 @@ export const listOfInstrumentsTranslation: Translations = {
         // F#/Gb
         ['Cor des Alpes en fa-dièse'],
         // G
-        [
-            'Flûte alto',
-            'Flûte de basset',
-            'Clarinette alto',
-            'Flûte contre-alto',
-        ],
+        ['Flûte alto', 'Flûte de basset', 'Flûte contre-alto'],
         // Ab
         ['Clarinette soprano en la bémol', 'Fifre en si bémol', 'Csakan'],
         // A
@@ -207,12 +202,7 @@ export const listOfInstrumentsTranslation: Translations = {
         // F#/Gb
         ['Trompa alpina en fa-sostenido'],
         // G
-        [
-            'Flauta alto',
-            'Flauta de basset',
-            'Clarinete alto',
-            'Flauta contra-alto',
-        ],
+        ['Flauta alto', 'Flauta de basset', 'Flauta contra-alto'],
         // Ab
         [
             'Clarinete soprano en la bemol',
@@ -289,7 +279,7 @@ export const listOfInstrumentsTranslation: Translations = {
         // F#/Gb
         ['Alphorn in Fis'],
         // G
-        ['Altflöte', 'Bassethorn', 'Alt-Klarinette', 'Kontraaltflöte'],
+        ['Altflöte', 'Kontraaltflöte'],
         // Ab
         ['Sopran-Klarinette in As', 'Querpfeife in B', 'Csakan'],
         // A
