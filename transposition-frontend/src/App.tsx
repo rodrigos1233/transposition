@@ -32,6 +32,20 @@ function App() {
                                         element={<SimpleTransposition />}
                                     />
                                 </Route>
+                                <Route path="scale">
+                                    <Route
+                                        index
+                                        element={
+                                            <Navigate to="0-0-0-0" replace />
+                                        }
+                                    />
+                                    <Route
+                                        path=":linkParams"
+                                        element={
+                                            <CrossInstrumentsScaleTransposition />
+                                        }
+                                    />
+                                </Route>
                                 <Route path="scale-cross-instruments">
                                     <Route
                                         index
