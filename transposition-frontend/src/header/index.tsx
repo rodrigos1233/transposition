@@ -133,10 +133,10 @@ export function Header() {
             }`}
         >
             <div className="header__content">
-                <div className="flex flex-col justify-between">
-                    <h1 className="font-bold m-2">
-                        <Link to="/">ClaveShift</Link>
-                    </h1>
+                <div className="flex justify-between items-end">
+                    <Link to="/" className={'h-12 pr-3'}>
+                        <h1 className="font-bold m-2">ClaveShift</h1>
+                    </Link>
                     {!isMobile && (
                         <nav className="h-14 flex">
                             <NavTabDropdown
@@ -170,16 +170,18 @@ export function Header() {
                 </div>
 
                 {!isMobile && (
-                    <>
-                        <NotationSelector />
+                    <div className="flex flex-col gap-1 items-end pt-2 pb-2">
                         <LanguageSelector />
-                    </>
+                        <NotationSelector />
+                    </div>
                 )}
                 {isMobile && (
-                    <HamburgerMenu
-                        isOpen={openMenu}
-                        toggleOpen={() => setOpenMenu(!openMenu)}
-                    />
+                    <div className="h-full flex justify-center items-center">
+                        <HamburgerMenu
+                            isOpen={openMenu}
+                            toggleOpen={() => setOpenMenu(!openMenu)}
+                        />
+                    </div>
                 )}
             </div>
             {isMobile && (
