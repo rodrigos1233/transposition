@@ -22,6 +22,7 @@ import NotationContext from '../../contexts/NotationContext';
 import { SingleValue } from 'react-select';
 import SelectComponent, { OptionType } from '../../components/select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
+import VexFlowExample from "../../components/vexflow/vexflowRender";
 
 const MAX_NOTE = 11;
 
@@ -654,6 +655,7 @@ function SimpleTransposition() {
                     />
                 )}
             </div>
+            <VexFlowExample />
         </div>
     );
 }
