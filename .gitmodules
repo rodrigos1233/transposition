@@ -1,0 +1,3 @@
+[submodule "transposition-frontend/src/vexflow"]
+	path = transposition-frontend/src/vexflow
+	url = https://github.com/rodrigos1233/vexflow.git

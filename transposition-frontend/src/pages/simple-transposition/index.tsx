@@ -655,7 +655,17 @@ function SimpleTransposition() {
                     />
                 )}
             </div>
-            <VexFlowExample />
+            <VexFlowExample musicalKey="F" replacedKey="Eb" />
+            <VexFlowExample musicalKey="Eb" replacedKey="F" />
+            <VexFlowExample musicalKey="Eb"  />
+            <VexFlowExample musicalKey="F"  />
+            <VexFlowExample musicalKey="G"  />
+            <VexFlowExample musicalKey="F#"  />
+            <VexFlowExample musicalKey="Dbm"  />
+            <VexFlowExample musicalKey="Gbm"  />
+            <VexFlowExample musicalKey="flats_14"  />
+            <VexFlowExample musicalKey="sharps_14"  />
+            <VexFlowExample musicalKey="sharps_2"  replacedKey="sharps_7" />
         </div>
     );
 }
