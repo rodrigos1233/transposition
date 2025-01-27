@@ -7,14 +7,18 @@ function VexFlowExample( { musicalKey, replacedKey }: { musicalKey: string, repl
     const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        const renderer = new Renderer(containerRef.current!, Renderer.Backends.SVG);
+        const renderer = new Renderer(
+            containerRef.current!,
+            Renderer.Backends.SVG
+        );
         const context = renderer.getContext();
         const stave = new Stave(10, 40, 400);
         stave.addClef("bass").addTimeSignature("4/4").addKeySignature(musicalKey, replacedKey);
         stave.setContext(context).draw();
+        console.log(Stave.prototype.addKeySignature.toString());
     }, []);
 
     return <div ref={containerRef}></div>;
-};
+}
 
 export default VexFlowExample;
