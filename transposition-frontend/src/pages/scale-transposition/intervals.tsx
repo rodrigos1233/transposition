@@ -20,6 +20,7 @@ import ModeSelector from '../../components/mode-selector';
 import IntervalSelector from '../../components/interval-selector';
 import NoteSelector from '../../components/note-selector';
 import { getIntervalName } from '../../utils/intervals';
+import ContentPage from '../../components/content-page';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_INTERVAL = 12;
@@ -423,7 +424,7 @@ function IntervalsScaleTransposition() {
   const displayedTargetNotes = displayedNotes.map((note) => note.target);
 
   return (
-    <div className="content simple-transposition w-full">
+    <ContentPage className="simple-transposition">
       <ModeSelector
         selectedMode={selectedMode}
         handleChangeMode={handleChangeMode}
@@ -483,7 +484,7 @@ function IntervalsScaleTransposition() {
       {/*    selectedTargetKey={selectedTargetKey}*/}
       {/*    showAdditionalModes={showAdditionalModes}*/}
       {/*/>*/}
-    </div>
+    </ContentPage>
   );
 }
 
