@@ -1,5 +1,5 @@
 import { Language } from '../hooks/useTranslation';
-import { MODES } from './modes';
+
 
 export const INTERVALS: Interval[] = [
     {

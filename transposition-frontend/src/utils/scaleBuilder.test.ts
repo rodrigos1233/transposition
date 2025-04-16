@@ -2,7 +2,6 @@ import {
     circleOfFifthModeShifter,
     keySignatureBuilder,
     scaleBuilder,
-    startNotesFromCirclePosition,
 } from './scaleBuilder';
 import { MODES } from './modes';
 

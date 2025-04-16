@@ -8,17 +8,15 @@ type RouteHandler = (params: string[], navigate: NavigateFunction) => void;
 
 const routeHandlers: Record<string, RouteHandler> = {
     'note/scale-cross-instruments': (params, navigate) => {
-        const [originKeyString, noteString, targetKeyString] = params;
-        const note = Number(noteString);
-        const chosenNote = enharmonicGroupTransposerReverse(note, 0);
+        const [originKeyString, , targetKeyString] = params;
+        const chosenNote = 0;
         navigate(
             `scale-cross-instruments/${originKeyString}-${chosenNote}-${targetKeyString}-0`
         );
     },
     'scale-cross-instruments/note': (params, navigate) => {
-        const [originKeyString, noteString, targetKeyString] = params;
-        const note = Number(noteString);
-        const chosenNote = enharmonicGroupTransposer(note);
+        const [originKeyString, , targetKeyString] = params;
+        const chosenNote = 0;
         navigate(`note/${originKeyString}-${chosenNote}-${targetKeyString}`);
     },
     'scale-intervals/scale-cross-instruments': (params, navigate) => {
@@ -53,7 +51,7 @@ const routeHandlers: Record<string, RouteHandler> = {
         navigate(`note/${originKey}-0-${targetKey}`);
     },
     'scale-cross-instruments/scale-intervals': (params, navigate) => {
-        const [originKeyString, noteString, targetKeyString] = params;
+        const [originKeyString, , targetKeyString] = params;
         const originKey = Number(originKeyString);
         const targetKey = Number(targetKeyString);
         let interval = targetKey - originKey;
@@ -67,7 +65,7 @@ const routeHandlers: Record<string, RouteHandler> = {
         );
     },
     'note/scale-intervals': (params, navigate) => {
-        const [originKeyString, noteString, targetKeyString] = params;
+        const [originKeyString, , targetKeyString] = params;
         const originKey = Number(originKeyString);
         const targetKey = Number(targetKeyString);
         let interval = targetKey - originKey;

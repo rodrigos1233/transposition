@@ -3,7 +3,7 @@ import { Note } from '../utils/notes';
 
 const NotationContext = createContext({
     selectedNotation: 'english' as keyof Note,
-    setSelectedNotation: () => {},
+    setSelectedNotation: (notation: keyof Note) => {},
 });
 
 export default NotationContext;

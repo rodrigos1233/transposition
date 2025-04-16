@@ -6,26 +6,24 @@ import {
     scaleTransposer,
 } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
-import Button from '../../components/button';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useIsMobile } from '../../hooks/useIsMobile';
+import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
-import { getModeName, MODES } from '../../utils/modes';
-import { useNavigate, useParams } from 'react-router-dom';
+import { getModeName } from '../../utils/modes';
 import Staff from '../../components/staff';
-import { useIsMobile } from '../../hooks/useIsMobile';
-import { useChangePageTitle } from '../../hooks/useChangePageTitle';
+import LanguageContext from '../../contexts/LanguageContext';
+import NotationContext from '../../contexts/NotationContext';
 import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import { getIntervalName } from '../../utils/intervals';
 import IntervalSelector from '../../components/interval-selector';
-import LanguageContext from '../../contexts/LanguageContext';
-import NotationContext from '../../contexts/NotationContext';
 
 const MAX_ORIGIN_KEY = 16;
-const MAX_NOTE = 16;
 const MAX_INTERVAL = 12;
 const MAX_MODE = 6;
 
@@ -33,10 +31,11 @@ function IntervalsScaleTransposition() {
     const { linkParams } = useParams();
     const navigate = useNavigate();
 
-    const { selectedNotation } = useContext(NotationContext);
-
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
+
+    const notationContext = useContext(NotationContext);
+    const selectedNotation = notationContext.selectedNotation;
 
     const [originKeyString, intervalString, modeString, directionString] =
         linkParams?.split('-') || [];

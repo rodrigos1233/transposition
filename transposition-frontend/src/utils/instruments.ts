@@ -1,7 +1,4 @@
-import useTranslation, {
-    Language,
-    Translations,
-} from '../hooks/useTranslation';
+import { Language, Translations } from '../hooks/useTranslation';
 
 export const LIST_OF_INSTRUMENTS: Translations = {
     [Language.English]: [

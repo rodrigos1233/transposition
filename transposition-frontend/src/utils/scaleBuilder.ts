@@ -20,10 +20,6 @@ const reducedCircleOfFifthMajorSuite = [
 ];
 
 const notesMajorSuite = [2, 2, 1, 2, 2, 2, 1];
-const notesMinorSuite = [
-    ...notesMajorSuite.slice(5),
-    ...notesMajorSuite.slice(0, 5),
-];
 
 export function circleOfFifthModeShifter(
     modeIndex: number,

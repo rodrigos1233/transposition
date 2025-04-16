@@ -3,7 +3,6 @@ import {
     enharmonicGroupTransposerReverse,
     reverseEnharmonicGroups,
     scaleCrossInstrumentsTransposer,
-    scaleTransposer,
     crossInstrumentsTransposer,
 } from './transposer';
 

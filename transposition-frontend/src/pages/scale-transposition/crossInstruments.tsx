@@ -3,12 +3,11 @@ import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleCrossInstrumentsTransposer } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
-import Button from '../../components/button';
 import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
-import { getModeName, MODES } from '../../utils/modes';
+import { getModeName } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';

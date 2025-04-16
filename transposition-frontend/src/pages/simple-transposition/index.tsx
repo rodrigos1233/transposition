@@ -22,7 +22,7 @@ import NotationContext from '../../contexts/NotationContext';
 import { SingleValue } from 'react-select';
 import SelectComponent, { OptionType } from '../../components/select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
-import VexFlowExample from '../../components/vexflow/vexflowRender';
+
 
 const MAX_NOTE = 11;
 
@@ -34,8 +34,7 @@ function SimpleTransposition() {
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
 
-    const [originKeyString, noteString, targetKeyString, modeString] =
-        linkParams?.split('-') || [];
+    const [originKeyString, noteString, targetKeyString] = linkParams?.split('-') || [];
 
     function validateParam(value: string, max: number) {
         const numValue = Number(value);
@@ -46,17 +45,11 @@ function SimpleTransposition() {
     const note = validateParam(noteString, MAX_NOTE);
     const targetKey = validateParam(targetKeyString, MAX_NOTE);
 
-    const [selectedOriginKey, setSelectedOriginKey] = useState<number>(
-        Number(originKey) || 0
-    );
+    const [selectedOriginKey, setSelectedOriginKey] = useState<number>(Number(originKey) || 0);
     const [selectedNote, setSelectedNote] = useState<number>(Number(note) || 0);
-    const [selectedTargetKey, setSelectedTargetKey] = useState<number>(
-        Number(targetKey) || 0
-    );
-    const [selectedOriginOption, setSelectedOriginOption] =
-        useState<SingleValue<OptionType>>(null);
-    const [selectedTargetOption, setSelectedTargetOption] =
-        useState<SingleValue<OptionType>>(null);
+    const [selectedTargetKey, setSelectedTargetKey] = useState<number>(Number(targetKey) || 0);
+    const [selectedOriginOption, setSelectedOriginOption] = useState<SingleValue<OptionType>>(null);
+    const [selectedTargetOption, setSelectedTargetOption] = useState<SingleValue<OptionType>>(null);
 
     const listOfInstruments = LIST_OF_INSTRUMENTS[selectedLanguage];
 

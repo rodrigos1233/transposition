@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import Button from '../components/button';
 import './header.css';
 import useTranslation, {

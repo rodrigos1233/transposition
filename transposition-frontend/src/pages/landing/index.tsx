@@ -3,8 +3,7 @@ import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
-import { getNote, Note, SCALES } from '../../utils/notes';
-import { useNavigate } from 'react-router-dom';
+import { getNote, SCALES } from '../../utils/notes';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import Text from '../../components/text';
 import { getModeName } from '../../utils/modes';
@@ -13,7 +12,7 @@ import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
 
 function LandingPage() {
-    const navigate = useNavigate();
+
 
     const { selectedNotation } = useContext(NotationContext);
 
