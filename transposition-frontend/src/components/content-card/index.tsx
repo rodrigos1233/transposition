@@ -1,5 +1,4 @@
 import { ReactNode } from 'react';
-import { useIsMobile } from '../../hooks/useIsMobile';
 import Flex from '../flex';
 
 interface ContentCardProps {
