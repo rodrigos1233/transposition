@@ -9,6 +9,7 @@ import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
 import ContentPage from '../../components/content-page';
+import ContentCard from '../../components/content-card';
 
 function AboutPage() {
   const { selectedNotation } = useContext(NotationContext);
@@ -208,25 +209,31 @@ function AboutPage() {
 
   return (
     <ContentPage className="about-page">
-      <h1 className="my-2">{translatedText[0]}</h1>
-      <p className="my-2">{translatedText[1]}</p>
-      <p className="my-2">{translatedText[2]}</p>
-      <h2 className="my-2">{translatedText[3]}</h2>
-      <p className="my-2">{translatedText[4]}</p>
-      <ul className="list-disc ml-4 my-2">
-        <li>{translatedText[5]}</li>
-        <li>{translatedText[6]}</li>
-      </ul>
-      <p className="my-2">{translatedListOfInstrumentsTitle[0]}</p>
-      <ul className="list-disc ml-4 my-2">
-        {Array.from({ length: 12 }, (_, i) => {
-          const instrumentList = getInstrumentList(i);
-          if (instrumentList) {
-            return <div key={i}>{instrumentList}</div>;
-          }
-          return null;
-        })}
-      </ul>
+      <ContentCard>
+        <h1 className="my-2">{translatedText[0]}</h1>
+        <p className="my-2">{translatedText[1]}</p>
+        <p className="my-2">{translatedText[2]}</p>
+      </ContentCard>
+      <ContentCard>
+        <h2 className="my-2">{translatedText[3]}</h2>
+        <p className="my-2">{translatedText[4]}</p>
+        <ul className="list-disc ml-4 my-2">
+          <li>{translatedText[5]}</li>
+          <li>{translatedText[6]}</li>
+        </ul>
+      </ContentCard>
+      <ContentCard>
+        <p className="my-2">{translatedListOfInstrumentsTitle[0]}</p>
+        <ul className="list-disc ml-4 my-2">
+          {Array.from({ length: 12 }, (_, i) => {
+            const instrumentList = getInstrumentList(i);
+            if (instrumentList) {
+              return <div key={i}>{instrumentList}</div>;
+            }
+            return null;
+          })}
+        </ul>
+      </ContentCard>
     </ContentPage>
   );
 }

@@ -23,6 +23,7 @@ import { SingleValue } from 'react-select';
 import SelectComponent, { OptionType } from '../../components/select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 import ContentPage from '../../components/content-page';
+import ContentCard from '../../components/content-card';
 
 const MAX_NOTE = 11;
 
@@ -490,101 +491,120 @@ function SimpleTransposition() {
 
   return (
     <ContentPage className={'simple-transposition'}>
-      <h2 className="mb-3">{translatedText[0]}</h2>
-      <div className="simple-transposition__origin-key-select w-full mb-3">
-        <div className="flex items-center gap-2">
-          {translatedText[1]}
-          <SelectComponent
-            onChange={createHandleChange(
-              setSelectedOriginKey,
-              setSelectedOriginOption
-            )}
-            options={selectOptions}
-            value={selectedOriginOption}
-            placeHolder="Select or search for an instrument"
-          />
-        </div>
+      <ContentCard>
+        <h2 className="mb-3">{translatedText[0]}</h2>
+      </ContentCard>
+      <ContentCard>
+        <ContentCard level={2}>
+          <div className="simple-transposition__origin-key-select w-full mb-3">
+            <div className="flex items-center gap-2">
+              {translatedText[1]}
+              <SelectComponent
+                onChange={createHandleChange(
+                  setSelectedOriginKey,
+                  setSelectedOriginOption
+                )}
+                options={selectOptions}
+                value={selectedOriginOption}
+                placeHolder="Select or search for an instrument"
+              />
+            </div>
 
-        <NoteSelector
-          selected={selectedOriginKey}
-          setSelected={handleChangeOriginKey}
-          colour="sky"
-          usedScale={INSTRUMENTS_PITCHES}
-        />
-      </div>
-      <div className="simple-transposition__note-select w-full mb-3">
-        {translatedText[2]}
-        <NoteSelector
-          selected={selectedNote}
-          setSelected={handleChangeNote}
-          colour="purple"
-        />
-      </div>
-      <div className="simple-transposition__target-key-select w-full mb-3">
-        <div className="flex items-center gap-2">
-          {translatedText[3]}
-          <SelectComponent
-            onChange={createHandleChange(
-              setSelectedTargetKey,
-              setSelectedTargetOption
+            <NoteSelector
+              selected={selectedOriginKey}
+              setSelected={handleChangeOriginKey}
+              colour="sky"
+              usedScale={INSTRUMENTS_PITCHES}
+            />
+          </div>
+        </ContentCard>
+
+        <ContentCard level={2}>
+          <div className="simple-transposition__note-select w-full mb-3">
+            {translatedText[2]}
+            <NoteSelector
+              selected={selectedNote}
+              setSelected={handleChangeNote}
+              colour="purple"
+            />
+          </div>
+        </ContentCard>
+
+        <ContentCard level={2}>
+          <div className="simple-transposition__target-key-select w-full mb-3">
+            <div className="flex items-center gap-2">
+              {translatedText[3]}
+              <SelectComponent
+                onChange={createHandleChange(
+                  setSelectedTargetKey,
+                  setSelectedTargetOption
+                )}
+                options={selectOptions}
+                value={selectedTargetOption}
+                placeHolder="Select or search for an instrument"
+              />
+            </div>
+            <NoteSelector
+              selected={selectedTargetKey}
+              setSelected={handleChangeTargetKey}
+              colour="red"
+              usedScale={INSTRUMENTS_PITCHES}
+            />
+          </div>
+        </ContentCard>
+      </ContentCard>
+      <ContentCard>
+        <output>
+          <p className="mb-3">{message}</p>
+          <div
+            className={`note-transposition__staff-container flex ${
+              isMobile
+                ? 'flex-col gap-24 mt-16 mb-16'
+                : 'flex-row gap-5 mt-20 mb-20'
+            }`}
+          >
+            <Staff
+              displayedNotes={displayedOriginNotes}
+              correspondingNotes={
+                correspondingOriginNotes as unknown as NoteInScale[]
+              }
+              musicalKey={{
+                alteration: null,
+                doubleAlteredNotes: [],
+                alteredNotes: [],
+              }}
+              accidentals={
+                displayedOriginNotes.length > 1 ? ['sharp', 'flat'] : undefined
+              }
+              text={musicalStaffText[0]}
+              colour="sky"
+              noteColour="purple"
+            />
+            {selectedOriginKey !== selectedTargetKey && (
+              <Staff
+                displayedNotes={displayedTargetNotes}
+                correspondingNotes={
+                  correspondingTargetNotes as unknown as NoteInScale[]
+                }
+                musicalKey={{
+                  alteration: null,
+                  doubleAlteredNotes: [],
+                  alteredNotes: [],
+                }}
+                accidentals={
+                  displayedTargetNotes.length > 1
+                    ? ['sharp', 'flat']
+                    : undefined
+                }
+                text={musicalStaffText[1]}
+                colour="red"
+                noteColour="yellow"
+              />
             )}
-            options={selectOptions}
-            value={selectedTargetOption}
-            placeHolder="Select or search for an instrument"
-          />
-        </div>
-        <NoteSelector
-          selected={selectedTargetKey}
-          setSelected={handleChangeTargetKey}
-          colour="red"
-          usedScale={INSTRUMENTS_PITCHES}
-        />
-      </div>
-      <p className="mb-3">{message}</p>
-      <div
-        className={`note-transposition__staff-container flex ${
-          isMobile
-            ? 'flex-col gap-24 mt-16 mb-16'
-            : 'flex-row gap-5 mt-20 mb-20'
-        }`}
-      >
-        <Staff
-          displayedNotes={displayedOriginNotes}
-          correspondingNotes={
-            correspondingOriginNotes as unknown as NoteInScale[]
-          }
-          musicalKey={{
-            alteration: null,
-            doubleAlteredNotes: [],
-            alteredNotes: [],
-          }}
-          accidentals={
-            displayedOriginNotes.length > 1 ? ['sharp', 'flat'] : undefined
-          }
-          text={musicalStaffText[0]}
-          colour="sky"
-          noteColour="purple"
-        />
-        {selectedOriginKey !== selectedTargetKey && (
-          <Staff
-            displayedNotes={displayedTargetNotes}
-            correspondingNotes={
-              correspondingTargetNotes as unknown as NoteInScale[]
-            }
-            musicalKey={{
-              alteration: null,
-              doubleAlteredNotes: [],
-              alteredNotes: [],
-            }}
-            accidentals={
-              displayedTargetNotes.length > 1 ? ['sharp', 'flat'] : undefined
-            }
-            text={musicalStaffText[1]}
-            colour="red"
-            noteColour="yellow"
-          />
-        )}
-      </div>
+          </div>
+        </output>
+      </ContentCard>
+
       {/*<VexflowStave alteration={"flat"} alteredNotes={[0,0,0,0,0, 4, 5, 2]} />*/}
     </ContentPage>
   );

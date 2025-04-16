@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import Flex from '../flex';
 
 interface ContentPageProps {
   children: ReactNode;
@@ -12,9 +13,9 @@ function ContentPage(props: ContentPageProps) {
 
   return (
     <article
-      className={`content ${className ?? ''} w-full ${isMobile ? 'pt-2' : 'pt-32'}`}
+      className={`content ${className ?? ''} w-full ${isMobile ? 'pt-2' : 'pt-32'} backdrop-blur pr-6 pl-6 pb-6 border-2 border-neutral-400 rounded-[2.5rem]`}
     >
-      {children}
+      <Flex direction={'col'}>{children}</Flex>
     </article>
   );
 }

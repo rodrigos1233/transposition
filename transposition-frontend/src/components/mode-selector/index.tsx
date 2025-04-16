@@ -74,7 +74,7 @@ function ModeSelector({
 
   return (
     <div
-      className={`mb-3 flex gap-5 items-start justify-between mode-selector ${
+      className={`mb-1 flex gap-5 items-start justify-between mode-selector ${
         showAdditionalModes
           ? 'mode-selector--advanced'
           : 'mode-selector--simple'

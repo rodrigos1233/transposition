@@ -21,6 +21,7 @@ import IntervalSelector from '../../components/interval-selector';
 import NoteSelector from '../../components/note-selector';
 import { getIntervalName } from '../../utils/intervals';
 import ContentPage from '../../components/content-page';
+import ContentCard from '../../components/content-card';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_INTERVAL = 12;
@@ -425,65 +426,75 @@ function IntervalsScaleTransposition() {
 
   return (
     <ContentPage className="simple-transposition">
-      <ModeSelector
-        selectedMode={selectedMode}
-        handleChangeMode={handleChangeMode}
-        showAdditionalModes={showAdditionalModes}
-        setShowAdditionalModes={setShowAdditionalModes}
-      />
-      <h2 className="mb-3">{translatedText[0]}</h2>
-      <div className="simple-transposition__origin-key-select w-full mb-3">
-        {translatedText[1]}
-        <NoteSelector
-          selected={selectedOriginKey}
-          setSelected={handleChangeOriginKey}
-          colour="sky"
-          usedScale={SCALES}
-          blackNotesAreHalf={true}
+      <ContentCard>
+        <ModeSelector
+          selectedMode={selectedMode}
+          handleChangeMode={handleChangeMode}
+          showAdditionalModes={showAdditionalModes}
+          setShowAdditionalModes={setShowAdditionalModes}
         />
-      </div>
-      <div className="simple-transposition__note-select w-full mb-3">
-        {translatedText[2]}
-        <IntervalSelector
-          selectedInterval={selectedInterval}
-          handleChangeInterval={handleChangeInterval}
-          selectedDirection={selectedDirection}
-          setSelectedDirection={handleChangeDirection}
-        />
-      </div>
-      <p className="mb-3">{message}</p>
-      <div
-        className={`scale-transposition__staff-container flex ${
-          isMobile
-            ? 'flex-col gap-24 mt-16 mb-16'
-            : 'flex-row gap-5 mt-20 mb-20'
-        }`}
-      >
-        <Staff
-          displayedNotes={displayedOriginNotes}
-          correspondingNotes={scale.notesInScale}
-          musicalKey={originKeySignature}
-          colour="sky"
-          noteColour="purple"
-        />
-        <Staff
-          displayedNotes={displayedTargetNotes}
-          correspondingNotes={transposedScale.notesInScale}
-          musicalKey={targetKeySignature}
-          colour="red"
-          noteColour="yellow"
-        />
-      </div>
-      {/*<CircleOfFifth*/}
-      {/*    modeIndex={selectedMode}*/}
-      {/*    selectedLanguage={selectedLanguage}*/}
-      {/*    selectedStartNote={selectedNote}*/}
-      {/*    targetNote={targetNote}*/}
-      {/*    setSelectedMode={handleChangeMode}*/}
-      {/*    selectedOriginKey={selectedOriginKey}*/}
-      {/*    selectedTargetKey={selectedTargetKey}*/}
-      {/*    showAdditionalModes={showAdditionalModes}*/}
-      {/*/>*/}
+        <h2 className="mb-3">{translatedText[0]}</h2>
+      </ContentCard>
+      <ContentCard>
+        <ContentCard level={2}>
+          <div className="simple-transposition__origin-key-select w-full mb-3">
+            {translatedText[1]}
+            <NoteSelector
+              selected={selectedOriginKey}
+              setSelected={handleChangeOriginKey}
+              colour="sky"
+              usedScale={SCALES}
+              blackNotesAreHalf={true}
+            />
+          </div>
+        </ContentCard>
+        <ContentCard level={2}>
+          <div className="simple-transposition__note-select w-full mb-3">
+            {translatedText[2]}
+            <IntervalSelector
+              selectedInterval={selectedInterval}
+              handleChangeInterval={handleChangeInterval}
+              selectedDirection={selectedDirection}
+              setSelectedDirection={handleChangeDirection}
+            />
+          </div>
+        </ContentCard>
+      </ContentCard>
+      <ContentCard>
+        <p className="mb-3">{message}</p>
+        <div
+          className={`scale-transposition__staff-container flex ${
+            isMobile
+              ? 'flex-col gap-24 mt-16 mb-16'
+              : 'flex-row gap-5 mt-20 mb-20'
+          }`}
+        >
+          <Staff
+            displayedNotes={displayedOriginNotes}
+            correspondingNotes={scale.notesInScale}
+            musicalKey={originKeySignature}
+            colour="sky"
+            noteColour="purple"
+          />
+          <Staff
+            displayedNotes={displayedTargetNotes}
+            correspondingNotes={transposedScale.notesInScale}
+            musicalKey={targetKeySignature}
+            colour="red"
+            noteColour="yellow"
+          />
+        </div>
+        {/*<CircleOfFifth*/}
+        {/*    modeIndex={selectedMode}*/}
+        {/*    selectedLanguage={selectedLanguage}*/}
+        {/*    selectedStartNote={selectedNote}*/}
+        {/*    targetNote={targetNote}*/}
+        {/*    setSelectedMode={handleChangeMode}*/}
+        {/*    selectedOriginKey={selectedOriginKey}*/}
+        {/*    selectedTargetKey={selectedTargetKey}*/}
+        {/*    showAdditionalModes={showAdditionalModes}*/}
+        {/*/>*/}
+      </ContentCard>
     </ContentPage>
   );
 }
