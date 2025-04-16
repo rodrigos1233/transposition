@@ -36,7 +36,7 @@
     width: 20%;
     top: 0;
     aspect-ratio: 1;
-    //background: white;
+    /* background: white; */
     border-radius: 50%;
     z-index: 3;
     transform-origin: center 250%;
@@ -92,7 +92,7 @@
     left: 44%;
     top: 20%;
     aspect-ratio: 1;
-    //background: white;
+    /* background: white; */
     border-radius: 50%;
     display: flex;
     justify-content: center;
