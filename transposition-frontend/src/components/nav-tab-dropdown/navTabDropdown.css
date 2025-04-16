@@ -1,16 +1,16 @@
 .nav-dropdown-container:hover .nav-dropdown-items-container {
-    display: flex;
+  display: flex;
 }
 
 .nav-dropdown-container {
-    position: relative;
+  position: relative;
 }
 
 .nav-dropdown-items-container {
-    position: absolute;
+  position: absolute;
 }
 
 .nav-dropdown-container--mobile .nav-dropdown-items-container--active {
-    display: flex;
-    bottom: 100%;
+  display: flex;
+  bottom: 100%;
 }

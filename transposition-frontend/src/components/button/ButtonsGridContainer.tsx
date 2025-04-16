@@ -1,28 +1,28 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import './../../styles/output.css';
 import './buttons-grid-container.css';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
 type ButtonsGridContainerProps = {
-    children: React.ReactNode;
-    className?: string;
+  children: ReactNode;
+  className?: string;
 };
 
 function ButtonsGridContainer({
-    children,
-    className,
+  children,
+  className,
 }: ButtonsGridContainerProps) {
-    const isMobile = useIsMobile();
+  const isMobile = useIsMobile();
 
-    return (
-        <div
-            className={`grid-buttons-container ${
-                isMobile ? 'grid-buttons-container--mobile' : ''
-            } ${className ?? ''}`}
-        >
-            {children}
-        </div>
-    );
+  return (
+    <div
+      className={`grid-buttons-container ${
+        isMobile ? 'grid-buttons-container--mobile' : ''
+      } ${className ?? ''}`}
+    >
+      {children}
+    </div>
+  );
 }
 
 export default ButtonsGridContainer;

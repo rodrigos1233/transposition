@@ -1,20 +1,20 @@
 .note-selector {
-    display: grid;
-    width: 100%;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    column-gap: 0.6rem;
-    row-gap: 0.6rem;
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  column-gap: 0.6rem;
+  row-gap: 0.6rem;
 }
 
 .note-selector--mobile {
-    grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-    column-gap: 0.4rem;
-    row-gap: 0.4rem;
+  grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+  column-gap: 0.4rem;
+  row-gap: 0.4rem;
 }
 
 .black-note-wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 0.4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 0.4rem;
 }
