@@ -15,7 +15,7 @@ function App() {
       <BrowserRouter>
         <ContextsProvider>
           <Header />
-          <main className="w-full m-auto flex flex-col items-center pt-4">
+          <main className="w-full m-auto flex flex-col items-center pt-6">
             <div className={`contents flex p-2 z-0 relative`}>
               <Routes>
                 <Route path="/" element={<LandingPage />} />
