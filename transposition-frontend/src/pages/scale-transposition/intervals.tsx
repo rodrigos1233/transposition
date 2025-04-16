@@ -17,7 +17,7 @@ import { getIntervalName } from '../../utils/intervals';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_INTERVAL = 12;
-const MAX_MODE = 6;
+
 
 function IntervalsScaleTransposition() {
     const { linkParams } = useParams();
@@ -439,8 +439,8 @@ function IntervalsScaleTransposition() {
         };
     });
 
-    const displayedOriginNotes = displayedNotes.map((note, i) => note.origin);
-    const displayedTargetNotes = displayedNotes.map((note, i) => note.target);
+    const displayedOriginNotes = displayedNotes.map(note => note.origin);
+    const displayedTargetNotes = displayedNotes.map(note => note.target);
 
     return (
         <div className="content simple-transposition w-full">
