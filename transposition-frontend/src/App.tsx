@@ -1,4 +1,3 @@
-import React from 'react';
 import './App.css';
 import './styles/output.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
@@ -12,7 +11,7 @@ import ContextsProvider from './contexts/ContextsProvider';
 
 function App() {
     return (
-        <div className="App container mx-auto overflow-clip">
+        <div className="App container mx-auto">
             <BrowserRouter>
                 <ContextsProvider>
                     <Header />
