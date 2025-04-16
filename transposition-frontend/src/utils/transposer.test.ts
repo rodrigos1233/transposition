@@ -1,5 +1,4 @@
 import {
-    enharmonicGroupTransposer,
     enharmonicGroupTransposerReverse,
     reverseEnharmonicGroups,
     scaleCrossInstrumentsTransposer,

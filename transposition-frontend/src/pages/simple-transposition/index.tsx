@@ -413,8 +413,6 @@ function SimpleTransposition() {
     const isMobile = useIsMobile();
 
     function defineCorrespondingNotes(reversedEnharmonicGroupNotes: number[]) {
-        let correspondingNotes: Note[] = [];
-
         if (reversedEnharmonicGroupNotes.length > 1) {
             const firstNote = SCALES[reversedEnharmonicGroupNotes[0]];
             const secondNote = SCALES[reversedEnharmonicGroupNotes[1]];

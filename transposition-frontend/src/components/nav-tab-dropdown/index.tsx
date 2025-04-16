@@ -27,8 +27,6 @@ function NavTabDropdown({
     const [isActive, setIsActive] = useState<boolean>(false);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
-    const isShownOnMobile = isMobile && isActive;
-
     useEffect(() => {
         if (!isMobile) return;
 

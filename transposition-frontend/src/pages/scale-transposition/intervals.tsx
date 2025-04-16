@@ -1,27 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
-import NoteSelector from '../../components/note-selector';
-import {
-    enharmonicGroupTransposer,
-    scaleTransposer,
-} from '../../utils/transposer';
+import { getNote, SCALES } from '../../utils/notes';
+import { enharmonicGroupTransposer, scaleTransposer } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
-import useTranslation, {
-    Language,
-    Translations,
-} from '../../hooks/useTranslation';
+import useTranslation, { Language, Translations } from '../../hooks/useTranslation';
 import { getModeName } from '../../utils/modes';
 import Staff from '../../components/staff';
 import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
-import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
 import ModeSelector from '../../components/mode-selector';
-import CircleOfFifth from '../../components/circle-of-fifth';
-import { getIntervalName } from '../../utils/intervals';
 import IntervalSelector from '../../components/interval-selector';
+import NoteSelector from '../../components/note-selector';
+import { getIntervalName } from '../../utils/intervals';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_INTERVAL = 12;
@@ -46,7 +38,6 @@ function IntervalsScaleTransposition() {
     }
 
     const originKey = validateParam(originKeyString, MAX_ORIGIN_KEY);
-    const mode = validateParam(modeString, MAX_MODE);
     const interval = validateParam(intervalString, MAX_INTERVAL);
     const direction: 'up' | 'down' = directionString === 'down' ? 'down' : 'up';
 
@@ -56,7 +47,7 @@ function IntervalsScaleTransposition() {
     const [selectedInterval, setSelectedInterval] = useState<number>(
         Number(interval) || 0
     );
-    const [selectedMode, setSelectedMode] = useState<number>(Number(mode) || 0);
+    const [selectedMode, setSelectedMode] = useState<number>(0);
     const [selectedDirection, setSelectedDirection] = useState<'up' | 'down'>(
         direction
     );
