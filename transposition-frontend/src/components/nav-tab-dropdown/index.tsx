@@ -1,19 +1,20 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { ReactNode, MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Text from '../text';
 import './navTabDropdown.css';
 
 type LinkElementProps = {
-    content: React.ReactNode;
+    content: ReactNode;
     href: string;
-    onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+    onClick?: (e: MouseEvent<HTMLAnchorElement>) => void;
     isCurrentPage: boolean;
 };
 
 type NavTabDropdownProps = {
     elements: LinkElementProps[];
     isCurrentPage: boolean;
-    children: React.ReactNode;
+    children: ReactNode;
     colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
     isMobile?: boolean;
 };
@@ -34,7 +35,7 @@ function NavTabDropdown({
     useEffect(() => {
         if (!isMobile) return;
 
-        const handleClickOutside = (event: MouseEvent) => {
+        const handleClickOutside = (event: globalThis.MouseEvent) => {
             if (
                 dropdownRef.current &&
                 !dropdownRef.current.contains(event.target as Node)

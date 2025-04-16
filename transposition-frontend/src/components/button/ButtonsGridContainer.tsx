@@ -1,10 +1,10 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import './../../styles/output.css';
 import './buttons-grid-container.css';
 import { useIsMobile } from '../../hooks/useIsMobile';
 
 type ButtonsGridContainerProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     className?: string;
 };
 

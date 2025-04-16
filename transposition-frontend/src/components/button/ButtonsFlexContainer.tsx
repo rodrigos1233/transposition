@@ -1,9 +1,7 @@
-import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import Text from '../text';
+import type { ReactNode } from 'react';
 
 type ButtonsFlexContainerProps = {
-    children: React.ReactNode;
+    children: ReactNode;
     wrap?: boolean;
 };
 

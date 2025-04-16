@@ -3,7 +3,6 @@ import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import {
     enharmonicGroupTransposer,
-    scaleCrossInstrumentsTransposer,
     scaleTransposer,
 } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';

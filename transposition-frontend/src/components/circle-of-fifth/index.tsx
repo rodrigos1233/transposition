@@ -1,4 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import type { JSX } from 'react';
 
 import './circleOfFifth.css';
 import Staff from '../staff';
@@ -151,7 +152,7 @@ function CircleOfFifth({
                         );
 
                         return (
-                            <React.Fragment key={i}>
+                            <Fragment key={i}>
                                 <span
                                     className={
                                         startNote === selectedStartNote
@@ -164,7 +165,7 @@ function CircleOfFifth({
                                     {startNoteName}
                                 </span>
                                 {i < possibleStartNotes.length - 1 && ' / '}
-                            </React.Fragment>
+                            </Fragment>
                         );
                     });
 
