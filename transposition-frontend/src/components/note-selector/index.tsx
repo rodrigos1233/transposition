@@ -3,7 +3,7 @@ import { Note, NOTES } from '../../utils/notes';
 import Button from '../button';
 import './../../styles/output.css';
 import './note-selector.css';
-import { useIsMobile } from '../../hooks/useIsMobile';
+
 import ButtonsGridContainer from '../button/ButtonsGridContainer';
 import NotationContext from '../../contexts/NotationContext';
 

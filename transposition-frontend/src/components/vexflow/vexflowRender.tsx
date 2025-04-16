@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Renderer, Stave } from 'vexflow4';
 
 type VexflowStaveProps = {

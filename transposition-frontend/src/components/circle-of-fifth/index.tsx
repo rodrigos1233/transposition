@@ -8,7 +8,7 @@ import {
     positionInCircleOfFifthDeterminer,
     startNotesFromCirclePosition,
 } from '../../utils/scaleBuilder';
-import { getNote, Note, SCALES } from '../../utils/notes';
+import { getNote, SCALES } from '../../utils/notes';
 import { getModeName, MODES } from '../../utils/modes';
 import Text from '../../components/text';
 import Button from '../button';

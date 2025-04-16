@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { getNote } from '../../utils/notes';
+
 import { useIsMobile } from '../../hooks/useIsMobile';
 
 function Text({

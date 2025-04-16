@@ -14,7 +14,6 @@ type NavTabDropdownProps = {
     elements: LinkElementProps[];
     isCurrentPage: boolean;
     children: ReactNode;
-    colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
     isMobile?: boolean;
 };
 
@@ -23,7 +22,6 @@ function NavTabDropdown({
     isCurrentPage,
     children,
     isMobile,
-    colour = 'lime',
 }: NavTabDropdownProps) {
     const navigate = useNavigate();
     const [isActive, setIsActive] = useState<boolean>(false);

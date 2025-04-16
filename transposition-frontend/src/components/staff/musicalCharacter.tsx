@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Note } from '../../utils/notes';
 import './staff.css';
 

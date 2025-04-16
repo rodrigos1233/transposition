@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef, useContext } from 'react';
 import NotationSelector from './NotationSelector';
-import { Note } from '../utils/notes';
+
 import './header.css';
 import { Link, useNavigate } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';

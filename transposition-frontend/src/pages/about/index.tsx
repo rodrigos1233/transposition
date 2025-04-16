@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import useTranslation, {
     Language,
     Translations,
 } from '../../hooks/useTranslation';
-import { getNote, INSTRUMENTS_PITCHES, Note } from '../../utils/notes';
+import { getNote, INSTRUMENTS_PITCHES } from '../../utils/notes';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import LanguageContext from '../../contexts/LanguageContext';

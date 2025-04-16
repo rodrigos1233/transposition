@@ -27,7 +27,7 @@ function Staff({
     accidentals,
 }: StaffProps) {
     const doubleAlteredNotesCount = musicalKey.doubleAlteredNotes.length;
-    const { selectedNotation } = useContext(NotationContext);
+    useContext(NotationContext);
 
     function characterTypeDeterminer(
         k: number

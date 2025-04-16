@@ -27,7 +27,7 @@ function ModeSelector({
     const languageContext = useContext(LanguageContext);
     const selectedLanguage = languageContext.selectedLanguage;
 
-    const modes = MODES.map((mode, index) => (
+    const modes = MODES.map((_, index) => (
         <Button
             key={index}
             onClick={() => handleChangeMode(index)}

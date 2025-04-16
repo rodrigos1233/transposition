@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+
 
 export function useIsMobile() {
     const [isMobile, setIsMobile] = useState(false);
