@@ -1,10 +1,7 @@
 import React from 'react';
-import { Note, NOTES } from '../../utils/notes';
-import Button from '../button';
-import './../../styles/output.css';
-import { useIsMobile } from '../../hooks/useIsMobile';
+import { Note } from '../../utils/notes';
 import './staff.css';
-import TrebleClef from './../../assets/images/treble_clef.png';
+
 import NoteSimple from './../../assets/images/note_simple.png';
 import Flat from './../../assets/images/flat.png';
 import Sharp from './../../assets/images/sharp.png';

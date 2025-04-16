@@ -1,20 +1,14 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import Button from '../../components/button';
-import useTranslation, {
-    Language,
-    Translations,
-} from '../../hooks/useTranslation';
-import { getModeName, MODES } from '../../utils/modes';
-
+import useTranslation, { Language, Translations } from '../../hooks/useTranslation';
 import ButtonsGridContainer from '../button/ButtonsGridContainer';
 import { getIntervalName, INTERVALS } from '../../utils/intervals';
-import ButtonsFlexContainer from '../button/ButtonsFlexContainer';
 import LanguageContext from '../../contexts/LanguageContext';
 
 type IntervalSelectorProps = {
     selectedInterval: number;
-    handleChangeInterval: (mode: number) => void;
+    handleChangeInterval: (interval: number) => void;
     selectedDirection: 'up' | 'down';
     setSelectedDirection: (selectedDirection: 'up' | 'down') => void;
 };

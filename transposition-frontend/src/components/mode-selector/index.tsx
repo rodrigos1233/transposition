@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 
 import Button from '../../components/button';
 import useTranslation, {
@@ -13,7 +13,7 @@ import LanguageContext from '../../contexts/LanguageContext';
 
 type ModeSelectorProps = {
     selectedMode: number;
-    handleChangeMode: (mode: number) => void;
+    handleChangeMode: (modeIndex: number) => void;
     showAdditionalModes: boolean;
     setShowAdditionalModes: (showAdditionalModes: boolean) => void;
 };

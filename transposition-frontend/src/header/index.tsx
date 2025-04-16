@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef, useContext } from 'react';
 import NotationSelector from './NotationSelector';
 import { Note } from '../utils/notes';
 import './header.css';
