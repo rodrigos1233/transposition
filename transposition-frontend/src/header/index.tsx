@@ -124,7 +124,7 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className={`header shadow-lg z-10 relative ${
+      className={`header shadow-lg z-10 fixed ${
         isMobile ? 'header--mobile sticky top-0 bg-white pl-4 pr-4' : ''
       }`}
     >
