@@ -12,6 +12,10 @@ export default defineConfig({
   },
   server: {
     port: 3000, // Same as CRA default
+    hmr: {
+      // Force the HMR to always be active
+      overlay: true,
+    },
   },
   build: {
     outDir: 'build', // Same as CRA default
