@@ -492,7 +492,6 @@ function IntervalsScaleTransposition() {
                     colour="red"
                     noteColour="yellow"
                 />
-                <p> </p>
             </div>
             {/*<CircleOfFifth*/}
             {/*    modeIndex={selectedMode}*/}
