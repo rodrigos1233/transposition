@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   getNote,
   INSTRUMENTS_PITCHES,
@@ -22,6 +22,7 @@ import NotationContext from '../../contexts/NotationContext';
 import { SingleValue } from 'react-select';
 import SelectComponent, { OptionType } from '../../components/select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
+import ContentPage from '../../components/content-page';
 
 const MAX_NOTE = 11;
 
@@ -488,7 +489,7 @@ function SimpleTransposition() {
   );
 
   return (
-    <div className="content simple-transposition w-full">
+    <ContentPage className={'simple-transposition'}>
       <h2 className="mb-3">{translatedText[0]}</h2>
       <div className="simple-transposition__origin-key-select w-full mb-3">
         <div className="flex items-center gap-2">
@@ -585,7 +586,7 @@ function SimpleTransposition() {
         )}
       </div>
       {/*<VexflowStave alteration={"flat"} alteredNotes={[0,0,0,0,0, 4, 5, 2]} />*/}
-    </div>
+    </ContentPage>
   );
 }
 

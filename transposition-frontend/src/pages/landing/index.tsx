@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext, Fragment } from 'react';
 import useTranslation, {
   Language,
   Translations,
@@ -10,6 +10,7 @@ import { getModeName } from '../../utils/modes';
 import { enharmonicGroupTransposer } from '../../utils/transposer';
 import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
+import ContentPage from '../../components/content-page';
 
 function LandingPage() {
   const { selectedNotation } = useContext(NotationContext);
@@ -215,9 +216,7 @@ function LandingPage() {
 
   const commonKeyTranspositions = commonScaleTranspositions.map(
     (transposition, index) => (
-      <React.Fragment
-        key={`${transposition.from}-${transposition.to}-${index}`}
-      >
+      <Fragment key={`${transposition.from}-${transposition.to}-${index}`}>
         <p className="mb-2 mt-5">
           <Text size="small">
             {translatedText[4]}
@@ -249,12 +248,12 @@ function LandingPage() {
             </li>
           ))}
         </ul>
-      </React.Fragment>
+      </Fragment>
     )
   );
 
   return (
-    <div className="content landing-page w-full">
+    <ContentPage className="landing-page">
       <h1 className="my-2">{translatedText[0]}</h1>
       <Text key={'text-1'} size={'small'}>
         {translatedText[1]}
@@ -266,7 +265,7 @@ function LandingPage() {
         <Text size={'medium'}>{translatedText[3]}</Text>
       </h2>
       {commonKeyTranspositions}
-    </div>
+    </ContentPage>
   );
 }
 

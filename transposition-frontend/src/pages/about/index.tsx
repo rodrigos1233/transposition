@@ -8,6 +8,7 @@ import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
+import ContentPage from '../../components/content-page';
 
 function AboutPage() {
   const { selectedNotation } = useContext(NotationContext);
@@ -206,7 +207,7 @@ function AboutPage() {
   useChangePageTitle(pageTitleText[0] as unknown as string);
 
   return (
-    <div className="content about-page w-full">
+    <ContentPage className="about-page">
       <h1 className="my-2">{translatedText[0]}</h1>
       <p className="my-2">{translatedText[1]}</p>
       <p className="my-2">{translatedText[2]}</p>
@@ -226,7 +227,7 @@ function AboutPage() {
           return null;
         })}
       </ul>
-    </div>
+    </ContentPage>
   );
 }
 

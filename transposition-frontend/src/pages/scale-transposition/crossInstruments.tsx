@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleCrossInstrumentsTransposer } from '../../utils/transposer';
@@ -20,6 +20,7 @@ import NotationContext from '../../contexts/NotationContext';
 import SelectComponent, { OptionType } from '../../components/select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 import { SingleValue } from 'react-select';
+import ContentPage from '../../components/content-page';
 
 const MAX_ORIGIN_KEY = 11;
 const MAX_NOTE = 16;
@@ -550,7 +551,7 @@ function CrossInstrumentsScaleTransposition() {
   }
 
   return (
-    <div className="content simple-transposition w-full">
+    <ContentPage className="simple-transposition">
       <ModeSelector
         selectedMode={selectedMode}
         handleChangeMode={handleChangeMode}
@@ -643,7 +644,7 @@ function CrossInstrumentsScaleTransposition() {
         selectedTargetKey={selectedTargetKey}
         showAdditionalModes={showAdditionalModes}
       />
-    </div>
+    </ContentPage>
   );
 }
 
