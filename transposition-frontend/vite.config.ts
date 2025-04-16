@@ -1,17 +1,26 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import crypto from 'crypto';
 
 // https://vitejs.dev/config/
+// Workaround for CI environment
+process.env.VITE_CJS_IGNORE_WARNING = 'true';
+process.env.VITE_CJS_TRACE = 'true';
+
 export default defineConfig({
-  define: {
-    global: {},
-    'process.env': {},
-    'globalThis.crypto': JSON.stringify({
-      getRandomValues: (arr: any) => crypto.randomBytes(arr.length)
-    })
+  build: {
+    // Avoid crypto requirement in CI
+    cssCodeSplit: false,
+    sourcemap: false,
+    // Reduce chunk splitting
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    },
+    outDir: 'build', // Same as CRA default
   },
+
   plugins: [react()],
   resolve: {
     alias: {
@@ -24,8 +33,5 @@ export default defineConfig({
       // Force the HMR to always be active
       overlay: true,
     },
-  },
-  build: {
-    outDir: 'build', // Same as CRA default
   },
 });

@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "vite",
     "start": "vite",
-    "build": "tsc && vite build",
+    "build": "NODE_ENV=production tsc && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"
