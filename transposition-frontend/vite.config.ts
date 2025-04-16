@@ -1,9 +1,17 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
+import crypto from 'crypto';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  define: {
+    global: {},
+    'process.env': {},
+    'globalThis.crypto': JSON.stringify({
+      getRandomValues: (arr: any) => crypto.randomBytes(arr.length)
+    })
+  },
   plugins: [react()],
   resolve: {
     alias: {
