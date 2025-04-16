@@ -12,7 +12,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
-import ButtonsFlexContainer from '../../components/button/ButtonsFlexContainer';
+
 import ModeSelector from '../../components/mode-selector';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import LanguageContext from '../../contexts/LanguageContext';

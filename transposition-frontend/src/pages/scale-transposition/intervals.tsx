@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { getNote, SCALES } from '../../utils/notes';
 import { enharmonicGroupTransposer, scaleTransposer } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
@@ -29,8 +29,7 @@ function IntervalsScaleTransposition() {
     const notationContext = useContext(NotationContext);
     const selectedNotation = notationContext.selectedNotation;
 
-    const [originKeyString, intervalString, modeString, directionString] =
-        linkParams?.split('-') || [];
+    const [originKeyString, intervalString, directionString] = linkParams?.split('-') || [];
 
     function validateParam(value: string, max: number) {
         const numValue = Number(value);

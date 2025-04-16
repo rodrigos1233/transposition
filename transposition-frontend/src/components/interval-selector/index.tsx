@@ -34,7 +34,7 @@ function IntervalSelector({
         semitonesTextTranslations,
         []
     );
-    const intervals = INTERVALS.map((mode, index) => (
+    const intervals = INTERVALS.map((_, index) => (
         <Button
             key={index}
             onClick={() => handleChangeInterval(index)}

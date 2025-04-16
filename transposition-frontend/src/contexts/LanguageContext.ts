@@ -3,7 +3,7 @@ import { Language } from '../hooks/useTranslation';
 
 const LanguageContext = createContext({
     selectedLanguage: Language.English,
-    setSelectedLanguage: (language: Language) => {},
+    setSelectedLanguage: (_: Language) => {},
 });
 
 export default LanguageContext;
