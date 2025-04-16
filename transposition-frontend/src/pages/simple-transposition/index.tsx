@@ -22,6 +22,7 @@ import NotationContext from '../../contexts/NotationContext';
 import { SingleValue } from 'react-select';
 import SelectComponent, { OptionType } from '../../components/select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
+import VexflowStave from "../../components/vexflow/vexflowRender";
 import VexFlowExample from '../../components/vexflow/vexflowRender';
 
 const MAX_NOTE = 11;
@@ -655,17 +656,7 @@ function SimpleTransposition() {
                     />
                 )}
             </div>
-            <VexFlowExample musicalKey="F" replacedKey="Eb" />
-            <VexFlowExample musicalKey="Eb" replacedKey="F" />
-            <VexFlowExample musicalKey="Eb"  />
-            <VexFlowExample musicalKey="F"  />
-            <VexFlowExample musicalKey="G"  />
-            <VexFlowExample musicalKey="F#"  />
-            <VexFlowExample musicalKey="Dbm"  />
-            <VexFlowExample musicalKey="Gbm"  />
-            <VexFlowExample musicalKey="flats_14"  />
-            <VexFlowExample musicalKey="sharps_14"  />
-            <VexFlowExample musicalKey="sharps_2"  replacedKey="sharps_7" />
+            <VexflowStave alteration={"flat"} alteredNotes={[0,0,0,0,0, 4, 5, 2]} />
         </div>
     );
 }
