@@ -11,8 +11,8 @@ function ContentCard(props: ContentCardProps) {
   const { children, className, level = 1 } = props;
 
   const levelClassesMap: Record<number, string> = {
-    1: 'p-5 rounded-3xl',
-    2: 'p-3 rounded-xl',
+    1: 'p-3 md:p-5 rounded-2xl md:rounded-3xl',
+    2: 'p-1 md:p-3 md:rounded-xl',
   };
 
   return (
