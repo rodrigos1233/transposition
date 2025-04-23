@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { getNote, INSTRUMENTS_PITCHES } from '../../utils/notes';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
-import type { Language } from '../../hooks/useTranslationLegacy.ts';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import NotationContext from '../../contexts/NotationContext';
 import ContentPage from '../../components/content-page';
@@ -15,7 +14,7 @@ function AboutPage() {
   useChangePageTitle(t('about.title'));
 
   function getInstrumentList(keyIndex: number) {
-    const instrumentsArray = LIST_OF_INSTRUMENTS[i18n.language as Language]?.[keyIndex] as string[] | undefined;
+    const instrumentsArray = LIST_OF_INSTRUMENTS[i18n.language]?.[keyIndex];
 
     if (!instrumentsArray) {
       return null;
