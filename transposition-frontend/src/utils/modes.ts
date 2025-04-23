@@ -73,10 +73,24 @@ export const MODES: Mode[] = [
   },
 ];
 
-export function getModeName(index: number, language: Language): string {
+function i18nLanguageToEnum(language: string): Language {
+  switch (language) {
+    case 'fr':
+      return Language.French;
+    case 'es':
+      return Language.Spanish;
+    case 'de':
+      return Language.German;
+    default:
+      return Language.English;
+  }
+}
+
+export function getModeName(index: number, language: string | Language): string {
+  const selectedLanguage = typeof language === 'string' ? i18nLanguageToEnum(language) : language;
   // Fallback to English if the selected language is not available
   return (
-    MODES[index].translations[language] ||
+    MODES[index].translations[selectedLanguage] ||
     MODES[index].translations[Language.English]
   );
 }

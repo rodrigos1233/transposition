@@ -11,5 +11,15 @@
     "romance": "romance",
     "german": "german",
     "english": "english"
+  },
+  "landing": {
+    "title": "Transposition",
+    "welcome": "Welcome to ClaveShift.com!",
+    "description": "ClaveShift.com, formerly MusicTranspositor.com, is an online transposer tool that allows you to easily transpose a single note from one key to another.",
+    "aboutLink": "For more detailed information about music transposition, please visit the <0>About page</0>.",
+    "quickStart": "Quick Start:",
+    "instrumentFrom": "You play an instrument in",
+    "instrumentTo": "and want to find out the corresponding scales for an instrument in",
+    "commonKeys": "Here are some common keys:"
   }
 }

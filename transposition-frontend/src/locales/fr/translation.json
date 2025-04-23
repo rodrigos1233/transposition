@@ -11,5 +11,15 @@
     "romance": "latine",
     "german": "allemande",
     "english": "anglaise"
+  },
+  "landing": {
+    "title": "Transposition",
+    "welcome": "Bienvenue sur ClaveShift.com!",
+    "description": "ClaveShift.com, anciennement MusicTranspositor.com est un outil en ligne de transposition musicale qui vous permet de transposer facilement une note d'une tonalité à une autre.",
+    "aboutLink": "Pour plus d'informations sur la transposition musicale, veuillez visiter la page <0>À propos</0>.",
+    "quickStart": "Prise en main rapide :",
+    "instrumentFrom": "Vous jouez d'un instrument en",
+    "instrumentTo": "et souhaitez connaître les gammes correspondantes pour un instrument en",
+    "commonKeys": "Voici quelques tonalités courantes:"
   }
 }
