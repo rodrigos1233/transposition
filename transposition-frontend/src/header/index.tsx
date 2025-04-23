@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useContext } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import NotationSelector from './NotationSelector';
 
 import './header.css';
@@ -6,22 +6,16 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 import Text from '../components/text';
 import { HamburgerMenu } from './hamburgerMenu';
-import useTranslation, {
-  Language,
-  Translations,
-} from '../hooks/useTranslation';
 import LanguageSelector from './LanguageSelector';
 import { handleNavigate } from '../utils/handleNavigate';
 import NavTabDropdown from '../components/nav-tab-dropdown';
-import LanguageContext from '../contexts/LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 export function Header() {
   const location = window.location.pathname.substring(1);
   const navigate = useNavigate();
   const [openMenu, setOpenMenu] = useState(false);
-
-  const languageContext = useContext(LanguageContext);
-  const selectedLanguage = languageContext.selectedLanguage;
+  const { t } = useTranslation();
 
   const isMobile = useIsMobile();
 
@@ -43,46 +37,9 @@ export function Header() {
     };
   }, []);
 
-  const translations: Translations = {
-    [Language.English]: [
-      'Scale',
-      'Note',
-      'About',
-      'Home',
-      'Cross instruments',
-      'Intervals',
-    ],
-    [Language.French]: [
-      'Gamme',
-      'Note',
-      'À propos',
-      'Accueil',
-      'Instruments',
-      'Intervalles',
-    ],
-    [Language.Spanish]: [
-      'Escala',
-      'Nota',
-      'Info',
-      'Inicio',
-      'Instrumentos',
-      'Intervalos',
-    ],
-    [Language.German]: [
-      'Tonleiter',
-      'Ton',
-      'Info',
-      'Start',
-      'Instrumente',
-      'Intervalle',
-    ],
-  };
-
-  const translatedStrings = useTranslation(selectedLanguage, translations, []);
-
   const scaleLinkElements = [
     {
-      content: translatedStrings[4],
+      content: t('common.header.crossInstruments'),
       href: '/scale-cross-instruments',
       isCurrentPage: location.startsWith('scale-cross-instruments'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -91,7 +48,7 @@ export function Header() {
       },
     },
     {
-      content: translatedStrings[5],
+      content: t('common.header.intervals'),
       href: '/scale-intervals',
       isCurrentPage: location.startsWith('scale-intervals'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -103,7 +60,7 @@ export function Header() {
 
   const noteLinkElements = [
     {
-      content: translatedStrings[1],
+      content: t('common.header.note'),
       href: '/note',
       isCurrentPage: location.startsWith('note'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -115,7 +72,7 @@ export function Header() {
 
   const aboutLinkElement = [
     {
-      content: translatedStrings[2],
+      content: t('common.header.about'),
       href: '/about',
       isCurrentPage: location === 'about',
     },
@@ -141,7 +98,7 @@ export function Header() {
                   (link) => link.isCurrentPage
                 )}
               >
-                {translatedStrings[0]}
+                {t('common.header.scale')}
               </NavTabDropdown>
 
               <NavTabDropdown
@@ -150,7 +107,7 @@ export function Header() {
                   (link) => link.isCurrentPage
                 )}
               >
-                {translatedStrings[1]}
+                {t('common.header.note')}
               </NavTabDropdown>
 
               <NavTabDropdown
@@ -159,7 +116,7 @@ export function Header() {
                   (link) => link.isCurrentPage
                 )}
               >
-                {translatedStrings[2]}
+                {t('common.header.about')}
               </NavTabDropdown>
             </nav>
           )}
@@ -198,54 +155,11 @@ export function BottomNav() {
   const isMobile = useIsMobile();
   const location = window.location.pathname.substring(1);
   const navigate = useNavigate();
-
-  const languageContext = useContext(LanguageContext);
-  const selectedLanguage = languageContext.selectedLanguage;
-
-  const translations: Translations = {
-    [Language.English]: [
-      'Scale',
-      'Note',
-      'About',
-      'Home',
-      'Cross instruments',
-      'Intervals',
-      'Home',
-    ],
-    [Language.French]: [
-      'Gamme',
-      'Note',
-      'À propos',
-      'Accueil',
-      'Instruments',
-      'Intervalles',
-      'Accueil',
-    ],
-    [Language.Spanish]: [
-      'Escala',
-      'Nota',
-      'Info',
-      'Inicio',
-      'Instrumentos',
-      'Intervalos',
-      'Inicio',
-    ],
-    [Language.German]: [
-      'Tonleiter',
-      'Ton',
-      'Info',
-      'Start',
-      'Instrumente',
-      'Intervalle',
-      'Start',
-    ],
-  };
-
-  const translatedStrings = useTranslation(selectedLanguage, translations, []);
+  const { t } = useTranslation();
 
   const startLinkElement = [
     {
-      content: translatedStrings[6],
+      content: t('common.header.home'),
       href: '/',
       isCurrentPage: location === '',
     },
@@ -253,7 +167,7 @@ export function BottomNav() {
 
   const scaleLinkElements = [
     {
-      content: translatedStrings[4],
+      content: t('common.header.crossInstruments'),
       href: '/scale-cross-instruments',
       isCurrentPage: location.startsWith('scale-cross-instruments'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -262,7 +176,7 @@ export function BottomNav() {
       },
     },
     {
-      content: translatedStrings[5],
+      content: t('common.header.intervals'),
       href: '/scale-intervals',
       isCurrentPage: location.startsWith('scale-intervals'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -274,7 +188,7 @@ export function BottomNav() {
 
   const noteLinkElements = [
     {
-      content: translatedStrings[1],
+      content: t('common.header.note'),
       href: '/note',
       isCurrentPage: location.startsWith('note'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -286,7 +200,7 @@ export function BottomNav() {
 
   const aboutLinkElement = [
     {
-      content: translatedStrings[2],
+      content: t('common.header.about'),
       href: '/about',
       isCurrentPage: location === 'about',
     },
@@ -304,7 +218,7 @@ export function BottomNav() {
               )}
               isMobile
             >
-              {translatedStrings[0]}
+              {t('common.header.home')}
             </NavTabDropdown>
             <NavTabDropdown
               elements={scaleLinkElements}
@@ -313,7 +227,7 @@ export function BottomNav() {
               )}
               isMobile
             >
-              {translatedStrings[0]}
+              {t('common.header.scale')}
             </NavTabDropdown>
 
             <NavTabDropdown
@@ -323,7 +237,7 @@ export function BottomNav() {
               )}
               isMobile
             >
-              {translatedStrings[1]}
+              {t('common.header.note')}
             </NavTabDropdown>
 
             <NavTabDropdown
@@ -333,7 +247,7 @@ export function BottomNav() {
               )}
               isMobile
             >
-              {translatedStrings[2]}
+              {t('common.header.about')}
             </NavTabDropdown>
           </nav>
         </div>

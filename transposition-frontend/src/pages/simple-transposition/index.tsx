@@ -8,10 +8,10 @@ import {
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { crossInstrumentsTransposer } from '../../utils/transposer';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../../hooks/useTranslation';
+} from '../../hooks/useTranslationLegacy.ts';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import Staff from '../../components/staff';
@@ -156,7 +156,7 @@ function SimpleTransposition() {
     ],
   };
 
-  const translatedText = useTranslation(selectedLanguage, translations, []);
+  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
 
   const [_, reversedEnharmonicOriginGroupNotes] = crossInstrumentsTransposer(
     selectedNote,
@@ -316,7 +316,7 @@ function SimpleTransposition() {
     [Language.German]: [germanMessage],
   };
 
-  const translatedResults = useTranslation(
+  const translatedResults = useTranslationLegacy(
     selectedLanguage,
     resultTranslations,
     [selectedNotation, selectedNote, selectedOriginKey, selectedTargetKey]
@@ -371,7 +371,7 @@ function SimpleTransposition() {
     ],
   };
 
-  const pageTitleText = useTranslation(
+  const pageTitleText = useTranslationLegacy(
     selectedLanguage,
     titleTextTranslations,
     [selectedTargetKey, selectedNotation, selectedNote, selectedOriginKey]
@@ -483,7 +483,7 @@ function SimpleTransposition() {
     ],
   };
 
-  const musicalStaffText = useTranslation(
+  const musicalStaffText = useTranslationLegacy(
     selectedLanguage,
     musicalStaffTextTranslations,
     [selectedNotation, selectedOriginKey, selectedTargetKey]

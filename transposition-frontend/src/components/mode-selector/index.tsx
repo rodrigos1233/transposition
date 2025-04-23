@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 
 import Button from '../../components/button';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../../hooks/useTranslation';
+} from '../../hooks/useTranslationLegacy.ts';
 import { getModeName, MODES } from '../../utils/modes';
 import './mode-selector.css';
 
@@ -66,7 +66,7 @@ function ModeSelector({
     ],
   };
 
-  const toggleButtonText = useTranslation(
+  const toggleButtonText = useTranslationLegacy(
     selectedLanguage,
     toggleButtonTextTranslations,
     [showAdditionalModes]

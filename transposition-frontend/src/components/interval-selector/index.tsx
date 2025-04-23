@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 
 import Button from '../../components/button';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../../hooks/useTranslation';
+} from '../../hooks/useTranslationLegacy.ts';
 import ButtonsGridContainer from '../button/ButtonsGridContainer';
 import { getIntervalName, INTERVALS } from '../../utils/intervals';
 import LanguageContext from '../../contexts/LanguageContext';
@@ -32,7 +32,7 @@ function IntervalSelector({
     [Language.German]: ['Halbtöne'],
   };
 
-  const semitonesText = useTranslation(
+  const semitonesText = useTranslationLegacy(
     selectedLanguage,
     semitonesTextTranslations,
     []
@@ -61,7 +61,7 @@ function IntervalSelector({
     [Language.German]: [`Nach unten`, `Nach oben`],
   };
 
-  const toggleButtonText = useTranslation(
+  const toggleButtonText = useTranslationLegacy(
     selectedLanguage,
     toggleButtonTextTranslations,
     []

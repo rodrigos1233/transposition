@@ -1,0 +1,44 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "error": "Error",
+    "header": {
+      "scale": "Escala",
+      "note": "Nota",
+      "about": "Info",
+      "home": "Inicio",
+      "crossInstruments": "Instrumentos",
+      "intervals": "Intervalos"
+    }
+  },
+  "languageSelector": {
+    "label": "Idioma:"
+  },
+  "notationSelector": {
+    "label": "Notación:",
+    "romance": "latina",
+    "german": "alemana",
+    "english": "inglesa"
+  },
+  "landing": {
+    "title": "Transposición",
+    "welcome": "Bienvenido a ClaveShift.com!",
+    "description": "ClaveShift.com, antes llamado MusicTranspositor.com, es una herramienta en línea de transposición musical que te permite transponer fácilmente una nota de una tonalidad a otra.",
+    "aboutLink": "Para más información sobre la transposición musical, por favor visite la página <0>Acerca de</0>.",
+    "quickStart": "Inicio rápido:",
+    "instrumentFrom": "Tocas un instrumento en",
+    "instrumentTo": "y quieres averiguar las escalas correspondientes para un instrumento en",
+    "commonKeys": "Aquí tienes algunas tonalidades comunes:"
+  },
+  "about": {
+    "title": "Info",
+    "mainHeading": "Acerca de la Transposición Musical",
+    "description1": "La transposición musical es el proceso de desplazar una colección de notas (como una melodía, armonía o escala) hacia arriba o hacia abajo en el tono por un intervalo constante. Esto significa que cada nota en la pieza de música se eleva o baja por la misma proporción de cambio en la altura, resultando en una nueva tonalidad. La transposición se utiliza comúnmente en la música para adaptarse a diferentes rangos vocales, afinaciones de instrumentos o para hacer que una pieza sea más fácil de leer y tocar.",
+    "description2": "Este sitio web es una herramienta diseñada para facilitar transposiciones rápidas. Proporciona una interfaz sencilla para transponer una sola nota de una tonalidad a otra, así como una interfaz más avanzada para transponer una escala completa de una tonalidad a otra. Esto permite, por ejemplo, tocar rápidamente una pieza en la misma tonalidad cuando se tocan dos instrumentos con afinaciones diferentes.",
+    "nameHeading": "Acerca del nombre <0>ClaveShift</0>:",
+    "nameIntro": "El nombre <0>ClaveShift</0> combina dos términos: <1>clave</1> y <2>shift</2>.",
+    "claveMeaning": "<0>Clave</0>: La palabra \"clave\" hace referencia directamente a las tonalidades musicales y a la transposición. En teoría musical, cambiar de tonalidad es un concepto fundamental, y \"Clave\" captura el enfoque de esta herramienta en los cambios de tonalidad.",
+    "shiftMeaning": "<0>Shift</0>: \"Shift\" (cambio, desplazamiento) sugiere el acto de mover una nota o una escala de una tonalidad a otra, que es exactamente lo que hace esta herramienta—mueve notas y escalas entre tonalidades para facilitar la transposición a los músicos.",
+    "instrumentListTitle": "Aquí hay una lista no exhaustiva de instrumentos ordenados por su tonalidad posible:"
+  }
+}

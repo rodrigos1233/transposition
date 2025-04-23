@@ -1,35 +1,33 @@
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import Button from '../components/button';
 import './header.css';
-import useTranslation, {
-  Language,
-  Translations,
-} from '../hooks/useTranslation';
+import { Language } from '../hooks/useTranslationLegacy.ts';
 import Text from '../components/text';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 import LanguageContext from '../contexts/LanguageContext';
 
 function LanguageSelector() {
   const AvailableLanguages = Object.values(Language);
+  const { t, i18n } = useTranslation();
 
   const languageContext = useContext(LanguageContext);
   const selectedLanguage = languageContext.selectedLanguage;
   const setSelectedLanguage = languageContext.setSelectedLanguage;
 
-  const translations: Translations = {
-    [Language.English]: ['Language:'],
-    [Language.French]: ['Langue:'],
+  // Update i18next language when context language changes
+  const handleLanguageChange = (language: Language) => {
+    setSelectedLanguage(language);
+    i18n.changeLanguage(language);
   };
-
-  const translatedStrings = useTranslation(selectedLanguage, translations, []);
 
   return (
     <ButtonsFlexContainer>
-      <Text size={'small'}>{translatedStrings[0]}</Text>
+      <Text size={'small'}>{t('languageSelector.label')}</Text>
       {AvailableLanguages.map((language, k) => (
         <Button
           key={k}
-          onClick={() => setSelectedLanguage(language)}
+          onClick={() => handleLanguageChange(language)}
           disabled={language === selectedLanguage}
           className="ml-3"
         >

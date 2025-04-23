@@ -1,7 +1,9 @@
-import { Language, Translations } from '../hooks/useTranslation';
+type InstrumentsByLanguage = {
+  [key: string]: string[][];
+};
 
-export const LIST_OF_INSTRUMENTS: Translations = {
-  [Language.English]: [
+export const LIST_OF_INSTRUMENTS: InstrumentsByLanguage = {
+  en: [
     // C
     [
       'Piano',
@@ -75,7 +77,7 @@ export const LIST_OF_INSTRUMENTS: Translations = {
     // B
     ['B soprano clarinet'],
   ],
-  [Language.French]: [
+  fr: [
     // C
     [
       'Piano',
@@ -149,7 +151,7 @@ export const LIST_OF_INSTRUMENTS: Translations = {
     // B
     ['Clarinette soprano en si'],
   ],
-  [Language.Spanish]: [
+  es: [
     // C
     [
       'Piano',
@@ -221,7 +223,7 @@ export const LIST_OF_INSTRUMENTS: Translations = {
     // B
     ['Clarinete soprano en si'],
   ],
-  [Language.German]: [
+  de: [
     // C
     [
       'Klavier',

@@ -1,0 +1,44 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "header": {
+      "scale": "Scale",
+      "note": "Note",
+      "about": "About",
+      "home": "Home",
+      "crossInstruments": "Cross instruments",
+      "intervals": "Intervals"
+    }
+  },
+  "languageSelector": {
+    "label": "Language:"
+  },
+  "notationSelector": {
+    "label": "Notation:",
+    "romance": "romance",
+    "german": "german",
+    "english": "english"
+  },
+  "landing": {
+    "title": "Transposition",
+    "welcome": "Welcome to ClaveShift.com!",
+    "description": "ClaveShift.com, formerly MusicTranspositor.com, is an online transposer tool that allows you to easily transpose a single note from one key to another.",
+    "aboutLink": "For more detailed information about music transposition, please visit the <0>About page</0>.",
+    "quickStart": "Quick Start:",
+    "instrumentFrom": "You play an instrument in",
+    "instrumentTo": "and want to find out the corresponding scales for an instrument in",
+    "commonKeys": "Here are some common keys:"
+  },
+  "about": {
+    "title": "About",
+    "mainHeading": "About Musical Transposition:",
+    "description1": "Musical transposition is the process of shifting a collection of notes (such as a melody, harmony, or scale) up or down in pitch by a constant interval. This means that every note in the music is adjusted by the same proportional change in pitch, resulting in a new key. Transposition is commonly used to accommodate different vocal ranges, instrument tunings, or to make a piece easier to read and perform.",
+    "description2": "This website is a tool designed for quick and easy transposition. It offers a simple interface to transpose a single note from one key to another, as well as a more advanced interface to transpose an entire scale. This feature allows musicians to easily play a piece in the same key when using two instruments with different tunings, for example.",
+    "nameHeading": "About the name <0>ClaveShift</0>:",
+    "nameIntro": "The name <0>ClaveShift</0> combines two terms: <1>clave</1> and <2>shift</2>.",
+    "claveMeaning": "<0>Clave</0>: In Spanish, \"clave\" means \"key\", which directly relates to musical keys and transposition. In music theory, changing keys is a core concept, so \"Clave\" captures the tool's focus on key changes.",
+    "shiftMeaning": "<0>Shift</0>: \"Shift\" conveys the action of moving from one key to another, which is exactly what this tool does—it shifts notes and scales between keys to make transposition easier for musicians.",
+    "instrumentListTitle": "Here is a non exhaustive list of instruments sorted by their possible key:"
+  }
+}

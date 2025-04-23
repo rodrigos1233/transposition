@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Note } from '../utils/notes';
-import { Language } from '../hooks/useTranslation';
+import { Language } from '../hooks/useTranslationLegacy.ts';
 import LanguageContext from '../contexts/LanguageContext';
 import NotationContext from '../contexts/NotationContext';
+import i18n from '../i18n';
 
 const detectUserBrowserLanguage = (): Language => {
   const userLanguage = navigator.language.toLowerCase().split('-')[0];
@@ -70,6 +71,7 @@ function ContextsProvider({ children }: { children: React.ReactNode }) {
   function handleChangeLanguage(language: Language) {
     setSelectedLanguage(language);
     localStorage.setItem('selectedLanguage', language);
+    i18n.changeLanguage(language);  // Sync i18next language
   }
 
   useEffect(() => {
