@@ -1,7 +1,15 @@
 {
   "common": {
     "loading": "Laden...",
-    "error": "Fehler"
+    "error": "Fehler",
+    "header": {
+      "scale": "Tonleiter",
+      "note": "Ton",
+      "about": "Info",
+      "home": "Start",
+      "crossInstruments": "Instrumente",
+      "intervals": "Intervalle"
+    }
   },
   "languageSelector": {
     "label": "Sprache:"

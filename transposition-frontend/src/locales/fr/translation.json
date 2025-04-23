@@ -1,7 +1,15 @@
 {
   "common": {
     "loading": "Chargement...",
-    "error": "Erreur"
+    "error": "Erreur",
+    "header": {
+      "scale": "Gamme",
+      "note": "Note",
+      "about": "À propos",
+      "home": "Accueil",
+      "crossInstruments": "Instruments",
+      "intervals": "Intervalles"
+    }
   },
   "languageSelector": {
     "label": "Langue:"

@@ -46,24 +46,33 @@ function AboutPage() {
       </ContentCard>
       <ContentCard>
         <h2 className="my-2">
-          <Trans i18nKey="about.nameHeading" components={[<span className="font-bold" />]} />
+          <Trans
+            i18nKey="about.nameHeading"
+            components={[<span className="font-bold" />]}
+          />
         </h2>
         <p className="my-2">
-          <Trans 
-            i18nKey="about.nameIntro" 
+          <Trans
+            i18nKey="about.nameIntro"
             components={[
               <span className="font-bold" />,
               <span className="font-bold" />,
-              <span className="font-bold" />
-            ]} 
+              <span className="font-bold" />,
+            ]}
           />
         </p>
         <ul className="list-disc ml-4 my-2">
           <li>
-            <Trans i18nKey="about.claveMeaning" components={[<span className="font-bold" />]} />
+            <Trans
+              i18nKey="about.claveMeaning"
+              components={[<span className="font-bold" />]}
+            />
           </li>
           <li>
-            <Trans i18nKey="about.shiftMeaning" components={[<span className="font-bold" />]} />
+            <Trans
+              i18nKey="about.shiftMeaning"
+              components={[<span className="font-bold" />]}
+            />
           </li>
         </ul>
       </ContentCard>

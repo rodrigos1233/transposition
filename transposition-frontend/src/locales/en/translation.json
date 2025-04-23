@@ -1,7 +1,15 @@
 {
   "common": {
     "loading": "Loading...",
-    "error": "Error"
+    "error": "Error",
+    "header": {
+      "scale": "Scale",
+      "note": "Note",
+      "about": "About",
+      "home": "Home",
+      "crossInstruments": "Cross instruments",
+      "intervals": "Intervals"
+    }
   },
   "languageSelector": {
     "label": "Language:"
