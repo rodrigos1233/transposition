@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './styles/output.css';
+import './i18n';  // Import i18n configuration
 
 const container = document.getElementById('root');
 

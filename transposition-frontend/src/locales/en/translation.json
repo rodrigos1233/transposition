@@ -1,0 +1,9 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "Error"
+  },
+  "languageSelector": {
+    "label": "Language:"
+  }
+}
