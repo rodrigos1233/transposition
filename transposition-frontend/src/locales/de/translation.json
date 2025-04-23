@@ -21,5 +21,16 @@
     "instrumentFrom": "Sie spielen ein Instrument in",
     "instrumentTo": "und möchten die entsprechenden Tonarten für ein Instrument in",
     "commonKeys": "Hier sind einige gängige Tonarten:"
+  },
+  "about": {
+    "title": "Info",
+    "mainHeading": "Über die Musikalische Transposition",
+    "description1": "Die musikalische Transposition ist der Prozess, eine Sammlung von Noten (wie eine Melodie, Harmonie oder Tonleiter) um einen konstanten Intervall nach oben oder unten zu verschieben. Dies bedeutet, dass jede Note im Musikstück proportional um die gleiche Tonhöhe verändert wird, was zu einer neuen Tonart führt. Transposition wird häufig verwendet, um unterschiedliche Stimmumfänge, die Stimmung von Instrumenten oder ein Stück leichter lesbar und spielbar zu machen.",
+    "description2": "Diese Website ist ein Werkzeug, um schnelle Transpositionen zu ermöglichen. Es bietet eine einfache Oberfläche zum Transponieren einer einzelnen Note von einer Tonart in eine andere sowie eine erweiterte Oberfläche zum Transponieren einer gesamten Tonleiter von einer Tonart in eine andere. Dies ermöglicht es, beispielsweise ein Stück schnell in der gleichen Tonart zu spielen, wenn man mit zwei verschiedenen Instrumenten spielt, die unterschiedliche Stimmungen haben.",
+    "nameHeading": "Über den Namen <0>ClaveShift</0>:",
+    "nameIntro": "Der Name <0>ClaveShift</0> kombiniert zwei Begriffe: <1>clave</1> und <2>shift</2>.",
+    "claveMeaning": "<0>Clave</0>: Im Spanischen bedeutet \"clave\" \"Tonart\" oder \"Schlüssel\", was direkt mit musikalischen Tonarten und Transpositionen zusammenhängt. In der Musiktheorie ist das Wechseln der Tonart ein grundlegendes Konzept, und \"Clave\" spiegelt den Fokus dieses Tools auf Tonartwechsel wider.",
+    "shiftMeaning": "<0>Shift</0>: \"Shift\" (Wechsel, Verschiebung) beschreibt die Aktion, eine Note oder eine Tonleiter von einer Tonart in eine andere zu verschieben, was genau das ist, was dieses Tool tut – es verschiebt Noten und Tonleitern zwischen Tonarten, um Musikern die Transposition zu erleichtern.",
+    "instrumentListTitle": "Hier ist eine nicht exhaustive Liste von Instrumenten, sortiert nach ihren möglichen Tonarten:"
   }
 }

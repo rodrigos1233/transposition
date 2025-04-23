@@ -21,5 +21,16 @@
     "instrumentFrom": "Vous jouez d'un instrument en",
     "instrumentTo": "et souhaitez connaître les gammes correspondantes pour un instrument en",
     "commonKeys": "Voici quelques tonalités courantes:"
+  },
+  "about": {
+    "title": "À propos",
+    "mainHeading": "À propos de la transposition musicale",
+    "description1": "La transposition musicale est le processus de déplacement d'une collection de notes (une mélodie, une harmonie ou une gamme) vers le haut ou vers le bas par un intervalle constant. Cela signifie que chaque note de la pièce est élevée ou abaissée de la même distance, ce qui donne une nouvelle tonalité. La transposition est couramment utilisée en musique pour s'adapter à différentes tessitures vocales, à l'accordage des instruments ou pour rendre une pièce plus facile à lire et à jouer.",
+    "description2": "Ce site web est un outil conçu pour faciliter des transpositions rapides. Il propose une interface simple pour transposer une note d'une tonalité à une autre, ainsi qu'une interface plus avancée permettant de transposer une gamme complète. Cela permet, par exemple, de jouer rapidement une pièce dans la même tonalité lorsque vous jouez avec deux instruments ayant deux tonalités différentes.",
+    "nameHeading": "À propos du nom <0>ClaveShift</0> :",
+    "nameIntro": "Le nom <0>ClaveShift</0> combine deux termes : <1>clave</1> et <2>shift</2>.",
+    "claveMeaning": "<0>Clave</0> : En espagnol, \"clave\" signifie \"tonalité\" ou \"clé\", ce qui se rapporte directement aux tonalités musicales et à la transposition. En théorie musicale, changer de tonalité est un concept clé, et \"Clave\" reflète l'objectif de cet outil axé sur les changements de tonalité.",
+    "shiftMeaning": "<0>Shift</0> : \"Shift\" (changement, décalage) exprime l'action de passer d'une tonalité à une autre, ce que cet outil fait précisément : il permet de déplacer des notes et des gammes entre tonalités pour faciliter la transposition pour les musiciens.",
+    "instrumentListTitle": "Voici une liste non exhaustive d'instruments triés par leur tonalité possible:"
   }
 }
