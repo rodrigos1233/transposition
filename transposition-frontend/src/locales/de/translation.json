@@ -5,5 +5,11 @@
   },
   "languageSelector": {
     "label": "Sprache:"
+  },
+  "notationSelector": {
+    "label": "Notation:",
+    "romance": "lateinische",
+    "german": "deutsche",
+    "english": "englische"
   }
 }

@@ -1,89 +1,19 @@
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Note, NOTES } from '../utils/notes';
 import Button from '../components/button';
 import './header.css';
-import useTranslationLegacy, {
-  Language,
-  Translations,
-} from '../hooks/useTranslationLegacy.ts';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
-import LanguageContext from '../contexts/LanguageContext';
 import NotationContext from '../contexts/NotationContext';
 
 function NotationSelector() {
   const availableNotations = Object.keys(NOTES[0]);
   const { selectedNotation, setSelectedNotation } = useContext(NotationContext);
-
-  const languageContext = useContext(LanguageContext);
-  const selectedLanguage = languageContext.selectedLanguage;
-
-  const titleTranslations: Translations = {
-    [Language.English]: ['Notation:'],
-    [Language.French]: ['Notation:'],
-    [Language.Spanish]: ['Notación:'],
-    [Language.German]: ['Notation:'],
-  };
-
-  const translations: Translations = {
-    [Language.English]: availableNotations,
-    [Language.French]: availableNotations.map((notation) => {
-      if (notation === 'romance') {
-        return 'latine';
-      }
-
-      if (notation === 'german') {
-        return 'allemande';
-      }
-
-      if (notation === 'english') {
-        return 'anglaise';
-      }
-
-      return notation;
-    }),
-    [Language.Spanish]: availableNotations.map((notation) => {
-      if (notation === 'romance') {
-        return 'latina';
-      }
-
-      if (notation === 'german') {
-        return 'alemana';
-      }
-
-      if (notation === 'english') {
-        return 'inglesa';
-      }
-
-      return notation;
-    }),
-    [Language.German]: availableNotations.map((notation) => {
-      if (notation === 'romance') {
-        return 'lateinisch';
-      }
-
-      if (notation === 'german') {
-        return 'deutsch';
-      }
-
-      if (notation === 'english') {
-        return 'englisch';
-      }
-
-      return notation;
-    }),
-  };
-
-  const translatedStrings = useTranslationLegacy(selectedLanguage, translations, []);
-
-  const translatedTitles = useTranslationLegacy(
-    selectedLanguage,
-    titleTranslations,
-    []
-  );
+  const { t } = useTranslation();
 
   return (
     <ButtonsFlexContainer>
-      <p>{translatedTitles[0]}</p>
+      <p>{t('notationSelector.label')}</p>
       {availableNotations.map((notation, k) => (
         <Button
           key={k}
@@ -91,7 +21,7 @@ function NotationSelector() {
           disabled={notation === selectedNotation}
           className="ml-3"
         >
-          {translatedStrings[k]}
+          {t(`notationSelector.${notation}`)}
         </Button>
       ))}
     </ButtonsFlexContainer>
