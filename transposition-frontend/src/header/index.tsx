@@ -6,10 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useIsMobile } from '../hooks/useIsMobile';
 import Text from '../components/text';
 import { HamburgerMenu } from './hamburgerMenu';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../hooks/useTranslation';
+} from '../hooks/useTranslationLegacy.ts';
 import LanguageSelector from './LanguageSelector';
 import { handleNavigate } from '../utils/handleNavigate';
 import NavTabDropdown from '../components/nav-tab-dropdown';
@@ -78,7 +78,7 @@ export function Header() {
     ],
   };
 
-  const translatedStrings = useTranslation(selectedLanguage, translations, []);
+  const translatedStrings = useTranslationLegacy(selectedLanguage, translations, []);
 
   const scaleLinkElements = [
     {
@@ -241,7 +241,7 @@ export function BottomNav() {
     ],
   };
 
-  const translatedStrings = useTranslation(selectedLanguage, translations, []);
+  const translatedStrings = useTranslationLegacy(selectedLanguage, translations, []);
 
   const startLinkElement = [
     {

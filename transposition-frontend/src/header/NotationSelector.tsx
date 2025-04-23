@@ -2,10 +2,10 @@ import { useContext } from 'react';
 import { Note, NOTES } from '../utils/notes';
 import Button from '../components/button';
 import './header.css';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../hooks/useTranslation';
+} from '../hooks/useTranslationLegacy.ts';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 import LanguageContext from '../contexts/LanguageContext';
 import NotationContext from '../contexts/NotationContext';
@@ -73,9 +73,9 @@ function NotationSelector() {
     }),
   };
 
-  const translatedStrings = useTranslation(selectedLanguage, translations, []);
+  const translatedStrings = useTranslationLegacy(selectedLanguage, translations, []);
 
-  const translatedTitles = useTranslation(
+  const translatedTitles = useTranslationLegacy(
     selectedLanguage,
     titleTranslations,
     []

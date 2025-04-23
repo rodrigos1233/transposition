@@ -1,10 +1,10 @@
 import { useContext } from 'react';
 import Button from '../components/button';
 import './header.css';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../hooks/useTranslation';
+} from '../hooks/useTranslationLegacy.ts';
 import Text from '../components/text';
 import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 import LanguageContext from '../contexts/LanguageContext';
@@ -21,7 +21,7 @@ function LanguageSelector() {
     [Language.French]: ['Langue:'],
   };
 
-  const translatedStrings = useTranslation(selectedLanguage, translations, []);
+  const translatedStrings = useTranslationLegacy(selectedLanguage, translations, []);
 
   return (
     <ButtonsFlexContainer>

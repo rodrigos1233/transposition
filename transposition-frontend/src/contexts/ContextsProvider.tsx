@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Note } from '../utils/notes';
-import { Language } from '../hooks/useTranslation';
+import { Language } from '../hooks/useTranslationLegacy.ts';
 import LanguageContext from '../contexts/LanguageContext';
 import NotationContext from '../contexts/NotationContext';
 

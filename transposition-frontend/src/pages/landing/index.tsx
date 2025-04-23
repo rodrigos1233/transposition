@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../../hooks/useTranslation';
+} from '../../hooks/useTranslationLegacy.ts';
 import { getNote, SCALES } from '../../utils/notes';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import Text from '../../components/text';
@@ -26,7 +26,7 @@ function LandingPage() {
     [Language.German]: [`Transposition`],
   };
 
-  const pageTitleText = useTranslation(
+  const pageTitleText = useTranslationLegacy(
     selectedLanguage,
     titleTextTranslations,
     []
@@ -211,7 +211,7 @@ function LandingPage() {
     // },
   ];
 
-  const translatedText = useTranslation(selectedLanguage, translations, [
+  const translatedText = useTranslationLegacy(selectedLanguage, translations, [
     selectedNotation,
   ]);
 

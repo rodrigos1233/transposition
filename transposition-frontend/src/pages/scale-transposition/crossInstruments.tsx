@@ -3,10 +3,10 @@ import { getNote, INSTRUMENTS_PITCHES, Note, SCALES } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { scaleCrossInstrumentsTransposer } from '../../utils/transposer';
 import { Key, scaleBuilder } from '../../utils/scaleBuilder';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../../hooks/useTranslation';
+} from '../../hooks/useTranslationLegacy.ts';
 import { getModeName } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
@@ -120,7 +120,7 @@ function CrossInstrumentsScaleTransposition() {
     ],
   };
 
-  const translatedText = useTranslation(selectedLanguage, translations, []);
+  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
 
   const modeText = getModeName(selectedMode, selectedLanguage);
 
@@ -337,7 +337,7 @@ function CrossInstrumentsScaleTransposition() {
     [Language.German]: [germanMessage],
   };
 
-  const translatedResults = useTranslation(
+  const translatedResults = useTranslationLegacy(
     selectedLanguage,
     resultTranslations,
     [
@@ -418,7 +418,7 @@ function CrossInstrumentsScaleTransposition() {
     ],
   };
 
-  const musicalStaffText = useTranslation(
+  const musicalStaffText = useTranslationLegacy(
     selectedLanguage,
     musicalStaffTextTranslations,
     [selectedNotation, selectedOriginKey, selectedTargetKey]
@@ -487,7 +487,7 @@ function CrossInstrumentsScaleTransposition() {
     ],
   };
 
-  const pageTitleText = useTranslation(
+  const pageTitleText = useTranslationLegacy(
     selectedLanguage,
     titleTextTranslations,
     [

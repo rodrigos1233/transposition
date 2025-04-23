@@ -1,8 +1,8 @@
 import { useContext } from 'react';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../../hooks/useTranslation';
+} from '../../hooks/useTranslationLegacy.ts';
 import { getNote, INSTRUMENTS_PITCHES } from '../../utils/notes';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
@@ -157,13 +157,13 @@ function AboutPage() {
     ],
   };
 
-  const translatedText = useTranslation(selectedLanguage, translations, []);
-  const translatedListOfInstruments = useTranslation(
+  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
+  const translatedListOfInstruments = useTranslationLegacy(
     selectedLanguage,
     LIST_OF_INSTRUMENTS,
     [selectedNotation]
   );
-  const translatedListOfInstrumentsTitle = useTranslation(
+  const translatedListOfInstrumentsTitle = useTranslationLegacy(
     selectedLanguage,
     listOfInstrumentsTranslationTitle,
     [selectedNotation]
@@ -200,7 +200,7 @@ function AboutPage() {
     [Language.German]: [`Info`],
   };
 
-  const pageTitleText = useTranslation(
+  const pageTitleText = useTranslationLegacy(
     selectedLanguage,
     titleTextTranslations,
     []

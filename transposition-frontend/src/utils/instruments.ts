@@ -1,4 +1,4 @@
-import { Language, Translations } from '../hooks/useTranslation';
+import { Language, Translations } from '../hooks/useTranslationLegacy.ts';
 
 export const LIST_OF_INSTRUMENTS: Translations = {
   [Language.English]: [

@@ -17,7 +17,7 @@ const ensureArrayStructure = (value: ReactNode | ReactNode[]): ReactNode[] => {
   return Array.isArray(value) ? value : [value];
 };
 
-const useTranslation = (
+const useTranslationLegacy = (
   selectedLanguage: Language,
   translations: Translations,
   customDependencies: any[]
@@ -43,4 +43,4 @@ const useTranslation = (
   return translatedStrings;
 };
 
-export default useTranslation;
+export default useTranslationLegacy;

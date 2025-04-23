@@ -1,4 +1,4 @@
-import { Language } from '../hooks/useTranslation';
+import { Language } from '../hooks/useTranslationLegacy.ts';
 
 export interface Mode {
   translations: {

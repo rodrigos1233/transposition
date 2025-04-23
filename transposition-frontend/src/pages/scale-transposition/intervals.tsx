@@ -8,10 +8,10 @@ import { Key, scaleBuilder } from '../../utils/scaleBuilder';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useIsMobile } from '../../hooks/useIsMobile';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
-import useTranslation, {
+import useTranslationLegacy, {
   Language,
   Translations,
-} from '../../hooks/useTranslation';
+} from '../../hooks/useTranslationLegacy.ts';
 import { getModeName } from '../../utils/modes';
 import Staff from '../../components/staff';
 import LanguageContext from '../../contexts/LanguageContext';
@@ -126,7 +126,7 @@ function IntervalsScaleTransposition() {
     ],
   };
 
-  const translatedText = useTranslation(selectedLanguage, translations, []);
+  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
 
   const modeText = getModeName(selectedMode, selectedLanguage);
 
@@ -341,7 +341,7 @@ function IntervalsScaleTransposition() {
     [Language.German]: [germanMessage],
   };
 
-  const translatedResults = useTranslation(
+  const translatedResults = useTranslationLegacy(
     selectedLanguage,
     resultTranslations,
     [
@@ -368,7 +368,7 @@ function IntervalsScaleTransposition() {
     ],
   };
 
-  const pageTitleText = useTranslation(
+  const pageTitleText = useTranslationLegacy(
     selectedLanguage,
     titleTextTranslations,
     [
