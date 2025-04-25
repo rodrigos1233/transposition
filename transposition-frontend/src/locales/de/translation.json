@@ -46,13 +46,17 @@
       "OriginKey": "Ursprungstonalität",
       "TargetKey": "Zieltonalität",
       "note": "Note",
-      "scale": "Tonleiter"
+      "scale": "Tonleiter",
+      "up": "nach oben",
+      "down": "nach runten"
     },
     "scaleIntervals": {
-      "originScaleDefinition": "Die Tonleiter von <0></0> besteht aus den folgenden Noten:",
+      "toolDescription": "Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:",
+      "intervalLabel": "Richtung und Intervall:",
+      "originScaleDefinition": "Die Tonleiter von <0>{{scale}}</0> besteht aus den folgenden Noten:",
       "noKeyChangeNeeded": " Es ist keine Tonartänderung erforderlich, da das Intervall in Halbtönen 0 beträgt.",
-      "simplerEnharmonicEquivalent": "Ein potenziell einfacheres enharmonisches Äquivalent ist jedoch die Tonleiter von <0></0>, die aus den folgenden Noten besteht:",
-      "transpositionResult": "Dies wird zur Tonleiter von <0></0>, mit den folgenden Noten: <1></1>, wenn es {{direction}} {{interval}} transponiert wird."
+      "simplerEnharmonicEquivalent": "Ein potenziell einfacheres enharmonisches Äquivalent ist jedoch die Tonleiter von <0>{{enharmonicScale}}</0>, die aus den folgenden Noten besteht:",
+      "transpositionResult": "Dies wird zur Tonleiter von <0>{{targetScale}}</0>, mit den folgenden Noten: <1>{{notes}}</1>, wenn es {{direction}} {{interval}} transponiert wird."
     }
   }
 }

@@ -46,13 +46,17 @@
       "OriginKey": "Tonalidad de origen",
       "TargetKey": "Tonalidad objetivo",
       "note": "Nota",
-      "scale": "Escala"
+      "scale": "Escala",
+      "up": "hacia arriba",
+      "down": "hacia abajo"
     },
     "scaleIntervals": {
-      "originScaleDefinition": "La escala de <0></0> se compone de las siguientes notas:",
+      "toolDescription": "Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:",
+      "intervalLabel": "Dirección y intervalo:",
+      "originScaleDefinition": "La escala de <0>{{scale}}</0> se compone de las siguientes notas:",
       "noKeyChangeNeeded": " No hay necesidad de cambiar de tonalidad porque el intervalo de semitono es de 0.",
-      "simplerEnharmonicEquivalent": "Sin embargo, una enharmónica equivalente potencialmente más simple es la escala de <0></0>, que se compone de las siguientes notas:",
-      "transpositionResult": "Se convierte en la escala de <0></0>, con las siguientes notas: <1></1>, cuando se transpone {{direction}} por una {{interval}}."
+      "simplerEnharmonicEquivalent": "Sin embargo, una enharmónica equivalente potencialmente más simple es la escala de <0>{{enharmonicScale}}</0>, que se compone de las siguientes notas:",
+      "transpositionResult": "Se convierte en la escala de <0>{{targetScale}}</0>, con las siguientes notas: <1>{{notes}}</1>, cuando se transpone {{direction}} por una {{interval}}."
     }
   }
 }

@@ -46,13 +46,18 @@
       "OriginKey": "Tonalité d'origine",
       "TargetKey": "Tonalité cible",
       "note": "Note",
-      "scale": "Gamme"
+      "scale": "Gamme",
+      "up": "vers le haut",
+      "down": "vers le bas"
     },
     "scaleIntervals": {
-      "originScaleDefinition": "La gamme de <0></0> se compose des notes suivantes :",
+      "toolDescription": "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
+      "intervalLabel": "Direction et intervalle:",
+      "originScaleDefinition": "La gamme de <0>{{scale}}</0> se compose des notes suivantes :",
       "noKeyChangeNeeded": " Aucun changement de tonalité n'est nécessaire car l'intervalle de demi-tons est de 0.",
-      "simplerEnharmonicEquivalent": "Cependant, un équivalent enharmonique potentiellement plus simple est la gamme de <0></0>, qui se compose des notes suivantes :",
-      "transpositionResult": "Elle devient la gamme de <0></0>, avec les notes suivantes : <1></1>, lorsqu'elle est transposée {{direction}} d'une {{interval}}."
+      "simplerEnharmonicEquivalent": "Cependant, un équivalent enharmonique potentiellement plus simple est la gamme de <0>{{enharmonicScale}}</0>, qui se compose des notes suivantes :",
+      "transpositionResult": "Elle devient la gamme de <0>{{targetScale}}</0>, avec les notes suivantes : <1>{{notes}}</1>, lorsqu'elle est transposée {{direction}} d'une {{interval}}."
     }
   }
 }
+
