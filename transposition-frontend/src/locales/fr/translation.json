@@ -43,8 +43,8 @@
   },
   "transposition": {
     "common": {
-      "OriginKey": "Tonalité d'origine",
-      "TargetKey": "Tonalité cible",
+      "originKey": "Tonalité d'origine",
+      "targetKey": "Tonalité cible",
       "note": "Note",
       "scale": "Gamme",
       "up": "vers le haut",

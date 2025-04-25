@@ -43,16 +43,16 @@
   },
   "transposition": {
     "common": {
-      "OriginKey": "Origin Key",
-      "TargetKey": "Target Key",
+      "originKey": "Origin Key",
+      "targetKey": "Target Key",
       "note": "Note",
       "scale": "Scale",
       "up": "up",
       "down": "down"
     },
     "scaleIntervals": {
-      "toolDescription": "Transpose a full scale in any mode from one origin key by a selected interval:",
-      "intervalLabel": "Interval's direction and interval:",
+      "toolDescription": "Transpose a full scale in any mode from one origin key by a selected interval",
+      "intervalLabel": "Interval's direction and interval",
       "originScaleDefinition": "The scale of <0>{{scale}}</0> consists of the following notes:",
       "noKeyChangeNeeded": " No key change is needed because the interval of semitones is 0.",
       "simplerEnharmonicEquivalent": "However, a potentially simpler equivalent is the scale of <0>{{enharmonicScale}}</0>, consisting of the following notes:",

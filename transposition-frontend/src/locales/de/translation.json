@@ -43,8 +43,8 @@
   },
   "transposition": {
     "common": {
-      "OriginKey": "Ursprungstonalität",
-      "TargetKey": "Zieltonalität",
+      "originKey": "Ursprungstonalität",
+      "targetKey": "Zieltonalität",
       "note": "Note",
       "scale": "Tonleiter",
       "up": "nach oben",

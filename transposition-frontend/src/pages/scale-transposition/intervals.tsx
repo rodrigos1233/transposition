@@ -101,39 +101,6 @@ function IntervalsScaleTransposition() {
     .map((noteInScale) => noteInScale.note[selectedNotation])
     .join(', ');
 
-  const translations: Translations = {
-    [Language.English]: [
-      'Transpose a full scale in any mode from one origin key by a selected interval:',
-      'Origin key:',
-      "Interval's direction and interval",
-      'Target key:',
-    ],
-    [Language.French]: [
-      "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
-      "Tonalité d'origine:",
-      'Direction et intervalle:',
-      'Tonalité cible:',
-    ],
-    [Language.Spanish]: [
-      'Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:',
-      'Tonalidad de origen:',
-      'Dirección y intervalo:',
-      'Tonalidad objetivo:',
-    ],
-    [Language.German]: [
-      'Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:',
-      'Ursprungstonalität:',
-      'Richtung und Intervall:',
-      'Zieltonalität:',
-    ],
-  };
-
-  const translatedText = useTranslationLegacy(
-    selectedLanguage,
-    translations,
-    []
-  );
-
   const modeText = getModeName(selectedMode, selectedLanguage);
 
   function handleChangeOriginKey(newOriginKey: number) {
@@ -296,12 +263,14 @@ function IntervalsScaleTransposition() {
           showAdditionalModes={showAdditionalModes}
           setShowAdditionalModes={setShowAdditionalModes}
         />
-        <h2 className="mb-3">{translatedText[0]}</h2>
+        <h2 className="mb-3">
+          {t('transposition.scaleIntervals.toolDescription')}
+        </h2>
       </ContentCard>
       <ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__origin-key-select w-full mb-3">
-            {translatedText[1]}
+            {t('transposition.common.originKey')}:
             <NoteSelector
               selected={selectedOriginKey}
               setSelected={handleChangeOriginKey}
@@ -313,7 +282,7 @@ function IntervalsScaleTransposition() {
         </ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__note-select w-full mb-3">
-            {translatedText[2]}
+            {t('transposition.scaleIntervals.intervalLabel')}:
             <IntervalSelector
               selectedInterval={selectedInterval}
               handleChangeInterval={handleChangeInterval}
