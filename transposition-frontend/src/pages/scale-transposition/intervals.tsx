@@ -22,6 +22,7 @@ import NoteSelector from '../../components/note-selector';
 import { getIntervalName } from '../../utils/intervals';
 import ContentPage from '../../components/content-page';
 import ContentCard from '../../components/content-card';
+import { useTranslation, Trans } from 'react-i18next';
 
 const MAX_ORIGIN_KEY = 16;
 const MAX_INTERVAL = 12;
@@ -35,6 +36,7 @@ function IntervalsScaleTransposition() {
 
   const notationContext = useContext(NotationContext);
   const selectedNotation = notationContext.selectedNotation;
+  const { t } = useTranslation();
 
   const [originKeyString, intervalString, directionString] =
     linkParams?.split('-') || [];
@@ -99,35 +101,6 @@ function IntervalsScaleTransposition() {
     .map((noteInScale) => noteInScale.note[selectedNotation])
     .join(', ');
 
-  const translations: Translations = {
-    [Language.English]: [
-      'Transpose a full scale in any mode from one origin key by a selected interval:',
-      'Origin key:',
-      "Interval's direction and interval",
-      'Target key:',
-    ],
-    [Language.French]: [
-      "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
-      "Tonalité d'origine:",
-      'Direction et intervalle:',
-      'Tonalité cible:',
-    ],
-    [Language.Spanish]: [
-      'Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:',
-      'Tonalidad de origen:',
-      'Dirección y intervalo:',
-      'Tonalidad objetivo:',
-    ],
-    [Language.German]: [
-      'Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:',
-      'Ursprungstonalität:',
-      'Richtung und Intervall:',
-      'Zieltonalität:',
-    ],
-  };
-
-  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
-
   const modeText = getModeName(selectedMode, selectedLanguage);
 
   function handleChangeOriginKey(newOriginKey: number) {
@@ -162,23 +135,27 @@ function IntervalsScaleTransposition() {
     );
   }
 
-  const englishMessage = [0, 12].includes(selectedInterval) ? (
+  const resultMessage = [0, 12].includes(selectedInterval) ? (
     <>
-      {`The scale of `}
-      <span className="border-b-4 border-purple-300">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      {` consists of the following notes:`}
+      <Trans
+        i18nKey="transposition.scaleIntervals.originScaleDefinition"
+        values={{
+          scale: `${getNote(originKey, selectedNotation, SCALES)} ${modeText}`,
+        }}
+        components={[<span className="border-b-4 border-purple-400" />]}
+      />
       <span className="font-bold text-lg">{notesSuite}</span>.
       {selectedInterval === 0 &&
-        ` No key change is needed because the interval of semitones is 0.`}
+        t('transposition.scaleIntervals.noKeyChangeNeeded')}
       {originKeySignature.alteration !== targetKeySignature.alteration && (
         <>
-          {` However, a potentially simpler enharmonic equivalent is the scale of `}
-          <span className="border-b-4 border-yellow-300">
-            {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-          </span>
-          {`, consisting of the following notes: `}
+          <Trans
+            i18nKey="transposition.scaleIntervals.simplerEnharmonicEquivalent"
+            values={{
+              enharmonicScale: `${getNote(targetKey, selectedNotation, SCALES)} ${modeText}`,
+            }}
+            components={[<span className="border-b-4 border-yellow-300" />]}
+          />
           <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>
           {'.'}
         </>
@@ -186,176 +163,29 @@ function IntervalsScaleTransposition() {
     </>
   ) : (
     <>
-      {`The scale of `}
-      <span className="border-b-4 border-purple-400">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` consists of the following notes:`}{' '}
+      <Trans
+        i18nKey="transposition.scaleIntervals.originScaleDefinition"
+        values={{
+          scale: `${getNote(originKey, selectedNotation, SCALES)} ${modeText}`,
+        }}
+        components={[<span className="border-b-4 border-purple-400" />]}
+      />
       <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-      {`This becomes the scale of `}
-      <span className="border-b-4 border-yellow-300">
-        {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` with the following notes: `}{' '}
-      <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>{' '}
-      {`when transposed ${selectedDirection.toLowerCase()} by one ${getIntervalName(
-        selectedInterval,
-        selectedLanguage
-      )}.`}
+      <Trans
+        i18nKey="transposition.scaleIntervals.transpositionResult"
+        values={{
+          targetScale: `${getNote(targetNote, selectedNotation, SCALES)} ${modeText}`,
+          notes: transposedScaleNotesSuite,
+          direction: t(`transposition.common.${selectedDirection}`),
+          interval: getIntervalName(selectedInterval, selectedLanguage),
+        }}
+        components={[
+          <span className="border-b-4 border-yellow-300" />,
+          <span className="font-bold text-lg" />,
+        ]}
+      />
     </>
   );
-
-  const frenchMessage = [0, 12].includes(selectedInterval) ? (
-    <>
-      {`La gamme de `}
-      <span className="border-b-4 border-purple-300">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      {` se compose des notes suivantes : `}
-      <span className="font-bold text-lg">{notesSuite}</span>.
-      {selectedInterval === 0 &&
-        ` Aucun changement de tonalité n'est nécessaire car l'intervalle de demi-tons est de 0.`}
-      {originKeySignature.alteration !== targetKeySignature.alteration && (
-        <>
-          {` Cependant, un équivalent enharmonique potentiellement plus simple est la gamme de `}
-          <span className="border-b-4 border-yellow-300">
-            {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-          </span>
-          {`, qui se compose des notes suivantes : `}
-          <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>
-          {'.'}
-        </>
-      )}
-    </>
-  ) : (
-    <>
-      {`La gamme de `}
-      <span className="border-b-4 border-purple-400">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` se compose des notes suivantes : `}{' '}
-      <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-      {`Elle devient la gamme de `}
-      <span className="border-b-4 border-yellow-300">
-        {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` avec les notes suivantes : `}{' '}
-      <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>{' '}
-      {`lorsqu'elle est transposée vers le ${
-        selectedDirection === 'up' ? 'haut' : 'bas'
-      } d'une ${getIntervalName(selectedInterval, selectedLanguage)}.`}
-    </>
-  );
-
-  const spanishMessage = [0, 12].includes(selectedInterval) ? (
-    <>
-      {`La escala de `}
-      <span className="border-b-4 border-purple-300">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      {` se compone de las siguientes notas: `}{' '}
-      <span className="font-bold text-lg">{notesSuite}</span>.
-      {selectedInterval === 0 &&
-        ` No hay necesidad de cambiar de tonalidad porque el intervalo de semitono es de 0.`}
-      {originKeySignature.alteration !== targetKeySignature.alteration && (
-        <>
-          {` Sin embargo, una enharmónica equivalente potencialmente más simple es la escala de `}
-          <span className="border-b-4 border-yellow-300">
-            {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-          </span>
-          {`, que se compone de las siguientes notas: `}
-          <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>
-          {'.'}
-        </>
-      )}
-    </>
-  ) : (
-    <>
-      {`La escala de `}
-      <span className="border-b-4 border-purple-400">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` se compone de las siguientes notas: `}{' '}
-      <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-      {`Se convierte en la escala de `}
-      <span className="border-b-4 border-yellow-300">
-        {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` con las siguientes notas: `}{' '}
-      <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>{' '}
-      {`cuando se transpone ${
-        selectedDirection === 'up' ? 'hacia arriba' : 'hacia abajo'
-      } por una ${getIntervalName(selectedInterval, selectedLanguage)}.`}
-    </>
-  );
-
-  const germanMessage = [0, 12].includes(selectedInterval) ? (
-    <>
-      {`Die Tonleiter von `}
-      <span className="border-b-4 border-purple-300">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      {` besteht aus den folgenden Noten: `}
-      <span className="font-bold text-lg">{notesSuite}</span>.
-      {selectedInterval === 0 &&
-        ` Es ist keine Tonartänderung erforderlich, da das Intervall in Halbtönen 0 beträgt.`}
-      {originKeySignature.alteration !== targetKeySignature.alteration && (
-        <>
-          {` Ein potenziell einfacheres enharmonisches Äquivalent ist jedoch die Tonleiter von `}
-          <span className="border-b-4 border-yellow-300">
-            {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-          </span>
-          {`, die aus den folgenden Noten besteht: `}
-          <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>
-          {'.'}
-        </>
-      )}
-    </>
-  ) : (
-    <>
-      {`Die Tonleiter von `}
-      <span className="border-b-4 border-purple-400">
-        {getNote(originKey, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` besteht aus den folgenden Noten: `}{' '}
-      <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-      {`Dies wird zur Tonleiter von `}
-      <span className="border-b-4 border-yellow-300">
-        {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-      </span>
-      ,{` mit den folgenden Noten: `}{' '}
-      <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>{' '}
-      {`wenn es ${
-        selectedDirection === 'up' ? 'nach oben' : 'nach unten'
-      } ${getIntervalName(
-        selectedInterval,
-        selectedLanguage
-      )} transponiert wird.`}
-    </>
-  );
-
-  const resultTranslations: Translations = {
-    [Language.English]: [englishMessage],
-    [Language.French]: [frenchMessage],
-    [Language.Spanish]: [spanishMessage],
-    [Language.German]: [germanMessage],
-  };
-
-  const translatedResults = useTranslationLegacy(
-    selectedLanguage,
-    resultTranslations,
-    [
-      selectedNotation,
-      selectedMode,
-      selectedOriginKey,
-      selectedDirection,
-      selectedInterval,
-    ]
-  );
-
-  const message = translatedResults[0];
-
-  console.log({ message, englishMessage });
 
   const titleTextTranslations: Translations = {
     [Language.English]: [
@@ -433,12 +263,14 @@ function IntervalsScaleTransposition() {
           showAdditionalModes={showAdditionalModes}
           setShowAdditionalModes={setShowAdditionalModes}
         />
-        <h2 className="mb-3">{translatedText[0]}</h2>
+        <h2 className="mb-3">
+          {t('transposition.scaleIntervals.toolDescription')}
+        </h2>
       </ContentCard>
       <ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__origin-key-select w-full mb-3">
-            {translatedText[1]}
+            {t('transposition.common.originKey')}:
             <NoteSelector
               selected={selectedOriginKey}
               setSelected={handleChangeOriginKey}
@@ -450,7 +282,7 @@ function IntervalsScaleTransposition() {
         </ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__note-select w-full mb-3">
-            {translatedText[2]}
+            {t('transposition.scaleIntervals.intervalLabel')}:
             <IntervalSelector
               selectedInterval={selectedInterval}
               handleChangeInterval={handleChangeInterval}
@@ -461,7 +293,7 @@ function IntervalsScaleTransposition() {
         </ContentCard>
       </ContentCard>
       <ContentCard>
-        <p className="mb-3">{message}</p>
+        <p className="mb-3">{resultMessage}</p>
         <div
           className={`scale-transposition__staff-container flex ${
             isMobile

@@ -40,5 +40,24 @@
     "claveMeaning": "<0>Clave</0> : En espagnol, \"clave\" signifie \"tonalité\" ou \"clé\", ce qui se rapporte directement aux tonalités musicales et à la transposition. En théorie musicale, changer de tonalité est un concept clé, et \"Clave\" reflète l'objectif de cet outil axé sur les changements de tonalité.",
     "shiftMeaning": "<0>Shift</0> : \"Shift\" (changement, décalage) exprime l'action de passer d'une tonalité à une autre, ce que cet outil fait précisément : il permet de déplacer des notes et des gammes entre tonalités pour faciliter la transposition pour les musiciens.",
     "instrumentListTitle": "Voici une liste non exhaustive d'instruments triés par leur tonalité possible:"
+  },
+  "transposition": {
+    "common": {
+      "originKey": "Tonalité d'origine",
+      "targetKey": "Tonalité cible",
+      "note": "Note",
+      "scale": "Gamme",
+      "up": "vers le haut",
+      "down": "vers le bas"
+    },
+    "scaleIntervals": {
+      "toolDescription": "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
+      "intervalLabel": "Direction et intervalle:",
+      "originScaleDefinition": "La gamme de <0>{{scale}}</0> se compose des notes suivantes :",
+      "noKeyChangeNeeded": " Aucun changement de tonalité n'est nécessaire car l'intervalle de demi-tons est de 0.",
+      "simplerEnharmonicEquivalent": "Cependant, un équivalent enharmonique potentiellement plus simple est la gamme de <0>{{enharmonicScale}}</0>, qui se compose des notes suivantes :",
+      "transpositionResult": "Elle devient la gamme de <0>{{targetScale}}</0>, avec les notes suivantes : <1>{{notes}}</1>, lorsqu'elle est transposée {{direction}} d'une {{interval}}."
+    }
   }
 }
+

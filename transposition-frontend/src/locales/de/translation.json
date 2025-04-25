@@ -40,5 +40,23 @@
     "claveMeaning": "<0>Clave</0>: Im Spanischen bedeutet \"clave\" \"Tonart\" oder \"Schlüssel\", was direkt mit musikalischen Tonarten und Transpositionen zusammenhängt. In der Musiktheorie ist das Wechseln der Tonart ein grundlegendes Konzept, und \"Clave\" spiegelt den Fokus dieses Tools auf Tonartwechsel wider.",
     "shiftMeaning": "<0>Shift</0>: \"Shift\" (Wechsel, Verschiebung) beschreibt die Aktion, eine Note oder eine Tonleiter von einer Tonart in eine andere zu verschieben, was genau das ist, was dieses Tool tut – es verschiebt Noten und Tonleitern zwischen Tonarten, um Musikern die Transposition zu erleichtern.",
     "instrumentListTitle": "Hier ist eine nicht exhaustive Liste von Instrumenten, sortiert nach ihren möglichen Tonarten:"
+  },
+  "transposition": {
+    "common": {
+      "originKey": "Ursprungstonalität",
+      "targetKey": "Zieltonalität",
+      "note": "Note",
+      "scale": "Tonleiter",
+      "up": "nach oben",
+      "down": "nach runten"
+    },
+    "scaleIntervals": {
+      "toolDescription": "Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:",
+      "intervalLabel": "Richtung und Intervall:",
+      "originScaleDefinition": "Die Tonleiter von <0>{{scale}}</0> besteht aus den folgenden Noten:",
+      "noKeyChangeNeeded": " Es ist keine Tonartänderung erforderlich, da das Intervall in Halbtönen 0 beträgt.",
+      "simplerEnharmonicEquivalent": "Ein potenziell einfacheres enharmonisches Äquivalent ist jedoch die Tonleiter von <0>{{enharmonicScale}}</0>, die aus den folgenden Noten besteht:",
+      "transpositionResult": "Dies wird zur Tonleiter von <0>{{targetScale}}</0>, mit den folgenden Noten: <1>{{notes}}</1>, wenn es {{direction}} {{interval}} transponiert wird."
+    }
   }
 }
