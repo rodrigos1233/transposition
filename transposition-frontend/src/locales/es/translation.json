@@ -40,5 +40,19 @@
     "claveMeaning": "<0>Clave</0>: La palabra \"clave\" hace referencia directamente a las tonalidades musicales y a la transposición. En teoría musical, cambiar de tonalidad es un concepto fundamental, y \"Clave\" captura el enfoque de esta herramienta en los cambios de tonalidad.",
     "shiftMeaning": "<0>Shift</0>: \"Shift\" (cambio, desplazamiento) sugiere el acto de mover una nota o una escala de una tonalidad a otra, que es exactamente lo que hace esta herramienta—mueve notas y escalas entre tonalidades para facilitar la transposición a los músicos.",
     "instrumentListTitle": "Aquí hay una lista no exhaustiva de instrumentos ordenados por su tonalidad posible:"
+  },
+  "transposition": {
+    "common": {
+      "OriginKey": "Tonalidad de origen",
+      "TargetKey": "Tonalidad objetivo",
+      "note": "Nota",
+      "scale": "Escala"
+    },
+    "scaleIntervals": {
+      "originScaleDefinition": "La escala de <0></0> se compone de las siguientes notas:",
+      "noKeyChangeNeeded": " No hay necesidad de cambiar de tonalidad porque el intervalo de semitono es de 0.",
+      "simplerEnharmonicEquivalent": "Sin embargo, una enharmónica equivalente potencialmente más simple es la escala de <0></0>, que se compone de las siguientes notas:",
+      "transpositionResult": "Se convierte en la escala de <0></0>, con las siguientes notas: <1></1>, cuando se transpone {{direction}} por una {{interval}}."
+    }
   }
 }
