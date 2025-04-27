@@ -50,6 +50,7 @@
       "up": "up",
       "down": "down",
       "staffLabel": "Instrument in <0>{{key}}</0>:",
+      "instrumentPlaceholder": "Select or search for an instrument"
     },
     "scaleIntervals": {
       "toolDescription": "Transpose a full scale in any mode from one origin key by a selected interval",

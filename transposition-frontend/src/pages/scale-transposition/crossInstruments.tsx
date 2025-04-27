@@ -7,7 +7,7 @@ import useTranslationLegacy, {
   Language,
   Translations,
 } from '../../hooks/useTranslationLegacy.ts';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { getModeName } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
@@ -635,8 +635,10 @@ function CrossInstrumentsScaleTransposition() {
         <output>
           <ContentCard level={2}>
             <p className="mb-3">
-              {selectedOriginKey === selectedTargetKey
-                ? t('transposition.crossInstruments.sameKeyMessage', {
+              {selectedOriginKey === selectedTargetKey ? (
+                <Trans
+                  i18nKey="transposition.crossInstruments.sameKeyMessage"
+                  values={{
                     scale: getNote(selectedNote, selectedNotation, SCALES),
                     mode: modeText,
                     originKey: getNote(
@@ -645,8 +647,17 @@ function CrossInstrumentsScaleTransposition() {
                       INSTRUMENTS_PITCHES
                     ),
                     notes: notesSuite,
-                  })
-                : t('transposition.crossInstruments.transpositionMessage', {
+                  }}
+                  components={{
+                    0: <span className="border-b-4 border-purple-300" />,
+                    1: <span className="border-b-4 border-sky-300" />,
+                    2: <span className="font-bold text-lg" />,
+                  }}
+                />
+              ) : (
+                <Trans
+                  i18nKey="transposition.crossInstruments.transpositionMessage"
+                  values={{
                     scale: getNote(selectedNote, selectedNotation, SCALES),
                     mode: modeText,
                     originKey: getNote(
@@ -662,7 +673,17 @@ function CrossInstrumentsScaleTransposition() {
                       selectedNotation,
                       INSTRUMENTS_PITCHES
                     ),
-                  })}
+                  }}
+                  components={{
+                    0: <span className="border-b-4 border-purple-400" />,
+                    1: <span className="border-b-4 border-sky-300" />,
+                    2: <span className="font-bold text-lg" />,
+                    3: <span className="border-b-4 border-yellow-300" />,
+                    4: <span className="font-bold text-lg" />,
+                    5: <span className="border-b-4 border-red-300" />,
+                  }}
+                />
+              )}
             </p>
             <div
               className={`scale-transposition__staff-container flex ${
