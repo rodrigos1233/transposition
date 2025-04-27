@@ -7,6 +7,7 @@ import useTranslationLegacy, {
   Language,
   Translations,
 } from '../../hooks/useTranslationLegacy.ts';
+import { useTranslation } from 'react-i18next';
 import { getModeName } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
@@ -31,6 +32,7 @@ const MAX_MODE = 6;
 function CrossInstrumentsScaleTransposition() {
   const { linkParams } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { selectedNotation } = useContext(NotationContext);
 
@@ -120,7 +122,11 @@ function CrossInstrumentsScaleTransposition() {
     ],
   };
 
-  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
+  const translatedText = useTranslationLegacy(
+    selectedLanguage,
+    translations,
+    []
+  );
 
   const modeText = getModeName(selectedMode, selectedLanguage);
 
@@ -562,13 +568,15 @@ function CrossInstrumentsScaleTransposition() {
             setShowAdditionalModes={setShowAdditionalModes}
           />
         </ContentCard>
-        <h2 className="mb-3">{translatedText[0]}</h2>
+        <h2 className="mb-3">
+          {t('transposition.crossInstruments.toolDescription')}
+        </h2>
       </ContentCard>
       <ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__origin-key-select w-full mb-3">
             <div className="flex items-center gap-2">
-              {translatedText[1]}
+              {t('transposition.common.originKey')}
               <SelectComponent
                 onChange={createHandleChange(
                   setSelectedOriginKey,
@@ -576,7 +584,7 @@ function CrossInstrumentsScaleTransposition() {
                 )}
                 options={selectOptions}
                 value={selectedOriginOption}
-                placeHolder="Select or search for an instrument"
+                placeHolder={t('transposition.common.instrumentPlaceholder')}
               />
             </div>
 
@@ -590,7 +598,7 @@ function CrossInstrumentsScaleTransposition() {
         </ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__note-select w-full mb-3">
-            {translatedText[2]}
+            {t('transposition.common.scale')}
             <NoteSelector
               selected={selectedNote}
               setSelected={handleChangeNote}
@@ -603,7 +611,7 @@ function CrossInstrumentsScaleTransposition() {
         <ContentCard level={2}>
           <div className="simple-transposition__target-key-select w-full mb-3">
             <div className="flex items-center gap-2">
-              {translatedText[3]}
+              {t('transposition.common.targetKey')}
               <SelectComponent
                 onChange={createHandleChange(
                   setSelectedTargetKey,
@@ -611,7 +619,7 @@ function CrossInstrumentsScaleTransposition() {
                 )}
                 options={selectOptions}
                 value={selectedTargetOption}
-                placeHolder="Select or search for an instrument"
+                placeHolder={t('transposition.common.instrumentPlaceholder')}
               />
             </div>
             <NoteSelector
@@ -626,7 +634,36 @@ function CrossInstrumentsScaleTransposition() {
       <ContentCard>
         <output>
           <ContentCard level={2}>
-            <p className="mb-3">{message}</p>
+            <p className="mb-3">
+              {selectedOriginKey === selectedTargetKey
+                ? t('transposition.crossInstruments.sameKeyMessage', {
+                    scale: getNote(selectedNote, selectedNotation, SCALES),
+                    mode: modeText,
+                    originKey: getNote(
+                      selectedOriginKey,
+                      selectedNotation,
+                      INSTRUMENTS_PITCHES
+                    ),
+                    notes: notesSuite,
+                  })
+                : t('transposition.crossInstruments.transpositionMessage', {
+                    scale: getNote(selectedNote, selectedNotation, SCALES),
+                    mode: modeText,
+                    originKey: getNote(
+                      selectedOriginKey,
+                      selectedNotation,
+                      INSTRUMENTS_PITCHES
+                    ),
+                    notes: notesSuite,
+                    targetScale: getNote(targetNote, selectedNotation, SCALES),
+                    transposedNotes: transposedScaleNotesSuite,
+                    targetKey: getNote(
+                      selectedTargetKey,
+                      selectedNotation,
+                      INSTRUMENTS_PITCHES
+                    ),
+                  })}
+            </p>
             <div
               className={`scale-transposition__staff-container flex ${
                 isMobile
@@ -638,7 +675,13 @@ function CrossInstrumentsScaleTransposition() {
                 displayedNotes={scale.reducedNotes}
                 correspondingNotes={scale.notesInScale}
                 musicalKey={originKeySignature}
-                text={musicalStaffText[0]}
+                text={t('transposition.common.staffLabel', {
+                  key: getNote(
+                    selectedOriginKey,
+                    selectedNotation,
+                    INSTRUMENTS_PITCHES
+                  ),
+                })}
                 colour="sky"
                 noteColour="purple"
               />
@@ -646,7 +689,13 @@ function CrossInstrumentsScaleTransposition() {
                 displayedNotes={transposedScale.reducedNotes}
                 correspondingNotes={transposedScale.notesInScale}
                 musicalKey={targetKeySignature}
-                text={musicalStaffText[1]}
+                text={t('transposition.common.staffLabel', {
+                  key: getNote(
+                    selectedTargetKey,
+                    selectedNotation,
+                    INSTRUMENTS_PITCHES
+                  ),
+                })}
                 colour="red"
                 noteColour="yellow"
               />
