@@ -48,7 +48,9 @@
       "note": "Nota",
       "scale": "Escala",
       "up": "hacia arriba",
-      "down": "hacia abajo"
+      "down": "hacia abajo",
+      "staffLabel": "Instrumento en <0>{{key}}</0>:",
+      "instrumentPlaceholder": "Seleccionar o buscar un instrumento"
     },
     "scaleIntervals": {
       "toolDescription": "Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:",
@@ -57,6 +59,16 @@
       "noKeyChangeNeeded": " No hay necesidad de cambiar de tonalidad porque el intervalo de semitono es de 0.",
       "simplerEnharmonicEquivalent": "Sin embargo, una enharmónica equivalente potencialmente más simple es la escala de <0>{{enharmonicScale}}</0>, que se compone de las siguientes notas:",
       "transpositionResult": "Se convierte en la escala de <0>{{targetScale}}</0>, con las siguientes notas: <1>{{notes}}</1>, cuando se transpone {{direction}} por una {{interval}}."
+    },
+    "crossInstruments": {
+      "toolDescription": "Transponer una escala completa en cualquier modo de una tonalidad de instrumento a otra:",
+      "sameKeyMessage": "La escala de <0>{{scale}} {{mode}}</0>, para un instrumento en <1>{{originKey}}</1>, consiste en las siguientes notas: <2>{{notes}}</2>. No se necesita transposición porque las tonalidades de origen y destino son iguales.",
+      "transpositionMessage": "La escala de <0>{{scale}} {{mode}}</0>, para un instrumento en <1>{{originKey}}</1>, consiste en las siguientes notas: <2>{{notes}}</2>. Se convierte en la escala de <3>{{targetScale}} {{mode}}</3>, con las siguientes notas: <4>{{transposedNotes}}</4> cuando se transpone para un instrumento en <5>{{targetKey}}</5>."
+    },
+    "simpleTransposition": {
+      "toolDescription": "Transponer una nota única de una tonalidad de instrumento a otra:",
+      "sameKeyMessage": "La nota <0>{{note}}</0> para un instrumento en <1>{{originKey}}</1> se toca como <2>{{note}}</2>. No se necesita transposición porque las tonalidades de origen y destino son iguales.",
+      "transpositionMessage": "La nota <0>{{note}}</0> para un instrumento en <1>{{originKey}}</1> debe tocarse como <2>{{transposedNote}}</2> para un instrumento en <3>{{targetKey}}</3>."
     }
   }
 }

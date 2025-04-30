@@ -48,7 +48,9 @@
       "note": "Note",
       "scale": "Tonleiter",
       "up": "nach oben",
-      "down": "nach runten"
+      "down": "nach unten",
+      "staffLabel": "Instrument in <0>{{key}}</0>:",
+      "instrumentPlaceholder": "Instrument auswählen oder suchen"
     },
     "scaleIntervals": {
       "toolDescription": "Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:",
@@ -57,6 +59,16 @@
       "noKeyChangeNeeded": " Es ist keine Tonartänderung erforderlich, da das Intervall in Halbtönen 0 beträgt.",
       "simplerEnharmonicEquivalent": "Ein potenziell einfacheres enharmonisches Äquivalent ist jedoch die Tonleiter von <0>{{enharmonicScale}}</0>, die aus den folgenden Noten besteht:",
       "transpositionResult": "Dies wird zur Tonleiter von <0>{{targetScale}}</0>, mit den folgenden Noten: <1>{{notes}}</1>, wenn es {{direction}} {{interval}} transponiert wird."
+    },
+    "crossInstruments": {
+      "toolDescription": "Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:",
+      "sameKeyMessage": "Die Tonleiter von <0>{{scale}} {{mode}}</0>, für ein Instrument in <1>{{originKey}}</1>, besteht aus den folgenden Noten: <2>{{notes}}</2>. Es ist keine Transposition erforderlich, da die Ursprungs- und Zieltonalität identisch sind.",
+      "transpositionMessage": "Die Tonleiter von <0>{{scale}} {{mode}}</0>, für ein Instrument in <1>{{originKey}}</1>, besteht aus den folgenden Noten: <2>{{notes}}</2>. Dies wird zur Tonleiter von <3>{{targetScale}} {{mode}}</3>, mit den folgenden Noten: <4>{{transposedNotes}}</4>, wenn es für ein Instrument in <5>{{targetKey}}</5> transponiert wird."
+    },
+    "simpleTransposition": {
+      "toolDescription": "Transponiere einen einzelnen Ton von der Tonart eines Instruments auf eine andere:",
+      "sameKeyMessage": "Der Ton <0>{{note}}</0> für ein Instrument in <1>{{originKey}}</1> wird als <2>{{note}}</2> gespielt. Es ist keine Transposition erforderlich, da die Ursprungs- und Zieltonalität identisch sind.",
+      "transpositionMessage": "Der Ton <0>{{note}}</0> für ein Instrument in <1>{{originKey}}</1> soll als <2>{{transposedNote}}</2> für ein Instrument in <3>{{targetKey}}</3> gespielt werden."
     }
   }
 }

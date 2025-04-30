@@ -48,7 +48,9 @@
       "note": "Note",
       "scale": "Gamme",
       "up": "vers le haut",
-      "down": "vers le bas"
+      "down": "vers le bas",
+      "staffLabel": "Instrument en <0>{{key}}</0>:",
+      "instrumentPlaceholder": "Sélectionner ou rechercher un instrument"
     },
     "scaleIntervals": {
       "toolDescription": "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
@@ -57,6 +59,16 @@
       "noKeyChangeNeeded": " Aucun changement de tonalité n'est nécessaire car l'intervalle de demi-tons est de 0.",
       "simplerEnharmonicEquivalent": "Cependant, un équivalent enharmonique potentiellement plus simple est la gamme de <0>{{enharmonicScale}}</0>, qui se compose des notes suivantes :",
       "transpositionResult": "Elle devient la gamme de <0>{{targetScale}}</0>, avec les notes suivantes : <1>{{notes}}</1>, lorsqu'elle est transposée {{direction}} d'une {{interval}}."
+    },
+    "crossInstruments": {
+      "toolDescription": "Transposez une gamme complète dans n'importe quel mode d'une tonalité d'instrument à une autre :",
+      "sameKeyMessage": "La gamme de <0>{{scale}} {{mode}}</0>, pour un instrument en <1>{{originKey}}</1>, se compose des notes suivantes : <2>{{notes}}</2>. Aucune transposition n'est nécessaire car les tonalités d'origine et cible sont identiques.",
+      "transpositionMessage": "La gamme de <0>{{scale}} {{mode}}</0>, pour un instrument en <1>{{originKey}}</1>, se compose des notes suivantes : <2>{{notes}}</2>. Elle devient la gamme de <3>{{targetScale}} {{mode}}</3>, avec les notes suivantes : <4>{{transposedNotes}}</4> lorsqu'elle est transposée pour un instrument en <5>{{targetKey}}</5>."
+    },
+    "simpleTransposition": {
+      "toolDescription": "Transposez une note unique d'une tonalité d'instrument à une autre :",
+      "sameKeyMessage": "La note <0>{{note}}</0> pour un instrument en <1>{{originKey}}</1> se joue comme <2>{{note}}</2>. Aucune transposition n'est nécessaire car les tonalités d'origine et cible sont identiques.",
+      "transpositionMessage": "La note <0>{{note}}</0> pour un instrument en <1>{{originKey}}</1> doit être jouée comme <2>{{transposedNote}}</2> pour un instrument en <3>{{targetKey}}</3>."
     }
   }
 }
