@@ -7,6 +7,7 @@ import useTranslationLegacy, {
   Language,
   Translations,
 } from '../../hooks/useTranslationLegacy.ts';
+import { useTranslation, Trans } from 'react-i18next';
 import { getModeName } from '../../utils/modes';
 import { useNavigate, useParams } from 'react-router-dom';
 import Staff from '../../components/staff';
@@ -31,6 +32,7 @@ const MAX_MODE = 6;
 function CrossInstrumentsScaleTransposition() {
   const { linkParams } = useParams();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { selectedNotation } = useContext(NotationContext);
 
@@ -93,35 +95,6 @@ function CrossInstrumentsScaleTransposition() {
     .map((noteInScale) => noteInScale.note[selectedNotation])
     .join(', ');
 
-  const translations: Translations = {
-    [Language.English]: [
-      "Transpose a full scale in any mode from one instrument's key to another:",
-      'Origin key:',
-      'Scale:',
-      'Target key:',
-    ],
-    [Language.French]: [
-      "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
-      "Tonalité d'origine:",
-      'Gamme:',
-      'Tonalité cible:',
-    ],
-    [Language.Spanish]: [
-      'Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:',
-      'Tonalidad de origen:',
-      'Escala:',
-      'Tonalidad objetivo:',
-    ],
-    [Language.German]: [
-      'Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:',
-      'Ursprungstonalität:',
-      'Tonleiter:',
-      'Zieltonalität:',
-    ],
-  };
-
-  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
-
   const modeText = getModeName(selectedMode, selectedLanguage);
 
   function handleChangeOriginKey(newOriginKey: number) {
@@ -157,272 +130,6 @@ function CrossInstrumentsScaleTransposition() {
       { replace: true }
     );
   }
-
-  const englishMessage =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        {`The scale of `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` for an instrument in `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        ,{` consists of the following notes:`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-        {
-          'No transposition is needed because the origin and target keys are the same.'
-        }
-      </>
-    ) : (
-      <>
-        {`The scale of `}
-        <span className="border-b-4 border-purple-400">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` for an instrument in `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        ,{` consists of the following notes:`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-        {`This becomes the scale of `}
-        <span className="border-b-4 border-yellow-300">
-          {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` with the following notes: `}{' '}
-        <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>{' '}
-        {`when transposed for an instrument in `}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        .
-      </>
-    );
-
-  const frenchMessage =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        {`La gamme de `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` pour un instrument en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` consiste en la suite de notes suivante :`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-        {
-          "Aucune transposition n'est nécessaire car les tonalités d'origine et de destination sont identiques."
-        }
-      </>
-    ) : (
-      <>
-        {`La gamme de `}
-        <span className="border-b-4 border-purple-400">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` qui pour un instrument en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` consiste en la suite de notes suivante :`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-        {`Elle devient la gamme de `}
-        <span className="border-b-4 border-yellow-300">
-          {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` avec la suite de notes suivante : `}{' '}
-        <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>,{' '}
-        {`lorsqu'elle est transposée pour un instrument en `}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        .
-      </>
-    );
-
-  const spanishMessage =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        {`La escala de `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` que para un instrumento en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` consiste en la siguiente secuencia de notas:`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.
-        {
-          ' No hay transposición porque las tonalidades seleccionadas son iguales.'
-        }
-      </>
-    ) : (
-      <>
-        {`La escala de `}
-        <span className="border-b-4 border-purple-400">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` que para un instrumento en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` consiste en la siguiente secuencia de notas:`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-        {`Se convierte en la escala de `}
-        <span className="border-b-4 border-yellow-300">
-          {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` con la siguiente secuencia de notas: `}{' '}
-        <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>,{' '}
-        {`cuando se transpone por un instrumento en `}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        .
-      </>
-    );
-
-  const germanMessage =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        {`Die Tonleiter von `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` die für ein Instrument in `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation)}
-        </span>
-        {` notiert ist, setzt sich wie folgt zusammen:`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-        {
-          'Keine Transposition erforderlich, da die Ursprungs- und Zieltonalität identisch sind.'
-        }
-      </>
-    ) : (
-      <>
-        {`Die Tonleiter von `}
-        <span className="border-b-4 border-purple-400">
-          {getNote(selectedNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` die für ein Instrument in `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` besteht, setzt sich wie folgt zusammen:`}{' '}
-        <span className="font-bold text-lg">{notesSuite}</span>.{' '}
-        {`Diese Tonleiter wird umgewandelt in die Tonleiter von `}
-        <span className="border-b-4 border-yellow-300">
-          {getNote(targetNote, selectedNotation, SCALES)} {modeText}
-        </span>
-        ,{` mit folgender Tonfolge: `}{' '}
-        <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>,{' '}
-        {`wenn sie für ein Instrument in `}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` zu spielen.`}
-      </>
-    );
-
-  const resultTranslations: Translations = {
-    [Language.English]: [englishMessage],
-    [Language.French]: [frenchMessage],
-    [Language.Spanish]: [spanishMessage],
-    [Language.German]: [germanMessage],
-  };
-
-  const translatedResults = useTranslationLegacy(
-    selectedLanguage,
-    resultTranslations,
-    [
-      selectedNotation,
-      selectedMode,
-      selectedNote,
-      selectedOriginKey,
-      selectedTargetKey,
-    ]
-  );
-
-  const message = translatedResults[0];
-
-  const musicalStaffTextTranslations: Translations = {
-    [Language.English]: [
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-    ],
-    [Language.French]: [
-      <>
-        Instrument en{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-      <>
-        Instrument en{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-    ],
-    [Language.Spanish]: [
-      <>
-        Instrumento en{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-      <>
-        Instrumento en{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-    ],
-    [Language.German]: [
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-    ],
-  };
-
-  const musicalStaffText = useTranslationLegacy(
-    selectedLanguage,
-    musicalStaffTextTranslations,
-    [selectedNotation, selectedOriginKey, selectedTargetKey]
-  );
 
   const titleTextTranslations: Translations = {
     [Language.English]: [
@@ -562,13 +269,15 @@ function CrossInstrumentsScaleTransposition() {
             setShowAdditionalModes={setShowAdditionalModes}
           />
         </ContentCard>
-        <h2 className="mb-3">{translatedText[0]}</h2>
+        <h2 className="mb-3">
+          {t('transposition.crossInstruments.toolDescription')}
+        </h2>
       </ContentCard>
       <ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__origin-key-select w-full mb-3">
             <div className="flex items-center gap-2">
-              {translatedText[1]}
+              {t('transposition.common.originKey')}
               <SelectComponent
                 onChange={createHandleChange(
                   setSelectedOriginKey,
@@ -576,7 +285,7 @@ function CrossInstrumentsScaleTransposition() {
                 )}
                 options={selectOptions}
                 value={selectedOriginOption}
-                placeHolder="Select or search for an instrument"
+                placeHolder={t('transposition.common.instrumentPlaceholder')}
               />
             </div>
 
@@ -590,7 +299,7 @@ function CrossInstrumentsScaleTransposition() {
         </ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__note-select w-full mb-3">
-            {translatedText[2]}
+            {t('transposition.common.scale')}
             <NoteSelector
               selected={selectedNote}
               setSelected={handleChangeNote}
@@ -603,7 +312,7 @@ function CrossInstrumentsScaleTransposition() {
         <ContentCard level={2}>
           <div className="simple-transposition__target-key-select w-full mb-3">
             <div className="flex items-center gap-2">
-              {translatedText[3]}
+              {t('transposition.common.targetKey')}
               <SelectComponent
                 onChange={createHandleChange(
                   setSelectedTargetKey,
@@ -611,7 +320,7 @@ function CrossInstrumentsScaleTransposition() {
                 )}
                 options={selectOptions}
                 value={selectedTargetOption}
-                placeHolder="Select or search for an instrument"
+                placeHolder={t('transposition.common.instrumentPlaceholder')}
               />
             </div>
             <NoteSelector
@@ -626,7 +335,57 @@ function CrossInstrumentsScaleTransposition() {
       <ContentCard>
         <output>
           <ContentCard level={2}>
-            <p className="mb-3">{message}</p>
+            <p className="mb-3">
+              {selectedOriginKey === selectedTargetKey ? (
+                <Trans
+                  i18nKey="transposition.crossInstruments.sameKeyMessage"
+                  values={{
+                    scale: getNote(selectedNote, selectedNotation, SCALES),
+                    mode: modeText,
+                    originKey: getNote(
+                      selectedOriginKey,
+                      selectedNotation,
+                      INSTRUMENTS_PITCHES
+                    ),
+                    notes: notesSuite,
+                  }}
+                  components={{
+                    0: <span className="border-b-4 border-purple-300" />,
+                    1: <span className="border-b-4 border-sky-300" />,
+                    2: <span className="font-bold text-lg" />,
+                  }}
+                />
+              ) : (
+                <Trans
+                  i18nKey="transposition.crossInstruments.transpositionMessage"
+                  values={{
+                    scale: getNote(selectedNote, selectedNotation, SCALES),
+                    mode: modeText,
+                    originKey: getNote(
+                      selectedOriginKey,
+                      selectedNotation,
+                      INSTRUMENTS_PITCHES
+                    ),
+                    notes: notesSuite,
+                    targetScale: getNote(targetNote, selectedNotation, SCALES),
+                    transposedNotes: transposedScaleNotesSuite,
+                    targetKey: getNote(
+                      selectedTargetKey,
+                      selectedNotation,
+                      INSTRUMENTS_PITCHES
+                    ),
+                  }}
+                  components={{
+                    0: <span className="border-b-4 border-purple-400" />,
+                    1: <span className="border-b-4 border-sky-300" />,
+                    2: <span className="font-bold text-lg" />,
+                    3: <span className="border-b-4 border-yellow-300" />,
+                    4: <span className="font-bold text-lg" />,
+                    5: <span className="border-b-4 border-red-300" />,
+                  }}
+                />
+              )}
+            </p>
             <div
               className={`scale-transposition__staff-container flex ${
                 isMobile
@@ -638,7 +397,13 @@ function CrossInstrumentsScaleTransposition() {
                 displayedNotes={scale.reducedNotes}
                 correspondingNotes={scale.notesInScale}
                 musicalKey={originKeySignature}
-                text={musicalStaffText[0]}
+                text={t('transposition.common.staffLabel', {
+                  key: getNote(
+                    selectedOriginKey,
+                    selectedNotation,
+                    INSTRUMENTS_PITCHES
+                  ),
+                })}
                 colour="sky"
                 noteColour="purple"
               />
@@ -646,7 +411,13 @@ function CrossInstrumentsScaleTransposition() {
                 displayedNotes={transposedScale.reducedNotes}
                 correspondingNotes={transposedScale.notesInScale}
                 musicalKey={targetKeySignature}
-                text={musicalStaffText[1]}
+                text={t('transposition.common.staffLabel', {
+                  key: getNote(
+                    selectedTargetKey,
+                    selectedNotation,
+                    INSTRUMENTS_PITCHES
+                  ),
+                })}
                 colour="red"
                 noteColour="yellow"
               />

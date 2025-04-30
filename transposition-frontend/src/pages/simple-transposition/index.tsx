@@ -8,10 +8,7 @@ import {
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { crossInstrumentsTransposer } from '../../utils/transposer';
-import useTranslationLegacy, {
-  Language,
-  Translations,
-} from '../../hooks/useTranslationLegacy.ts';
+import { useTranslation, Trans } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
 import Staff from '../../components/staff';
@@ -129,34 +126,7 @@ function SimpleTransposition() {
     });
   }
 
-  const translations: Translations = {
-    [Language.English]: [
-      'Transpose a single note from a tonality to another:',
-      'Origin key:',
-      'Note:',
-      'Target key:',
-    ],
-    [Language.French]: [
-      "Transposez une note d'une tonalité à une autre:",
-      "Tonalité d'origine:",
-      'Note:',
-      "Tonalité d'arrivée:",
-    ],
-    [Language.Spanish]: [
-      'Transpone una nota de una tonalidad a otra:',
-      'Tonalidad de origen:',
-      'Nota:',
-      'Tonalidad de destino:',
-    ],
-    [Language.German]: [
-      'Transponiere eine Note von einer Tonalität in eine andere:',
-      'Ursprungstonalität:',
-      'Note:',
-      'Zieltonalität:',
-    ],
-  };
-
-  const translatedText = useTranslationLegacy(selectedLanguage, translations, []);
+  const { t } = useTranslation();
 
   const [_, reversedEnharmonicOriginGroupNotes] = crossInstrumentsTransposer(
     selectedNote,
@@ -171,212 +141,68 @@ function SimpleTransposition() {
       selectedTargetKey
     );
 
-  const englishMessage =
+  const message =
     selectedOriginKey === selectedTargetKey ? (
       <>
-        {`A `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation)}
-        </span>
-        {` for an instrument in `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` stays the same because the origin and target keys are the same.`}
+        <Trans
+          i18nKey="transposition.simpleTransposition.sameKeyMessage"
+          values={{
+            note: getNote(selectedNote, selectedNotation),
+            originKey: getNote(
+              selectedOriginKey,
+              selectedNotation,
+              INSTRUMENTS_PITCHES
+            ),
+          }}
+          components={[
+            <span className="border-b-4 border-purple-300" />,
+            <span className="border-b-4 border-sky-300" />,
+            <span className="border-b-4 border-purple-300" />,
+          ]}
+        />
       </>
     ) : (
       <>
-        {`A `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation)}
-        </span>
-        {` in for an instrument in `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` becomes a `}
-        <span className="border-b-4 border-yellow-300 font-bold text-lg">
-          {getNote(targetNote, selectedNotation)}
-        </span>
-        {` for an instrument in `}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        .
+        <Trans
+          i18nKey="transposition.simpleTransposition.transpositionMessage"
+          values={{
+            note: getNote(selectedNote, selectedNotation),
+            originKey: getNote(
+              selectedOriginKey,
+              selectedNotation,
+              INSTRUMENTS_PITCHES
+            ),
+            transposedNote: getNote(targetNote, selectedNotation),
+            targetKey: getNote(
+              selectedTargetKey,
+              selectedNotation,
+              INSTRUMENTS_PITCHES
+            ),
+          }}
+          components={[
+            <span className="border-b-4 border-purple-300" />,
+            <span className="border-b-4 border-sky-300" />,
+            <span className="border-b-4 border-yellow-300 font-bold text-lg" />,
+            <span className="border-b-4 border-red-300" />,
+          ]}
+        />
       </>
     );
 
-  const frenchMessage =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        {`Un `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation)}
-        </span>
-        {` pour un instrument en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` reste le même car les tonalités d'origine et de destination sont identiques.`}
-      </>
-    ) : (
-      <>
-        {`Un `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation)}
-        </span>
-        {` pour un instrument en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` devient un `}
-        <span className="border-b-4 border-yellow-300 font-bold text-lg">
-          {getNote(targetNote, selectedNotation)}
-        </span>
-        {` pour un instrument en `}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        .
-      </>
-    );
-
-  const spanishMessage =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        {`Una `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation)}
-        </span>
-        {` para un instrumento en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` sigue siendo la misma porque las tonalidades de origen y destino son iguales.`}
-      </>
-    ) : (
-      <>
-        {`Una `}
-        <span className="border-b-4 border-purple-300">
-          {getNote(selectedNote, selectedNotation)}
-        </span>
-        {` para un instrumento en `}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        {` se convierte en `}
-        <span className="border-b-4 border-yellow-300 font-bold text-lg">
-          {getNote(targetNote, selectedNotation)}
-        </span>
-        {` para un instrumento en `}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        .
-      </>
-    );
-
-  const germanMessage =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        {`Eine ${getNote(
-          selectedNote,
-          selectedNotation
-        )} für ein Instrument in ${getNote(
-          selectedOriginKey,
-          selectedNotation,
-          INSTRUMENTS_PITCHES
-        )} bleibt unverändert, da die Ursprungs- und Zieltonalität identisch sind.`}
-      </>
-    ) : (
-      <>
-        {`Eine ${getNote(
-          selectedNote,
-          selectedNotation
-        )} für ein Instrument in ${getNote(
-          selectedOriginKey,
-          selectedNotation,
-          INSTRUMENTS_PITCHES
-        )} wird in`}{' '}
-        <span className={'font-bold text-lg'}>
-          {getNote(targetNote, selectedNotation)}
-        </span>{' '}
-        {`für ein Instrumentin ${getNote(
-          selectedTargetKey,
-          selectedNotation,
-          INSTRUMENTS_PITCHES
-        )} transponiert`}
-      </>
-    );
-
-  const resultTranslations: Translations = {
-    [Language.English]: [englishMessage],
-    [Language.French]: [frenchMessage],
-    [Language.Spanish]: [spanishMessage],
-    [Language.German]: [germanMessage],
-  };
-
-  const translatedResults = useTranslationLegacy(
-    selectedLanguage,
-    resultTranslations,
-    [selectedNotation, selectedNote, selectedOriginKey, selectedTargetKey]
-  );
-
-  const message = translatedResults[0];
-
-  const titleTextTranslations: Translations = {
-    [Language.English]: [
-      `${getNote(selectedNote, selectedNotation)} from ${getNote(
-        selectedOriginKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} to ${getNote(
-        selectedTargetKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} | Note Transposition`,
-    ],
-    [Language.French]: [
-      `${getNote(selectedNote, selectedNotation)} de ${getNote(
-        selectedOriginKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} à ${getNote(
-        selectedTargetKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} | Transposition de note`,
-    ],
-    [Language.Spanish]: [
-      `${getNote(selectedNote, selectedNotation)} de ${getNote(
-        selectedOriginKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} a ${getNote(
-        selectedTargetKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} | Transposición de nota`,
-    ],
-    [Language.German]: [
-      `${getNote(selectedNote, selectedNotation)} von ${getNote(
-        selectedOriginKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} nach ${getNote(
-        selectedTargetKey,
-        selectedNotation,
-        INSTRUMENTS_PITCHES
-      )} | Tontransposition`,
-    ],
-  };
-
-  const pageTitleText = useTranslationLegacy(
-    selectedLanguage,
-    titleTextTranslations,
-    [selectedTargetKey, selectedNotation, selectedNote, selectedOriginKey]
-  );
-  useChangePageTitle(pageTitleText[0] as unknown as string);
+  const pageTitle = t('transposition.simpleTransposition.pageTitle', {
+    note: getNote(selectedNote, selectedNotation),
+    originKey: getNote(
+      selectedOriginKey,
+      selectedNotation,
+      INSTRUMENTS_PITCHES
+    ),
+    targetKey: getNote(
+      selectedTargetKey,
+      selectedNotation,
+      INSTRUMENTS_PITCHES
+    ),
+  });
+  useChangePageTitle(pageTitle);
 
   const isMobile = useIsMobile();
 
@@ -416,89 +242,35 @@ function SimpleTransposition() {
     reversedEnharmonicTargetGroupNotes
   );
 
-  const musicalStaffTextTranslations: Translations = {
-    [Language.English]: [
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-    ],
-    [Language.French]: [
-      <>
-        Instrument en{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-      <>
-        Instrument en{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-    ],
-    [Language.Spanish]: [
-      <>
-        Instrumento en{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-      <>
-        Instrumento en{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES)}
-        </span>
-        :
-      </>,
-    ],
-    [Language.German]: [
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-sky-300">
-          {getNote(selectedOriginKey, selectedNotation)}
-        </span>
-        :
-      </>,
-      <>
-        Instrument in{' '}
-        <span className="border-b-4 border-red-300">
-          {getNote(selectedTargetKey, selectedNotation)}
-        </span>
-        :
-      </>,
-    ],
-  };
-
-  const musicalStaffText = useTranslationLegacy(
-    selectedLanguage,
-    musicalStaffTextTranslations,
-    [selectedNotation, selectedOriginKey, selectedTargetKey]
-  );
+  const musicalStaffText = [
+    <Trans
+      i18nKey="transposition.common.staffLabel"
+      values={{
+        key: getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES),
+      }}
+      components={[<span className="border-b-4 border-sky-300" />]}
+    />,
+    <Trans
+      i18nKey="transposition.common.staffLabel"
+      values={{
+        key: getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES),
+      }}
+      components={[<span className="border-b-4 border-red-300" />]}
+    />,
+  ];
 
   return (
     <ContentPage className={'simple-transposition'}>
       <ContentCard>
-        <h2 className="mb-3">{translatedText[0]}</h2>
+        <h2 className="mb-3">
+          {t('transposition.simpleTransposition.toolDescription')}
+        </h2>
       </ContentCard>
       <ContentCard>
         <ContentCard level={2}>
           <div className="simple-transposition__origin-key-select w-full mb-3">
             <div className="flex items-center gap-2">
-              {translatedText[1]}
+              <label>{t('transposition.common.originKey')}</label>
               <SelectComponent
                 onChange={createHandleChange(
                   setSelectedOriginKey,
@@ -506,7 +278,7 @@ function SimpleTransposition() {
                 )}
                 options={selectOptions}
                 value={selectedOriginOption}
-                placeHolder="Select or search for an instrument"
+                placeHolder={t('transposition.common.instrumentPlaceholder')}
               />
             </div>
 
@@ -521,7 +293,7 @@ function SimpleTransposition() {
 
         <ContentCard level={2}>
           <div className="simple-transposition__note-select w-full mb-3">
-            {translatedText[2]}
+            <label>{t('transposition.common.note')}</label>
             <NoteSelector
               selected={selectedNote}
               setSelected={handleChangeNote}
@@ -533,7 +305,7 @@ function SimpleTransposition() {
         <ContentCard level={2}>
           <div className="simple-transposition__target-key-select w-full mb-3">
             <div className="flex items-center gap-2">
-              {translatedText[3]}
+              <label>{t('transposition.common.targetKey')}</label>
               <SelectComponent
                 onChange={createHandleChange(
                   setSelectedTargetKey,
@@ -541,7 +313,7 @@ function SimpleTransposition() {
                 )}
                 options={selectOptions}
                 value={selectedTargetOption}
-                placeHolder="Select or search for an instrument"
+                placeHolder={t('transposition.common.instrumentPlaceholder')}
               />
             </div>
             <NoteSelector
