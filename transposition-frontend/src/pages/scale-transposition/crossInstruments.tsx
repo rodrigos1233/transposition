@@ -258,6 +258,23 @@ function CrossInstrumentsScaleTransposition() {
     };
   }
 
+  const musicalStaffText = [
+    <Trans
+      i18nKey="transposition.common.staffLabel"
+      values={{
+        key: getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES),
+      }}
+      components={[<span className="border-b-4 border-sky-300" />]}
+    />,
+    <Trans
+      i18nKey="transposition.common.staffLabel"
+      values={{
+        key: getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES),
+      }}
+      components={[<span className="border-b-4 border-red-300" />]}
+    />,
+  ];
+
   return (
     <ContentPage className="simple-transposition">
       <ContentCard>
@@ -397,13 +414,7 @@ function CrossInstrumentsScaleTransposition() {
                 displayedNotes={scale.reducedNotes}
                 correspondingNotes={scale.notesInScale}
                 musicalKey={originKeySignature}
-                text={t('transposition.common.staffLabel', {
-                  key: getNote(
-                    selectedOriginKey,
-                    selectedNotation,
-                    INSTRUMENTS_PITCHES
-                  ),
-                })}
+                text={musicalStaffText[0]}
                 colour="sky"
                 noteColour="purple"
               />
@@ -411,13 +422,7 @@ function CrossInstrumentsScaleTransposition() {
                 displayedNotes={transposedScale.reducedNotes}
                 correspondingNotes={transposedScale.notesInScale}
                 musicalKey={targetKeySignature}
-                text={t('transposition.common.staffLabel', {
-                  key: getNote(
-                    selectedTargetKey,
-                    selectedNotation,
-                    INSTRUMENTS_PITCHES
-                  ),
-                })}
+                text={musicalStaffText[1]}
                 colour="red"
                 noteColour="yellow"
               />
