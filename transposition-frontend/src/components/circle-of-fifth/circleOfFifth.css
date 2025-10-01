@@ -117,13 +117,9 @@
   z-index: 3;
 
   display: block;
-  background-image: url('./../../assets/images/main-background.jpeg');
-  background-size: 600px;
-  background-attachment: fixed; /* Matches the main background's behavior */
+  background: #f4f4f6;
   width: 100vw;
   height: 100vh;
-
-  filter: blur(9px) grayscale(0.7) contrast(0.1) brightness(1.8);
 }
 
 .circle-center__controls {
