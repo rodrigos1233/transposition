@@ -1,11 +1,11 @@
-import { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { useTranslation as useI18NextTranslation } from 'react-i18next';
 import { Language, Translations } from './useTranslationLegacy';
 
 export const useTranslationAdapter = (
   selectedLanguage: Language,
   translations: Translations,
-  customDependencies: any[] = []
+  customDependencies: React.DependencyList = []
 ): ReactNode[][] => {
   const { i18n } = useI18NextTranslation();
 

@@ -1,13 +1,14 @@
+import React, { CSSProperties } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Text from '../text';
 
-type buttonProps = {
-  children: any;
+type ButtonProps = {
+  children: React.ReactNode;
   href?: string;
-  onClick?: any;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   className?: string;
-  style?: any;
+  style?: CSSProperties;
   colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
 };
 
@@ -19,13 +20,10 @@ function Button({
   className,
   style,
   colour = 'lime',
-}: buttonProps) {
+}: ButtonProps) {
   const navigate = useNavigate();
 
-  const handleClick = (e: {
-    preventDefault: () => void;
-    defaultPrevented: any;
-  }) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     if (disabled) {
       e.preventDefault();
       return;

@@ -1,4 +1,4 @@
-import { ReactNode, useEffect, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 
 export enum Language {
   English = 'en',
@@ -20,7 +20,7 @@ const ensureArrayStructure = (value: ReactNode | ReactNode[]): ReactNode[] => {
 const useTranslationLegacy = (
   selectedLanguage: Language,
   translations: Translations,
-  customDependencies: any[]
+  customDependencies: React.DependencyList
 ): ReactNode[][] => {
   const [translatedStrings, setTranslatedStrings] = useState<ReactNode[][]>([]);
 

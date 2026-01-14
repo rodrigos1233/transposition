@@ -57,8 +57,7 @@ const defaultNotation = (): keyof Note => {
 };
 
 function ContextsProvider({ children }: { children: React.ReactNode }) {
-  const [selectedNotation, setSelectedNotation]: [keyof Note, any] =
-    useState(defaultNotation);
+  const [selectedNotation, setSelectedNotation] = useState<keyof Note>(defaultNotation);
   const [selectedLanguage, setSelectedLanguage] = useState(
     detectUserBrowserLanguage
   );

@@ -63,22 +63,21 @@ function CircleOfFifth({
       return difference > 6 ? difference - 12 : difference;
     };
 
-    const currentStartPosition = positions.start;
-    const currentTargetPosition = positions.target;
+    setPositions((prevPositions) => {
+      const newStartNotePosition = calculateSmallestIntervalPosition(
+        prevPositions.start,
+        positionInCircleOfFifthDeterminer(selectedStartNote ?? 0, modeIndex)
+      );
 
-    const newStartNotePosition = calculateSmallestIntervalPosition(
-      currentStartPosition,
-      positionInCircleOfFifthDeterminer(selectedStartNote ?? 0, modeIndex)
-    );
+      const newTargetNotePosition = calculateSmallestIntervalPosition(
+        prevPositions.target,
+        positionInCircleOfFifthDeterminer(targetNote ?? 0, modeIndex)
+      );
 
-    const newTargetNotePosition = calculateSmallestIntervalPosition(
-      currentTargetPosition,
-      positionInCircleOfFifthDeterminer(targetNote ?? 0, modeIndex)
-    );
-
-    setPositions({
-      start: currentStartPosition + newStartNotePosition,
-      target: currentTargetPosition + newTargetNotePosition,
+      return {
+        start: prevPositions.start + newStartNotePosition,
+        target: prevPositions.target + newTargetNotePosition,
+      };
     });
   }, [
     selectedStartNote,
@@ -107,7 +106,7 @@ function CircleOfFifth({
       </div>
       <div className="circle-of-fifth__circle">
         {circlePositions.map(({ angle }, i) => (
-          <>
+          <Fragment key={`outer-${i}`}>
             <div
               className="circle-outer"
               style={{
@@ -128,7 +127,7 @@ function CircleOfFifth({
                 ))}
               </div>
             </div>
-          </>
+          </Fragment>
         ))}
         {circlePositions.map(({ angle }, i) => {
           const possibleStartNotes = startNotesFromCirclePosition(i, 0);
@@ -169,29 +168,28 @@ function CircleOfFifth({
           }
 
           return (
-            <>
+            <div
+              key={`inner-${i}`}
+              className="circle-inner__content-container"
+              style={{
+                transform: `rotate(${angle + modeRotation}deg)`,
+                transition: 'all ease 0.5s',
+              }}
+            >
               <div
-                className="circle-inner__content-container"
+                className="circle-inner__content"
                 style={{
-                  transform: `rotate(${angle + modeRotation}deg)`,
+                  transform: `rotate(-${totalAngle}deg)`,
                   transition: 'all ease 0.5s',
                 }}
               >
-                <div
-                  className="circle-inner__content"
-                  style={{
-                    transform: `rotate(-${totalAngle}deg)`,
-                    transition: 'all ease 0.5s',
-                  }}
-                >
-                  <p className="text-nowrap">
-                    <Text size={'small'} style={{ whiteSpace: 'nowrap' }}>
-                      {text}
-                    </Text>
-                  </p>
-                </div>
+                <p className="text-nowrap">
+                  <Text size={'small'} style={{ whiteSpace: 'nowrap' }}>
+                    {text}
+                  </Text>
+                </p>
               </div>
-            </>
+            </div>
           );
         })}
         <div className="circle-center">
