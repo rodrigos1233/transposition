@@ -396,7 +396,7 @@ function CrossInstrumentsScaleTransposition() {
                     0: <span className="border-b-4 border-purple-400" />,
                     1: <span className="border-b-4 border-sky-300" />,
                     2: <span className="font-bold text-lg" />,
-                    3: <span className="border-b-4 border-yellow-300" />,
+                    3: <span className="border-b-4 border-amber-300" />,
                     4: <span className="font-bold text-lg" />,
                     5: <span className="border-b-4 border-red-300" />,
                   }}
@@ -424,7 +424,7 @@ function CrossInstrumentsScaleTransposition() {
                 musicalKey={targetKeySignature}
                 text={musicalStaffText[1]}
                 colour="red"
-                noteColour="yellow"
+                noteColour="amber"
               />
             </div>
           </ContentCard>

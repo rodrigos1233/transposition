@@ -14,7 +14,7 @@ type MusicalCharacterProps = {
   accidental?: 'flat' | 'sharp' | 'doubleFlat' | 'doubleSharp' | null;
   noteInScale?: NoteInScale;
   selectedNotation?: keyof Note;
-  colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple' | 'black';
+  colour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple' | 'black';
 };
 
 function MusicalCharacter({
@@ -94,10 +94,10 @@ function MusicalCharacter({
   }
 
   const colourClasses = {
-    lime: `border-lime-300 border-b-2`,
+    emerald: `border-emerald-400 border-b-2`,
     red: `border-red-300 border-b-2`,
     sky: `border-sky-300 border-b-2`,
-    yellow: `border-yellow-300 border-b-2`,
+    amber: `border-amber-300 border-b-2`,
     purple: `border-purple-400 border-b-2`,
     black: '',
   };

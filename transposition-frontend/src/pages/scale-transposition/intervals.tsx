@@ -154,7 +154,7 @@ function IntervalsScaleTransposition() {
             values={{
               enharmonicScale: `${getNote(targetKey, selectedNotation, SCALES)} ${modeText}`,
             }}
-            components={[<span className="border-b-4 border-yellow-300" />]}
+            components={[<span className="border-b-4 border-amber-300" />]}
           />
           <span className="font-bold text-lg">{transposedScaleNotesSuite}</span>
           {'.'}
@@ -180,7 +180,7 @@ function IntervalsScaleTransposition() {
           interval: getIntervalName(selectedInterval, selectedLanguage),
         }}
         components={[
-          <span className="border-b-4 border-yellow-300" />,
+          <span className="border-b-4 border-amber-300" />,
           <span className="font-bold text-lg" />,
         ]}
       />
@@ -313,7 +313,7 @@ function IntervalsScaleTransposition() {
             correspondingNotes={transposedScale.notesInScale}
             musicalKey={targetKeySignature}
             colour="red"
-            noteColour="yellow"
+            noteColour="amber"
           />
         </div>
         {/*<CircleOfFifth*/}

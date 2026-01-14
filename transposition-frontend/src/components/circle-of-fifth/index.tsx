@@ -142,7 +142,7 @@ function CircleOfFifth({
                     startNote === selectedStartNote
                       ? 'border-b-4 border-purple-400'
                       : startNote === targetNote
-                        ? 'border-b-4 border-yellow-400'
+                        ? 'border-b-4 border-amber-400'
                         : ''
                   }
                 >
