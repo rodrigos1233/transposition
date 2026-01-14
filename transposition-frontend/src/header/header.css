@@ -3,7 +3,7 @@ header {
   display: flex;
   justify-content: center;
   z-index: 10;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
@@ -18,7 +18,8 @@ header {
   width: 100%;
   max-width: 1200px;
   justify-content: space-between;
-  padding: 0 1rem;
+  align-items: center;
+  padding: 0.5rem 1.5rem 0;
 }
 
 .notation-selector {
@@ -32,7 +33,7 @@ header {
   justify-content: space-between;
   align-items: center;
   width: 24px;
-  height: 24px;
+  height: 20px;
   cursor: pointer;
   overflow: hidden;
 }
@@ -46,7 +47,7 @@ header {
 }
 
 .active {
-  transform: translateY(11px) rotate(45deg);
+  transform: translateY(9px) rotate(45deg);
 }
 
 .active:nth-child(2) {
@@ -55,13 +56,13 @@ header {
 }
 
 .active:nth-child(3) {
-  transform: translateY(-11px) rotate(-45deg);
+  transform: translateY(-9px) rotate(-45deg);
 }
 
 .collapsed-menu {
   width: 100vw;
   position: absolute;
-  bottom: -259%;
+  bottom: -180%;
   right: 0;
   transition: all 0.3s ease;
   z-index: 10;

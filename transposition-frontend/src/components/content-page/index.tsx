@@ -11,7 +11,7 @@ function ContentPage(props: ContentPageProps) {
 
   return (
     <article
-      className={`content ${className ?? ''} w-full pt-4 md:pt-32 px-4 pb-6 md:px-8 md:pb-8`}
+      className={`content ${className ?? ''} w-full pt-4 md:pt-24 px-4 pb-6 md:px-8 md:pb-8`}
     >
       <Flex direction={'col'} gapSize="medium">
         {children}

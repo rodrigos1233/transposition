@@ -81,14 +81,21 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className={`header shadow-lg z-10 fixed ${
-        isMobile ? 'header--mobile sticky top-0 bg-white pl-4 pr-4' : ''
+      className={`header z-10 fixed ${
+        isMobile ? 'header--mobile sticky top-0 bg-white/95 pl-4 pr-4' : ''
       }`}
     >
       <div className="header__content">
-        <div className="flex justify-between items-end">
-          <Link to="/" className={'h-12 pr-3'}>
-            <h1 className="font-bold m-2">ClaveShift</h1>
+        {/* Left side: Logo + Navigation */}
+        <div className="flex items-end">
+          <Link to="/" className="h-12 pr-4 flex items-center gap-1.5 group">
+            <span className="text-xl font-bold tracking-tight">
+              <span className="text-emerald-600">Clave</span>
+              <span className="text-neutral-700">Shift</span>
+            </span>
+            <span className="text-emerald-500 text-xl transition-transform group-hover:rotate-12">
+              ♪
+            </span>
           </Link>
           {!isMobile && (
             <nav className="h-14 flex">
@@ -122,12 +129,14 @@ export function Header() {
           )}
         </div>
 
+        {/* Right side: Language & Notation selectors */}
         {!isMobile && (
-          <div className="flex flex-col gap-1 items-end pt-2 pb-2">
+          <div className="flex flex-col gap-1 items-end py-1">
             <LanguageSelector />
             <NotationSelector />
           </div>
         )}
+
         {isMobile && (
           <div className="h-full flex justify-center items-center">
             <HamburgerMenu
@@ -139,7 +148,7 @@ export function Header() {
       </div>
       {isMobile && (
         <div
-          className={`collapsed-menu p-4 shadow-lg rounded-sm flex flex-col gap-2 bg-white ${
+          className={`collapsed-menu p-4 shadow-lg rounded-b-xl flex flex-col gap-3 bg-white/95 backdrop-blur-sm ${
             openMenu ? 'collapsed-menu--open' : 'collapsed-menu--closed'
           }`}
         >
@@ -209,8 +218,8 @@ export function BottomNav() {
   return (
     <>
       {isMobile && (
-        <div className="shadow-[0_8px_30px_rgb(0,0,0,0.4)] fixed bottom-0 bg-white w-screen">
-          <nav className="h-10 flex gap-0.5 bg-neutral-600">
+        <div className="shadow-[0_-4px_20px_rgb(0,0,0,0.1)] fixed bottom-0 bg-white w-screen">
+          <nav className="h-12 flex gap-0.5 bg-neutral-200">
             <NavTabDropdown
               elements={startLinkElement}
               isCurrentPage={startLinkElement.some(
@@ -262,8 +271,8 @@ export function Footer() {
   const isMobile = useIsMobile();
 
   return (
-    <footer className={`p-2 ${isMobile ? 'mb-20' : ''}`}>
-      <p>
+    <footer className={`p-4 ${isMobile ? 'mb-20' : ''}`}>
+      <p className="text-neutral-500">
         <Text size={'small'}>
           &copy; {startYear} - {currentYear} Rodrigo Salazar. All rights
           reserved.
