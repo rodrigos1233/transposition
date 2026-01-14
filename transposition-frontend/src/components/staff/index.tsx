@@ -12,8 +12,8 @@ type StaffProps = {
   musicalKey: Key;
   selectedNotation?: keyof Note;
   text?: React.ReactNode;
-  colour?: 'sky' | 'lime' | 'yellow' | 'red' | 'purple';
-  noteColour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
+  colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
+  noteColour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
 };
 
@@ -58,11 +58,11 @@ function Staff({
   }
 
   const colourClasses = {
-    lime: 'border-l-lime-400 border-l-4',
+    emerald: 'border-l-emerald-500 border-l-4',
     red: 'border-l-red-400 border-l-4',
     sky: 'border-l-sky-400 border-l-4',
-    yellow: 'border-l-yellow-400 border-l-4',
-    black: 'border-l-black-400 border-l-2',
+    amber: 'border-l-amber-400 border-l-4',
+    black: 'border-l-neutral-400 border-l-2',
     purple: 'border-l-purple-400 border-l-4',
   };
 

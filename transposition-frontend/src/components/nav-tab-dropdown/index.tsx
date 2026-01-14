@@ -56,7 +56,7 @@ function NavTabDropdown({
         className={`nav-dropdown-main h-full w-full flex items-center justify-center ${
           isMobile ? '' : 'rounded-t-md'
         }  ${
-          isCurrentPage ? 'bg-lime-300' : 'bg-neutral-100 hover:bg-lime-100 '
+          isCurrentPage ? 'bg-emerald-300' : 'bg-neutral-100 hover:bg-emerald-100 '
         }`}
         onClick={isMobile ? () => setIsActive(!isActive) : undefined}
       >
@@ -93,7 +93,7 @@ function NavTabDropdown({
       </div>
       {elements.length > 1 && (
         <div
-          className={`nav-dropdown-items-container w-48 hidden flex-col bg-neutral-50 rounded-lg border-2 border-lime-300 ${
+          className={`nav-dropdown-items-container w-48 hidden flex-col bg-neutral-50 rounded-lg border-2 border-emerald-300 ${
             isActive ? 'nav-dropdown-items-container--active' : ''
           }`}
         >
@@ -122,8 +122,8 @@ function NavTabDropdown({
                 onClick={handleClick}
                 className={`nav-dropdown-item p-2 ${
                   element.isCurrentPage
-                    ? 'nav-dropdown-item--active bg-lime-300'
-                    : 'hover:bg-lime-100'
+                    ? 'nav-dropdown-item--active bg-emerald-300'
+                    : 'hover:bg-emerald-100'
                 }`}
               >
                 {content}

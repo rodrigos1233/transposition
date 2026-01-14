@@ -11,13 +11,13 @@ function ContentCard(props: ContentCardProps) {
   const { children, className, level = 1 } = props;
 
   const levelClassesMap: Record<number, string> = {
-    1: 'p-3 md:p-5 rounded-2xl md:rounded-3xl',
-    2: 'p-1 md:p-3 md:rounded-xl',
+    1: 'p-4 md:p-6 rounded-2xl md:rounded-3xl shadow-soft bg-white/80 backdrop-blur-sm border border-neutral-200',
+    2: 'p-3 md:p-4 rounded-xl md:rounded-2xl bg-neutral-50/50 border border-neutral-100',
   };
 
   return (
     <section
-      className={`content-card ${className ?? ''} border-neutral-300 border-2 ${levelClassesMap[level]} bg-neutral-100/70 `}
+      className={`content-card ${className ?? ''} ${levelClassesMap[level]}`}
     >
       <Flex direction={'col'}>{children}</Flex>
     </section>

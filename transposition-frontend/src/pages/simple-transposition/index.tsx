@@ -182,7 +182,7 @@ function SimpleTransposition() {
           components={[
             <span className="border-b-4 border-purple-300" />,
             <span className="border-b-4 border-sky-300" />,
-            <span className="border-b-4 border-yellow-300 font-bold text-lg" />,
+            <span className="border-b-4 border-amber-300 font-bold text-lg" />,
             <span className="border-b-4 border-red-300" />,
           ]}
         />
@@ -370,7 +370,7 @@ function SimpleTransposition() {
                 }
                 text={musicalStaffText[1]}
                 colour="red"
-                noteColour="yellow"
+                noteColour="amber"
               />
             )}
           </div>

@@ -12,7 +12,7 @@ type NoteSelectorProps = {
   selected: number;
   usedScale?: Note[];
   blackNotesAreHalf?: boolean;
-  colour?: 'sky' | 'lime' | 'yellow' | 'red' | 'purple';
+  colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
 };
 
 function NoteSelector({
@@ -24,6 +24,16 @@ function NoteSelector({
 }: NoteSelectorProps) {
   const selectedNotes = usedScale ?? NOTES;
   const { selectedNotation } = useContext(NotationContext);
+
+  // Get background class for a note button based on whether it's black and/or selected
+  const getButtonClasses = (isBlackNote: boolean, isSelected: boolean) => {
+    if (isSelected) {
+      // When selected, use a light background so the colored border is visible
+      return isBlackNote ? 'text-neutral-800' : 'bg-neutral-100';
+    }
+    // When not selected, black notes get dark background
+    return isBlackNote ? 'bg-neutral-800 text-white' : 'bg-neutral-100';
+  };
 
   return (
     <ButtonsGridContainer className={`mt-2 mb-2`}>
@@ -42,18 +52,18 @@ function NoteSelector({
               <Button
                 onClick={() => setSelected(k)}
                 disabled={k === selected}
-                className="bg-neutral-800 text-white"
+                className={getButtonClasses(true, k === selected)}
                 style={{ flex: `0.5 2 0` }}
-                colour={colour ?? 'lime'}
+                colour={colour ?? 'emerald'}
               >
                 {note[selectedNotation]}
               </Button>
               <Button
                 onClick={() => setSelected(k + 1)}
                 disabled={k + 1 === selected}
-                className="bg-neutral-800 text-white"
+                className={getButtonClasses(true, k + 1 === selected)}
                 style={{ flex: `0.5 2 0` }}
-                colour={colour ?? 'lime'}
+                colour={colour ?? 'emerald'}
               >
                 {selectedNotes[k + 1][selectedNotation]}
               </Button>
@@ -75,11 +85,9 @@ function NoteSelector({
             key={k}
             onClick={() => setSelected(k)}
             disabled={k === selected}
-            className={
-              isBlackNote ? 'bg-neutral-800 text-white' : 'bg-neutral-100'
-            }
+            className={getButtonClasses(isBlackNote, k === selected)}
             style={blackNotesAreHalf ? { flex: `1 1 0` } : {}}
-            colour={colour ?? 'lime'}
+            colour={colour ?? 'emerald'}
           >
             {note[selectedNotation]}
           </Button>

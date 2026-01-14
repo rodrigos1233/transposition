@@ -9,7 +9,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 .contents {
@@ -17,8 +17,8 @@
   flex-direction: column;
   max-width: 1240px;
   margin-top: 20px;
-  padding-left: 20px !important;
-  padding-right: 20px !important;
+  padding-left: 20px;
+  padding-right: 20px;
   flex-grow: 1;
   width: 100%;
 }
@@ -41,9 +41,57 @@ main::before {
   left: 0;
   right: 0;
   z-index: -1;
-
   display: block;
-  background: #f4f4f6;
+  background: linear-gradient(135deg, #f8fafc 0%, #ecfdf5 50%, #f0fdf4 100%);
   width: 100%;
   height: 100%;
+}
+
+/* Subtle decorative gradient orbs */
+main::after {
+  content: '';
+  position: fixed;
+  top: -20%;
+  right: -10%;
+  width: 50%;
+  height: 50%;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.08) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* Typography enhancements */
+h1 {
+  font-weight: 700;
+  color: #065f46;
+  letter-spacing: -0.025em;
+}
+
+h2 {
+  font-weight: 600;
+  color: #1f2937;
+  letter-spacing: -0.02em;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Better text rendering */
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Link styling */
+a {
+  transition: color 0.15s ease;
+}
+
+/* Selection color */
+::selection {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #065f46;
 }

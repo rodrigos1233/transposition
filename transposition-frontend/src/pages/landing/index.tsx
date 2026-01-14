@@ -156,7 +156,7 @@ function LandingPage() {
                 )}-${scale.scale}-${enharmonicGroupTransposer(
                   transposition.to
                 )}-${scale.mode}`}
-                className="underline text-lime-700"
+                className="underline text-emerald-700"
               >
                 {getNote(scale.scale, selectedNotation, SCALES)}{' '}
                 {getModeName(scale.mode, i18n.language)}
@@ -177,7 +177,7 @@ function LandingPage() {
         </Text>
 
         <Text key={'text-2'} size={'small'}>
-          <Trans i18nKey="landing.aboutLink" components={[<a className="underline text-lime-700" href="/about" />]} />
+          <Trans i18nKey="landing.aboutLink" components={[<a className="underline text-emerald-700" href="/about" />]} />
         </Text>
       </ContentCard>
       <ContentCard>

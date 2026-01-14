@@ -9,7 +9,7 @@ type ButtonProps = {
   disabled?: boolean;
   className?: string;
   style?: CSSProperties;
-  colour?: 'lime' | 'red' | 'sky' | 'yellow' | 'purple';
+  colour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
 };
 
 function Button({
@@ -19,7 +19,7 @@ function Button({
   disabled = false,
   className,
   style,
-  colour = 'lime',
+  colour = 'emerald',
 }: ButtonProps) {
   const navigate = useNavigate();
 
@@ -35,20 +35,35 @@ function Button({
     }
   };
 
-  const sizingClasses = 'border-2 border-b-8 p-1 disabled:border-b-2';
+  // Keep original sizing for proper grid layout
+  const baseClasses = 'border-2 border-b-8 p-1 disabled:border-b-4 font-medium';
+
+  // Color classes with strong selected states that work on both light and dark backgrounds
   const colourClasses = {
-    lime: 'hover:border-lime-300 disabled:border-lime-400',
-    red: 'hover:border-red-300 disabled:border-red-400',
-    sky: 'hover:border-sky-300 disabled:border-sky-400',
-    yellow: 'hover:border-yellow-300 disabled:border-yellow-400',
-    purple: 'hover:border-purple-300 disabled:border-purple-400',
+    emerald:
+      'border-neutral-700 hover:border-emerald-400 disabled:border-emerald-500 disabled:bg-emerald-200',
+    red: 'border-neutral-700 hover:border-red-400 disabled:border-red-500 disabled:bg-red-200',
+    sky: 'border-neutral-700 hover:border-sky-400 disabled:border-sky-500 disabled:bg-sky-200',
+    amber:
+      'border-neutral-700 hover:border-amber-400 disabled:border-amber-500 disabled:bg-amber-200',
+    purple:
+      'border-neutral-700 hover:border-purple-400 disabled:border-purple-500 disabled:bg-purple-200',
   };
 
-  const combinedClasses = `${sizingClasses} active:translate-y-0.5 active:border-b-2 border-neutral-800 rounded text-black ${
+  // Focus ring colors that match the button color scheme
+  const focusRingClasses = {
+    emerald: 'focus:ring-emerald-500',
+    red: 'focus:ring-red-500',
+    sky: 'focus:ring-sky-500',
+    amber: 'focus:ring-amber-500',
+    purple: 'focus:ring-purple-500',
+  };
+
+  const combinedClasses = `${baseClasses} active:translate-y-0.5 active:border-b-2 rounded text-neutral-800 ${
     colourClasses[colour]
   } ${
-    disabled ? 'cursor-not-allowed disabled:translate-y-0.5' : ''
-  } ${className} transition-all relative z-0 bg-white`;
+    disabled ? 'cursor-not-allowed disabled:translate-y-0.5' : 'cursor-pointer'
+  } ${className ?? ''} transition-all duration-100 ease-out relative z-0 focus:outline-none focus:ring-2 ${focusRingClasses[colour]} focus:ring-offset-1`;
 
   const buttonElement = (
     <button

@@ -1,10 +1,7 @@
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import Button from '../components/button';
 import './header.css';
 import { Language } from '../hooks/useTranslationLegacy.ts';
-import Text from '../components/text';
-import ButtonsFlexContainer from '../components/button/ButtonsFlexContainer';
 import LanguageContext from '../contexts/LanguageContext';
 
 function LanguageSelector() {
@@ -15,26 +12,34 @@ function LanguageSelector() {
   const selectedLanguage = languageContext.selectedLanguage;
   const setSelectedLanguage = languageContext.setSelectedLanguage;
 
-  // Update i18next language when context language changes
   const handleLanguageChange = (language: Language) => {
     setSelectedLanguage(language);
     i18n.changeLanguage(language);
   };
 
   return (
-    <ButtonsFlexContainer>
-      <Text size={'small'}>{t('languageSelector.label')}</Text>
-      {AvailableLanguages.map((language, k) => (
-        <Button
-          key={k}
-          onClick={() => handleLanguageChange(language)}
-          disabled={language === selectedLanguage}
-          className="ml-3"
-        >
-          <Text size={'small'}>{language}</Text>
-        </Button>
-      ))}
-    </ButtonsFlexContainer>
+    <div className="flex items-center gap-2">
+      <span className="text-xs text-neutral-500 font-medium uppercase tracking-wide">
+        {t('languageSelector.label')}
+      </span>
+      <div className="flex gap-1">
+        {AvailableLanguages.map((language) => (
+          <button
+            key={language}
+            onClick={() => handleLanguageChange(language)}
+            disabled={language === selectedLanguage}
+            className={`px-2 py-0.5 text-xs font-medium rounded transition-all duration-150
+              ${
+                language === selectedLanguage
+                  ? 'bg-emerald-500 text-white'
+                  : 'bg-neutral-100 text-neutral-600 hover:bg-emerald-100 hover:text-emerald-700'
+              }`}
+          >
+            {language}
+          </button>
+        ))}
+      </div>
+    </div>
   );
 }
 
