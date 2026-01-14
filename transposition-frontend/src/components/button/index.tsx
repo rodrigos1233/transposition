@@ -50,11 +50,20 @@ function Button({
       'border-neutral-700 hover:border-purple-400 disabled:border-purple-500 disabled:bg-purple-200',
   };
 
+  // Focus ring colors that match the button color scheme
+  const focusRingClasses = {
+    emerald: 'focus:ring-emerald-500',
+    red: 'focus:ring-red-500',
+    sky: 'focus:ring-sky-500',
+    amber: 'focus:ring-amber-500',
+    purple: 'focus:ring-purple-500',
+  };
+
   const combinedClasses = `${baseClasses} active:translate-y-0.5 active:border-b-2 rounded text-neutral-800 ${
     colourClasses[colour]
   } ${
     disabled ? 'cursor-not-allowed disabled:translate-y-0.5' : 'cursor-pointer'
-  } ${className ?? ''} transition-all duration-100 ease-out relative z-0 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-1`;
+  } ${className ?? ''} transition-all duration-100 ease-out relative z-0 focus:outline-none focus:ring-2 ${focusRingClasses[colour]} focus:ring-offset-1`;
 
   const buttonElement = (
     <button
