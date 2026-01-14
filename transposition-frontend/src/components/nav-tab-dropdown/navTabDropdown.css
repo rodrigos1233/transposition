@@ -8,9 +8,18 @@
 
 .nav-dropdown-items-container {
   position: absolute;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
 }
 
 .nav-dropdown-container--mobile .nav-dropdown-items-container--active {
   display: flex;
   bottom: 100%;
+}
+
+.nav-dropdown-item {
+  transition: background-color 0.15s ease;
+}
+
+.nav-dropdown-main {
+  transition: background-color 0.15s ease;
 }

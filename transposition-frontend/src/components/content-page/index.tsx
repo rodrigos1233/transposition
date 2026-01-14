@@ -11,9 +11,11 @@ function ContentPage(props: ContentPageProps) {
 
   return (
     <article
-      className={`content ${className ?? ''} w-full pt-2 md:pt-32 backdrop-blur pr-3 pl-3 pb-3 md:pr-6 md:pb-6 md:pl-6 border-2 border-neutral-400 rounded-b-3xl md:rounded-b-[2.5rem]`}
+      className={`content ${className ?? ''} w-full pt-4 md:pt-32 px-4 pb-6 md:px-8 md:pb-8`}
     >
-      <Flex direction={'col'}>{children}</Flex>
+      <Flex direction={'col'} gapSize="medium">
+        {children}
+      </Flex>
     </article>
   );
 }
