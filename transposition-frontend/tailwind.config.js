@@ -12,9 +12,6 @@ export default {
       boxShadow: {
         'soft': '0 2px 8px -2px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.06)',
         'soft-lg': '0 4px 16px -4px rgba(0, 0, 0, 0.1), 0 2px 8px -2px rgba(0, 0, 0, 0.06)',
-        'button': '0 4px 0 0 #065f46',
-        'button-hover': '0 6px 0 0 #047857',
-        'button-active': '0 2px 0 0 #065f46',
       },
     },
   },
