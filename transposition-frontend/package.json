@@ -19,7 +19,7 @@
     "react-router-dom": "^6.30.3",
     "react-select": "^5.10.2",
     "vexflow4": "github:rodrigos1233/vexflow#setup-custom-build",
-    "vexflow5": "github:rodrigos1233/vexflow5#main",
+    "vexflow": "github:rodrigos1233/vexflow5#custom-build-claveshift",
     "web-vitals": "^3.5.0"
   },
   "scripts": {

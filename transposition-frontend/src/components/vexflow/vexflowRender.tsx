@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { Renderer, Stave } from 'vexflow4';
+import { Renderer, Stave } from 'vexflow';
 
 type VexflowStaveProps = {
   alteration?: 'sharp' | 'flat';
