@@ -25,6 +25,8 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
+      // Fix VexFlow's import of structured-clone-es.js
+      'structured-clone-es.js': 'structured-clone-es',
     },
   },
   server: {
