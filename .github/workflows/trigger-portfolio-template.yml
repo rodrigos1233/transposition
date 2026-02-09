@@ -5,7 +5,7 @@ on:
     branches: ["main", "master"]
     paths:
       - "**/PORTFOLIO_PRESENTATION.md"
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   trigger:
