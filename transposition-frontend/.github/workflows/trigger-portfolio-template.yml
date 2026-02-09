@@ -4,7 +4,7 @@ on:
   push:
     branches: ["main", "master"]
     paths:
-      - "PORTFOLIO_PRESENTATION.md"
+      - "**/PORTFOLIO_PRESENTATION.md"
 
 jobs:
   trigger:
