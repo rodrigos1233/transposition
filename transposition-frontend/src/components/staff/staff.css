@@ -1,6 +1,5 @@
 .staff {
   position: relative;
-  min-height: 150px;
 }
 
 @media only screen and (max-width: 600px) {
@@ -35,5 +34,5 @@
 }
 
 .vexflow-staff-container {
-  min-height: 120px;
+  /* Height is controlled dynamically by VexFlow */
 }

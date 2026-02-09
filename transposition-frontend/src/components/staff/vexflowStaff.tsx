@@ -46,7 +46,11 @@ function VexflowStaff({
 
     // Calculate dimensions
     const width = calculateStaveWidth(displayedNotes.length, musicalKey);
-    const height = 150;
+    // Height depends on whether we have notes with annotations
+    const hasAnnotations = displayedNotes.length > 0 && correspondingNotes;
+    // Need enough space for treble clef which extends ~35px above stave
+    const height = hasAnnotations ? 100 : 80;
+    const staveY = hasAnnotations ? 15 : 35;
 
     // Setup renderer
     const renderer = new Renderer(
@@ -57,7 +61,7 @@ function VexflowStaff({
     const context = renderer.getContext();
 
     // Create stave
-    const stave = new Stave(10, 40, width - 20);
+    const stave = new Stave(10, staveY, width - 20);
     stave.addClef('treble');
 
     // Add key signature (no time signature per requirements)
@@ -83,10 +87,10 @@ function VexflowStaff({
       voice.setMode(Voice.Mode.SOFT);
       voice.addTickables(notes);
 
-      // Format and draw
+      // Format and draw - use tighter spacing
       new Formatter()
         .joinVoices([voice])
-        .format([voice], width - 120);
+        .format([voice], width - 80);
 
       voice.draw(context, stave);
     }

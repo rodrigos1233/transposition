@@ -72,7 +72,8 @@ export function calculateStaveWidth(
   const keySignatureWidth =
     (key.alteredNotes?.length || 0) * 12 +
     (key.doubleAlteredNotes?.length || 0) * 12;
-  const notesWidth = Math.max(noteCount * 45, 50);
-  const padding = 40;
+  // Tighter note spacing: 30px per note instead of 45px
+  const notesWidth = Math.max(noteCount * 30, 50);
+  const padding = 30;
   return clefWidth + keySignatureWidth + notesWidth + padding;
 }
