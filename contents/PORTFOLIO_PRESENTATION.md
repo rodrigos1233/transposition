@@ -44,38 +44,50 @@ ClaveShift is a React/TypeScript single-page application that handles three tran
 ## Architecture
 
 ```mermaid
-architecture-beta
-    group ui(cloud)[UI Layer]
-    group logic(cloud)[Logic Layer]
-    group data(cloud)[Data Layer]
+block-beta
+    columns 1
 
-    service router(server)[BrowserRouter] in ui
-    service contexts(server)[ContextsProvider] in ui
-    service pages(server)[Transposition Pages] in ui
-    service selectors(server)[Note and Mode Selectors] in ui
-    service circle(server)[Circle of Fifths SVG] in ui
-    service staff(server)[VexFlow Staff Renderer] in ui
+    block:ui["UI Layer"]
+        columns 3
+        Router["BrowserRouter"]:3
+        Contexts["Contexts Provider"]:3
+        SimpleT["Simple Transposition"]
+        CrossT["Cross-Instruments"]
+        IntervalT["Interval Transposition"]
+        NoteSelector["Note Selector"]
+        Circle["Circle of Fifths"]
+        ModeSelector["Mode and Interval Selectors"]
+        Staff["VexFlow Staff Renderer"]:3
+    end
 
-    service transposer(server)[Transposer Engine] in logic
-    service scalebuilder(server)[Scale Builder] in logic
-    service noteconverter(server)[Note Converter] in logic
+    block:logic["Logic Layer"]
+        columns 3
+        Transposer["Transposer Engine"]
+        ScaleBuilder["Scale Builder"]
+        NoteConverter["Note Converter"]
+    end
 
-    service notes(database)[Notes and Scales] in data
-    service modes(database)[Modes and Intervals] in data
-    service instruments(database)[Instruments] in data
+    block:data["Data Layer"]
+        columns 4
+        Notes["Notes and Scales"]
+        Modes["Modes"]
+        Intervals["Intervals"]
+        Instruments["Instruments"]
+    end
 
-    router:B --> T:contexts
-    contexts:B --> T:pages
-    pages:B --> T:selectors
-    pages:B --> T:circle
-    selectors:B --> T:staff
-    staff:B --> T:noteconverter
-    selectors:B --> T:transposer
-    transposer:R --> L:scalebuilder
-    transposer:B --> T:notes
-    scalebuilder:B --> T:modes
-    noteconverter:B --> T:notes
-    transposer:B --> T:instruments
+    Router --> Contexts
+    Contexts --> SimpleT
+    Contexts --> CrossT
+    Contexts --> IntervalT
+    NoteSelector --> Transposer
+    Circle --> Staff
+    NoteSelector --> Staff
+    Staff --> NoteConverter
+    Transposer --> ScaleBuilder
+    Transposer --> Notes
+    Transposer --> Instruments
+    ScaleBuilder --> Modes
+    NoteConverter --> Notes
 ```
 
 ## Current State
