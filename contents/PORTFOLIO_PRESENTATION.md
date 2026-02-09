@@ -44,46 +44,31 @@ ClaveShift is a React/TypeScript single-page application that handles three tran
 ## Architecture
 
 ```mermaid
-block-beta
-    columns 1
-
-    block:ui["UI Layer"]
-        columns 3
-        Router["BrowserRouter"]:3
-        Contexts["Contexts Provider"]:3
-        SimpleT["Simple Transposition"]
-        CrossT["Cross-Instruments"]
-        IntervalT["Interval Transposition"]
-        NoteSelector["Note Selector"]
-        Circle["Circle of Fifths"]
-        ModeSelector["Mode and Interval Selectors"]
-        Staff["VexFlow Staff Renderer"]:3
+graph TD
+    subgraph UI[UI Layer]
+        Router[BrowserRouter] --> Contexts[Contexts Provider]
+        Contexts --> SimpleT[Simple Transposition]
+        Contexts --> CrossT[Cross-Instruments]
+        Contexts --> IntervalT[Interval Transposition]
+        SimpleT & CrossT & IntervalT --> Selectors[Note, Mode and Interval Selectors]
+        SimpleT & CrossT & IntervalT --> Circle[Circle of Fifths]
+        Selectors --> Staff[VexFlow Staff Renderer]
+        Circle --> Staff
     end
 
-    block:logic["Logic Layer"]
-        columns 3
-        Transposer["Transposer Engine"]
-        ScaleBuilder["Scale Builder"]
-        NoteConverter["Note Converter"]
+    subgraph Logic[Logic Layer]
+        Transposer[Transposer Engine] <--> ScaleBuilder[Scale Builder]
+        NoteConverter[Note Converter]
     end
 
-    block:data["Data Layer"]
-        columns 4
-        Notes["Notes and Scales"]
-        Modes["Modes"]
-        Intervals["Intervals"]
-        Instruments["Instruments"]
+    subgraph Data[Data Layer]
+        Notes[Notes and Scales]
+        Modes[Modes]
+        Instruments[Instruments]
     end
 
-    Router --> Contexts
-    Contexts --> SimpleT
-    Contexts --> CrossT
-    Contexts --> IntervalT
-    NoteSelector --> Transposer
-    Circle --> Staff
-    NoteSelector --> Staff
+    Selectors --> Transposer
     Staff --> NoteConverter
-    Transposer --> ScaleBuilder
     Transposer --> Notes
     Transposer --> Instruments
     ScaleBuilder --> Modes
