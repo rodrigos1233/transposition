@@ -21,6 +21,7 @@ timeframe:
 origin: personal
 featured: true
 links:
+  live: https://claveshift.com
   repo: https://github.com/rodrigos1233/transposition
 ---
 
@@ -42,41 +43,39 @@ ClaveShift is a React/TypeScript single-page application that handles three tran
 
 ## Architecture
 
-```
-┌──────────────────────────────────────────────────────────────┐
-│  BrowserRouter → ContextsProvider                            │
-│  ├─ LanguageContext (localStorage-persisted)                 │
-│  └─ NotationContext (localStorage-persisted)                 │
-└──────────────┬───────────────────────────────────────────────┘
-               │
-    ┌──────────┼─────────────────────────────┐
-    │          │                             │
-    ▼          ▼                             ▼
- Header     Routes                     BottomNav/Footer
-            ├─ LandingPage
-            ├─ SimpleTransposition (/note/:params)
-            ├─ CrossInstrumentsScaleTransposition (/scale-cross-instruments/:params)
-            └─ IntervalsScaleTransposition (/scale-intervals/:params)
-                    │
-        ┌───────────┼──────────────┐
-        ▼           ▼              ▼
-  NoteSelector  CircleOfFifth  ModeSelector / IntervalSelector
-        │           │
-        ▼           ▼
-      Staff ──► VexflowStaff
-                  ├─ noteConverter.ts (positionToVexflowKey, keyToVexflowKeySignature)
-                  └─ VexFlow Renderer → SVG (Stave, KeySignature, StaveNote, Annotation)
+```mermaid
+architecture-beta
+    group ui(cloud)[UI Layer]
+    group logic(cloud)[Logic Layer]
+    group data(cloud)[Data Layer]
 
-────────────── Logic Layer ──────────────
-  transposer.ts          scaleBuilder.ts
-  ├─ transposer()        ├─ scaleBuilder()
-  ├─ crossInstruments    ├─ keySignatureBuilder()
-  │  Transposer()        └─ circleOfFifthModeShifter()
-  └─ enharmonicGroup
-     Transposer()        notes.ts (NOTES, SCALES, CIRCLE_OF_FIFTH_MAJOR_SUITE)
-                         modes.ts (MODES[], position offsets)
-                         intervals.ts (INTERVALS[], i18n names)
-                         instruments.ts (LIST_OF_INSTRUMENTS by pitch)
+    service router(server)[BrowserRouter] in ui
+    service contexts(server)[ContextsProvider] in ui
+    service pages(server)[Transposition Pages] in ui
+    service selectors(server)[Note and Mode Selectors] in ui
+    service circle(server)[Circle of Fifths SVG] in ui
+    service staff(server)[VexFlow Staff Renderer] in ui
+
+    service transposer(server)[Transposer Engine] in logic
+    service scalebuilder(server)[Scale Builder] in logic
+    service noteconverter(server)[Note Converter] in logic
+
+    service notes(database)[Notes and Scales] in data
+    service modes(database)[Modes and Intervals] in data
+    service instruments(database)[Instruments] in data
+
+    router:B --> T:contexts
+    contexts:B --> T:pages
+    pages:B --> T:selectors
+    pages:B --> T:circle
+    selectors:B --> T:staff
+    staff:B --> T:noteconverter
+    selectors:B --> T:transposer
+    transposer:R --> L:scalebuilder
+    transposer:B --> T:notes
+    scalebuilder:B --> T:modes
+    noteconverter:B --> T:notes
+    transposer:B --> T:instruments
 ```
 
 ## Current State
