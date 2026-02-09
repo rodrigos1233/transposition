@@ -50,29 +50,29 @@ graph TD
         Contexts --> SimpleT[Simple Transposition]
         Contexts --> CrossT[Cross-Instruments]
         Contexts --> IntervalT[Interval Transposition]
-        SimpleT & CrossT & IntervalT --> Selectors[Note, Mode and Interval Selectors]
-        SimpleT & CrossT & IntervalT --> Circle[Circle of Fifths]
-        Selectors --> Staff[VexFlow Staff Renderer]
-        Circle --> Staff
+        CrossT --> Circle[Circle of Fifths]
+        SimpleT & CrossT & IntervalT --> Staff[VexFlow Staff Renderer]
     end
 
     subgraph Logic[Logic Layer]
-        Transposer[Transposer Engine] <--> ScaleBuilder[Scale Builder]
-        NoteConverter[Note Converter]
+        Transposer[Transposer Engine]
+        ScaleBuilder[Scale Builder]
     end
 
     subgraph Data[Data Layer]
         Notes[Notes and Scales]
         Modes[Modes]
+        Intervals[Intervals]
         Instruments[Instruments]
     end
 
-    Selectors --> Transposer
-    Staff --> NoteConverter
+    SimpleT & CrossT & IntervalT --> Transposer
+    CrossT & IntervalT --> ScaleBuilder
+    Circle --> ScaleBuilder
     Transposer --> Notes
     Transposer --> Instruments
+    ScaleBuilder --> Notes
     ScaleBuilder --> Modes
-    NoteConverter --> Notes
 ```
 
 ## Current State
