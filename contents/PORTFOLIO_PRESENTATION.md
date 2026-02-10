@@ -21,8 +21,8 @@ timeframe:
 origin: personal
 featured: true
 links:
-  live: https://claveshift.com
-  repo: https://github.com/rodrigos1233/transposition
+  live: https://go.rodrigosalazar.ch/claveshift?origin=portfolio
+  repo: https://go.rodrigosalazar.ch/claveshift-repo?origin=portfolio
 ---
 
 ## Context / Problem
