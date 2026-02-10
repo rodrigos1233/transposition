@@ -2,7 +2,7 @@
 id: claveshift-transposition
 title: ClaveShift
 tagline: Cross-instrument musical transposition tool with interactive notation rendering
-status: wip
+status: live
 visibility: public
 tags:
   - web
