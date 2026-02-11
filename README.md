@@ -23,7 +23,7 @@ If a melody starts on C and you transpose it up by 2 steps, every note moves up 
 - Cross-instrument transposition: Transpose individual notes or full scales between any two instrument keys (e.g., from Bb Clarinet to Eb Alto Sax).
 - Interval-based transposition: Transpose up or down by a selected interval (e.g., up a fifth, down a third), regardless of instrument.
 - Supports all-to-all key transpositions: Any key to any key, not limited to common transpositions.
-- Visualizes music notation with a custom implementation (currently using a custom renderer; VexFlow replacement planned).
+- Professional music notation rendering powered by VexFlow, with treble clefs, key signatures, accidentals, and color-coded annotations.
 - Interactive Circle of Fifths for quick reference.
 - Multi-language support (English, French, Spanish, German).
 - Responsive design for desktop and mobile.
