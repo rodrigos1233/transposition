@@ -64,15 +64,16 @@ function IntervalsScaleTransposition() {
     selectedMode > 1
   );
 
-  let targetKey = selectedOriginKey;
+  let targetKey = enharmonicGroupTransposer(selectedOriginKey);
 
   if (selectedDirection === 'down') {
-    targetKey = enharmonicGroupTransposer(selectedOriginKey) - selectedInterval;
+    targetKey -= selectedInterval;
+  } else {
+    targetKey += selectedInterval;
   }
 
-  if (selectedDirection === 'up') {
-    targetKey = enharmonicGroupTransposer(selectedOriginKey) + selectedInterval;
-  }
+  // Wrap into valid 0-11 enharmonic group range
+  targetKey = ((targetKey % 12) + 12) % 12;
 
   const targetNote = scaleTransposer(
     originKey,
@@ -152,7 +153,7 @@ function IntervalsScaleTransposition() {
           <Trans
             i18nKey="transposition.scaleIntervals.simplerEnharmonicEquivalent"
             values={{
-              enharmonicScale: `${getNote(targetKey, selectedNotation, SCALES)} ${modeText}`,
+              enharmonicScale: `${getNote(targetNote, selectedNotation, SCALES)} ${modeText}`,
             }}
             components={[<span className="border-b-4 border-amber-300" />]}
           />
