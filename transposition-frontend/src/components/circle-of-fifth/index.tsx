@@ -137,7 +137,6 @@ function CircleOfFifth({
           />
         ))}
         {circlePositions.map(({ angle }, i) => {
-          const isActive = i === activeOrigin || i === activeTarget;
           return (
             <Fragment key={`outer-${i}`}>
               <div

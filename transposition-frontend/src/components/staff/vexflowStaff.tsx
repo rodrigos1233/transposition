@@ -44,24 +44,20 @@ function VexflowStaff({
     // Clear previous render
     containerRef.current.innerHTML = '';
 
-    // Calculate dimensions
+    // Calculate width based on content
     const width = calculateStaveWidth(displayedNotes.length, musicalKey);
-    // Height depends on whether we have notes with annotations
-    const hasAnnotations = displayedNotes.length > 0 && correspondingNotes;
-    // Need enough space for treble clef which extends ~35px above stave
-    const height = hasAnnotations ? 100 : 80;
-    const staveY = hasAnnotations ? 15 : 35;
+
+    // Render with generous dimensions — we'll crop via viewBox after
+    const RENDER_HEIGHT = 300;
+    const STAVE_Y = 20; // generous top space so nothing clips above
 
     // Setup renderer
-    const renderer = new Renderer(
-      containerRef.current,
-      Renderer.Backends.SVG
-    );
-    renderer.resize(width, height);
+    const renderer = new Renderer(containerRef.current, Renderer.Backends.SVG);
+    renderer.resize(width, RENDER_HEIGHT);
     const context = renderer.getContext();
 
     // Create stave
-    const stave = new Stave(10, staveY, width - 20);
+    const stave = new Stave(10, STAVE_Y, width - 20);
     stave.addClef('treble');
 
     // Add key signature (no time signature per requirements)
@@ -87,12 +83,27 @@ function VexflowStaff({
       voice.setMode(Voice.Mode.SOFT);
       voice.addTickables(notes);
 
-      // Format and draw - use tighter spacing
-      new Formatter()
-        .joinVoices([voice])
-        .format([voice], width - 80);
+      // Format and draw — use VexFlow's own note bounds so notes
+      // never exceed the stave (accounts for clef + key signature width)
+      const availableWidth = stave.getNoteEndX() - stave.getNoteStartX();
+      new Formatter().joinVoices([voice]).format([voice], availableWidth);
 
       voice.draw(context, stave);
+    }
+
+    // Crop SVG to actual rendered content using getBBox
+    const svg = containerRef.current.querySelector('svg');
+    if (svg) {
+      const bbox = (svg as SVGSVGElement).getBBox();
+      const pad = 2;
+      const vbX = Math.max(0, bbox.x - pad);
+      const vbY = Math.max(0, bbox.y - pad);
+      const vbW = bbox.width + pad * 2;
+      const vbH = bbox.height + pad * 2;
+
+      svg.setAttribute('viewBox', `${vbX} ${vbY} ${vbW} ${vbH}`);
+      svg.setAttribute('width', `${vbW}`);
+      svg.setAttribute('height', `${vbH}`);
     }
   }, [
     displayedNotes,
@@ -149,9 +160,7 @@ function createStaveNotes(
     if (correspondingNotes?.[index]) {
       const noteName = correspondingNotes[index].note[selectedNotation];
       const annotation = new Annotation(noteName);
-      annotation.setVerticalJustification(
-        Annotation.VerticalJustify.BOTTOM
-      );
+      annotation.setVerticalJustification(Annotation.VerticalJustify.BOTTOM);
       staveNote.addModifier(annotation, 0);
     }
 
