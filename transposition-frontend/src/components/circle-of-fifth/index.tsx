@@ -2,7 +2,7 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 import type { JSX } from 'react';
 
 import './circleOfFifth.css';
-import Staff from '../staff';
+import CompactKeySignature, { getDefaultActiveIndex } from './CompactKeySignature';
 import {
   getKeySignaturesForPositionInCircleOfFifth,
   positionInCircleOfFifthDeterminer,
@@ -52,6 +52,25 @@ function CircleOfFifth({
     target: 0,
   });
 
+  // Track which enharmonic is active per circle position
+  const [activeEnharmonics, setActiveEnharmonics] = useState<
+    Record<number, number>
+  >({});
+
+  // Reset enharmonic selections when mode changes
+  useEffect(() => {
+    setActiveEnharmonics({});
+  }, [modeIndex]);
+
+  function getActiveIndex(positionIndex: number): number {
+    if (positionIndex in activeEnharmonics) {
+      return activeEnharmonics[positionIndex];
+    }
+    return getDefaultActiveIndex(
+      circlePositions[positionIndex].keySignatures
+    );
+  }
+
   const modeText = getModeName(modeIndex, selectedLanguage);
 
   useEffect(() => {
@@ -99,44 +118,82 @@ function CircleOfFifth({
     return;
   }
 
+  // Compute active segment positions for highlighting
+  const activeOrigin = ((Math.round(positions.start) % 12) + 12) % 12;
+  const activeTarget = ((Math.round(positions.target) % 12) + 12) % 12;
+
   return (
     <div className="circle-of-fifth pb-10">
       <div className="circle-center__controls">
         <Button onClick={handleModeClick}>{modeText}</Button>
       </div>
       <div className="circle-of-fifth__circle">
-        {circlePositions.map(({ angle }, i) => (
-          <Fragment key={`outer-${i}`}>
-            <div
-              className="circle-outer"
-              style={{
-                transform: `rotate(${angle}deg)`,
-                filter: `${i % 2 === 0 ? 'brightness(1.07)' : ''}`,
-              }}
-            ></div>
-            <div
-              className="circle-outer__content-container"
-              style={{ transform: `rotate(${angle}deg)` }}
-            >
-              <div
-                className="circle-outer__content"
-                style={{ transform: `rotate(-${angle}deg)` }}
-              >
-                {circlePositions[i].keySignatures.map((scale, k) => (
-                  <Staff key={k} displayedNotes={[]} musicalKey={scale} />
-                ))}
-              </div>
-            </div>
-          </Fragment>
+        {/* Segment divider lines */}
+        {Array.from({ length: 12 }, (_, i) => (
+          <div
+            key={`divider-${i}`}
+            className="circle-divider"
+            style={{ transform: `rotate(${i * 30 - 15}deg)` }}
+          />
         ))}
         {circlePositions.map(({ angle }, i) => {
+          return (
+            <Fragment key={`outer-${i}`}>
+              <div
+                className="circle-outer"
+                style={{
+                  transform: `rotate(${angle}deg)`,
+                  background: i === activeOrigin && i === activeTarget
+                    ? `conic-gradient(from -15deg, rgba(100, 160, 255, 0.18) 30deg, transparent 0%)`
+                    : i === activeOrigin
+                    ? `conic-gradient(from -15deg, rgba(80, 150, 240, 0.15) 30deg, transparent 0%)`
+                    : i === activeTarget
+                    ? `conic-gradient(from -15deg, rgba(220, 100, 140, 0.12) 30deg, transparent 0%)`
+                    : i % 2 === 0
+                      ? `conic-gradient(from -15deg, rgba(0, 0, 0, 0.03) 30deg, transparent 0%)`
+                      : undefined,
+                }}
+              ></div>
+              <div
+                className="circle-outer__content-container"
+                style={{ transform: `rotate(${angle}deg)` }}
+              >
+                <div
+                  className="circle-outer__content"
+                  style={{ transform: `rotate(-${angle}deg)` }}
+                >
+                  <CompactKeySignature
+                    keys={circlePositions[i].keySignatures}
+                    activeIndex={getActiveIndex(i)}
+                    onToggle={() => {
+                      const keys = circlePositions[i].keySignatures;
+                      setActiveEnharmonics((prev) => ({
+                        ...prev,
+                        [i]: ((getActiveIndex(i) + 1) % keys.length),
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+            </Fragment>
+          );
+        })}
+        {circlePositions.map(({ angle }, i) => {
           const possibleStartNotes = startNotesFromCirclePosition(i, 0);
+          // Inner ring position i is rotated by modePosition, so it aligns
+          // with a different outer ring position when mode != major
+          const modeOffset = MODES[modeIndex].modePosition;
+          const outerIdx = ((i + modeOffset) % 12 + 12) % 12;
+          const hasMultipleKeys =
+            circlePositions[outerIdx].keySignatures.length > 1;
+          const activeIdx = getActiveIndex(outerIdx);
 
-          const notesText = possibleStartNotes.map((startNote, i) => {
+          const notesText = possibleStartNotes.map((startNote, noteIdx) => {
             const startNoteName = getNote(startNote, selectedNotation, SCALES);
+            const isActiveEnharmonic = !hasMultipleKeys || noteIdx === activeIdx;
 
             return (
-              <Fragment key={i}>
+              <Fragment key={noteIdx}>
                 <span
                   className={
                     startNote === selectedStartNote
@@ -145,10 +202,11 @@ function CircleOfFifth({
                         ? 'border-b-4 border-amber-400'
                         : ''
                   }
+                  style={{ opacity: isActiveEnharmonic ? 1 : 0.4 }}
                 >
                   {startNoteName}
                 </span>
-                {i < possibleStartNotes.length - 1 && ' / '}
+                {noteIdx < possibleStartNotes.length - 1 && ' / '}
               </Fragment>
             );
           });

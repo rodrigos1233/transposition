@@ -14,90 +14,90 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 1px solid #000;
   max-width: calc(100vw - 40px);
   overflow: hidden;
   aspect-ratio: 1;
   border-radius: 50%;
+  background: #f7f8fa;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  filter: drop-shadow(0 2px 12px rgba(0, 0, 0, 0.06))
+    drop-shadow(0 1px 3px rgba(0, 0, 0, 0.04));
 }
 
+/* Wedge segments — same base color, invisible by default */
 .circle-outer {
   position: absolute;
   width: 100%;
   aspect-ratio: 1;
-  border-radius: 50%; /* round its corners to turn the square into a disc */
-  background: conic-gradient(
-    from var(--start, -15deg) /* specify the angle to start from */,
-    #ddd var(--angle, 30deg) /* specify the sector angle */,
-    #0000 0% /* abruptly switch to transparent after */
-  );
+  border-radius: 50%;
+  transition: background 0.2s ease;
 }
+
+/* Active segment highlight (applied via inline style) uses conic-gradient */
+
+/* Radial divider lines between segments */
+.circle-divider {
+  position: absolute;
+  width: 1px;
+  height: 50%;
+  top: 0;
+  background: rgba(0, 0, 0, 0.09);
+  transform-origin: center bottom;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .circle-outer__content-container {
   position: absolute;
   width: 20%;
   top: 0;
   aspect-ratio: 1;
-  /* background: white; */
-  border-radius: 50%;
   z-index: 3;
   transform-origin: center 250%;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow: hidden;
+  /* No circular borders — staves sit naturally within wedge */
 }
 
 .circle-outer__content {
-  width: 100%;
+  width: 90%;
+  height: 90%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.circle-outer__content .staff {
-  margin-left: -10px;
-  width: 120%;
-  scale: 0.5;
+/* Soften notation to dark gray (#555–#666) instead of pure black */
+.circle-outer__content svg {
+  opacity: 0.65;
 }
 
-.circle-outer__content .staff:last-child {
-  margin-top: -20px;
-  margin-left: 5px;
-}
-
-@media (max-width: 475px) {
-  .circle-outer__content .staff {
-    scale: 0.3;
-    width: 180%;
-    margin-left: -20px;
-  }
-
-  .circle-outer__content .staff:last-child {
-    margin-top: -25px;
-    margin-left: -18px;
-  }
-}
 .circle-inner {
   position: absolute;
   width: 70%;
   aspect-ratio: 1;
-  border-radius: 50%; /* round its corners to turn the square into a disc */
-  background: conic-gradient(
-    from var(--start, -15deg) /* specify the angle to start from */,
-    #222 var(--angle, 30deg) /* specify the sector angle */,
-    #0000 0% /* abruptly switch to transparent after */
-  );
+  border-radius: 50%;
 }
+
 .circle-inner__content-container {
   position: absolute;
   width: 12%;
   left: 44%;
   top: 20%;
   aspect-ratio: 1;
-  /* background: white; */
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
   transform-origin: center 250%;
 }
+
+.circle-inner__content-container span {
+  color: #444;
+  font-weight: 600;
+}
+
 .circle-center {
   display: flex;
   justify-content: center;
@@ -106,18 +106,16 @@
   aspect-ratio: 1;
   border-radius: 50%;
   z-index: 2;
-  border: 1px solid #000;
   position: relative;
-  overflow: hidden; /* Ensures the blurred background doesn't spill */
+  overflow: hidden;
 }
 
 .circle-center::before {
   content: '';
-  position: absolute; /* Match the main background's fixed position */
+  position: absolute;
   z-index: 3;
-
   display: block;
-  background: #f4f4f6;
+  background: #f7f8fa;
   width: 100vw;
   height: 100vh;
 }
@@ -128,15 +126,35 @@
   bottom: 0;
   width: 100%;
   overflow: visible;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 8px;
+}
+
+/* Mode button — pill styling */
+.circle-center__controls button {
+  background: #f0f1f3 !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border-radius: 999px !important;
+  color: #555 !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  padding: 4px 14px !important;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.circle-center__controls button:hover {
+  background: #e8e9ec !important;
 }
 
 .circle-center__content {
   position: relative;
   z-index: 3;
-  background-color: #222;
+  background: rgba(80, 150, 240, 0.75);
   aspect-ratio: 1;
   border-radius: 50%;
-  width: 15px;
+  width: 10px;
 }
 
 .circle-center__hands {
@@ -146,18 +164,21 @@
 
 .circle-center__hand {
   position: absolute;
-  left: -2px;
+  left: -1.5px;
   bottom: 100%;
   height: 100px;
-  border: 2px solid;
+  width: 3px;
+  border: none;
+  border-radius: 999px;
   transform-origin: center 100%;
   transition: all ease 0.5s;
+  filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.15));
 }
 
 .circle-center__hand--origin {
-  border-color: #38bdf8;
+  background: rgba(80, 150, 240, 0.75);
 }
 
 .circle-center__hand--target {
-  border-color: #fca5a5;
+  background: rgba(220, 100, 140, 0.70);
 }

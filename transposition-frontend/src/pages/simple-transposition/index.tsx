@@ -331,7 +331,7 @@ function SimpleTransposition() {
           <div
             className={`note-transposition__staff-container flex ${
               isMobile
-                ? 'flex-col gap-24 mt-16 mb-16'
+                ? 'flex-col gap-8 mt-16 mb-16'
                 : 'flex-row gap-5 mt-20 mb-20'
             }`}
           >
