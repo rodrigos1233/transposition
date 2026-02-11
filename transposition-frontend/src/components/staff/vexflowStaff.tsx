@@ -108,14 +108,14 @@ function VexflowStaff({
     }
 
     // Make SVG responsive: scale down with container but don't stretch beyond natural size
-    const svg = containerRef.current.querySelector('svg');
+    const svg = containerRef.current.querySelector('svg') as SVGSVGElement | null;
     if (svg) {
       svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
       svg.removeAttribute('width');
       svg.removeAttribute('height');
-      (svg as HTMLElement).style.width = '100%';
-      (svg as HTMLElement).style.maxWidth = `${width}px`;
-      (svg as HTMLElement).style.height = 'auto';
+      svg.style.width = '100%';
+      svg.style.maxWidth = `${width}px`;
+      svg.style.height = 'auto';
     }
   }, [
     displayedNotes,
