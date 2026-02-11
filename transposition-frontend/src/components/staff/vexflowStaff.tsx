@@ -106,6 +106,17 @@ function VexflowStaff({
 
       voice.draw(context, stave);
     }
+
+    // Make SVG responsive: scale down with container but don't stretch beyond natural size
+    const svg = containerRef.current.querySelector('svg');
+    if (svg) {
+      svg.setAttribute('viewBox', `0 0 ${width} ${height}`);
+      svg.removeAttribute('width');
+      svg.removeAttribute('height');
+      (svg as HTMLElement).style.width = '100%';
+      (svg as HTMLElement).style.maxWidth = `${width}px`;
+      (svg as HTMLElement).style.height = 'auto';
+    }
   }, [
     displayedNotes,
     correspondingNotes,
