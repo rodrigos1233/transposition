@@ -47,13 +47,29 @@ function VexflowStaff({
     // Calculate width based on content
     const width = calculateStaveWidth(displayedNotes.length, musicalKey);
 
-    // Render with generous dimensions — we'll crop via viewBox after
-    const RENDER_HEIGHT = 300;
-    const STAVE_Y = 20; // generous top space so nothing clips above
+    const STAVE_Y = 20;
+    const STAVE_LINE_HEIGHT = 40; // 4 spaces × 10px
+    const PX_PER_STEP = 5;
+    const STAVE_BOTTOM_POS = 2; // E4 = bottom stave line
+
+    // Compute how far notes extend below the stave
+    let lowestPos = STAVE_BOTTOM_POS;
+    if (displayedNotes.length > 0) {
+      let off = 0;
+      for (let i = 0; i < displayedNotes.length; i++) {
+        if (i > 0 && displayedNotes[i - 1] > displayedNotes[i]) off += 7;
+        lowestPos = Math.min(lowestPos, displayedNotes[i] + off);
+      }
+    }
+    const belowStave = Math.max(STAVE_BOTTOM_POS - lowestPos, 0) * PX_PER_STEP;
+    const hasAnnotations = displayedNotes.length > 0 && correspondingNotes;
+    const annotationSpace = hasAnnotations ? 65 : 0;
+    const height =
+      STAVE_Y + STAVE_LINE_HEIGHT + belowStave + annotationSpace + 5;
 
     // Setup renderer
     const renderer = new Renderer(containerRef.current, Renderer.Backends.SVG);
-    renderer.resize(width, RENDER_HEIGHT);
+    renderer.resize(width, height);
     const context = renderer.getContext();
 
     // Create stave
@@ -89,21 +105,6 @@ function VexflowStaff({
       new Formatter().joinVoices([voice]).format([voice], availableWidth);
 
       voice.draw(context, stave);
-    }
-
-    // Crop SVG to actual rendered content using getBBox
-    const svg = containerRef.current.querySelector('svg');
-    if (svg) {
-      const bbox = (svg as SVGSVGElement).getBBox();
-      const pad = 2;
-      const vbX = Math.max(0, bbox.x - pad);
-      const vbY = Math.max(0, bbox.y - pad);
-      const vbW = bbox.width + pad * 2;
-      const vbH = bbox.height + pad * 2;
-
-      svg.setAttribute('viewBox', `${vbX} ${vbY} ${vbW} ${vbH}`);
-      svg.setAttribute('width', `${vbW}`);
-      svg.setAttribute('height', `${vbH}`);
     }
   }, [
     displayedNotes,
