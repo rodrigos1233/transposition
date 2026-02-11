@@ -82,7 +82,7 @@ function CompactKeySignature({
                 width: '4px',
                 height: '4px',
                 borderRadius: '50%',
-                backgroundColor: i === activeIndex ? '#666' : '#ccc',
+                backgroundColor: i === activeIndex ? '#888' : '#ccc',
               }}
             />
           ))}

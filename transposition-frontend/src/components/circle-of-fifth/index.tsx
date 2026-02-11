@@ -118,44 +118,67 @@ function CircleOfFifth({
     return;
   }
 
+  // Compute active segment positions for highlighting
+  const activeOrigin = ((Math.round(positions.start) % 12) + 12) % 12;
+  const activeTarget = ((Math.round(positions.target) % 12) + 12) % 12;
+
   return (
     <div className="circle-of-fifth pb-10">
       <div className="circle-center__controls">
         <Button onClick={handleModeClick}>{modeText}</Button>
       </div>
       <div className="circle-of-fifth__circle">
-        {circlePositions.map(({ angle }, i) => (
-          <Fragment key={`outer-${i}`}>
-            <div
-              className="circle-outer"
-              style={{
-                transform: `rotate(${angle}deg)`,
-                filter: `${i % 2 === 0 ? 'brightness(1.07)' : ''}`,
-              }}
-            ></div>
-            <div
-              className="circle-outer__content-container"
-              style={{ transform: `rotate(${angle}deg)` }}
-            >
-              <div
-                className="circle-outer__content"
-                style={{ transform: `rotate(-${angle}deg)` }}
-              >
-                <CompactKeySignature
-                  keys={circlePositions[i].keySignatures}
-                  activeIndex={getActiveIndex(i)}
-                  onToggle={() => {
-                    const keys = circlePositions[i].keySignatures;
-                    setActiveEnharmonics((prev) => ({
-                      ...prev,
-                      [i]: ((getActiveIndex(i) + 1) % keys.length),
-                    }));
-                  }}
-                />
-              </div>
-            </div>
-          </Fragment>
+        {/* Segment divider lines */}
+        {Array.from({ length: 12 }, (_, i) => (
+          <div
+            key={`divider-${i}`}
+            className="circle-divider"
+            style={{ transform: `rotate(${i * 30 - 15}deg)` }}
+          />
         ))}
+        {circlePositions.map(({ angle }, i) => {
+          const isActive = i === activeOrigin || i === activeTarget;
+          return (
+            <Fragment key={`outer-${i}`}>
+              <div
+                className="circle-outer"
+                style={{
+                  transform: `rotate(${angle}deg)`,
+                  background: i === activeOrigin && i === activeTarget
+                    ? `conic-gradient(from -15deg, rgba(100, 160, 255, 0.18) 30deg, transparent 0%)`
+                    : i === activeOrigin
+                    ? `conic-gradient(from -15deg, rgba(80, 150, 240, 0.15) 30deg, transparent 0%)`
+                    : i === activeTarget
+                    ? `conic-gradient(from -15deg, rgba(220, 100, 140, 0.12) 30deg, transparent 0%)`
+                    : i % 2 === 0
+                      ? `conic-gradient(from -15deg, rgba(0, 0, 0, 0.03) 30deg, transparent 0%)`
+                      : undefined,
+                }}
+              ></div>
+              <div
+                className="circle-outer__content-container"
+                style={{ transform: `rotate(${angle}deg)` }}
+              >
+                <div
+                  className="circle-outer__content"
+                  style={{ transform: `rotate(-${angle}deg)` }}
+                >
+                  <CompactKeySignature
+                    keys={circlePositions[i].keySignatures}
+                    activeIndex={getActiveIndex(i)}
+                    onToggle={() => {
+                      const keys = circlePositions[i].keySignatures;
+                      setActiveEnharmonics((prev) => ({
+                        ...prev,
+                        [i]: ((getActiveIndex(i) + 1) % keys.length),
+                      }));
+                    }}
+                  />
+                </div>
+              </div>
+            </Fragment>
+          );
+        })}
         {circlePositions.map(({ angle }, i) => {
           const possibleStartNotes = startNotesFromCirclePosition(i, 0);
           // Inner ring position i is rotated by modePosition, so it aligns
