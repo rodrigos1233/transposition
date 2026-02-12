@@ -258,6 +258,7 @@ function ScaleTranspositionResults({
                 ? 'grid-rows-[1fr] opacity-100'
                 : 'grid-rows-[0fr] opacity-0'
             }`}
+            {...(!circleExpanded ? { inert: true, 'aria-hidden': true } : {})}
           >
             <div className="overflow-hidden">
               <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6">
