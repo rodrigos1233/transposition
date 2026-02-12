@@ -39,21 +39,12 @@ export function Header() {
 
   const scaleLinkElements = [
     {
-      content: t('common.header.crossInstruments'),
-      href: '/scale-cross-instruments',
-      isCurrentPage: location.startsWith('scale-cross-instruments'),
+      content: t('common.header.scale'),
+      href: '/scale',
+      isCurrentPage: location.startsWith('scale'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        handleNavigate(navigate, '/scale-cross-instruments');
-      },
-    },
-    {
-      content: t('common.header.intervals'),
-      href: '/scale-intervals',
-      isCurrentPage: location.startsWith('scale-intervals'),
-      onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        handleNavigate(navigate, '/scale-intervals');
+        handleNavigate(navigate, '/scale');
       },
     },
   ];
@@ -176,21 +167,12 @@ export function BottomNav() {
 
   const scaleLinkElements = [
     {
-      content: t('common.header.crossInstruments'),
-      href: '/scale-cross-instruments',
-      isCurrentPage: location.startsWith('scale-cross-instruments'),
+      content: t('common.header.scale'),
+      href: '/scale',
+      isCurrentPage: location.startsWith('scale'),
       onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
-        handleNavigate(navigate, '/scale-cross-instruments');
-      },
-    },
-    {
-      content: t('common.header.intervals'),
-      href: '/scale-intervals',
-      isCurrentPage: location.startsWith('scale-intervals'),
-      onClick: (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        handleNavigate(navigate, '/scale-intervals');
+        handleNavigate(navigate, '/scale');
       },
     },
   ];

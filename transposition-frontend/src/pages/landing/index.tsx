@@ -151,11 +151,11 @@ function LandingPage() {
           {transposition.scales.map((scale, k) => (
             <li key={`${k}-${scale.scale}-${scale.mode}`}>
               <a
-                href={`/scale/${enharmonicGroupTransposer(
+                href={`/scale?from_key=${enharmonicGroupTransposer(
                   transposition.from
-                )}-${scale.scale}-${enharmonicGroupTransposer(
+                )}&scale=${scale.scale}&to_key=${enharmonicGroupTransposer(
                   transposition.to
-                )}-${scale.mode}`}
+                )}&mode=${scale.mode}`}
                 className="underline text-emerald-700"
               >
                 {getNote(scale.scale, selectedNotation, SCALES)}{' '}

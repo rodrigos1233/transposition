@@ -2,94 +2,46 @@ import { NavigateFunction } from 'react-router-dom';
 
 type RouteHandler = (params: string[], navigate: NavigateFunction) => void;
 
+function parseNoteParams(location: string): string[] {
+  const path = location.startsWith('note/') ? location.substring(5) : location;
+  return path.split('-');
+}
+
+function parseScaleQueryParams(): URLSearchParams {
+  return new URLSearchParams(window.location.search);
+}
+
 const routeHandlers: Record<string, RouteHandler> = {
-  'note/scale-cross-instruments': (params, navigate) => {
+  'note/scale': (params, navigate) => {
     const [originKeyString, , targetKeyString] = params;
-    const chosenNote = 0;
     navigate(
-      `scale-cross-instruments/${originKeyString}-${chosenNote}-${targetKeyString}-0`
+      `scale?from_key=${originKeyString}&scale=0&to_key=${targetKeyString}&mode=0`
     );
   },
-  'scale-cross-instruments/note': (params, navigate) => {
-    const [originKeyString, , targetKeyString] = params;
-    const chosenNote = 0;
-    navigate(`note/${originKeyString}-${chosenNote}-${targetKeyString}`);
-  },
-  'scale-intervals/scale-cross-instruments': (params, navigate) => {
-    const [originKeyString, intervalString] = params;
-    const interval = Number(intervalString);
-    const originKey = Number(originKeyString);
-    let targetKey = interval + originKey;
-    if (targetKey > 11) {
-      targetKey -= 12;
-    }
-    if (targetKey < 0) {
-      targetKey += 12;
-    }
-    navigate(`scale-cross-instruments/${originKey}-0-${targetKey}-0`);
-  },
-  'scale-intervals/note': (params, navigate) => {
-    const [originKeyString, intervalString, directionString] = params;
-    const interval = Number(intervalString);
-    const originKey = Number(originKeyString);
-
-    let targetKey =
-      directionString === 'up' ? originKey + interval : originKey - interval;
-
-    if (targetKey > 11) {
-      targetKey -= 12;
-    }
-    if (targetKey < 0) {
-      targetKey += 12;
-    }
-    navigate(`note/${originKey}-0-${targetKey}`);
-  },
-  'scale-cross-instruments/scale-intervals': (params, navigate) => {
-    const [originKeyString, , targetKeyString] = params;
-    const originKey = Number(originKeyString);
-    const targetKey = Number(targetKeyString);
-    let interval = targetKey - originKey;
-    if (interval < 0) {
-      interval += 12;
-    }
-    navigate(
-      `scale-intervals/${originKey}-${interval}-${
-        originKey < targetKey ? 'up' : 'down'
-      }`
-    );
-  },
-  'note/scale-intervals': (params, navigate) => {
-    const [originKeyString, , targetKeyString] = params;
-    const originKey = Number(originKeyString);
-    const targetKey = Number(targetKeyString);
-    let interval = targetKey - originKey;
-    if (interval < 0) {
-      interval += 12;
-    }
-    navigate(
-      `scale-intervals/${originKey}-${interval}-${
-        originKey < targetKey ? 'up' : 'down'
-      }`
-    );
+  'scale/note': (_params, navigate) => {
+    const searchParams = parseScaleQueryParams();
+    const fromKey = searchParams.get('from_key') || '0';
+    const toKey = searchParams.get('to_key') || '0';
+    navigate(`note/${fromKey}-0-${toKey}`);
   },
 };
-
-function parseParams(location: string, prefixLength: number): string[] {
-  return location.substring(prefixLength).split('-');
-}
 
 export function handleNavigate(navigate: NavigateFunction, path: string) {
   const location = window.location.pathname.substring(1);
 
-  for (const [key, handler] of Object.entries(routeHandlers)) {
-    const [currentPath, targetPath] = key.split('/');
-    if (location.startsWith(currentPath) && path === `/${targetPath}`) {
-      const params = parseParams(location, currentPath.length + 1);
-      handler(params, navigate);
-      return;
-    }
+  // Handle transitions from note page
+  if (location.startsWith('note') && path === '/scale') {
+    const params = parseNoteParams(location);
+    routeHandlers['note/scale'](params, navigate);
+    return;
   }
 
-  // Default navigation if no handlers match
+  // Handle transitions from scale page
+  if (location.startsWith('scale') && path === '/note') {
+    routeHandlers['scale/note']([], navigate);
+    return;
+  }
+
+  // Default navigation
   navigate(path);
 }
