@@ -1,7 +1,8 @@
 import './App.css';
 import './styles/output.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
-import SimpleTransposition from './pages/simple-transposition';
+import NoteTranspositionPage from './pages/simple-transposition';
+import { NoteRedirect } from './pages/simple-transposition/redirects';
 import ScaleTranspositionPage from './pages/scale-transposition';
 import {
   CrossInstrumentsRedirect,
@@ -22,10 +23,16 @@ function App() {
             <div className={`contents flex p-2 z-0 relative`}>
               <Routes>
                 <Route path="/" element={<LandingPage />} />
-                <Route path="note">
-                  <Route index element={<Navigate to="0-0-0" replace />} />
-                  <Route path=":linkParams" element={<SimpleTransposition />} />
-                </Route>
+                {/* Note transposition (query params) */}
+                <Route
+                  path="note"
+                  element={<NoteTranspositionPage />}
+                />
+                {/* Redirect old /note/:linkParams (path params) to new format */}
+                <Route
+                  path="note/:linkParams"
+                  element={<NoteRedirect />}
+                />
 
                 {/* New unified scale page (query params) */}
                 <Route
