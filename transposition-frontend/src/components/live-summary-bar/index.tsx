@@ -6,30 +6,39 @@ import LanguageContext from '../../contexts/LanguageContext';
 
 type LiveSummaryBarProps = {
   fromKey: number | null;
-  scale: number | null;
-  mode: number;
   toKey: number | null;
   method: 'key' | 'interval';
   originInstrumentName?: string;
   targetInstrumentName?: string;
+  // Scale page
+  scale?: number | null;
+  mode?: number;
+  // Note page
+  note?: number | null;
 };
 
 function LiveSummaryBar({
   fromKey,
-  scale,
-  mode,
   toKey,
   method,
   originInstrumentName,
   targetInstrumentName,
+  scale,
+  mode,
+  note,
 }: LiveSummaryBarProps) {
   const { selectedNotation } = useContext(NotationContext);
   const { selectedLanguage } = useContext(LanguageContext);
 
-  const scaleSegment =
-    scale !== null
-      ? `${getNote(scale, selectedNotation, SCALES)} ${getModeName(mode, selectedLanguage)}`
-      : '\u2014';
+  const mainSegment = (() => {
+    if (note !== undefined && note !== null) {
+      return getNote(note, selectedNotation);
+    }
+    if (scale !== undefined && scale !== null && mode !== undefined) {
+      return `${getNote(scale, selectedNotation, SCALES)} ${getModeName(mode, selectedLanguage)}`;
+    }
+    return '\u2014';
+  })();
 
   // Instrument segments only shown in key mode
   const showInstruments = method === 'key';
@@ -55,7 +64,7 @@ function LiveSummaryBar({
       <div className="p-3 rounded-xl bg-white/90 backdrop-blur-sm shadow-soft border border-neutral-200">
         <div className="flex items-center justify-center gap-2 text-sm md:text-base font-medium flex-wrap">
           <span className="border-b-2 border-purple-400 px-1">
-            {scaleSegment}
+            {mainSegment}
           </span>
           {showInstruments && (
             <>

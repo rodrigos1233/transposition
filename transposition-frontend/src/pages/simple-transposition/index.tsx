@@ -1,19 +1,15 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import {
   getNote,
   INSTRUMENTS_PITCHES,
   Note,
-  REDUCED_NOTES,
-  SCALES,
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
 import { crossInstrumentsTransposer } from '../../utils/transposer';
-import { useTranslation, Trans } from 'react-i18next';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useSearchParams } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
-import Staff from '../../components/staff';
 import { useIsMobile } from '../../hooks/useIsMobile';
-import { NoteInScale } from '../../utils/scaleBuilder';
 import LanguageContext from '../../contexts/LanguageContext';
 import NotationContext from '../../contexts/NotationContext';
 import { SingleValue } from 'react-select';
@@ -21,48 +17,121 @@ import SelectComponent, { OptionType } from '../../components/select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 import ContentPage from '../../components/content-page';
 import ContentCard from '../../components/content-card';
+import StepperStep from '../../components/stepper/StepperStep';
+import LiveSummaryBar from '../../components/live-summary-bar';
+import NoteTranspositionResults from './NoteTranspositionResults';
 
-const MAX_NOTE = 11;
+function validateParam(
+  value: string | null,
+  max: number,
+  fallback = 0
+): number {
+  if (value === null) return fallback;
+  const numValue = Number(value);
+  return !isNaN(numValue) && numValue >= 0 && numValue <= max
+    ? numValue
+    : fallback;
+}
 
-function SimpleTransposition() {
+function NoteTranspositionPage() {
+  const [searchParams, setSearchParams] = useSearchParams();
+  const { t } = useTranslation();
+
   const { selectedNotation } = useContext(NotationContext);
-  const { linkParams } = useParams();
-  const navigate = useNavigate();
+  const { selectedLanguage } = useContext(LanguageContext);
+  const isMobile = useIsMobile();
 
-  const languageContext = useContext(LanguageContext);
-  const selectedLanguage = languageContext.selectedLanguage;
+  // --- Read state from URL ---
+  const fromKey = validateParam(searchParams.get('from_key'), 11);
+  const note = validateParam(searchParams.get('note'), 11);
+  const toKey = validateParam(searchParams.get('to_key'), 11);
 
-  const [originKeyString, noteString, targetKeyString] =
-    linkParams?.split('-') || [];
-
-  function validateParam(value: string, max: number) {
-    const numValue = Number(value);
-    return !isNaN(numValue) && numValue <= max ? numValue : 0;
-  }
-
-  const originKey = validateParam(originKeyString, MAX_NOTE);
-  const note = validateParam(noteString, MAX_NOTE);
-  const targetKey = validateParam(targetKeyString, MAX_NOTE);
-
-  const [selectedOriginKey, setSelectedOriginKey] = useState<number>(
-    Number(originKey) || 0
+  // --- Stepper UI state ---
+  const isFullUrl =
+    searchParams.has('from_key') &&
+    searchParams.has('note') &&
+    searchParams.has('to_key');
+  const [activeStep, setActiveStep] = useState<number | null>(
+    isFullUrl ? null : 1
   );
-  const [selectedNote, setSelectedNote] = useState<number>(Number(note) || 0);
-  const [selectedTargetKey, setSelectedTargetKey] = useState<number>(
-    Number(targetKey) || 0
-  );
+
+  // --- Instrument dropdown state ---
   const [selectedOriginOption, setSelectedOriginOption] =
     useState<SingleValue<OptionType>>(null);
   const [selectedTargetOption, setSelectedTargetOption] =
     useState<SingleValue<OptionType>>(null);
 
+  // --- URL update helper ---
+  function updateUrl(overrides: Record<string, string | number>) {
+    const params = new URLSearchParams();
+    const merged = {
+      from_key: fromKey,
+      note: note,
+      to_key: toKey,
+      ...overrides,
+    };
+
+    params.set('from_key', String(merged.from_key));
+    params.set('note', String(merged.note));
+    params.set('to_key', String(merged.to_key));
+
+    setSearchParams(params, { replace: true });
+  }
+
+  // --- Change handlers ---
+  function handleChangeNote(newNote: number) {
+    updateUrl({ note: newNote });
+  }
+
+  function handleChangeFromKey(newKey: number) {
+    setSelectedOriginOption(null);
+    updateUrl({ from_key: newKey });
+  }
+
+  function handleChangeToKey(newKey: number) {
+    setSelectedTargetOption(null);
+    updateUrl({ to_key: newKey });
+  }
+
+  // --- Stepper navigation ---
+  // Step 1 (note) → Step 2 (origin instrument) → Step 3 (target instrument) → Results
+  function handleContinueStep(stepNumber: number) {
+    if (stepNumber === 1) {
+      setActiveStep(2);
+    } else if (stepNumber === 2) {
+      setActiveStep(3);
+    } else if (stepNumber === 3) {
+      setActiveStep(null);
+    }
+  }
+
+  function handleEditStep(stepNumber: number) {
+    setActiveStep(stepNumber);
+  }
+
+  // --- Completion state ---
+  const step1Completed = activeStep === null || activeStep > 1;
+  const step2Completed = activeStep === null || activeStep > 2;
+  const step3Completed = activeStep === null || activeStep > 3;
+  const showResults = step3Completed;
+
+  // --- Transposition computation ---
+  const [, reversedEnharmonicOriginGroupNotes] = crossInstrumentsTransposer(
+    note,
+    fromKey,
+    fromKey
+  );
+
+  const [targetNote, reversedEnharmonicTargetGroupNotes] =
+    crossInstrumentsTransposer(note, fromKey, toKey);
+
+  // --- Instrument dropdown options ---
   const listOfInstruments = LIST_OF_INSTRUMENTS[selectedLanguage];
 
   const selectOptions: OptionType[] = INSTRUMENTS_PITCHES.flatMap(
     (pitch, index) => {
       const instruments = listOfInstruments?.[index] as string[] | undefined;
       const pitchName = pitch[selectedNotation];
-
       return instruments
         ? instruments.map((instrument) => ({
             label: `${pitchName} | ${instrument}`,
@@ -71,315 +140,197 @@ function SimpleTransposition() {
         : [];
     }
   ).sort((a, b) => {
-    const instrumentNameA = a.label.split('|')[1].trim();
-    const instrumentNameB = b.label.split('|')[1].trim();
-    return instrumentNameA.localeCompare(instrumentNameB);
+    const nameA = a.label.split('|')[1].trim();
+    const nameB = b.label.split('|')[1].trim();
+    return nameA.localeCompare(nameB);
   });
 
   function getInstrumentKey(value: string, notation: keyof Note): number {
     const trimmedValue = value.trim();
     return INSTRUMENTS_PITCHES.findIndex((note) => {
       const parts = note[notation].split(' / ').map((part) => part.trim());
-
       return parts.includes(trimmedValue);
     });
   }
 
-  function createHandleChange(
-    setState: React.Dispatch<React.SetStateAction<number>>,
-    setInstrumentState: React.Dispatch<
-      React.SetStateAction<SingleValue<OptionType>>
-    >
-  ) {
-    return (option: SingleValue<OptionType>) => {
-      if (option) {
-        setInstrumentState(option);
-
-        const [pitch] = option.value.split('_');
-        const instrumentKey = getInstrumentKey(pitch, selectedNotation);
-
-        if (!isNaN(instrumentKey)) {
-          setState(instrumentKey);
-        }
+  function handleOriginInstrumentChange(option: SingleValue<OptionType>) {
+    if (option) {
+      setSelectedOriginOption(option);
+      const [pitch] = option.value.split('_');
+      const instrumentKey = getInstrumentKey(pitch, selectedNotation);
+      if (!isNaN(instrumentKey) && instrumentKey >= 0) {
+        updateUrl({ from_key: instrumentKey });
       }
-    };
+    }
   }
 
-  function handleChangeOriginKey(newOriginKey: number) {
-    setSelectedOriginKey(newOriginKey);
-    navigate(`/note/${newOriginKey}-${selectedNote}-${selectedTargetKey}`, {
-      replace: true,
-    });
+  function handleTargetInstrumentChange(option: SingleValue<OptionType>) {
+    if (option) {
+      setSelectedTargetOption(option);
+      const [pitch] = option.value.split('_');
+      const instrumentKey = getInstrumentKey(pitch, selectedNotation);
+      if (!isNaN(instrumentKey) && instrumentKey >= 0) {
+        updateUrl({ to_key: instrumentKey });
+      }
+    }
   }
 
-  function handleChangeNote(newNote: number) {
-    setSelectedNote(newNote);
-    navigate(`/note/${selectedOriginKey}-${newNote}-${selectedTargetKey}`, {
-      replace: true,
-    });
-  }
+  // --- Summaries ---
+  const originInstrumentName = selectedOriginOption
+    ? selectedOriginOption.label.split('|')[1]?.trim()
+    : undefined;
+  const targetInstrumentName = selectedTargetOption
+    ? selectedTargetOption.label.split('|')[1]?.trim()
+    : undefined;
 
-  function handleChangeTargetKey(newTargetKey: number) {
-    setSelectedTargetKey(newTargetKey);
-    navigate(`/note/${selectedOriginKey}-${selectedNote}-${newTargetKey}`, {
-      replace: true,
-    });
-  }
+  const noteSummary = getNote(note, selectedNotation);
 
-  const { t } = useTranslation();
+  const originInstrumentSummary = originInstrumentName
+    ? `${originInstrumentName} \u2014 ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)}`
+    : getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES);
 
-  const [_, reversedEnharmonicOriginGroupNotes] = crossInstrumentsTransposer(
-    selectedNote,
-    selectedOriginKey,
-    selectedOriginKey
-  );
+  const targetInstrumentSummary = targetInstrumentName
+    ? `${targetInstrumentName} \u2014 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)}`
+    : getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES);
 
-  const [targetNote, reversedEnharmonicTargetGroupNotes] =
-    crossInstrumentsTransposer(
-      selectedNote,
-      selectedOriginKey,
-      selectedTargetKey
-    );
+  // --- Page title ---
+  const pageTitle = `${getNote(note, selectedNotation)} ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)} \u2192 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)} | Note Transposition`;
 
-  const message =
-    selectedOriginKey === selectedTargetKey ? (
-      <>
-        <Trans
-          i18nKey="transposition.simpleTransposition.sameKeyMessage"
-          values={{
-            note: getNote(selectedNote, selectedNotation),
-            originKey: getNote(
-              selectedOriginKey,
-              selectedNotation,
-              INSTRUMENTS_PITCHES
-            ),
-          }}
-          components={[
-            <span className="border-b-4 border-purple-300" />,
-            <span className="border-b-4 border-sky-300" />,
-            <span className="border-b-4 border-purple-300" />,
-          ]}
-        />
-      </>
-    ) : (
-      <>
-        <Trans
-          i18nKey="transposition.simpleTransposition.transpositionMessage"
-          values={{
-            note: getNote(selectedNote, selectedNotation),
-            originKey: getNote(
-              selectedOriginKey,
-              selectedNotation,
-              INSTRUMENTS_PITCHES
-            ),
-            transposedNote: getNote(targetNote, selectedNotation),
-            targetKey: getNote(
-              selectedTargetKey,
-              selectedNotation,
-              INSTRUMENTS_PITCHES
-            ),
-          }}
-          components={[
-            <span className="border-b-4 border-purple-300" />,
-            <span className="border-b-4 border-sky-300" />,
-            <span className="border-b-4 border-amber-300 font-bold text-lg" />,
-            <span className="border-b-4 border-red-300" />,
-          ]}
-        />
-      </>
-    );
-
-  const pageTitle = t('transposition.simpleTransposition.pageTitle', {
-    note: getNote(selectedNote, selectedNotation),
-    originKey: getNote(
-      selectedOriginKey,
-      selectedNotation,
-      INSTRUMENTS_PITCHES
-    ),
-    targetKey: getNote(
-      selectedTargetKey,
-      selectedNotation,
-      INSTRUMENTS_PITCHES
-    ),
-  });
   useChangePageTitle(pageTitle);
 
-  const isMobile = useIsMobile();
-
-  function defineCorrespondingNotes(reversedEnharmonicGroupNotes: number[]) {
-    if (reversedEnharmonicGroupNotes.length > 1) {
-      const firstNote = SCALES[reversedEnharmonicGroupNotes[0]];
-      const secondNote = SCALES[reversedEnharmonicGroupNotes[1]];
-
-      return [{ note: firstNote }, { note: secondNote }];
+  // Ensure URL has at least the defaults when there are no params
+  useEffect(() => {
+    if (!searchParams.has('from_key') && !searchParams.has('note')) {
+      const params = new URLSearchParams();
+      params.set('from_key', '0');
+      params.set('note', '0');
+      params.set('to_key', '0');
+      setSearchParams(params, { replace: true });
     }
-
-    return [{ note: SCALES[reversedEnharmonicGroupNotes[0]] }];
-  }
-
-  const correspondingOriginNotes = defineCorrespondingNotes(
-    reversedEnharmonicOriginGroupNotes
-  );
-  const correspondingTargetNotes = defineCorrespondingNotes(
-    reversedEnharmonicTargetGroupNotes
-  );
-
-  function defineDisplayedNotes(reversedEnharmonicGroupNotes: number[]) {
-    return reversedEnharmonicGroupNotes
-      .map((noteIndex) => {
-        const note = SCALES[noteIndex].english.charAt(0);
-        return REDUCED_NOTES.findIndex(
-          (reducedNote) => reducedNote.english === note
-        );
-      })
-      .filter((index) => index !== null); // Remove any null values
-  }
-
-  const displayedOriginNotes = defineDisplayedNotes(
-    reversedEnharmonicOriginGroupNotes
-  );
-  const displayedTargetNotes = defineDisplayedNotes(
-    reversedEnharmonicTargetGroupNotes
-  );
-
-  const musicalStaffText = [
-    <Trans
-      i18nKey="transposition.common.staffLabel"
-      values={{
-        key: getNote(selectedOriginKey, selectedNotation, INSTRUMENTS_PITCHES),
-      }}
-      components={[<span className="border-b-4 border-sky-300" />]}
-    />,
-    <Trans
-      i18nKey="transposition.common.staffLabel"
-      values={{
-        key: getNote(selectedTargetKey, selectedNotation, INSTRUMENTS_PITCHES),
-      }}
-      components={[<span className="border-b-4 border-red-300" />]}
-    />,
-  ];
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
-    <ContentPage className={'simple-transposition'}>
+    <ContentPage>
+      <LiveSummaryBar
+        fromKey={fromKey}
+        note={note}
+        toKey={toKey}
+        method="key"
+        originInstrumentName={originInstrumentName}
+        targetInstrumentName={targetInstrumentName}
+      />
+
       <ContentCard>
-        <h2 className="mb-3">
-          {t('transposition.simpleTransposition.toolDescription')}
-        </h2>
-      </ContentCard>
-      <ContentCard>
-        <ContentCard level={2}>
-          <div className="simple-transposition__origin-key-select w-full mb-3">
-            <div className="flex items-center gap-2">
-              <label>{t('transposition.common.originKey')}</label>
-              <SelectComponent
-                onChange={createHandleChange(
-                  setSelectedOriginKey,
-                  setSelectedOriginOption
-                )}
-                options={selectOptions}
-                value={selectedOriginOption}
-                placeHolder={t('transposition.common.instrumentPlaceholder')}
+        {/* Step 1: What note to transpose */}
+        <StepperStep
+          stepNumber={1}
+          title={t('stepper.step2Title')}
+          summary={noteSummary}
+          isActive={activeStep === 1}
+          isCompleted={step1Completed}
+          isDisabled={false}
+          onEdit={() => handleEditStep(1)}
+          onContinue={() => handleContinueStep(1)}
+        >
+          <ContentCard level={2}>
+            <div className="w-full mt-3">
+              <NoteSelector
+                selected={note}
+                setSelected={handleChangeNote}
+                colour="purple"
               />
             </div>
+          </ContentCard>
+        </StepperStep>
 
-            <NoteSelector
-              selected={selectedOriginKey}
-              setSelected={handleChangeOriginKey}
-              colour="sky"
-              usedScale={INSTRUMENTS_PITCHES}
-            />
-          </div>
-        </ContentCard>
-
-        <ContentCard level={2}>
-          <div className="simple-transposition__note-select w-full mb-3">
-            <label>{t('transposition.common.note')}</label>
-            <NoteSelector
-              selected={selectedNote}
-              setSelected={handleChangeNote}
-              colour="purple"
-            />
-          </div>
-        </ContentCard>
-
-        <ContentCard level={2}>
-          <div className="simple-transposition__target-key-select w-full mb-3">
-            <div className="flex items-center gap-2">
-              <label>{t('transposition.common.targetKey')}</label>
-              <SelectComponent
-                onChange={createHandleChange(
-                  setSelectedTargetKey,
-                  setSelectedTargetOption
-                )}
-                options={selectOptions}
-                value={selectedTargetOption}
-                placeHolder={t('transposition.common.instrumentPlaceholder')}
+        {/* Step 2: Origin Instrument */}
+        <StepperStep
+          stepNumber={2}
+          title={t('stepper.step1Title')}
+          summary={originInstrumentSummary}
+          isActive={activeStep === 2}
+          isCompleted={step2Completed}
+          isDisabled={!step1Completed}
+          onEdit={() => handleEditStep(2)}
+          onContinue={() => handleContinueStep(2)}
+        >
+          <ContentCard level={2}>
+            <div className="w-full mb-1">
+              <div className="flex items-center gap-2 mb-2">
+                <SelectComponent
+                  onChange={handleOriginInstrumentChange}
+                  options={selectOptions}
+                  value={selectedOriginOption}
+                  placeHolder={t(
+                    'transposition.common.instrumentPlaceholder'
+                  )}
+                />
+              </div>
+              <NoteSelector
+                selected={fromKey}
+                setSelected={handleChangeFromKey}
+                colour="sky"
+                usedScale={INSTRUMENTS_PITCHES}
               />
             </div>
-            <NoteSelector
-              selected={selectedTargetKey}
-              setSelected={handleChangeTargetKey}
-              colour="red"
-              usedScale={INSTRUMENTS_PITCHES}
-            />
-          </div>
-        </ContentCard>
-      </ContentCard>
-      <ContentCard>
-        <output>
-          <p className="mb-3">{message}</p>
-          <div
-            className={`note-transposition__staff-container flex ${
-              isMobile
-                ? 'flex-col gap-8 mt-16 mb-16'
-                : 'flex-row gap-5 mt-20 mb-20'
-            }`}
-          >
-            <Staff
-              displayedNotes={displayedOriginNotes}
-              correspondingNotes={
-                correspondingOriginNotes as unknown as NoteInScale[]
-              }
-              musicalKey={{
-                alteration: null,
-                doubleAlteredNotes: [],
-                alteredNotes: [],
-              }}
-              accidentals={
-                displayedOriginNotes.length > 1 ? ['sharp', 'flat'] : undefined
-              }
-              text={musicalStaffText[0]}
-              colour="sky"
-              noteColour="purple"
-            />
-            {selectedOriginKey !== selectedTargetKey && (
-              <Staff
-                displayedNotes={displayedTargetNotes}
-                correspondingNotes={
-                  correspondingTargetNotes as unknown as NoteInScale[]
-                }
-                musicalKey={{
-                  alteration: null,
-                  doubleAlteredNotes: [],
-                  alteredNotes: [],
-                }}
-                accidentals={
-                  displayedTargetNotes.length > 1
-                    ? ['sharp', 'flat']
-                    : undefined
-                }
-                text={musicalStaffText[1]}
+          </ContentCard>
+        </StepperStep>
+
+        {/* Step 3: Target Instrument */}
+        <StepperStep
+          stepNumber={3}
+          title={t('stepper.step3Title')}
+          summary={targetInstrumentSummary}
+          isActive={activeStep === 3}
+          isCompleted={step3Completed}
+          isDisabled={!step2Completed}
+          isLast={true}
+          onEdit={() => handleEditStep(3)}
+          onContinue={() => handleContinueStep(3)}
+        >
+          <ContentCard level={2}>
+            <div className="w-full mb-1">
+              <div className="flex items-center gap-2 mb-2">
+                <SelectComponent
+                  onChange={handleTargetInstrumentChange}
+                  options={selectOptions}
+                  value={selectedTargetOption}
+                  placeHolder={t(
+                    'transposition.common.instrumentPlaceholder'
+                  )}
+                />
+              </div>
+              <NoteSelector
+                selected={toKey}
+                setSelected={handleChangeToKey}
                 colour="red"
-                noteColour="amber"
+                usedScale={INSTRUMENTS_PITCHES}
               />
-            )}
-          </div>
-        </output>
+            </div>
+          </ContentCard>
+        </StepperStep>
       </ContentCard>
 
-      {/*<VexflowStave alteration={"flat"} alteredNotes={[0,0,0,0,0, 4, 5, 2]} />*/}
+      {/* Results */}
+      {showResults && (
+        <NoteTranspositionResults
+          note={note}
+          fromKey={fromKey}
+          toKey={toKey}
+          targetNote={targetNote}
+          reversedEnharmonicOriginGroupNotes={
+            reversedEnharmonicOriginGroupNotes
+          }
+          reversedEnharmonicTargetGroupNotes={
+            reversedEnharmonicTargetGroupNotes
+          }
+          originInstrumentName={originInstrumentName}
+          targetInstrumentName={targetInstrumentName}
+          isMobile={isMobile}
+        />
+      )}
     </ContentPage>
   );
 }
 
-export default SimpleTransposition;
+export default NoteTranspositionPage;
