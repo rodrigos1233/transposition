@@ -41,6 +41,24 @@
     "shiftMeaning": "<0>Shift</0>: \"Shift\" (cambio, desplazamiento) sugiere el acto de mover una nota o una escala de una tonalidad a otra, que es exactamente lo que hace esta herramienta—mueve notas y escalas entre tonalidades para facilitar la transposición a los músicos.",
     "instrumentListTitle": "Aquí hay una lista no exhaustiva de instrumentos ordenados por su tonalidad posible:"
   },
+  "stepper": {
+    "step1Title": "¿Qué instrumento tocas?",
+    "step2Title": "¿Qué estás tocando?",
+    "step3Title": "¿Transponer para qué instrumento?",
+    "edit": "Editar",
+    "continue": "Continuar",
+    "custom": "Personalizado",
+    "transposeBy": "Transponer por:",
+    "byKey": "Tonalidad",
+    "byInterval": "Intervalo",
+    "intervalStepTitle": "¿Transponer por qué intervalo?",
+    "circleOfFifthsTitle": "Círculo de quintas",
+    "circleOfFifthsExplanation": "El ángulo de las agujas corresponde a la distancia armónica entre el instrumento de origen y el instrumento de destino, medida en quintas.",
+    "originalStaffLabel": "Original",
+    "transposedStaffLabel": "Transpuesto",
+    "originalInstrumentStaffLabel": "{{instrument}} (original)",
+    "transposedInstrumentStaffLabel": "{{instrument}} (transpuesto)"
+  },
   "transposition": {
     "common": {
       "originKey": "Tonalidad de origen",
