@@ -260,18 +260,27 @@ function ScaleTranspositionResults({
             }`}
           >
             <div className="overflow-hidden">
-              <p className="text-sm text-neutral-500 mb-3">
-                {t('stepper.circleOfFifthsExplanation')}
-              </p>
-              <CircleOfFifth
-                modeIndex={mode}
-                selectedStartNote={scale}
-                targetNote={targetNote}
-                setSelectedMode={handleChangeMode}
-                selectedOriginKey={fromKey}
-                selectedTargetKey={toKey}
-                showAdditionalModes={showAdditionalModes}
-              />
+              <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6">
+                <div className="lg:flex-1 lg:pt-4">
+                  <p className="text-sm text-neutral-500 mb-2">
+                    {t('stepper.circleOfFifthsDescription')}
+                  </p>
+                  <p className="text-sm text-neutral-500 mb-3 lg:mb-0">
+                    {t('stepper.circleOfFifthsExplanation')}
+                  </p>
+                </div>
+                <div className="lg:flex-shrink-0">
+                  <CircleOfFifth
+                    modeIndex={mode}
+                    selectedStartNote={scale}
+                    targetNote={targetNote}
+                    setSelectedMode={handleChangeMode}
+                    selectedOriginKey={fromKey}
+                    selectedTargetKey={toKey}
+                    showAdditionalModes={showAdditionalModes}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </ContentCard>

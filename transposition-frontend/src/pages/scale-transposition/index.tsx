@@ -382,6 +382,9 @@ function ScaleTranspositionPage() {
               method={method}
               onChange={handleChangeMethod}
             />
+            <p className="text-sm text-neutral-500 mb-3">
+              {t('stepper.scaleSelectDescription')}
+            </p>
             <ModeSelector
               selectedMode={mode}
               handleChangeMode={handleChangeMode}
@@ -414,6 +417,9 @@ function ScaleTranspositionPage() {
             onContinue={() => handleContinueStep(2)}
           >
             <ContentCard level={2}>
+              <p className="text-sm text-neutral-500 mb-3">
+                {t('stepper.intervalSelectDescription')}
+              </p>
               <IntervalSelector
                 selectedInterval={interval}
                 handleChangeInterval={handleChangeInterval}
@@ -437,6 +443,9 @@ function ScaleTranspositionPage() {
             onContinue={() => handleContinueStep(2)}
           >
             <ContentCard level={2}>
+              <p className="text-sm text-neutral-500 mb-3">
+                {t('stepper.originInstrumentDescription')}
+              </p>
               <div className="w-full mb-1">
                 <div className="flex items-center gap-2 mb-2">
                   <SelectComponent
@@ -473,6 +482,9 @@ function ScaleTranspositionPage() {
             onContinue={() => handleContinueStep(3)}
           >
             <ContentCard level={2}>
+              <p className="text-sm text-neutral-500 mb-3">
+                {t('stepper.targetInstrumentDescription')}
+              </p>
               <div className="w-full mb-1">
                 <div className="flex items-center gap-2 mb-2">
                   <SelectComponent

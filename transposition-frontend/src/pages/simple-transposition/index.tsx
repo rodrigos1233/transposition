@@ -310,6 +310,9 @@ function NoteTranspositionPage() {
               method={method}
               onChange={handleChangeMethod}
             />
+            <p className="text-sm text-neutral-500 mb-3">
+              {t('stepper.noteSelectDescription')}
+            </p>
             <div className="w-full mt-3">
               <NoteSelector
                 selected={note}
@@ -334,6 +337,9 @@ function NoteTranspositionPage() {
             onContinue={() => handleContinueStep(2)}
           >
             <ContentCard level={2}>
+              <p className="text-sm text-neutral-500 mb-3">
+                {t('stepper.intervalSelectDescription')}
+              </p>
               <IntervalSelector
                 selectedInterval={interval}
                 handleChangeInterval={handleChangeInterval}
@@ -357,6 +363,9 @@ function NoteTranspositionPage() {
             onContinue={() => handleContinueStep(2)}
           >
             <ContentCard level={2}>
+              <p className="text-sm text-neutral-500 mb-3">
+                {t('stepper.originInstrumentDescription')}
+              </p>
               <div className="w-full mb-1">
                 <div className="flex items-center gap-2 mb-2">
                   <SelectComponent
@@ -393,6 +402,9 @@ function NoteTranspositionPage() {
             onContinue={() => handleContinueStep(3)}
           >
             <ContentCard level={2}>
+              <p className="text-sm text-neutral-500 mb-3">
+                {t('stepper.targetInstrumentDescription')}
+              </p>
               <div className="w-full mb-1">
                 <div className="flex items-center gap-2 mb-2">
                   <SelectComponent

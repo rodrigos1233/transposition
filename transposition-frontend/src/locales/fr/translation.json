@@ -53,11 +53,17 @@
     "byInterval": "Intervalle",
     "intervalStepTitle": "Transposer de quel intervalle ?",
     "circleOfFifthsTitle": "Cycle des quintes",
-    "circleOfFifthsExplanation": "L'angle des aiguilles correspond à la distance harmonique entre l'instrument d'origine et l'instrument cible, mesurée en quintes.",
+    "circleOfFifthsDescription": "Le cycle des quintes dispose les 12 tonalit\u00e9s musicales de sorte que chaque paire adjacente est s\u00e9par\u00e9e par une quinte juste (7 demi-tons). Le mouvement dans le sens horaire ajoute des di\u00e8ses\u00a0; dans le sens anti-horaire, des b\u00e9mols. Les tonalit\u00e9s adjacentes partagent toutes leurs notes sauf une, ce qui les rend \u00e9troitement li\u00e9es harmoniquement.",
+    "circleOfFifthsExplanation": "L\u2019aiguille bleue pointe vers la tonalit\u00e9 d\u2019origine et l\u2019aiguille rouge vers la tonalit\u00e9 cible. Un petit angle signifie que les tonalit\u00e9s sont harmoniquement proches et partagent la plupart de leurs notes \u2014 la transposition impliquera peu de changements. Un grand angle (jusqu\u2019\u00e0 180\u00b0, le triton) indique des tonalit\u00e9s plus \u00e9loign\u00e9es, n\u00e9cessitant davantage d\u2019alt\u00e9rations. Cette proximit\u00e9 harmonique ne correspond pas \u00e0 la proximit\u00e9 chromatique\u00a0: des tonalit\u00e9s s\u00e9par\u00e9es d\u2019un demi-ton (une seconde mineure) se trouvent presque \u00e0 l\u2019oppos\u00e9 sur le cycle, tandis que des tonalit\u00e9s s\u00e9par\u00e9es d\u2019une quinte sont voisines. La couronne ext\u00e9rieure montre les armures, la couronne int\u00e9rieure les noms des gammes dans le mode s\u00e9lectionn\u00e9. Utilisez le bouton sous le cycle pour changer de mode.",
+    "noteSelectDescription": "Choisissez la note que vous souhaitez transposer. Utilisez le s\u00e9lecteur ci-dessus pour choisir entre transposer entre tonalit\u00e9s d'instruments ou par un intervalle musical.",
+    "scaleSelectDescription": "Choisissez la note fondamentale et le mode de la gamme. Les modes comme Majeur et Mineur d\u00e9finissent le sch\u00e9ma de tons et demi-tons qui donne \u00e0 la gamme son caract\u00e8re.",
+    "originInstrumentDescription": "Les instruments transpositeurs produisent une hauteur diff\u00e9rente de celle \u00e9crite \u2014 par exemple, une clarinette en Si\u266d produit un Si\u266d lorsque le musicien lit un Do. S\u00e9lectionnez l'instrument ou la tonalit\u00e9 pour laquelle votre musique est \u00e9crite.",
+    "targetInstrumentDescription": "S\u00e9lectionnez l'instrument ou la tonalit\u00e9 cible. L'outil calculera les notes \u00e9crites correctes pour que les deux instruments produisent les m\u00eames hauteurs.",
+    "intervalSelectDescription": "Un intervalle mesure la distance entre deux notes en demi-tons. Choisissez la direction et la taille de l'intervalle de transposition.",
     "originalStaffLabel": "Original",
-    "transposedStaffLabel": "Transposé",
+    "transposedStaffLabel": "Transpos\u00e9",
     "originalInstrumentStaffLabel": "{{instrument}} (original)",
-    "transposedInstrumentStaffLabel": "{{instrument}} (transposé)"
+    "transposedInstrumentStaffLabel": "{{instrument}} (transpos\u00e9)"
   },
   "transposition": {
     "common": {
