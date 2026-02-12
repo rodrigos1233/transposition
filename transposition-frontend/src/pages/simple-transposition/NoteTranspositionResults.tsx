@@ -6,15 +6,20 @@ import {
   REDUCED_NOTES,
   SCALES,
 } from '../../utils/notes';
+import { getIntervalName } from '../../utils/intervals';
 import { NoteInScale } from '../../utils/scaleBuilder';
 import Staff from '../../components/staff';
 import ContentCard from '../../components/content-card';
 import NotationContext from '../../contexts/NotationContext';
+import LanguageContext from '../../contexts/LanguageContext';
 
 type NoteTranspositionResultsProps = {
+  method: 'key' | 'interval';
   note: number;
   fromKey: number;
   toKey: number;
+  interval: number;
+  direction: 'up' | 'down';
   targetNote: number;
   reversedEnharmonicOriginGroupNotes: number[];
   reversedEnharmonicTargetGroupNotes: number[];
@@ -24,9 +29,12 @@ type NoteTranspositionResultsProps = {
 };
 
 function NoteTranspositionResults({
+  method,
   note,
   fromKey,
   toKey,
+  interval,
+  direction,
   targetNote,
   reversedEnharmonicOriginGroupNotes,
   reversedEnharmonicTargetGroupNotes,
@@ -36,6 +44,7 @@ function NoteTranspositionResults({
 }: NoteTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);
+  const { selectedLanguage } = useContext(LanguageContext);
 
   function defineCorrespondingNotes(reversedEnharmonicGroupNotes: number[]) {
     if (reversedEnharmonicGroupNotes.length > 1) {
@@ -84,21 +93,29 @@ function NoteTranspositionResults({
       })
     : t('stepper.transposedStaffLabel');
 
-  const message =
-    fromKey === toKey ? (
-      <Trans
-        i18nKey="transposition.simpleTransposition.sameKeyMessage"
-        values={{
-          note: getNote(note, selectedNotation),
-          originKey: getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES),
-        }}
-        components={[
-          <span className="border-b-4 border-purple-300" />,
-          <span className="border-b-4 border-sky-300" />,
-          <span className="border-b-4 border-purple-300" />,
-        ]}
-      />
-    ) : (
+  // --- Result message ---
+  const resultMessage =
+    method === 'key' ? renderKeyModeMessage() : renderIntervalModeMessage();
+
+  function renderKeyModeMessage() {
+    if (fromKey === toKey) {
+      return (
+        <Trans
+          i18nKey="transposition.simpleTransposition.sameKeyMessage"
+          values={{
+            note: getNote(note, selectedNotation),
+            originKey: getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES),
+          }}
+          components={[
+            <span className="border-b-4 border-purple-300" />,
+            <span className="border-b-4 border-sky-300" />,
+            <span className="border-b-4 border-purple-300" />,
+          ]}
+        />
+      );
+    }
+
+    return (
       <Trans
         i18nKey="transposition.simpleTransposition.transpositionMessage"
         values={{
@@ -115,12 +132,49 @@ function NoteTranspositionResults({
         ]}
       />
     );
+  }
+
+  function renderIntervalModeMessage() {
+    if (interval === 0) {
+      return (
+        <Trans
+          i18nKey="transposition.noteIntervals.noChangeNeeded"
+          values={{
+            note: getNote(note, selectedNotation),
+          }}
+          components={[
+            <span className="border-b-4 border-purple-300" />,
+          ]}
+        />
+      );
+    }
+
+    return (
+      <Trans
+        i18nKey="transposition.noteIntervals.transpositionResult"
+        values={{
+          note: getNote(note, selectedNotation),
+          transposedNote: getNote(targetNote, selectedNotation),
+          direction: t(`transposition.common.${direction}`),
+          interval: getIntervalName(interval, selectedLanguage),
+        }}
+        components={[
+          <span className="border-b-4 border-purple-300" />,
+          <span className="border-b-4 border-amber-300 font-bold text-lg" />,
+        ]}
+      />
+    );
+  }
+
+  // Should we show the target staff?
+  const showTargetStaff =
+    method === 'key' ? fromKey !== toKey : interval !== 0;
 
   return (
     <ContentCard>
       <output>
         <ContentCard level={2}>
-          <p className="mb-3">{message}</p>
+          <p className="mb-3">{resultMessage}</p>
           <div
             className={`flex ${
               isMobile
@@ -151,7 +205,7 @@ function NoteTranspositionResults({
               colour="sky"
               noteColour="purple"
             />
-            {fromKey !== toKey && (
+            {showTargetStaff && (
               <Staff
                 displayedNotes={displayedTargetNotes}
                 correspondingNotes={

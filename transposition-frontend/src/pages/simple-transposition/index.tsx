@@ -5,7 +5,11 @@ import {
   Note,
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
-import { crossInstrumentsTransposer } from '../../utils/transposer';
+import {
+  crossInstrumentsTransposer,
+  transposer,
+} from '../../utils/transposer';
+import { getIntervalName } from '../../utils/intervals';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
@@ -19,6 +23,8 @@ import ContentPage from '../../components/content-page';
 import ContentCard from '../../components/content-card';
 import StepperStep from '../../components/stepper/StepperStep';
 import LiveSummaryBar from '../../components/live-summary-bar';
+import TransposeMethodToggle from '../../components/transpose-method-toggle';
+import IntervalSelector from '../../components/interval-selector';
 import NoteTranspositionResults from './NoteTranspositionResults';
 
 function validateParam(
@@ -45,12 +51,18 @@ function NoteTranspositionPage() {
   const fromKey = validateParam(searchParams.get('from_key'), 11);
   const note = validateParam(searchParams.get('note'), 11);
   const toKey = validateParam(searchParams.get('to_key'), 11);
+  const method: 'key' | 'interval' =
+    searchParams.get('method') === 'interval' ? 'interval' : 'key';
+  const interval = validateParam(searchParams.get('interval'), 12);
+  const direction: 'up' | 'down' =
+    searchParams.get('direction') === 'down' ? 'down' : 'up';
 
   // --- Stepper UI state ---
   const isFullUrl =
-    searchParams.has('from_key') &&
     searchParams.has('note') &&
-    searchParams.has('to_key');
+    (method === 'interval'
+      ? searchParams.has('interval')
+      : searchParams.has('from_key') && searchParams.has('to_key'));
   const [activeStep, setActiveStep] = useState<number | null>(
     isFullUrl ? null : 1
   );
@@ -68,12 +80,22 @@ function NoteTranspositionPage() {
       from_key: fromKey,
       note: note,
       to_key: toKey,
+      method: method,
+      interval: interval,
+      direction: direction,
       ...overrides,
     };
 
-    params.set('from_key', String(merged.from_key));
     params.set('note', String(merged.note));
-    params.set('to_key', String(merged.to_key));
+
+    if (merged.method === 'interval') {
+      params.set('method', 'interval');
+      params.set('interval', String(merged.interval));
+      params.set('direction', String(merged.direction));
+    } else {
+      params.set('from_key', String(merged.from_key));
+      params.set('to_key', String(merged.to_key));
+    }
 
     setSearchParams(params, { replace: true });
   }
@@ -93,13 +115,33 @@ function NoteTranspositionPage() {
     updateUrl({ to_key: newKey });
   }
 
+  function handleChangeMethod(newMethod: 'key' | 'interval') {
+    updateUrl({ method: newMethod });
+    if (newMethod === 'interval' && activeStep !== null && activeStep > 1) {
+      setActiveStep(1);
+    }
+  }
+
+  function handleChangeInterval(newInterval: number) {
+    updateUrl({ interval: newInterval });
+  }
+
+  function handleChangeDirection(newDirection: 'up' | 'down') {
+    updateUrl({ direction: newDirection });
+  }
+
   // --- Stepper navigation ---
-  // Step 1 (note) → Step 2 (origin instrument) → Step 3 (target instrument) → Results
+  // Key mode:      Step 1 (note) → Step 2 (origin instrument) → Step 3 (target instrument) → Results
+  // Interval mode: Step 1 (note) → Step 2 (interval selection) → Results
   function handleContinueStep(stepNumber: number) {
     if (stepNumber === 1) {
       setActiveStep(2);
     } else if (stepNumber === 2) {
-      setActiveStep(3);
+      if (method === 'interval') {
+        setActiveStep(null);
+      } else {
+        setActiveStep(3);
+      }
     } else if (stepNumber === 3) {
       setActiveStep(null);
     }
@@ -113,17 +155,41 @@ function NoteTranspositionPage() {
   const step1Completed = activeStep === null || activeStep > 1;
   const step2Completed = activeStep === null || activeStep > 2;
   const step3Completed = activeStep === null || activeStep > 3;
-  const showResults = step3Completed;
+  const showResults =
+    method === 'interval' ? step2Completed : step3Completed;
 
   // --- Transposition computation ---
+  // Key mode
   const [, reversedEnharmonicOriginGroupNotes] = crossInstrumentsTransposer(
     note,
     fromKey,
     fromKey
   );
 
-  const [targetNote, reversedEnharmonicTargetGroupNotes] =
+  const [keyTargetNote, reversedEnharmonicKeyTargetGroupNotes] =
     crossInstrumentsTransposer(note, fromKey, toKey);
+
+  // Interval mode
+  const [, reversedEnharmonicIntervalOriginGroupNotes] = transposer(
+    note,
+    0,
+    'up'
+  );
+
+  const [intervalTargetNote, reversedEnharmonicIntervalTargetGroupNotes] =
+    transposer(note, interval, direction);
+
+  // Select the right values based on method
+  const targetNote =
+    method === 'key' ? keyTargetNote : intervalTargetNote;
+  const originEnharmonicNotes =
+    method === 'key'
+      ? reversedEnharmonicOriginGroupNotes
+      : reversedEnharmonicIntervalOriginGroupNotes;
+  const targetEnharmonicNotes =
+    method === 'key'
+      ? reversedEnharmonicKeyTargetGroupNotes
+      : reversedEnharmonicIntervalTargetGroupNotes;
 
   // --- Instrument dropdown options ---
   const listOfInstruments = LIST_OF_INSTRUMENTS[selectedLanguage];
@@ -185,6 +251,8 @@ function NoteTranspositionPage() {
 
   const noteSummary = getNote(note, selectedNotation);
 
+  const intervalSummary = `${direction === 'up' ? '+' : '-'}${getIntervalName(interval, selectedLanguage)}`;
+
   const originInstrumentSummary = originInstrumentName
     ? `${originInstrumentName} \u2014 ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)}`
     : getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES);
@@ -194,13 +262,16 @@ function NoteTranspositionPage() {
     : getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES);
 
   // --- Page title ---
-  const pageTitle = `${getNote(note, selectedNotation)} ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)} \u2192 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)} | Note Transposition`;
+  const pageTitle =
+    method === 'key'
+      ? `${getNote(note, selectedNotation)} ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)} \u2192 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)} | Note Transposition`
+      : `${getNote(note, selectedNotation)} ${direction === 'up' ? '+' : '-'}${getIntervalName(interval, selectedLanguage)} | Note Transposition`;
 
   useChangePageTitle(pageTitle);
 
   // Ensure URL has at least the defaults when there are no params
   useEffect(() => {
-    if (!searchParams.has('from_key') && !searchParams.has('note')) {
+    if (!searchParams.has('note')) {
       const params = new URLSearchParams();
       params.set('from_key', '0');
       params.set('note', '0');
@@ -209,19 +280,21 @@ function NoteTranspositionPage() {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const showInstrumentSteps = method === 'key';
+
   return (
     <ContentPage>
       <LiveSummaryBar
-        fromKey={fromKey}
+        fromKey={method === 'key' ? fromKey : null}
         note={note}
-        toKey={toKey}
-        method="key"
+        toKey={method === 'key' ? toKey : null}
+        method={method}
         originInstrumentName={originInstrumentName}
         targetInstrumentName={targetInstrumentName}
       />
 
       <ContentCard>
-        {/* Step 1: What note to transpose */}
+        {/* Step 1: What note to transpose + method toggle */}
         <StepperStep
           stepNumber={1}
           title={t('stepper.step2Title')}
@@ -233,6 +306,10 @@ function NoteTranspositionPage() {
           onContinue={() => handleContinueStep(1)}
         >
           <ContentCard level={2}>
+            <TransposeMethodToggle
+              method={method}
+              onChange={handleChangeMethod}
+            />
             <div className="w-full mt-3">
               <NoteSelector
                 selected={note}
@@ -243,87 +320,114 @@ function NoteTranspositionPage() {
           </ContentCard>
         </StepperStep>
 
-        {/* Step 2: Origin Instrument */}
-        <StepperStep
-          stepNumber={2}
-          title={t('stepper.step1Title')}
-          summary={originInstrumentSummary}
-          isActive={activeStep === 2}
-          isCompleted={step2Completed}
-          isDisabled={!step1Completed}
-          onEdit={() => handleEditStep(2)}
-          onContinue={() => handleContinueStep(2)}
-        >
-          <ContentCard level={2}>
-            <div className="w-full mb-1">
-              <div className="flex items-center gap-2 mb-2">
-                <SelectComponent
-                  onChange={handleOriginInstrumentChange}
-                  options={selectOptions}
-                  value={selectedOriginOption}
-                  placeHolder={t(
-                    'transposition.common.instrumentPlaceholder'
-                  )}
-                />
-              </div>
-              <NoteSelector
-                selected={fromKey}
-                setSelected={handleChangeFromKey}
-                colour="sky"
-                usedScale={INSTRUMENTS_PITCHES}
+        {/* Step 2 (interval mode): Interval Selection */}
+        {method === 'interval' && (
+          <StepperStep
+            stepNumber={2}
+            title={t('stepper.intervalStepTitle')}
+            summary={intervalSummary}
+            isActive={activeStep === 2}
+            isCompleted={step2Completed}
+            isDisabled={!step1Completed}
+            isLast={true}
+            onEdit={() => handleEditStep(2)}
+            onContinue={() => handleContinueStep(2)}
+          >
+            <ContentCard level={2}>
+              <IntervalSelector
+                selectedInterval={interval}
+                handleChangeInterval={handleChangeInterval}
+                selectedDirection={direction}
+                setSelectedDirection={handleChangeDirection}
               />
-            </div>
-          </ContentCard>
-        </StepperStep>
+            </ContentCard>
+          </StepperStep>
+        )}
 
-        {/* Step 3: Target Instrument */}
-        <StepperStep
-          stepNumber={3}
-          title={t('stepper.step3Title')}
-          summary={targetInstrumentSummary}
-          isActive={activeStep === 3}
-          isCompleted={step3Completed}
-          isDisabled={!step2Completed}
-          isLast={true}
-          onEdit={() => handleEditStep(3)}
-          onContinue={() => handleContinueStep(3)}
-        >
-          <ContentCard level={2}>
-            <div className="w-full mb-1">
-              <div className="flex items-center gap-2 mb-2">
-                <SelectComponent
-                  onChange={handleTargetInstrumentChange}
-                  options={selectOptions}
-                  value={selectedTargetOption}
-                  placeHolder={t(
-                    'transposition.common.instrumentPlaceholder'
-                  )}
+        {/* Step 2 (key mode): Origin Instrument */}
+        {showInstrumentSteps && (
+          <StepperStep
+            stepNumber={2}
+            title={t('stepper.step1Title')}
+            summary={originInstrumentSummary}
+            isActive={activeStep === 2}
+            isCompleted={step2Completed}
+            isDisabled={!step1Completed}
+            onEdit={() => handleEditStep(2)}
+            onContinue={() => handleContinueStep(2)}
+          >
+            <ContentCard level={2}>
+              <div className="w-full mb-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <SelectComponent
+                    onChange={handleOriginInstrumentChange}
+                    options={selectOptions}
+                    value={selectedOriginOption}
+                    placeHolder={t(
+                      'transposition.common.instrumentPlaceholder'
+                    )}
+                  />
+                </div>
+                <NoteSelector
+                  selected={fromKey}
+                  setSelected={handleChangeFromKey}
+                  colour="sky"
+                  usedScale={INSTRUMENTS_PITCHES}
                 />
               </div>
-              <NoteSelector
-                selected={toKey}
-                setSelected={handleChangeToKey}
-                colour="red"
-                usedScale={INSTRUMENTS_PITCHES}
-              />
-            </div>
-          </ContentCard>
-        </StepperStep>
+            </ContentCard>
+          </StepperStep>
+        )}
+
+        {/* Step 3 (key mode): Target Instrument */}
+        {showInstrumentSteps && (
+          <StepperStep
+            stepNumber={3}
+            title={t('stepper.step3Title')}
+            summary={targetInstrumentSummary}
+            isActive={activeStep === 3}
+            isCompleted={step3Completed}
+            isDisabled={!step2Completed}
+            isLast={true}
+            onEdit={() => handleEditStep(3)}
+            onContinue={() => handleContinueStep(3)}
+          >
+            <ContentCard level={2}>
+              <div className="w-full mb-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <SelectComponent
+                    onChange={handleTargetInstrumentChange}
+                    options={selectOptions}
+                    value={selectedTargetOption}
+                    placeHolder={t(
+                      'transposition.common.instrumentPlaceholder'
+                    )}
+                  />
+                </div>
+                <NoteSelector
+                  selected={toKey}
+                  setSelected={handleChangeToKey}
+                  colour="red"
+                  usedScale={INSTRUMENTS_PITCHES}
+                />
+              </div>
+            </ContentCard>
+          </StepperStep>
+        )}
       </ContentCard>
 
       {/* Results */}
       {showResults && (
         <NoteTranspositionResults
+          method={method}
           note={note}
           fromKey={fromKey}
           toKey={toKey}
+          interval={interval}
+          direction={direction}
           targetNote={targetNote}
-          reversedEnharmonicOriginGroupNotes={
-            reversedEnharmonicOriginGroupNotes
-          }
-          reversedEnharmonicTargetGroupNotes={
-            reversedEnharmonicTargetGroupNotes
-          }
+          reversedEnharmonicOriginGroupNotes={originEnharmonicNotes}
+          reversedEnharmonicTargetGroupNotes={targetEnharmonicNotes}
           originInstrumentName={originInstrumentName}
           targetInstrumentName={targetInstrumentName}
           isMobile={isMobile}

@@ -87,6 +87,10 @@
       "toolDescription": "Transponer una nota única de una tonalidad de instrumento a otra:",
       "sameKeyMessage": "La nota <0>{{note}}</0> para un instrumento en <1>{{originKey}}</1> se toca como <2>{{note}}</2>. No se necesita transposición porque las tonalidades de origen y destino son iguales.",
       "transpositionMessage": "La nota <0>{{note}}</0> para un instrumento en <1>{{originKey}}</1> debe tocarse como <2>{{transposedNote}}</2> para un instrumento en <3>{{targetKey}}</3>."
+    },
+    "noteIntervals": {
+      "noChangeNeeded": "La nota <0>{{note}}</0> no necesita transposición porque el intervalo de semitonos es 0.",
+      "transpositionResult": "La nota <0>{{note}}</0> se convierte en <1>{{transposedNote}}</1> cuando se transpone {{direction}} por una {{interval}}."
     }
   }
 }

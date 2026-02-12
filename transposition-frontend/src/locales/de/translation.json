@@ -87,6 +87,10 @@
       "toolDescription": "Transponiere einen einzelnen Ton von der Tonart eines Instruments auf eine andere:",
       "sameKeyMessage": "Der Ton <0>{{note}}</0> für ein Instrument in <1>{{originKey}}</1> wird als <2>{{note}}</2> gespielt. Es ist keine Transposition erforderlich, da die Ursprungs- und Zieltonalität identisch sind.",
       "transpositionMessage": "Der Ton <0>{{note}}</0> für ein Instrument in <1>{{originKey}}</1> soll als <2>{{transposedNote}}</2> für ein Instrument in <3>{{targetKey}}</3> gespielt werden."
+    },
+    "noteIntervals": {
+      "noChangeNeeded": "Der Ton <0>{{note}}</0> benötigt keine Transposition, da das Intervall in Halbtönen 0 beträgt.",
+      "transpositionResult": "Der Ton <0>{{note}}</0> wird zu <1>{{transposedNote}}</1>, wenn er {{direction}} um {{interval}} transponiert wird."
     }
   }
 }

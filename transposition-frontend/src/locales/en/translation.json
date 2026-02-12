@@ -87,6 +87,10 @@
       "toolDescription": "Transpose a single note from one instrument's key to another:",
       "sameKeyMessage": "The note <0>{{note}}</0> for an instrument in <1>{{originKey}}</1> is played as <2>{{note}}</2>. No transposition is needed because the origin and target keys are the same.",
       "transpositionMessage": "The note <0>{{note}}</0> for an instrument in <1>{{originKey}}</1> should be played as <2>{{transposedNote}}</2> for an instrument in <3>{{targetKey}}</3>."
+    },
+    "noteIntervals": {
+      "noChangeNeeded": "The note <0>{{note}}</0> does not need transposition because the interval of semitones is 0.",
+      "transpositionResult": "The note <0>{{note}}</0> becomes <1>{{transposedNote}}</1> when transposed {{direction}} by one {{interval}}."
     }
   }
 }
