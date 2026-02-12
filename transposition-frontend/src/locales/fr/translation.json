@@ -87,6 +87,10 @@
       "toolDescription": "Transposez une note unique d'une tonalité d'instrument à une autre :",
       "sameKeyMessage": "La note <0>{{note}}</0> pour un instrument en <1>{{originKey}}</1> se joue comme <2>{{note}}</2>. Aucune transposition n'est nécessaire car les tonalités d'origine et cible sont identiques.",
       "transpositionMessage": "La note <0>{{note}}</0> pour un instrument en <1>{{originKey}}</1> doit être jouée comme <2>{{transposedNote}}</2> pour un instrument en <3>{{targetKey}}</3>."
+    },
+    "noteIntervals": {
+      "noChangeNeeded": "La note <0>{{note}}</0> n'a pas besoin de transposition car l'intervalle de demi-tons est de 0.",
+      "transpositionResult": "La note <0>{{note}}</0> devient <1>{{transposedNote}}</1> lorsqu'elle est transposée {{direction}} d'une {{interval}}."
     }
   }
 }
