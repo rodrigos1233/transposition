@@ -41,6 +41,24 @@
     "shiftMeaning": "<0>Shift</0>: \"Shift\" (Wechsel, Verschiebung) beschreibt die Aktion, eine Note oder eine Tonleiter von einer Tonart in eine andere zu verschieben, was genau das ist, was dieses Tool tut – es verschiebt Noten und Tonleitern zwischen Tonarten, um Musikern die Transposition zu erleichtern.",
     "instrumentListTitle": "Hier ist eine nicht exhaustive Liste von Instrumenten, sortiert nach ihren möglichen Tonarten:"
   },
+  "stepper": {
+    "step1Title": "Welches Instrument spielen Sie?",
+    "step2Title": "Was spielen Sie?",
+    "step3Title": "Für welches Instrument transponieren?",
+    "edit": "Bearbeiten",
+    "continue": "Weiter",
+    "custom": "Benutzerdefiniert",
+    "transposeBy": "Transponieren nach:",
+    "byKey": "Tonart",
+    "byInterval": "Intervall",
+    "intervalStepTitle": "Um welches Intervall transponieren?",
+    "circleOfFifthsTitle": "Quintenzirkel",
+    "circleOfFifthsExplanation": "Der Winkel der Zeiger entspricht der harmonischen Distanz zwischen Ursprungs- und Zielinstrument, gemessen in Quinten.",
+    "originalStaffLabel": "Original",
+    "transposedStaffLabel": "Transponiert",
+    "originalInstrumentStaffLabel": "{{instrument}} (Original)",
+    "transposedInstrumentStaffLabel": "{{instrument}} (transponiert)"
+  },
   "transposition": {
     "common": {
       "originKey": "Ursprungstonalität",

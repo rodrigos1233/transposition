@@ -2,11 +2,14 @@ import './App.css';
 import './styles/output.css';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
 import SimpleTransposition from './pages/simple-transposition';
-import CrossInstrumentsScaleTransposition from './pages/scale-transposition/crossInstruments';
+import ScaleTranspositionPage from './pages/scale-transposition';
+import {
+  CrossInstrumentsRedirect,
+  IntervalsRedirect,
+} from './pages/scale-transposition/redirects';
 import AboutPage from './pages/about';
 import LandingPage from './pages/landing';
 import { BottomNav, Footer, Header } from './header';
-import IntervalsScaleTransposition from './pages/scale-transposition/intervals';
 import ContextsProvider from './contexts/ContextsProvider';
 
 function App() {
@@ -23,27 +26,50 @@ function App() {
                   <Route index element={<Navigate to="0-0-0" replace />} />
                   <Route path=":linkParams" element={<SimpleTransposition />} />
                 </Route>
-                <Route path="scale">
-                  <Route index element={<Navigate to="0-0-0-0" replace />} />
-                  <Route
-                    path=":linkParams"
-                    element={<CrossInstrumentsScaleTransposition />}
-                  />
-                </Route>
+
+                {/* New unified scale page (query params) */}
+                <Route
+                  path="scale"
+                  element={<ScaleTranspositionPage />}
+                />
+                {/* Redirect old /scale/:linkParams (path params) to new format */}
+                <Route
+                  path="scale/:linkParams"
+                  element={<CrossInstrumentsRedirect />}
+                />
+
+                {/* Backward-compatible redirects for old URL formats */}
                 <Route path="scale-cross-instruments">
-                  <Route index element={<Navigate to="0-0-0-0" replace />} />
+                  <Route
+                    index
+                    element={
+                      <Navigate
+                        to="/scale?from_key=0&scale=0&to_key=0&mode=0"
+                        replace
+                      />
+                    }
+                  />
                   <Route
                     path=":linkParams"
-                    element={<CrossInstrumentsScaleTransposition />}
+                    element={<CrossInstrumentsRedirect />}
                   />
                 </Route>
                 <Route path="scale-intervals">
-                  <Route index element={<Navigate to="0-5-up" replace />} />
+                  <Route
+                    index
+                    element={
+                      <Navigate
+                        to="/scale?from_key=0&scale=0&mode=0&method=interval&interval=5&direction=up"
+                        replace
+                      />
+                    }
+                  />
                   <Route
                     path=":linkParams"
-                    element={<IntervalsScaleTransposition />}
+                    element={<IntervalsRedirect />}
                   />
                 </Route>
+
                 <Route path="about" element={<AboutPage />} />
                 <Route path="*" element={<LandingPage />} />
               </Routes>

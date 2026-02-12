@@ -41,6 +41,24 @@
     "shiftMeaning": "<0>Shift</0> : \"Shift\" (changement, décalage) exprime l'action de passer d'une tonalité à une autre, ce que cet outil fait précisément : il permet de déplacer des notes et des gammes entre tonalités pour faciliter la transposition pour les musiciens.",
     "instrumentListTitle": "Voici une liste non exhaustive d'instruments triés par leur tonalité possible:"
   },
+  "stepper": {
+    "step1Title": "Quel instrument jouez-vous ?",
+    "step2Title": "Que jouez-vous ?",
+    "step3Title": "Transposer pour quel instrument ?",
+    "edit": "Modifier",
+    "continue": "Continuer",
+    "custom": "Personnalisé",
+    "transposeBy": "Transposer par :",
+    "byKey": "Tonalité",
+    "byInterval": "Intervalle",
+    "intervalStepTitle": "Transposer de quel intervalle ?",
+    "circleOfFifthsTitle": "Cycle des quintes",
+    "circleOfFifthsExplanation": "L'angle des aiguilles correspond à la distance harmonique entre l'instrument d'origine et l'instrument cible, mesurée en quintes.",
+    "originalStaffLabel": "Original",
+    "transposedStaffLabel": "Transposé",
+    "originalInstrumentStaffLabel": "{{instrument}} (original)",
+    "transposedInstrumentStaffLabel": "{{instrument}} (transposé)"
+  },
   "transposition": {
     "common": {
       "originKey": "Tonalité d'origine",

@@ -1,0 +1,7 @@
+.stepper-connector {
+  min-height: 0.5rem;
+}
+
+.stepper-step:last-child .stepper-connector {
+  display: none;
+}

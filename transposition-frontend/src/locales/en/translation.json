@@ -41,6 +41,24 @@
     "shiftMeaning": "<0>Shift</0>: \"Shift\" conveys the action of moving from one key to another, which is exactly what this tool does—it shifts notes and scales between keys to make transposition easier for musicians.",
     "instrumentListTitle": "Here is a non exhaustive list of instruments sorted by their possible key:"
   },
+  "stepper": {
+    "step1Title": "What instrument are you playing?",
+    "step2Title": "What are you playing?",
+    "step3Title": "Transpose for which instrument?",
+    "edit": "Edit",
+    "continue": "Continue",
+    "custom": "Custom",
+    "transposeBy": "Transpose by:",
+    "byKey": "Key",
+    "byInterval": "Interval",
+    "intervalStepTitle": "Transpose by which interval?",
+    "circleOfFifthsTitle": "Circle of Fifths",
+    "circleOfFifthsExplanation": "The angle of the hands corresponds to the harmonic distance between origin and target instrument, measured in fifths.",
+    "originalStaffLabel": "Original",
+    "transposedStaffLabel": "Transposed",
+    "originalInstrumentStaffLabel": "{{instrument}} (original)",
+    "transposedInstrumentStaffLabel": "{{instrument}} (transposed)"
+  },
   "transposition": {
     "common": {
       "originKey": "Origin Key",
