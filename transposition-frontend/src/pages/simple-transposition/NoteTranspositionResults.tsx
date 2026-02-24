@@ -77,9 +77,25 @@ function NoteTranspositionResults({
   const displayedOriginNotes = defineDisplayedNotes(
     reversedEnharmonicOriginGroupNotes
   );
-  const displayedTargetNotes = defineDisplayedNotes(
+  const rawTargetNotes = defineDisplayedNotes(
     reversedEnharmonicTargetGroupNotes
   );
+
+  // In interval mode, adjust target positions so they appear in the correct
+  // octave relative to the origin on the staff.  The raw positions are 0-6
+  // (C-B) with no octave info, so we shift by ±7 when the direction requires it.
+  const displayedTargetNotes = (() => {
+    if (method !== 'interval' || interval === 0) return rawTargetNotes;
+    const originPos = displayedOriginNotes[0];
+    const targetPos = rawTargetNotes[0];
+    if (direction === 'down' && targetPos >= originPos) {
+      return rawTargetNotes.map(p => p - 7);
+    }
+    if (direction === 'up' && targetPos <= originPos) {
+      return rawTargetNotes.map(p => p + 7);
+    }
+    return rawTargetNotes;
+  })();
 
   // --- Concert pitch for audio playback ---
   // In key mode, the written note is not what sounds: a Bb clarinet playing
