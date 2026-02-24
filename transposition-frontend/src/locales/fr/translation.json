@@ -98,6 +98,17 @@
       "noChangeNeeded": "La note <0>{{note}}</0> n'a pas besoin de transposition car l'intervalle de demi-tons est de 0.",
       "transpositionResult": "La note <0>{{note}}</0> devient <1>{{transposedNote}}</1> lorsqu'elle est transposée {{direction}} d'une {{interval}}."
     }
+  },
+  "inlineBar": {
+    "note": "Note",
+    "scale": "Gamme",
+    "mode": "Mode",
+    "key": "Clé",
+    "interval": "Intervalle",
+    "from": "De",
+    "to": "Vers",
+    "up": "Haut",
+    "down": "Bas"
   }
 }
 

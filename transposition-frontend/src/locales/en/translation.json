@@ -98,5 +98,16 @@
       "noChangeNeeded": "The note <0>{{note}}</0> does not need transposition because the interval of semitones is 0.",
       "transpositionResult": "The note <0>{{note}}</0> becomes <1>{{transposedNote}}</1> when transposed {{direction}} by one {{interval}}."
     }
+  },
+  "inlineBar": {
+    "note": "Note",
+    "scale": "Scale",
+    "mode": "Mode",
+    "key": "Key",
+    "interval": "Interval",
+    "from": "From",
+    "to": "To",
+    "up": "Up",
+    "down": "Down"
   }
 }

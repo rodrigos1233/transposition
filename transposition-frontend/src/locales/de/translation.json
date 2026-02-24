@@ -98,5 +98,16 @@
       "noChangeNeeded": "Der Ton <0>{{note}}</0> benötigt keine Transposition, da das Intervall in Halbtönen 0 beträgt.",
       "transpositionResult": "Der Ton <0>{{note}}</0> wird zu <1>{{transposedNote}}</1>, wenn er {{direction}} um {{interval}} transponiert wird."
     }
+  },
+  "inlineBar": {
+    "note": "Ton",
+    "scale": "Tonleiter",
+    "mode": "Modus",
+    "key": "Tonart",
+    "interval": "Intervall",
+    "from": "Von",
+    "to": "Nach",
+    "up": "Aufwärts",
+    "down": "Abwärts"
   }
 }

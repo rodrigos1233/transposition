@@ -10,6 +10,7 @@ import { getIntervalName } from '../../utils/intervals';
 import { NoteInScale } from '../../utils/scaleBuilder';
 import Staff from '../../components/staff';
 import PlayButton from '../../components/play-button';
+import InlineParameterBar from '../../components/inline-parameter-bar';
 import ContentCard from '../../components/content-card';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
@@ -222,6 +223,15 @@ function NoteTranspositionResults({
     <ContentCard>
       <output>
         <ContentCard level={2}>
+          <InlineParameterBar
+            controller={controller}
+            method={method}
+            fromKey={fromKey}
+            toKey={toKey}
+            interval={interval}
+            direction={direction}
+            note={note}
+          />
           <p className="mb-3">{resultMessage}</p>
           <div
             className={`flex ${
