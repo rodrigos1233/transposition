@@ -12,7 +12,7 @@ import {
 } from '../../utils/transposer';
 import { scaleBuilder } from '../../utils/scaleBuilder';
 import { getModeName } from '../../utils/modes';
-import { getIntervalName } from '../../utils/intervals';
+import { getIntervalName, INTERVALS } from '../../utils/intervals';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../hooks/useIsMobile';
@@ -34,6 +34,7 @@ import { SingleValue } from 'react-select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 
 import ScaleTranspositionResults from './ScaleTranspositionResults';
+import type { TranspositionController } from '../simple-transposition/NoteTranspositionResults';
 
 function validateParam(
   value: string | null,
@@ -177,10 +178,27 @@ function ScaleTranspositionPage() {
     method === 'interval' ? step2Completed : step3Completed;
 
   // --- Transposition computation ---
-  const targetNote =
+  const computedTargetNote =
     method === 'key'
       ? scaleCrossInstrumentsTransposer(scale, fromKey, toKey, mode)
       : scaleTransposer(scale, interval, mode, direction);
+
+  // Allow overriding the target enharmonic (e.g. F# vs Gb) from circle of fifths
+  const [targetNoteOverride, setTargetNoteOverride] = useState<number | null>(null);
+
+  // Reset override when transposition params change
+  useEffect(() => {
+    setTargetNoteOverride(null);
+  }, [scale, fromKey, toKey, mode, interval, direction, method]);
+
+  // Use override only if it has the same chromatic pitch as the computed target
+  const targetNote = (() => {
+    if (targetNoteOverride === null) return computedTargetNote;
+    if (enharmonicGroupTransposer(targetNoteOverride) === enharmonicGroupTransposer(computedTargetNote)) {
+      return targetNoteOverride;
+    }
+    return computedTargetNote;
+  })();
 
   const originScale = scaleBuilder(scale, mode);
   const transposedScale = scaleBuilder(targetNote, mode);
@@ -316,20 +334,91 @@ function ScaleTranspositionPage() {
     ? selectedTargetOption.label.split('|')[1]?.trim()
     : undefined;
 
+  // --- Summary option lists ---
+  const scaleOptions: OptionType[] = SCALES.map((s, i) => ({
+    label: s[selectedNotation],
+    value: String(i),
+  }));
+
+  const modeIndices = [0, 1, ...(showAdditionalModes ? [2, 3, 4, 5, 6] : [])];
+  const modeOptions: OptionType[] = modeIndices.map((i) => ({
+    label: getModeName(i, selectedLanguage),
+    value: String(i),
+  }));
+
+  const directionOptions: OptionType[] = [
+    { label: '+', value: 'up' },
+    { label: '-', value: 'down' },
+  ];
+
+  const intervalOptions: OptionType[] = INTERVALS.map((_, i) => ({
+    label: getIntervalName(i, selectedLanguage),
+    value: String(i),
+  }));
+
+  const pitchOptions: OptionType[] = INSTRUMENTS_PITCHES.map((p, i) => ({
+    label: p[selectedNotation],
+    value: String(i),
+  }));
+
   // Step 1 summary: scale + mode
-  const scaleSummary = `${getNote(scale, selectedNotation, SCALES)} ${modeText}`;
+  const scaleSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={scaleOptions}
+        value={scaleOptions[scale]}
+        onChange={(opt) => opt && handleChangeScale(Number(opt.value))}
+      />
+      <SelectComponent
+        compact
+        options={modeOptions}
+        value={modeOptions.find((o) => o.value === String(mode)) ?? null}
+        onChange={(opt) => opt && handleChangeMode(Number(opt.value))}
+      />
+    </span>
+  );
 
-  // Step 2 summary for interval mode
-  const intervalSummary = `${direction === 'up' ? '+' : '-'}${getIntervalName(interval, selectedLanguage)}`;
+  // Step 2 summary for interval mode: direction + interval
+  const intervalSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={directionOptions}
+        value={directionOptions.find((o) => o.value === direction) ?? null}
+        onChange={(opt) => opt && handleChangeDirection(opt.value as 'up' | 'down')}
+      />
+      <SelectComponent
+        compact
+        options={intervalOptions}
+        value={intervalOptions[interval]}
+        onChange={(opt) => opt && handleChangeInterval(Number(opt.value))}
+      />
+    </span>
+  );
 
-  // Steps 2 & 3 summaries for key mode: instrument selections
-  const originInstrumentSummary = originInstrumentName
-    ? `${originInstrumentName} \u2014 ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES);
+  // Steps 2 & 3 summaries for key mode: instrument key
+  const originInstrumentSummary = (
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={pitchOptions}
+        value={pitchOptions[fromKey]}
+        onChange={(opt) => opt && handleChangeFromKey(Number(opt.value))}
+      />
+    </span>
+  );
 
-  const targetInstrumentSummary = targetInstrumentName
-    ? `${targetInstrumentName} \u2014 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES);
+  const targetInstrumentSummary = (
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={pitchOptions}
+        value={pitchOptions[toKey]}
+        onChange={(opt) => opt && handleChangeToKey(Number(opt.value))}
+      />
+    </span>
+  );
 
   // --- Page title ---
   const pageTitle =
@@ -350,6 +439,16 @@ function ScaleTranspositionPage() {
       setSearchParams(params, { replace: true });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const controller: TranspositionController = {
+    onChangeScale: handleChangeScale,
+    onChangeFromKey: handleChangeFromKey,
+    onChangeToKey: handleChangeToKey,
+    onChangeMethod: handleChangeMethod,
+    onChangeInterval: handleChangeInterval,
+    onChangeDirection: handleChangeDirection,
+    onChangeMode: handleChangeMode,
+  };
 
   const showInstrumentSteps = method === 'key';
 
@@ -531,6 +630,8 @@ function ScaleTranspositionPage() {
           originInstrumentName={originInstrumentName}
           targetInstrumentName={targetInstrumentName}
           isMobile={isMobile}
+          controller={controller}
+          onChangeTargetEnharmonic={setTargetNoteOverride}
         />
       )}
     </ContentPage>

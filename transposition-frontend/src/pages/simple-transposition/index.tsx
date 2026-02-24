@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import {
   getNote,
   INSTRUMENTS_PITCHES,
+  NOTES,
   Note,
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
@@ -9,7 +10,7 @@ import {
   crossInstrumentsTransposer,
   transposer,
 } from '../../utils/transposer';
-import { getIntervalName } from '../../utils/intervals';
+import { getIntervalName, INTERVALS } from '../../utils/intervals';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
@@ -26,6 +27,7 @@ import LiveSummaryBar from '../../components/live-summary-bar';
 import TransposeMethodToggle from '../../components/transpose-method-toggle';
 import IntervalSelector from '../../components/interval-selector';
 import NoteTranspositionResults from './NoteTranspositionResults';
+import type { TranspositionController } from './NoteTranspositionResults';
 
 function validateParam(
   value: string | null,
@@ -249,17 +251,76 @@ function NoteTranspositionPage() {
     ? selectedTargetOption.label.split('|')[1]?.trim()
     : undefined;
 
-  const noteSummary = getNote(note, selectedNotation);
+  // --- Summary option lists ---
+  const noteOptions: OptionType[] = NOTES.map((n, i) => ({
+    label: n[selectedNotation],
+    value: String(i),
+  }));
 
-  const intervalSummary = `${direction === 'up' ? '+' : '-'}${getIntervalName(interval, selectedLanguage)}`;
+  const directionOptions: OptionType[] = [
+    { label: '+', value: 'up' },
+    { label: '-', value: 'down' },
+  ];
 
-  const originInstrumentSummary = originInstrumentName
-    ? `${originInstrumentName} \u2014 ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES);
+  const intervalOptions: OptionType[] = INTERVALS.map((_, i) => ({
+    label: getIntervalName(i, selectedLanguage),
+    value: String(i),
+  }));
 
-  const targetInstrumentSummary = targetInstrumentName
-    ? `${targetInstrumentName} \u2014 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES);
+  const pitchOptions: OptionType[] = INSTRUMENTS_PITCHES.map((p, i) => ({
+    label: p[selectedNotation],
+    value: String(i),
+  }));
+
+  const noteSummary = (
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={noteOptions}
+        value={noteOptions[note]}
+        onChange={(opt) => opt && handleChangeNote(Number(opt.value))}
+      />
+    </span>
+  );
+
+  const intervalSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={directionOptions}
+        value={directionOptions.find((o) => o.value === direction) ?? null}
+        onChange={(opt) => opt && handleChangeDirection(opt.value as 'up' | 'down')}
+      />
+      <SelectComponent
+        compact
+        options={intervalOptions}
+        value={intervalOptions[interval]}
+        onChange={(opt) => opt && handleChangeInterval(Number(opt.value))}
+      />
+    </span>
+  );
+
+  const originInstrumentSummary = (
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={pitchOptions}
+        value={pitchOptions[fromKey]}
+        onChange={(opt) => opt && handleChangeFromKey(Number(opt.value))}
+      />
+    </span>
+  );
+
+  const targetInstrumentSummary = (
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={pitchOptions}
+        value={pitchOptions[toKey]}
+        onChange={(opt) => opt && handleChangeToKey(Number(opt.value))}
+      />
+    </span>
+  );
 
   // --- Page title ---
   const pageTitle =
@@ -279,6 +340,15 @@ function NoteTranspositionPage() {
       setSearchParams(params, { replace: true });
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const controller: TranspositionController = {
+    onChangeNote: handleChangeNote,
+    onChangeFromKey: handleChangeFromKey,
+    onChangeToKey: handleChangeToKey,
+    onChangeMethod: handleChangeMethod,
+    onChangeInterval: handleChangeInterval,
+    onChangeDirection: handleChangeDirection,
+  };
 
   const showInstrumentSteps = method === 'key';
 
@@ -443,6 +513,7 @@ function NoteTranspositionPage() {
           originInstrumentName={originInstrumentName}
           targetInstrumentName={targetInstrumentName}
           isMobile={isMobile}
+          controller={controller}
         />
       )}
     </ContentPage>

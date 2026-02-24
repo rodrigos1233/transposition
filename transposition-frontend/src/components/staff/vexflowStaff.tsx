@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext } from 'react';
+import { useCallback, useEffect, useRef, useContext } from 'react';
 import {
   Renderer,
   Stave,
@@ -28,6 +28,7 @@ type VexflowStaffProps = {
   colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
   activeNoteIndex?: number | null;
+  onNoteClick?: (position: number) => void;
 };
 
 function VexflowStaff({
@@ -38,10 +39,13 @@ function VexflowStaff({
   colour,
   accidentals,
   activeNoteIndex,
+  onNoteClick,
 }: VexflowStaffProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const noteDataRef = useRef<{ el: SVGElement | null; x: number }[]>([]);
   const indicatorRef = useRef<HTMLDivElement | null>(null);
+  const hoverIndicatorRef = useRef<HTMLDivElement | null>(null);
+  const staveMetricsRef = useRef<{ topLineY: number; lineSpacing: number } | null>(null);
   const { selectedNotation } = useContext(NotationContext);
 
   useEffect(() => {
@@ -56,6 +60,13 @@ function VexflowStaff({
       'position:absolute;bottom:0;width:8px;height:8px;border-radius:50%;opacity:0;transition:left 0.1s ease-out,opacity 0.15s;pointer-events:none;';
     containerRef.current.appendChild(indicator);
     indicatorRef.current = indicator;
+
+    // Hover indicator shadow
+    const hoverShadow = document.createElement('div');
+    hoverShadow.style.cssText =
+      'position:absolute;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.08) 50%,rgba(0,0,0,0) 70%);opacity:0;transition:opacity 0.15s;pointer-events:none;transform:translate(-50%,-50%);';
+    containerRef.current.appendChild(hoverShadow);
+    hoverIndicatorRef.current = hoverShadow;
 
     // Calculate width based on content
     const width = calculateStaveWidth(displayedNotes.length, musicalKey);
@@ -96,6 +107,12 @@ function VexflowStaff({
     }
 
     stave.setContext(context).draw();
+
+    // Store rendered stave metrics for click detection
+    const topLineY = stave.getYForLine(0);
+    const bottomLineY = stave.getYForLine(4);
+    const lineSpacing = (bottomLineY - topLineY) / 4;
+    staveMetricsRef.current = { topLineY, lineSpacing };
 
     // Create notes if any
     if (displayedNotes.length > 0) {
@@ -189,8 +206,118 @@ function VexflowStaff({
     }
   }, [activeNoteIndex, colour]);
 
+  // Convert mouse Y to staff position (0 = C4 on middle line area)
+  // Staff lines top to bottom: F5(line0), D5(line1), B4(line2), G4(line3), E4(line4)
+  // Position 0=C, 1=D, 2=E, 3=F, 4=G, 5=A, 6=B
+  // VexFlow line 0 = top line = F5 = position 3+7=10 (F in octave above)
+  // Each half-line step = one note position
+  // Top line (line 0) = position 10 (F5), bottom line (line 4) = position 2 (E4)
+  const svgYToPosition = useCallback((svgY: number): number => {
+    const metrics = staveMetricsRef.current;
+    if (!metrics) return 0;
+    const { topLineY, lineSpacing } = metrics;
+    // halfStep = lineSpacing / 2 (distance between adjacent note positions on staff)
+    const halfStep = lineSpacing / 2;
+    // Top line = position 10 (F5 in our numbering: C=0, D=1, ..., B=6, C5=7, D5=8, E5=9, F5=10)
+    const topLinePosition = 10;
+    const positionFromTop = (svgY - topLineY) / halfStep;
+    const rawPosition = topLinePosition - positionFromTop;
+    return Math.round(rawPosition);
+  }, []);
+
+  const positionToSvgY = useCallback((position: number): number => {
+    const metrics = staveMetricsRef.current;
+    if (!metrics) return 0;
+    const { topLineY, lineSpacing } = metrics;
+    const halfStep = lineSpacing / 2;
+    const topLinePosition = 10;
+    return topLineY + (topLinePosition - position) * halfStep;
+  }, []);
+
+  // Click handler
+  const handleClick = useCallback(
+    (e: React.MouseEvent) => {
+      if (!onNoteClick || !staveMetricsRef.current) return;
+
+      const svg = containerRef.current?.querySelector('svg');
+      if (!svg) return;
+
+      // Convert screen coords to SVG coords
+      const pt = svg.createSVGPoint();
+      pt.x = e.clientX;
+      pt.y = e.clientY;
+      const ctm = svg.getScreenCTM()?.inverse();
+      if (!ctm) return;
+      const svgPt = pt.matrixTransform(ctm);
+
+      const position = svgYToPosition(svgPt.y);
+      const clamped = Math.max(-2, Math.min(12, position));
+
+      onNoteClick(clamped);
+    },
+    [onNoteClick, svgYToPosition]
+  );
+
+  // Hover handler
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!onNoteClick || !staveMetricsRef.current || activeNoteIndex != null) {
+        if (hoverIndicatorRef.current) hoverIndicatorRef.current.style.opacity = '0';
+        return;
+      }
+
+      const svg = containerRef.current?.querySelector('svg');
+      const hoverShadow = hoverIndicatorRef.current;
+      if (!svg || !hoverShadow) return;
+
+      const pt = svg.createSVGPoint();
+      pt.x = e.clientX;
+      pt.y = e.clientY;
+      const ctm = svg.getScreenCTM()?.inverse();
+      if (!ctm) return;
+      const svgPt = pt.matrixTransform(ctm);
+
+      const position = Math.round(svgYToPosition(svgPt.y));
+      const clamped = Math.max(-2, Math.min(12, position));
+      const targetSvgY = positionToSvgY(clamped);
+
+      // Convert SVG coords to container pixels
+      const viewBox = svg.getAttribute('viewBox');
+      if (!viewBox) return;
+      const [, , vbW, vbH] = viewBox.split(' ').map(Number);
+      const rect = svg.getBoundingClientRect();
+      const scaleY = rect.height / vbH;
+      const scaleX = rect.width / vbW;
+
+      const pxTop = targetSvgY * scaleY;
+      const pxLeft = svgPt.x * scaleX;
+
+      // Size the shadow to match one staff half-step (the click hitbox)
+      const hitboxPx = (staveMetricsRef.current.lineSpacing / 2) * scaleY;
+      const size = Math.max(hitboxPx * 2.5, 20);
+      hoverShadow.style.width = `${size}px`;
+      hoverShadow.style.height = `${size}px`;
+
+      hoverShadow.style.left = `${pxLeft}px`;
+      hoverShadow.style.top = `${pxTop}px`;
+      hoverShadow.style.opacity = '1';
+    },
+    [onNoteClick, activeNoteIndex, svgYToPosition, positionToSvgY]
+  );
+
+  const handleMouseLeave = useCallback(() => {
+    if (hoverIndicatorRef.current) hoverIndicatorRef.current.style.opacity = '0';
+  }, []);
+
   return (
-    <div ref={containerRef} className="vexflow-staff-container" style={{ position: 'relative' }} />
+    <div
+      ref={containerRef}
+      className="vexflow-staff-container"
+      style={{ position: 'relative', cursor: onNoteClick ? 'pointer' : undefined }}
+      onClick={handleClick}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    />
   );
 }
 

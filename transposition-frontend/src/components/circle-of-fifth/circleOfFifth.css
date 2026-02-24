@@ -175,6 +175,16 @@
   filter: drop-shadow(0 1px 4px rgba(0, 0, 0, 0.15));
 }
 
+/* Wider invisible hitbox for easier dragging */
+.circle-center__hand::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -12px;
+  right: -12px;
+}
+
 .circle-center__hand--origin {
   background: rgba(80, 150, 240, 0.75);
 }

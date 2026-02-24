@@ -9,6 +9,10 @@ import { getIntervalName } from '../../utils/intervals';
 import { Key } from '../../utils/scaleBuilder';
 import type { NoteInScale } from '../../utils/scaleBuilder';
 import { enharmonicGroupTransposer } from '../../utils/transposer';
+import {
+  resolveScaleClick,
+  reverseScaleFromTarget,
+} from '../../utils/staffClickResolver';
 import Staff from '../../components/staff';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import ContentCard from '../../components/content-card';
@@ -16,6 +20,7 @@ import Button from '../../components/button';
 import PlayButton from '../../components/play-button';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
+import type { TranspositionController } from '../simple-transposition/NoteTranspositionResults';
 
 type ScaleTranspositionResultsProps = {
   method: 'key' | 'interval';
@@ -48,6 +53,8 @@ type ScaleTranspositionResultsProps = {
   originInstrumentName?: string;
   targetInstrumentName?: string;
   isMobile: boolean;
+  controller: TranspositionController;
+  onChangeTargetEnharmonic?: (scaleIndex: number) => void;
 };
 
 function ScaleTranspositionResults({
@@ -71,6 +78,8 @@ function ScaleTranspositionResults({
   originInstrumentName,
   targetInstrumentName,
   isMobile,
+  controller,
+  onChangeTargetEnharmonic,
 }: ScaleTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);
@@ -130,6 +139,26 @@ function ScaleTranspositionResults({
         instrument: `${targetInstrumentName} (${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)})`,
       })
     : t('stepper.transposedStaffLabel');
+
+  // --- Staff click handlers ---
+  function handleOriginStaffClick(position: number) {
+    const scaleIndex = resolveScaleClick(position, scale);
+    controller.onChangeScale?.(scaleIndex);
+  }
+
+  function handleTargetStaffClick(position: number) {
+    const targetScaleIndex = resolveScaleClick(position, targetNote);
+    const originScaleIndex = reverseScaleFromTarget(
+      targetScaleIndex,
+      method,
+      fromKey,
+      toKey,
+      interval,
+      mode,
+      direction
+    );
+    controller.onChangeScale?.(originScaleIndex);
+  }
 
   // --- Result message ---
   const resultMessage =
@@ -260,6 +289,7 @@ function ScaleTranspositionResults({
               correspondingNotes={originScale.notesInScale}
               musicalKey={originScale.key}
               activeNoteIndex={originActiveNote}
+              onNoteClick={handleOriginStaffClick}
               text={
                 <span className="flex items-center gap-2">
                   <span className="border-b-4 border-sky-300">
@@ -275,6 +305,7 @@ function ScaleTranspositionResults({
               displayedNotes={displayedTargetNotes}
               correspondingNotes={transposedScale.notesInScale}
               musicalKey={transposedScale.key}
+              onNoteClick={handleTargetStaffClick}
               activeNoteIndex={transposedActiveNote}
               text={
                 <span className="flex items-center gap-2">
@@ -332,6 +363,9 @@ function ScaleTranspositionResults({
                     selectedOriginKey={fromKey}
                     selectedTargetKey={toKey}
                     showAdditionalModes={showAdditionalModes}
+                    onChangeScale={controller.onChangeScale}
+                    onChangeToKey={controller.onChangeToKey}
+                    onChangeTargetEnharmonic={onChangeTargetEnharmonic}
                   />
                 </div>
               </div>

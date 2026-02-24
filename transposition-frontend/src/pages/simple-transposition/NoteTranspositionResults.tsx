@@ -8,11 +8,26 @@ import {
 } from '../../utils/notes';
 import { getIntervalName } from '../../utils/intervals';
 import { NoteInScale } from '../../utils/scaleBuilder';
+import {
+  resolveChromaticClick,
+  reverseNoteFromTarget,
+} from '../../utils/staffClickResolver';
 import Staff from '../../components/staff';
 import PlayButton from '../../components/play-button';
 import ContentCard from '../../components/content-card';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
+
+export type TranspositionController = {
+  onChangeNote?: (note: number) => void;
+  onChangeScale?: (scale: number) => void;
+  onChangeFromKey: (key: number) => void;
+  onChangeToKey: (key: number) => void;
+  onChangeMethod: (method: 'key' | 'interval') => void;
+  onChangeInterval: (interval: number) => void;
+  onChangeDirection: (direction: 'up' | 'down') => void;
+  onChangeMode?: (mode: number) => void;
+};
 
 type NoteTranspositionResultsProps = {
   method: 'key' | 'interval';
@@ -27,6 +42,7 @@ type NoteTranspositionResultsProps = {
   originInstrumentName?: string;
   targetInstrumentName?: string;
   isMobile: boolean;
+  controller: TranspositionController;
 };
 
 function NoteTranspositionResults({
@@ -42,6 +58,7 @@ function NoteTranspositionResults({
   originInstrumentName,
   targetInstrumentName,
   isMobile,
+  controller,
 }: NoteTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);
@@ -201,6 +218,25 @@ function NoteTranspositionResults({
     );
   }
 
+  // Staff click handlers
+  function handleOriginStaffClick(position: number) {
+    const chromaticNote = resolveChromaticClick(position, note);
+    controller.onChangeNote?.(chromaticNote);
+  }
+
+  function handleTargetStaffClick(position: number) {
+    const chromaticTarget = resolveChromaticClick(position, targetNote);
+    const origin = reverseNoteFromTarget(
+      chromaticTarget,
+      method,
+      fromKey,
+      toKey,
+      interval,
+      direction
+    );
+    controller.onChangeNote?.(origin);
+  }
+
   // Should we show the target staff?
   const showTargetStaff =
     method === 'key' ? fromKey !== toKey : interval !== 0;
@@ -242,6 +278,7 @@ function NoteTranspositionResults({
               }
               colour="sky"
               noteColour="purple"
+              onNoteClick={handleOriginStaffClick}
             />
             {showTargetStaff && (
               <Staff
@@ -269,6 +306,7 @@ function NoteTranspositionResults({
                 }
                 colour="red"
                 noteColour="amber"
+                onNoteClick={handleTargetStaffClick}
               />
             )}
           </div>

@@ -69,7 +69,7 @@ function StepperStep({
             </h3>
             {isCompleted && !isActive && (
               <div className="flex items-center gap-3 ml-2">
-                <span className="text-sm text-neutral-600 truncate">
+                <span className="text-sm text-neutral-600 flex items-center gap-1 flex-wrap">
                   {summary}
                 </span>
                 <button

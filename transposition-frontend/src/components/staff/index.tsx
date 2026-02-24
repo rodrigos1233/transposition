@@ -15,6 +15,7 @@ type StaffProps = {
   noteColour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
   activeNoteIndex?: number | null;
+  onNoteClick?: (position: number) => void;
 };
 
 function Staff({
@@ -26,6 +27,7 @@ function Staff({
   noteColour,
   accidentals,
   activeNoteIndex,
+  onNoteClick,
 }: StaffProps) {
   useContext(NotationContext);
 
@@ -54,6 +56,7 @@ function Staff({
           colour={colour}
           accidentals={accidentals}
           activeNoteIndex={activeNoteIndex}
+          onNoteClick={onNoteClick}
         />
       </div>
     </div>
