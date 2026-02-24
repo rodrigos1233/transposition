@@ -8,6 +8,7 @@ import {
 import { getIntervalName } from '../../utils/intervals';
 import { Key } from '../../utils/scaleBuilder';
 import type { NoteInScale } from '../../utils/scaleBuilder';
+import { enharmonicGroupTransposer } from '../../utils/transposer';
 import Staff from '../../components/staff';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import ContentCard from '../../components/content-card';
@@ -75,6 +76,21 @@ function ScaleTranspositionResults({
   const { selectedNotation } = useContext(NotationContext);
   const { selectedLanguage } = useContext(LanguageContext);
   const [circleExpanded, setCircleExpanded] = useState(method === 'key');
+
+  // --- Concert pitches for audio playback ---
+  // scaleBuilder.notes uses SCALES indices (0-16), not chromatic (0-11).
+  // Convert via enharmonicGroupTransposer, then offset by instrument key for concert pitch.
+  function scaleToConcertPitches(scaleNotes: number[], instrumentKey: number): number[] {
+    const firstNote = scaleNotes[0];
+    const chromaticRoot = enharmonicGroupTransposer(firstNote);
+    return scaleNotes.map(n => {
+      const offset = ((n - firstNote) % 12 + 12) % 12;
+      return (chromaticRoot + offset + instrumentKey) % 12;
+    });
+  }
+
+  const originConcertPitches = scaleToConcertPitches(originScale.notes, fromKey);
+  const transposedConcertPitches = scaleToConcertPitches(transposedScale.notes, toKey);
 
   // --- Staff labels ---
   const originStaffLabel = originInstrumentName
@@ -222,7 +238,7 @@ function ScaleTranspositionResults({
                   <span className="border-b-4 border-sky-300">
                     {originStaffLabel}
                   </span>
-                  <PlayButton noteIndices={originScale.notes} colour="sky" />
+                  <PlayButton noteIndices={originConcertPitches} colour="sky" />
                 </span>
               }
               colour="sky"
@@ -237,7 +253,7 @@ function ScaleTranspositionResults({
                   <span className="border-b-4 border-red-300">
                     {transposedStaffLabel}
                   </span>
-                  <PlayButton noteIndices={transposedScale.notes} colour="red" />
+                  <PlayButton noteIndices={transposedConcertPitches} colour="red" />
                 </span>
               }
               colour="red"

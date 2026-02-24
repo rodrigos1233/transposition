@@ -81,6 +81,13 @@ function NoteTranspositionResults({
     reversedEnharmonicTargetGroupNotes
   );
 
+  // --- Concert pitch for audio playback ---
+  // In key mode, the written note is not what sounds: a Bb clarinet playing
+  // written C sounds concert Bb. Concert pitch = (writtenNote + instrumentKey) % 12.
+  // In interval mode, notes are already concert pitch (no instrument context).
+  const originConcertPitch = method === 'key' ? (note + fromKey) % 12 : note;
+  const targetConcertPitch = method === 'key' ? (targetNote + toKey) % 12 : targetNote;
+
   // --- Staff labels ---
   const originStaffLabel = originInstrumentName
     ? t('stepper.originalInstrumentStaffLabel', {
@@ -203,7 +210,7 @@ function NoteTranspositionResults({
                   <span className="border-b-4 border-sky-300">
                     {originStaffLabel}
                   </span>
-                  <PlayButton noteIndices={[note]} colour="sky" />
+                  <PlayButton noteIndices={[originConcertPitch]} colour="sky" />
                 </span>
               }
               colour="sky"
@@ -230,7 +237,7 @@ function NoteTranspositionResults({
                     <span className="border-b-4 border-red-300">
                       {transposedStaffLabel}
                     </span>
-                    <PlayButton noteIndices={[targetNote]} colour="red" />
+                    <PlayButton noteIndices={[targetConcertPitch]} colour="red" />
                   </span>
                 }
                 colour="red"

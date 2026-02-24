@@ -17,4 +17,12 @@ describe('noteIndexToFrequency', () => {
   it('returns 277.18 for C#/Db (index 1)', () => {
     expect(noteIndexToFrequency(1)).toBeCloseTo(277.18, 1);
   });
+
+  it('returns 523.25 for C in octave 5', () => {
+    expect(noteIndexToFrequency(0, 5)).toBeCloseTo(523.25, 1);
+  });
+
+  it('returns 130.81 for C in octave 3', () => {
+    expect(noteIndexToFrequency(0, 3)).toBeCloseTo(130.81, 1);
+  });
 });

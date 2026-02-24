@@ -11,10 +11,10 @@ function PlayButton({ noteIndices, colour = 'sky' }: PlayButtonProps) {
   const [playing, setPlaying] = useState(false);
 
   const colourClasses: Record<string, string> = {
-    sky: 'text-sky-500 hover:text-sky-600 hover:bg-sky-50',
-    red: 'text-red-400 hover:text-red-500 hover:bg-red-50',
-    amber: 'text-amber-500 hover:text-amber-600 hover:bg-amber-50',
-    purple: 'text-purple-500 hover:text-purple-600 hover:bg-purple-50',
+    sky: 'text-sky-500 hover:text-sky-700',
+    red: 'text-red-400 hover:text-red-600',
+    amber: 'text-amber-500 hover:text-amber-700',
+    purple: 'text-purple-500 hover:text-purple-700',
   };
 
   const handleClick = useCallback(async () => {
