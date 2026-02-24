@@ -8,10 +8,12 @@ import {
 import { getIntervalName } from '../../utils/intervals';
 import { Key } from '../../utils/scaleBuilder';
 import type { NoteInScale } from '../../utils/scaleBuilder';
+import { enharmonicGroupTransposer } from '../../utils/transposer';
 import Staff from '../../components/staff';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import ContentCard from '../../components/content-card';
 import Button from '../../components/button';
+import PlayButton from '../../components/play-button';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
 
@@ -25,11 +27,13 @@ type ScaleTranspositionResultsProps = {
   direction: 'up' | 'down';
   targetNote: number;
   originScale: {
+    notes: number[];
     notesInScale: NoteInScale[];
     reducedNotes: number[];
     key: Key;
   };
   transposedScale: {
+    notes: number[];
     notesInScale: NoteInScale[];
     reducedNotes: number[];
     key: Key;
@@ -72,6 +76,47 @@ function ScaleTranspositionResults({
   const { selectedNotation } = useContext(NotationContext);
   const { selectedLanguage } = useContext(LanguageContext);
   const [circleExpanded, setCircleExpanded] = useState(method === 'key');
+  const [originActiveNote, setOriginActiveNote] = useState<number | null>(null);
+  const [transposedActiveNote, setTransposedActiveNote] = useState<number | null>(null);
+
+  // --- Concert pitches for audio playback ---
+  // scaleBuilder.notes wraps values at 12, losing the original SCALES index (0-16).
+  // Use the scale/targetNote props (true SCALES indices) for the chromatic root,
+  // then derive each note's offset from the raw notes array.
+  function scaleToConcertPitches(
+    scaleNotes: number[],
+    scaleRoot: number,
+    instrumentKey: number
+  ): number[] {
+    const chromaticRoot = enharmonicGroupTransposer(scaleRoot);
+    const firstRawNote = scaleNotes[0];
+    return scaleNotes.map(n => {
+      const offset = ((n - firstRawNote) % 12 + 12) % 12;
+      return (chromaticRoot + offset + instrumentKey) % 12;
+    });
+  }
+
+  // In key mode, offset by instrument key for concert pitch.
+  // In interval mode, there's no instrument — notes are already concert pitch.
+  const originInstrumentKey = method === 'key' ? fromKey : 0;
+  const targetInstrumentKey = method === 'key' ? toKey : 0;
+
+  const originConcertPitches = scaleToConcertPitches(originScale.notes, scale, originInstrumentKey);
+  const transposedConcertPitches = scaleToConcertPitches(transposedScale.notes, targetNote, targetInstrumentKey);
+
+  // Compute the start octave for the transposed scale in interval mode.
+  // When transposing up, if the interval crosses an octave boundary the
+  // transposed scale must start in a higher octave (and vice versa for down).
+  const transposedStartOctave = (() => {
+    if (method === 'key') return 4; // same concert pitch, same octave
+    const originChromatic = enharmonicGroupTransposer(scale);
+    const originAbsolute = originChromatic + 4 * 12;
+    const transposedAbsolute =
+      direction === 'up'
+        ? originAbsolute + interval
+        : originAbsolute - interval;
+    return Math.floor(transposedAbsolute / 12);
+  })();
 
   // --- Staff labels ---
   const originStaffLabel = originInstrumentName
@@ -214,9 +259,13 @@ function ScaleTranspositionResults({
               displayedNotes={displayedOriginNotes}
               correspondingNotes={originScale.notesInScale}
               musicalKey={originScale.key}
+              activeNoteIndex={originActiveNote}
               text={
-                <span className="border-b-4 border-sky-300">
-                  {originStaffLabel}
+                <span className="flex items-center gap-2">
+                  <span className="border-b-4 border-sky-300">
+                    {originStaffLabel}
+                  </span>
+                  <PlayButton noteIndices={originConcertPitches} colour="sky" onNotePlay={setOriginActiveNote} />
                 </span>
               }
               colour="sky"
@@ -226,9 +275,13 @@ function ScaleTranspositionResults({
               displayedNotes={displayedTargetNotes}
               correspondingNotes={transposedScale.notesInScale}
               musicalKey={transposedScale.key}
+              activeNoteIndex={transposedActiveNote}
               text={
-                <span className="border-b-4 border-red-300">
-                  {transposedStaffLabel}
+                <span className="flex items-center gap-2">
+                  <span className="border-b-4 border-red-300">
+                    {transposedStaffLabel}
+                  </span>
+                  <PlayButton noteIndices={transposedConcertPitches} colour="red" startOctave={transposedStartOctave} onNotePlay={setTransposedActiveNote} />
                 </span>
               }
               colour="red"

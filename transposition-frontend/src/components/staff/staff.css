@@ -13,6 +13,7 @@
 .staff__text {
   position: absolute;
   top: 0;
+  z-index: 1;
 }
 
 .staff__text__title {

@@ -9,6 +9,7 @@ import {
 import { getIntervalName } from '../../utils/intervals';
 import { NoteInScale } from '../../utils/scaleBuilder';
 import Staff from '../../components/staff';
+import PlayButton from '../../components/play-button';
 import ContentCard from '../../components/content-card';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
@@ -79,6 +80,24 @@ function NoteTranspositionResults({
   const displayedTargetNotes = defineDisplayedNotes(
     reversedEnharmonicTargetGroupNotes
   );
+
+  // --- Concert pitch for audio playback ---
+  // In key mode, the written note is not what sounds: a Bb clarinet playing
+  // written C sounds concert Bb. Concert pitch = (writtenNote + instrumentKey) % 12.
+  // In interval mode, notes are already concert pitch (no instrument context).
+  const originConcertPitch = method === 'key' ? (note + fromKey) % 12 : note;
+  const targetConcertPitch = method === 'key' ? (targetNote + toKey) % 12 : targetNote;
+
+  // In interval mode, compute the target octave when the interval crosses an octave boundary.
+  const targetStartOctave = (() => {
+    if (method === 'key') return 4; // same concert pitch
+    const originAbsolute = note + 4 * 12;
+    const transposedAbsolute =
+      direction === 'up'
+        ? originAbsolute + interval
+        : originAbsolute - interval;
+    return Math.floor(transposedAbsolute / 12);
+  })();
 
   // --- Staff labels ---
   const originStaffLabel = originInstrumentName
@@ -198,8 +217,11 @@ function NoteTranspositionResults({
                   : undefined
               }
               text={
-                <span className="border-b-4 border-sky-300">
-                  {originStaffLabel}
+                <span className="flex items-center gap-2">
+                  <span className="border-b-4 border-sky-300">
+                    {originStaffLabel}
+                  </span>
+                  <PlayButton noteIndices={[originConcertPitch]} colour="sky" />
                 </span>
               }
               colour="sky"
@@ -222,8 +244,11 @@ function NoteTranspositionResults({
                     : undefined
                 }
                 text={
-                  <span className="border-b-4 border-red-300">
-                    {transposedStaffLabel}
+                  <span className="flex items-center gap-2">
+                    <span className="border-b-4 border-red-300">
+                      {transposedStaffLabel}
+                    </span>
+                    <PlayButton noteIndices={[targetConcertPitch]} colour="red" startOctave={targetStartOctave} />
                   </span>
                 }
                 colour="red"

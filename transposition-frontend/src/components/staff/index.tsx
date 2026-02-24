@@ -14,6 +14,7 @@ type StaffProps = {
   colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
   noteColour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
+  activeNoteIndex?: number | null;
 };
 
 function Staff({
@@ -24,6 +25,7 @@ function Staff({
   colour,
   noteColour,
   accidentals,
+  activeNoteIndex,
 }: StaffProps) {
   useContext(NotationContext);
 
@@ -49,7 +51,9 @@ function Staff({
           correspondingNotes={correspondingNotes}
           musicalKey={musicalKey}
           noteColour={noteColour}
+          colour={colour}
           accidentals={accidentals}
+          activeNoteIndex={activeNoteIndex}
         />
       </div>
     </div>
