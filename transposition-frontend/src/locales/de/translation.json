@@ -74,7 +74,8 @@
       "up": "nach oben",
       "down": "nach unten",
       "staffLabel": "Instrument in <0>{{key}}</0>:",
-      "instrumentPlaceholder": "Instrument auswählen oder suchen"
+      "instrumentPlaceholder": "Instrument auswählen oder suchen",
+      "lockVerticalPosition": "Vertikale Position sperren (Schlüsseltransposition)"
     },
     "scaleIntervals": {
       "toolDescription": "Transponiere eine vollständige Tonleiter in einem beliebigen Modus von der Tonart eines Instruments auf eine andere:",

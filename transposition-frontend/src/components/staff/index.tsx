@@ -9,6 +9,7 @@ type StaffProps = {
   displayedNotes: number[];
   correspondingNotes?: NoteInScale[];
   musicalKey: Key;
+  clef?: string;
   selectedNotation?: keyof Note;
   text?: React.ReactNode;
   colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
@@ -21,6 +22,7 @@ type StaffProps = {
 function Staff({
   displayedNotes,
   musicalKey,
+  clef,
   correspondingNotes,
   text,
   colour,
@@ -52,6 +54,7 @@ function Staff({
           displayedNotes={displayedNotes}
           correspondingNotes={correspondingNotes}
           musicalKey={musicalKey}
+          clef={clef}
           noteColour={noteColour}
           colour={colour}
           accidentals={accidentals}

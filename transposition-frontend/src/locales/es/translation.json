@@ -74,7 +74,8 @@
       "up": "hacia arriba",
       "down": "hacia abajo",
       "staffLabel": "Instrumento en <0>{{key}}</0>:",
-      "instrumentPlaceholder": "Seleccionar o buscar un instrumento"
+      "instrumentPlaceholder": "Seleccionar o buscar un instrumento",
+      "lockVerticalPosition": "Bloquear posición vertical (transposición por clave)"
     },
     "scaleIntervals": {
       "toolDescription": "Transpone una escala completa en cualquier modo de la tonalidad de un instrumento a otra:",

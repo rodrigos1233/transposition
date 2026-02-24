@@ -66,6 +66,7 @@ function ScaleTranspositionPage() {
   const interval = validateParam(searchParams.get('interval'), 12);
   const direction: 'up' | 'down' =
     searchParams.get('direction') === 'down' ? 'down' : 'up';
+  const lockPosition = searchParams.get('lockPosition') === '1';
 
   // --- Stepper UI state ---
   const isFullUrl =
@@ -86,6 +87,10 @@ function ScaleTranspositionPage() {
     useState<SingleValue<OptionType>>(null);
 
   // --- URL update helper ---
+  function handleToggleLockPosition() {
+    updateUrl({ lockPosition: lockPosition ? 0 : 1 });
+  }
+
   function updateUrl(overrides: Record<string, string | number>) {
     const params = new URLSearchParams();
     const merged = {
@@ -96,6 +101,7 @@ function ScaleTranspositionPage() {
       method: method,
       interval: interval,
       direction: direction,
+      lockPosition: lockPosition ? 1 : 0,
       ...overrides,
     };
 
@@ -109,6 +115,10 @@ function ScaleTranspositionPage() {
       params.set('direction', String(merged.direction));
     } else {
       params.set('to_key', String(merged.to_key));
+    }
+
+    if (Number(merged.lockPosition)) {
+      params.set('lockPosition', '1');
     }
 
     setSearchParams(params, { replace: true });
@@ -632,6 +642,8 @@ function ScaleTranspositionPage() {
           isMobile={isMobile}
           controller={controller}
           onChangeTargetEnharmonic={setTargetNoteOverride}
+          lockVerticalPosition={lockPosition}
+          onToggleLockPosition={handleToggleLockPosition}
         />
       )}
     </ContentPage>
