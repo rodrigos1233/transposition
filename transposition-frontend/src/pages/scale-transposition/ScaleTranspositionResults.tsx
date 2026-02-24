@@ -9,6 +9,10 @@ import { getIntervalName } from '../../utils/intervals';
 import { Key } from '../../utils/scaleBuilder';
 import type { NoteInScale } from '../../utils/scaleBuilder';
 import { enharmonicGroupTransposer } from '../../utils/transposer';
+import {
+  resolveScaleClick,
+  reverseScaleFromTarget,
+} from '../../utils/staffClickResolver';
 import Staff from '../../components/staff';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import ContentCard from '../../components/content-card';
@@ -134,6 +138,26 @@ function ScaleTranspositionResults({
         instrument: `${targetInstrumentName} (${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)})`,
       })
     : t('stepper.transposedStaffLabel');
+
+  // --- Staff click handlers ---
+  function handleOriginStaffClick(position: number, clickCount: number) {
+    const scaleIndex = resolveScaleClick(position, clickCount);
+    controller.onChangeScale?.(scaleIndex);
+  }
+
+  function handleTargetStaffClick(position: number, clickCount: number) {
+    const targetScaleIndex = resolveScaleClick(position, clickCount);
+    const originScale = reverseScaleFromTarget(
+      targetScaleIndex,
+      method,
+      fromKey,
+      toKey,
+      interval,
+      mode,
+      direction
+    );
+    controller.onChangeScale?.(originScale);
+  }
 
   // --- Result message ---
   const resultMessage =
@@ -274,6 +298,7 @@ function ScaleTranspositionResults({
               correspondingNotes={originScale.notesInScale}
               musicalKey={originScale.key}
               activeNoteIndex={originActiveNote}
+              onNoteClick={handleOriginStaffClick}
               text={
                 <span className="flex items-center gap-2">
                   <span className="border-b-4 border-sky-300">
@@ -289,6 +314,7 @@ function ScaleTranspositionResults({
               displayedNotes={displayedTargetNotes}
               correspondingNotes={transposedScale.notesInScale}
               musicalKey={transposedScale.key}
+              onNoteClick={handleTargetStaffClick}
               activeNoteIndex={transposedActiveNote}
               text={
                 <span className="flex items-center gap-2">

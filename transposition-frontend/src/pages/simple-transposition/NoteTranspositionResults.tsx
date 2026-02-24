@@ -8,6 +8,10 @@ import {
 } from '../../utils/notes';
 import { getIntervalName } from '../../utils/intervals';
 import { NoteInScale } from '../../utils/scaleBuilder';
+import {
+  resolveChromaticClick,
+  reverseNoteFromTarget,
+} from '../../utils/staffClickResolver';
 import Staff from '../../components/staff';
 import PlayButton from '../../components/play-button';
 import InlineParameterBar from '../../components/inline-parameter-bar';
@@ -215,6 +219,25 @@ function NoteTranspositionResults({
     );
   }
 
+  // Staff click handlers
+  function handleOriginStaffClick(position: number, clickCount: number) {
+    const chromaticNote = resolveChromaticClick(position, clickCount);
+    controller.onChangeNote?.(chromaticNote);
+  }
+
+  function handleTargetStaffClick(position: number, clickCount: number) {
+    const chromaticTarget = resolveChromaticClick(position, clickCount);
+    const origin = reverseNoteFromTarget(
+      chromaticTarget,
+      method,
+      fromKey,
+      toKey,
+      interval,
+      direction
+    );
+    controller.onChangeNote?.(origin);
+  }
+
   // Should we show the target staff?
   const showTargetStaff =
     method === 'key' ? fromKey !== toKey : interval !== 0;
@@ -265,6 +288,7 @@ function NoteTranspositionResults({
               }
               colour="sky"
               noteColour="purple"
+              onNoteClick={handleOriginStaffClick}
             />
             {showTargetStaff && (
               <Staff
@@ -292,6 +316,7 @@ function NoteTranspositionResults({
                 }
                 colour="red"
                 noteColour="amber"
+                onNoteClick={handleTargetStaffClick}
               />
             )}
           </div>
