@@ -12,6 +12,7 @@ import Staff from '../../components/staff';
 import CircleOfFifth from '../../components/circle-of-fifth';
 import ContentCard from '../../components/content-card';
 import Button from '../../components/button';
+import PlayButton from '../../components/play-button';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
 
@@ -25,11 +26,13 @@ type ScaleTranspositionResultsProps = {
   direction: 'up' | 'down';
   targetNote: number;
   originScale: {
+    notes: number[];
     notesInScale: NoteInScale[];
     reducedNotes: number[];
     key: Key;
   };
   transposedScale: {
+    notes: number[];
     notesInScale: NoteInScale[];
     reducedNotes: number[];
     key: Key;
@@ -215,8 +218,11 @@ function ScaleTranspositionResults({
               correspondingNotes={originScale.notesInScale}
               musicalKey={originScale.key}
               text={
-                <span className="border-b-4 border-sky-300">
-                  {originStaffLabel}
+                <span className="flex items-center gap-2">
+                  <span className="border-b-4 border-sky-300">
+                    {originStaffLabel}
+                  </span>
+                  <PlayButton noteIndices={originScale.notes} colour="sky" />
                 </span>
               }
               colour="sky"
@@ -227,8 +233,11 @@ function ScaleTranspositionResults({
               correspondingNotes={transposedScale.notesInScale}
               musicalKey={transposedScale.key}
               text={
-                <span className="border-b-4 border-red-300">
-                  {transposedStaffLabel}
+                <span className="flex items-center gap-2">
+                  <span className="border-b-4 border-red-300">
+                    {transposedStaffLabel}
+                  </span>
+                  <PlayButton noteIndices={transposedScale.notes} colour="red" />
                 </span>
               }
               colour="red"
