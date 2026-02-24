@@ -278,8 +278,6 @@ function ScaleTranspositionResults({
           <InlineParameterBar
             controller={controller}
             method={method}
-            fromKey={fromKey}
-            toKey={toKey}
             interval={interval}
             direction={direction}
             scale={scale}

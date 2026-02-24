@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import {
   getNote,
   INSTRUMENTS_PITCHES,
+  NOTES,
   Note,
 } from '../../utils/notes';
 import NoteSelector from '../../components/note-selector';
@@ -9,7 +10,7 @@ import {
   crossInstrumentsTransposer,
   transposer,
 } from '../../utils/transposer';
-import { getIntervalName } from '../../utils/intervals';
+import { getIntervalName, INTERVALS } from '../../utils/intervals';
 import { useTranslation } from 'react-i18next';
 import { useSearchParams } from 'react-router-dom';
 import { useChangePageTitle } from '../../hooks/useChangePageTitle';
@@ -250,17 +251,72 @@ function NoteTranspositionPage() {
     ? selectedTargetOption.label.split('|')[1]?.trim()
     : undefined;
 
-  const noteSummary = getNote(note, selectedNotation);
+  const summarySelectClass =
+    'text-sm px-1.5 py-0.5 rounded border border-neutral-200 bg-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-neutral-300';
 
-  const intervalSummary = `${direction === 'up' ? '+' : '-'}${getIntervalName(interval, selectedLanguage)}`;
+  const noteSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={note}
+        onChange={(e) => handleChangeNote(Number(e.target.value))}
+      >
+        {NOTES.map((n, i) => (
+          <option key={i} value={i}>{n[selectedNotation]}</option>
+        ))}
+      </select>
+    </span>
+  );
 
-  const originInstrumentSummary = originInstrumentName
-    ? `${originInstrumentName} \u2014 ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES);
+  const intervalSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={direction}
+        onChange={(e) => handleChangeDirection(e.target.value as 'up' | 'down')}
+      >
+        <option value="up">+</option>
+        <option value="down">-</option>
+      </select>
+      <select
+        className={summarySelectClass}
+        value={interval}
+        onChange={(e) => handleChangeInterval(Number(e.target.value))}
+      >
+        {INTERVALS.map((_, i) => (
+          <option key={i} value={i}>{getIntervalName(i, selectedLanguage)}</option>
+        ))}
+      </select>
+    </span>
+  );
 
-  const targetInstrumentSummary = targetInstrumentName
-    ? `${targetInstrumentName} \u2014 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES);
+  const originInstrumentSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={fromKey}
+        onChange={(e) => handleChangeFromKey(Number(e.target.value))}
+      >
+        {INSTRUMENTS_PITCHES.map((p, i) => (
+          <option key={i} value={i}>{p[selectedNotation]}</option>
+        ))}
+      </select>
+    </span>
+  );
+
+  const targetInstrumentSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={toKey}
+        onChange={(e) => handleChangeToKey(Number(e.target.value))}
+      >
+        {INSTRUMENTS_PITCHES.map((p, i) => (
+          <option key={i} value={i}>{p[selectedNotation]}</option>
+        ))}
+      </select>
+    </span>
+  );
 
   // --- Page title ---
   const pageTitle =

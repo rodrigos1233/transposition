@@ -12,7 +12,7 @@ import {
 } from '../../utils/transposer';
 import { scaleBuilder } from '../../utils/scaleBuilder';
 import { getModeName } from '../../utils/modes';
-import { getIntervalName } from '../../utils/intervals';
+import { getIntervalName, INTERVALS } from '../../utils/intervals';
 import { useSearchParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useIsMobile } from '../../hooks/useIsMobile';
@@ -317,20 +317,84 @@ function ScaleTranspositionPage() {
     ? selectedTargetOption.label.split('|')[1]?.trim()
     : undefined;
 
-  // Step 1 summary: scale + mode
-  const scaleSummary = `${getNote(scale, selectedNotation, SCALES)} ${modeText}`;
+  const summarySelectClass =
+    'text-sm px-1.5 py-0.5 rounded border border-neutral-200 bg-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-neutral-300';
 
-  // Step 2 summary for interval mode
-  const intervalSummary = `${direction === 'up' ? '+' : '-'}${getIntervalName(interval, selectedLanguage)}`;
+  // Step 1 summary: scale + mode dropdowns
+  const scaleSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={scale}
+        onChange={(e) => handleChangeScale(Number(e.target.value))}
+      >
+        {SCALES.map((s, i) => (
+          <option key={i} value={i}>{s[selectedNotation]}</option>
+        ))}
+      </select>
+      <select
+        className={summarySelectClass}
+        value={mode}
+        onChange={(e) => handleChangeMode(Number(e.target.value))}
+      >
+        {[0, 1, ...(showAdditionalModes ? [2, 3, 4, 5, 6] : [])].map((i) => (
+          <option key={i} value={i}>{getModeName(i, selectedLanguage)}</option>
+        ))}
+      </select>
+    </span>
+  );
 
-  // Steps 2 & 3 summaries for key mode: instrument selections
-  const originInstrumentSummary = originInstrumentName
-    ? `${originInstrumentName} \u2014 ${getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(fromKey, selectedNotation, INSTRUMENTS_PITCHES);
+  // Step 2 summary for interval mode: direction + interval dropdowns
+  const intervalSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={direction}
+        onChange={(e) => handleChangeDirection(e.target.value as 'up' | 'down')}
+      >
+        <option value="up">+</option>
+        <option value="down">-</option>
+      </select>
+      <select
+        className={summarySelectClass}
+        value={interval}
+        onChange={(e) => handleChangeInterval(Number(e.target.value))}
+      >
+        {INTERVALS.map((_, i) => (
+          <option key={i} value={i}>{getIntervalName(i, selectedLanguage)}</option>
+        ))}
+      </select>
+    </span>
+  );
 
-  const targetInstrumentSummary = targetInstrumentName
-    ? `${targetInstrumentName} \u2014 ${getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES)}`
-    : getNote(toKey, selectedNotation, INSTRUMENTS_PITCHES);
+  // Steps 2 & 3 summaries for key mode: instrument key dropdowns
+  const originInstrumentSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={fromKey}
+        onChange={(e) => handleChangeFromKey(Number(e.target.value))}
+      >
+        {INSTRUMENTS_PITCHES.map((p, i) => (
+          <option key={i} value={i}>{p[selectedNotation]}</option>
+        ))}
+      </select>
+    </span>
+  );
+
+  const targetInstrumentSummary = (
+    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
+      <select
+        className={summarySelectClass}
+        value={toKey}
+        onChange={(e) => handleChangeToKey(Number(e.target.value))}
+      >
+        {INSTRUMENTS_PITCHES.map((p, i) => (
+          <option key={i} value={i}>{p[selectedNotation]}</option>
+        ))}
+      </select>
+    </span>
+  );
 
   // --- Page title ---
   const pageTitle =

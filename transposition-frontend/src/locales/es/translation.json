@@ -103,10 +103,6 @@
     "note": "Nota",
     "scale": "Escala",
     "mode": "Modo",
-    "key": "Clave",
-    "interval": "Intervalo",
-    "from": "De",
-    "to": "A",
     "up": "Arriba",
     "down": "Abajo"
   }

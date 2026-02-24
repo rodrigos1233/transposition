@@ -103,10 +103,6 @@
     "note": "Note",
     "scale": "Gamme",
     "mode": "Mode",
-    "key": "Clé",
-    "interval": "Intervalle",
-    "from": "De",
-    "to": "Vers",
     "up": "Haut",
     "down": "Bas"
   }

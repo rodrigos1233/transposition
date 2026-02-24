@@ -103,10 +103,6 @@
     "note": "Ton",
     "scale": "Tonleiter",
     "mode": "Modus",
-    "key": "Tonart",
-    "interval": "Intervall",
-    "from": "Von",
-    "to": "Nach",
     "up": "Aufwärts",
     "down": "Abwärts"
   }

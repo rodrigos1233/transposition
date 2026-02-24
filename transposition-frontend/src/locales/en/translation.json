@@ -103,10 +103,6 @@
     "note": "Note",
     "scale": "Scale",
     "mode": "Mode",
-    "key": "Key",
-    "interval": "Interval",
-    "from": "From",
-    "to": "To",
     "up": "Up",
     "down": "Down"
   }

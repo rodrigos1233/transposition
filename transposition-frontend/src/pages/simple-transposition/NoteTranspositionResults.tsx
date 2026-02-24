@@ -249,8 +249,6 @@ function NoteTranspositionResults({
           <InlineParameterBar
             controller={controller}
             method={method}
-            fromKey={fromKey}
-            toKey={toKey}
             interval={interval}
             direction={direction}
             note={note}

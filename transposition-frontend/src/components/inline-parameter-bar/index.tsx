@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { NOTES, SCALES, INSTRUMENTS_PITCHES, Note } from '../../utils/notes';
+import { NOTES, SCALES, Note } from '../../utils/notes';
 import { getIntervalName, INTERVALS } from '../../utils/intervals';
 import { getModeName, MODES } from '../../utils/modes';
 import NotationContext from '../../contexts/NotationContext';
@@ -10,8 +10,6 @@ import type { TranspositionController } from '../../pages/simple-transposition/N
 type InlineParameterBarProps = {
   controller: TranspositionController;
   method: 'key' | 'interval';
-  fromKey: number;
-  toKey: number;
   interval: number;
   direction: 'up' | 'down';
   // For note transposition
@@ -24,8 +22,6 @@ type InlineParameterBarProps = {
 function InlineParameterBar({
   controller,
   method,
-  fromKey,
-  toKey,
   interval,
   direction,
   note,
@@ -91,68 +87,6 @@ function InlineParameterBar({
             ))}
           </select>
         </label>
-      )}
-
-      {/* Method toggle */}
-      <span className="flex items-center gap-0.5">
-        <button
-          className={`text-xs px-2 py-1 rounded-l border border-neutral-200 ${
-            method === 'key'
-              ? 'bg-neutral-700 text-white'
-              : 'bg-white text-neutral-600 hover:bg-neutral-50'
-          }`}
-          onClick={() => controller.onChangeMethod('key')}
-        >
-          {t('inlineBar.key')}
-        </button>
-        <button
-          className={`text-xs px-2 py-1 rounded-r border border-neutral-200 border-l-0 ${
-            method === 'interval'
-              ? 'bg-neutral-700 text-white'
-              : 'bg-white text-neutral-600 hover:bg-neutral-50'
-          }`}
-          onClick={() => controller.onChangeMethod('interval')}
-        >
-          {t('inlineBar.interval')}
-        </button>
-      </span>
-
-      {/* Key mode: origin + target key */}
-      {method === 'key' && (
-        <>
-          <label className="flex items-center gap-1">
-            <span className="text-neutral-400">{t('inlineBar.from')}:</span>
-            <select
-              className={selectClass}
-              value={fromKey}
-              onChange={(e) =>
-                controller.onChangeFromKey(Number(e.target.value))
-              }
-            >
-              {INSTRUMENTS_PITCHES.map((p: Note, i: number) => (
-                <option key={i} value={i}>
-                  {p[selectedNotation]}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex items-center gap-1">
-            <span className="text-neutral-400">{t('inlineBar.to')}:</span>
-            <select
-              className={selectClass}
-              value={toKey}
-              onChange={(e) =>
-                controller.onChangeToKey(Number(e.target.value))
-              }
-            >
-              {INSTRUMENTS_PITCHES.map((p: Note, i: number) => (
-                <option key={i} value={i}>
-                  {p[selectedNotation]}
-                </option>
-              ))}
-            </select>
-          </label>
-        </>
       )}
 
       {/* Interval mode: direction + interval */}
