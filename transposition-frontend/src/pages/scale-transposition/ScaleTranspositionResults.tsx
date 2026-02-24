@@ -372,6 +372,8 @@ function ScaleTranspositionResults({
                     selectedOriginKey={fromKey}
                     selectedTargetKey={toKey}
                     showAdditionalModes={showAdditionalModes}
+                    onChangeScale={controller.onChangeScale}
+                    onChangeToKey={controller.onChangeToKey}
                   />
                 </div>
               </div>
