@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { playNote, playScale, stopPlayback } from '../../utils/audioPlayer';
 
 type PlayButtonProps = {
@@ -13,6 +13,7 @@ type PlayButtonProps = {
 
 function PlayButton({ noteIndices, colour = 'sky', startOctave = 4, onNotePlay }: PlayButtonProps) {
   const [playing, setPlaying] = useState(false);
+  const noteTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const colourClasses: Record<string, string> = {
     sky: 'text-sky-500 hover:text-sky-700',
@@ -23,6 +24,10 @@ function PlayButton({ noteIndices, colour = 'sky', startOctave = 4, onNotePlay }
 
   const handleClick = useCallback(async () => {
     if (playing) {
+      if (noteTimeoutRef.current) {
+        clearTimeout(noteTimeoutRef.current);
+        noteTimeoutRef.current = null;
+      }
       stopPlayback();
       setPlaying(false);
       onNotePlay?.(null);
@@ -33,7 +38,8 @@ function PlayButton({ noteIndices, colour = 'sky', startOctave = 4, onNotePlay }
     if (noteIndices.length === 1) {
       onNotePlay?.(0);
       playNote(noteIndices[0], 500, startOctave);
-      setTimeout(() => {
+      noteTimeoutRef.current = setTimeout(() => {
+        noteTimeoutRef.current = null;
         setPlaying(false);
         onNotePlay?.(null);
       }, 500);

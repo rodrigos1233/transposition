@@ -1,5 +1,6 @@
 let audioContext: AudioContext | null = null;
 let currentAbortController: AbortController | null = null;
+let activeNodes: { oscillator: OscillatorNode; gain: GainNode }[] = [];
 
 function getAudioContext(): AudioContext {
   if (!audioContext) {
@@ -38,6 +39,12 @@ export function playNote(noteIndex: number, durationMs = 500, octave = 4): void 
 
   oscillator.connect(gainNode);
   gainNode.connect(ctx.destination);
+
+  const entry = { oscillator, gain: gainNode };
+  activeNodes.push(entry);
+  oscillator.onended = () => {
+    activeNodes = activeNodes.filter(e => e !== entry);
+  };
 
   oscillator.start();
   oscillator.stop(ctx.currentTime + durationMs / 1000);
@@ -89,6 +96,15 @@ export function stopPlayback(): void {
     currentAbortController.abort();
     currentAbortController = null;
   }
+  // Silence any active oscillators immediately
+  for (const { oscillator, gain } of activeNodes) {
+    try {
+      gain.gain.cancelScheduledValues(0);
+      gain.gain.setValueAtTime(0, 0);
+      oscillator.stop();
+    } catch { /* already stopped */ }
+  }
+  activeNodes = [];
 }
 
 /**
