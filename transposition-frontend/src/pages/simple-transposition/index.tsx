@@ -26,6 +26,7 @@ import LiveSummaryBar from '../../components/live-summary-bar';
 import TransposeMethodToggle from '../../components/transpose-method-toggle';
 import IntervalSelector from '../../components/interval-selector';
 import NoteTranspositionResults from './NoteTranspositionResults';
+import type { TranspositionController } from './NoteTranspositionResults';
 
 function validateParam(
   value: string | null,
@@ -280,6 +281,15 @@ function NoteTranspositionPage() {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const controller: TranspositionController = {
+    onChangeNote: handleChangeNote,
+    onChangeFromKey: handleChangeFromKey,
+    onChangeToKey: handleChangeToKey,
+    onChangeMethod: handleChangeMethod,
+    onChangeInterval: handleChangeInterval,
+    onChangeDirection: handleChangeDirection,
+  };
+
   const showInstrumentSteps = method === 'key';
 
   return (
@@ -443,6 +453,7 @@ function NoteTranspositionPage() {
           originInstrumentName={originInstrumentName}
           targetInstrumentName={targetInstrumentName}
           isMobile={isMobile}
+          controller={controller}
         />
       )}
     </ContentPage>

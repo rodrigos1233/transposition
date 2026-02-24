@@ -14,6 +14,17 @@ import ContentCard from '../../components/content-card';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
 
+export type TranspositionController = {
+  onChangeNote?: (note: number) => void;
+  onChangeScale?: (scale: number) => void;
+  onChangeFromKey: (key: number) => void;
+  onChangeToKey: (key: number) => void;
+  onChangeMethod: (method: 'key' | 'interval') => void;
+  onChangeInterval: (interval: number) => void;
+  onChangeDirection: (direction: 'up' | 'down') => void;
+  onChangeMode?: (mode: number) => void;
+};
+
 type NoteTranspositionResultsProps = {
   method: 'key' | 'interval';
   note: number;
@@ -27,6 +38,7 @@ type NoteTranspositionResultsProps = {
   originInstrumentName?: string;
   targetInstrumentName?: string;
   isMobile: boolean;
+  controller: TranspositionController;
 };
 
 function NoteTranspositionResults({
@@ -42,6 +54,7 @@ function NoteTranspositionResults({
   originInstrumentName,
   targetInstrumentName,
   isMobile,
+  controller,
 }: NoteTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);

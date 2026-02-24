@@ -16,6 +16,7 @@ import Button from '../../components/button';
 import PlayButton from '../../components/play-button';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
+import type { TranspositionController } from '../simple-transposition/NoteTranspositionResults';
 
 type ScaleTranspositionResultsProps = {
   method: 'key' | 'interval';
@@ -48,6 +49,7 @@ type ScaleTranspositionResultsProps = {
   originInstrumentName?: string;
   targetInstrumentName?: string;
   isMobile: boolean;
+  controller: TranspositionController;
 };
 
 function ScaleTranspositionResults({
@@ -71,6 +73,7 @@ function ScaleTranspositionResults({
   originInstrumentName,
   targetInstrumentName,
   isMobile,
+  controller,
 }: ScaleTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);

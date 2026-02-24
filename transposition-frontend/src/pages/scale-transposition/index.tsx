@@ -34,6 +34,7 @@ import { SingleValue } from 'react-select';
 import { LIST_OF_INSTRUMENTS } from '../../utils/instruments';
 
 import ScaleTranspositionResults from './ScaleTranspositionResults';
+import type { TranspositionController } from '../simple-transposition/NoteTranspositionResults';
 
 function validateParam(
   value: string | null,
@@ -351,6 +352,16 @@ function ScaleTranspositionPage() {
     }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
+  const controller: TranspositionController = {
+    onChangeScale: handleChangeScale,
+    onChangeFromKey: handleChangeFromKey,
+    onChangeToKey: handleChangeToKey,
+    onChangeMethod: handleChangeMethod,
+    onChangeInterval: handleChangeInterval,
+    onChangeDirection: handleChangeDirection,
+    onChangeMode: handleChangeMode,
+  };
+
   const showInstrumentSteps = method === 'key';
 
   return (
@@ -531,6 +542,7 @@ function ScaleTranspositionPage() {
           originInstrumentName={originInstrumentName}
           targetInstrumentName={targetInstrumentName}
           isMobile={isMobile}
+          controller={controller}
         />
       )}
     </ContentPage>
