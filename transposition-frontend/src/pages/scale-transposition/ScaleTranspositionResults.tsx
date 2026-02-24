@@ -94,8 +94,13 @@ function ScaleTranspositionResults({
     });
   }
 
-  const originConcertPitches = scaleToConcertPitches(originScale.notes, scale, fromKey);
-  const transposedConcertPitches = scaleToConcertPitches(transposedScale.notes, targetNote, toKey);
+  // In key mode, offset by instrument key for concert pitch.
+  // In interval mode, there's no instrument — notes are already concert pitch.
+  const originInstrumentKey = method === 'key' ? fromKey : 0;
+  const targetInstrumentKey = method === 'key' ? toKey : 0;
+
+  const originConcertPitches = scaleToConcertPitches(originScale.notes, scale, originInstrumentKey);
+  const transposedConcertPitches = scaleToConcertPitches(transposedScale.notes, targetNote, targetInstrumentKey);
 
   // Compute the start octave for the transposed scale in interval mode.
   // When transposing up, if the interval crosses an octave boundary the
