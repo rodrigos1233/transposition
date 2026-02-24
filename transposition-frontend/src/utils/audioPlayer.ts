@@ -103,8 +103,8 @@ export function stopPlayback(): void {
     try {
       gain.gain.cancelScheduledValues(now);
       gain.gain.setValueAtTime(gain.gain.value, now);
-      gain.gain.linearRampToValueAtTime(0, now + 0.02);
-      oscillator.stop(now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+      oscillator.stop(now + 0.05);
     } catch { /* already stopped */ }
   }
   activeNodes = [];
