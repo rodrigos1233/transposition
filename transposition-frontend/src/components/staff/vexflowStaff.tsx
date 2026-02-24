@@ -178,7 +178,7 @@ function VexflowStaff({
         const svgWidth = viewBox ? parseFloat(viewBox.split(' ')[2]) : 0;
         const containerWidth = svg.getBoundingClientRect().width;
         const scale = containerWidth / svgWidth;
-        const pxLeft = x * scale - 4; // center the 8px dot
+        const pxLeft = x * scale + 4; // center the 8px dot under the note head
         indicator.style.left = `${pxLeft}px`;
         indicator.style.opacity = '1';
         indicator.style.backgroundColor =
