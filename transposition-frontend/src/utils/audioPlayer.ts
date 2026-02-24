@@ -50,7 +50,8 @@ export function playNote(noteIndex: number, durationMs = 500, octave = 4): void 
 export async function playScale(
   noteIndices: number[],
   tempoMs = 400,
-  startOctave = 4
+  startOctave = 4,
+  onNotePlay?: (index: number) => void
 ): Promise<void> {
   stopPlayback();
   const controller = new AbortController();
@@ -66,6 +67,7 @@ export async function playScale(
       currentOctave++;
     }
 
+    onNotePlay?.(i);
     playNote(noteIndices[i], tempoMs - 50, currentOctave);
     if (i < noteIndices.length - 1) {
       await new Promise<void>((resolve, reject) => {

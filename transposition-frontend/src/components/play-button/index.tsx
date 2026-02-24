@@ -7,9 +7,11 @@ type PlayButtonProps = {
   colour?: 'sky' | 'red' | 'amber' | 'purple';
   /** Starting octave for playback (default 4 = middle C octave). */
   startOctave?: number;
+  /** Called with the index of each note as it plays (scales only). */
+  onNotePlay?: (index: number | null) => void;
 };
 
-function PlayButton({ noteIndices, colour = 'sky', startOctave = 4 }: PlayButtonProps) {
+function PlayButton({ noteIndices, colour = 'sky', startOctave = 4, onNotePlay }: PlayButtonProps) {
   const [playing, setPlaying] = useState(false);
 
   const colourClasses: Record<string, string> = {
@@ -23,16 +25,22 @@ function PlayButton({ noteIndices, colour = 'sky', startOctave = 4 }: PlayButton
     if (playing) {
       stopPlayback();
       setPlaying(false);
+      onNotePlay?.(null);
       return;
     }
 
     setPlaying(true);
     if (noteIndices.length === 1) {
+      onNotePlay?.(0);
       playNote(noteIndices[0], 500, startOctave);
-      setTimeout(() => setPlaying(false), 500);
+      setTimeout(() => {
+        setPlaying(false);
+        onNotePlay?.(null);
+      }, 500);
     } else {
-      await playScale(noteIndices, 400, startOctave);
+      await playScale(noteIndices, 400, startOctave, onNotePlay);
       setPlaying(false);
+      onNotePlay?.(null);
     }
   }, [playing, noteIndices]);
 

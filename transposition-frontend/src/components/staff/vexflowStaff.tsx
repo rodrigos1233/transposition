@@ -26,6 +26,7 @@ type VexflowStaffProps = {
   musicalKey: Key;
   noteColour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
+  activeNoteIndex?: number | null;
 };
 
 function VexflowStaff({
@@ -34,8 +35,11 @@ function VexflowStaff({
   musicalKey,
   noteColour,
   accidentals,
+  activeNoteIndex,
 }: VexflowStaffProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const noteDataRef = useRef<{ el: SVGElement | null; x: number }[]>([]);
+  const indicatorRef = useRef<HTMLDivElement | null>(null);
   const { selectedNotation } = useContext(NotationContext);
 
   useEffect(() => {
@@ -43,6 +47,13 @@ function VexflowStaff({
 
     // Clear previous render
     containerRef.current.innerHTML = '';
+
+    // Re-add the indicator element (it was cleared with innerHTML)
+    const indicator = document.createElement('div');
+    indicator.style.cssText =
+      'position:absolute;bottom:0;width:8px;height:8px;border-radius:50%;opacity:0;transition:left 0.1s ease-out,opacity 0.15s;pointer-events:none;';
+    containerRef.current.appendChild(indicator);
+    indicatorRef.current = indicator;
 
     // Calculate width based on content
     const width = calculateStaveWidth(displayedNotes.length, musicalKey);
@@ -105,6 +116,17 @@ function VexflowStaff({
       new Formatter().joinVoices([voice]).format([voice], availableWidth);
 
       voice.draw(context, stave);
+
+      // Store SVG elements and x positions for highlighting
+      noteDataRef.current = notes.map(n => {
+        let el: SVGElement | null = null;
+        try { el = n.getSVGElement() ?? null; } catch { /* */ }
+        let x = 0;
+        try { x = n.getAbsoluteX(); } catch { /* */ }
+        return { el, x };
+      });
+    } else {
+      noteDataRef.current = [];
     }
 
     // Make SVG responsive: scale down with container but don't stretch beyond natural size
@@ -126,7 +148,48 @@ function VexflowStaff({
     selectedNotation,
   ]);
 
-  return <div ref={containerRef} className="vexflow-staff-container" />;
+  // Highlight the active note during playback
+  useEffect(() => {
+    const data = noteDataRef.current;
+    const indicator = indicatorRef.current;
+    const isPlaying = activeNoteIndex != null;
+
+    // Subtle opacity: dim inactive notes slightly, active stays full
+    data.forEach(({ el }, i) => {
+      if (!el) return;
+      if (isPlaying) {
+        el.style.opacity = i === activeNoteIndex ? '1' : '0.85';
+        el.style.transition = 'opacity 0.1s';
+      } else {
+        el.style.opacity = '';
+        el.style.transition = '';
+      }
+    });
+
+    // Position the indicator dot below the active note
+    if (indicator && isPlaying && data[activeNoteIndex!]) {
+      const { x } = data[activeNoteIndex!];
+      // Convert VexFlow absolute x to percentage of the SVG viewBox
+      const svg = containerRef.current?.querySelector('svg');
+      if (svg) {
+        const viewBox = svg.getAttribute('viewBox');
+        const svgWidth = viewBox ? parseFloat(viewBox.split(' ')[2]) : 0;
+        const containerWidth = svg.getBoundingClientRect().width;
+        const scale = containerWidth / svgWidth;
+        const pxLeft = x * scale - 4; // center the 8px dot
+        indicator.style.left = `${pxLeft}px`;
+        indicator.style.opacity = '1';
+        indicator.style.backgroundColor =
+          noteColour ? (COLOR_MAP[noteColour] ?? '#666') : '#666';
+      }
+    } else if (indicator) {
+      indicator.style.opacity = '0';
+    }
+  }, [activeNoteIndex, noteColour]);
+
+  return (
+    <div ref={containerRef} className="vexflow-staff-container" style={{ position: 'relative' }} />
+  );
 }
 
 function createStaveNotes(

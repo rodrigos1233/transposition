@@ -76,6 +76,8 @@ function ScaleTranspositionResults({
   const { selectedNotation } = useContext(NotationContext);
   const { selectedLanguage } = useContext(LanguageContext);
   const [circleExpanded, setCircleExpanded] = useState(method === 'key');
+  const [originActiveNote, setOriginActiveNote] = useState<number | null>(null);
+  const [transposedActiveNote, setTransposedActiveNote] = useState<number | null>(null);
 
   // --- Concert pitches for audio playback ---
   // scaleBuilder.notes wraps values at 12, losing the original SCALES index (0-16).
@@ -257,12 +259,13 @@ function ScaleTranspositionResults({
               displayedNotes={displayedOriginNotes}
               correspondingNotes={originScale.notesInScale}
               musicalKey={originScale.key}
+              activeNoteIndex={originActiveNote}
               text={
                 <span className="flex items-center gap-2">
                   <span className="border-b-4 border-sky-300">
                     {originStaffLabel}
                   </span>
-                  <PlayButton noteIndices={originConcertPitches} colour="sky" />
+                  <PlayButton noteIndices={originConcertPitches} colour="sky" onNotePlay={setOriginActiveNote} />
                 </span>
               }
               colour="sky"
@@ -272,12 +275,13 @@ function ScaleTranspositionResults({
               displayedNotes={displayedTargetNotes}
               correspondingNotes={transposedScale.notesInScale}
               musicalKey={transposedScale.key}
+              activeNoteIndex={transposedActiveNote}
               text={
                 <span className="flex items-center gap-2">
                   <span className="border-b-4 border-red-300">
                     {transposedStaffLabel}
                   </span>
-                  <PlayButton noteIndices={transposedConcertPitches} colour="red" startOctave={transposedStartOctave} />
+                  <PlayButton noteIndices={transposedConcertPitches} colour="red" startOctave={transposedStartOctave} onNotePlay={setTransposedActiveNote} />
                 </span>
               }
               colour="red"
