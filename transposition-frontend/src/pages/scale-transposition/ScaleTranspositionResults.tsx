@@ -78,19 +78,24 @@ function ScaleTranspositionResults({
   const [circleExpanded, setCircleExpanded] = useState(method === 'key');
 
   // --- Concert pitches for audio playback ---
-  // scaleBuilder.notes uses SCALES indices (0-16), not chromatic (0-11).
-  // Convert via enharmonicGroupTransposer, then offset by instrument key for concert pitch.
-  function scaleToConcertPitches(scaleNotes: number[], instrumentKey: number): number[] {
-    const firstNote = scaleNotes[0];
-    const chromaticRoot = enharmonicGroupTransposer(firstNote);
+  // scaleBuilder.notes wraps values at 12, losing the original SCALES index (0-16).
+  // Use the scale/targetNote props (true SCALES indices) for the chromatic root,
+  // then derive each note's offset from the raw notes array.
+  function scaleToConcertPitches(
+    scaleNotes: number[],
+    scaleRoot: number,
+    instrumentKey: number
+  ): number[] {
+    const chromaticRoot = enharmonicGroupTransposer(scaleRoot);
+    const firstRawNote = scaleNotes[0];
     return scaleNotes.map(n => {
-      const offset = ((n - firstNote) % 12 + 12) % 12;
+      const offset = ((n - firstRawNote) % 12 + 12) % 12;
       return (chromaticRoot + offset + instrumentKey) % 12;
     });
   }
 
-  const originConcertPitches = scaleToConcertPitches(originScale.notes, fromKey);
-  const transposedConcertPitches = scaleToConcertPitches(transposedScale.notes, toKey);
+  const originConcertPitches = scaleToConcertPitches(originScale.notes, scale, fromKey);
+  const transposedConcertPitches = scaleToConcertPitches(transposedScale.notes, targetNote, toKey);
 
   // --- Staff labels ---
   const originStaffLabel = originInstrumentName
