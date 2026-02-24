@@ -96,15 +96,23 @@ export function stopPlayback(): void {
     currentAbortController.abort();
     currentAbortController = null;
   }
-  // Fade out active oscillators quickly to avoid click/pop
+  // Fade out active oscillators to avoid click/pop
   const ctx = audioContext;
-  const now = ctx ? ctx.currentTime : 0;
+  if (!ctx) { activeNodes = []; return; }
+  const now = ctx.currentTime;
   for (const { oscillator, gain } of activeNodes) {
     try {
-      gain.gain.cancelScheduledValues(now);
-      gain.gain.setValueAtTime(gain.gain.value, now);
-      gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
-      oscillator.stop(now + 0.05);
+      // Snapshot the current computed gain before cancelling automations
+      const currentGain = gain.gain.value;
+      gain.gain.cancelScheduledValues(0);
+      // Anchor at current level, then exponential ramp down
+      if (currentGain > 0.001) {
+        gain.gain.setValueAtTime(currentGain, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+      } else {
+        gain.gain.setValueAtTime(0.0001, now);
+      }
+      oscillator.stop(now + 0.1);
     } catch { /* already stopped */ }
   }
   activeNodes = [];
