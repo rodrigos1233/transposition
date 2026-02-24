@@ -26,6 +26,7 @@ type CircleOfFifthProps = {
   selectedTargetKey: number;
   onChangeScale?: (scaleIndex: number) => void;
   onChangeToKey?: (toKey: number) => void;
+  onChangeTargetEnharmonic?: (scaleIndex: number) => void;
 };
 
 function CircleOfFifth({
@@ -38,6 +39,7 @@ function CircleOfFifth({
   selectedTargetKey,
   onChangeScale,
   onChangeToKey,
+  onChangeTargetEnharmonic,
 }: CircleOfFifthProps): JSX.Element {
   const { selectedNotation } = useContext(NotationContext);
   const circlePositions = new Array(12).fill(0).map((_, i) => {
@@ -254,10 +256,22 @@ function CircleOfFifth({
                     activeIndex={getActiveIndex(i)}
                     onToggle={() => {
                       const keys = circlePositions[i].keySignatures;
+                      const newIdx = (getActiveIndex(i) + 1) % keys.length;
                       setActiveEnharmonics((prev) => ({
                         ...prev,
-                        [i]: ((getActiveIndex(i) + 1) % keys.length),
+                        [i]: newIdx,
                       }));
+                      const possibleNotes = startNotesFromCirclePosition(i, modeIndex);
+                      if (possibleNotes.length === 0) return;
+                      const scaleIndex = possibleNotes[Math.min(newIdx, possibleNotes.length - 1)];
+                      // If this is the origin position, update the scale
+                      if (i === activeOrigin && onChangeScale) {
+                        onChangeScale(scaleIndex);
+                      }
+                      // If this is the target position, update the target enharmonic
+                      if (i === activeTarget && onChangeTargetEnharmonic) {
+                        onChangeTargetEnharmonic(scaleIndex);
+                      }
                     }}
                   />
                 </div>

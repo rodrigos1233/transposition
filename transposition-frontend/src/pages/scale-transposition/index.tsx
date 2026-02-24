@@ -178,10 +178,27 @@ function ScaleTranspositionPage() {
     method === 'interval' ? step2Completed : step3Completed;
 
   // --- Transposition computation ---
-  const targetNote =
+  const computedTargetNote =
     method === 'key'
       ? scaleCrossInstrumentsTransposer(scale, fromKey, toKey, mode)
       : scaleTransposer(scale, interval, mode, direction);
+
+  // Allow overriding the target enharmonic (e.g. F# vs Gb) from circle of fifths
+  const [targetNoteOverride, setTargetNoteOverride] = useState<number | null>(null);
+
+  // Reset override when transposition params change
+  useEffect(() => {
+    setTargetNoteOverride(null);
+  }, [scale, fromKey, toKey, mode, interval, direction, method]);
+
+  // Use override only if it has the same chromatic pitch as the computed target
+  const targetNote = (() => {
+    if (targetNoteOverride === null) return computedTargetNote;
+    if (enharmonicGroupTransposer(targetNoteOverride) === enharmonicGroupTransposer(computedTargetNote)) {
+      return targetNoteOverride;
+    }
+    return computedTargetNote;
+  })();
 
   const originScale = scaleBuilder(scale, mode);
   const transposedScale = scaleBuilder(targetNote, mode);
@@ -614,6 +631,7 @@ function ScaleTranspositionPage() {
           targetInstrumentName={targetInstrumentName}
           isMobile={isMobile}
           controller={controller}
+          onChangeTargetEnharmonic={setTargetNoteOverride}
         />
       )}
     </ContentPage>

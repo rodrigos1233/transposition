@@ -54,6 +54,7 @@ type ScaleTranspositionResultsProps = {
   targetInstrumentName?: string;
   isMobile: boolean;
   controller: TranspositionController;
+  onChangeTargetEnharmonic?: (scaleIndex: number) => void;
 };
 
 function ScaleTranspositionResults({
@@ -78,6 +79,7 @@ function ScaleTranspositionResults({
   targetInstrumentName,
   isMobile,
   controller,
+  onChangeTargetEnharmonic,
 }: ScaleTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);
@@ -363,6 +365,7 @@ function ScaleTranspositionResults({
                     showAdditionalModes={showAdditionalModes}
                     onChangeScale={controller.onChangeScale}
                     onChangeToKey={controller.onChangeToKey}
+                    onChangeTargetEnharmonic={onChangeTargetEnharmonic}
                   />
                 </div>
               </div>
