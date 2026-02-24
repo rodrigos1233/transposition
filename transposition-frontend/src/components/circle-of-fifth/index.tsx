@@ -204,6 +204,7 @@ function CircleOfFifth({
   // Compute active segment positions for highlighting
   const activeOrigin = ((Math.round(positions.start) % 12) + 12) % 12;
   const activeTarget = ((Math.round(positions.target) % 12) + 12) % 12;
+  const handsOverlap = activeOrigin === activeTarget;
 
   return (
     <div className="circle-of-fifth pb-10">
@@ -353,8 +354,9 @@ function CircleOfFifth({
               className="circle-center__hand circle-center__hand--origin"
               style={{
                 transform: `rotate(${(positions.start ?? 0) * 30}deg)`,
-                cursor: onChangeScale ? (draggingRef.current === 'origin' ? 'grabbing' : 'grab') : undefined,
+                cursor: onChangeScale && !handsOverlap ? (draggingRef.current === 'origin' ? 'grabbing' : 'grab') : undefined,
                 touchAction: 'none',
+                pointerEvents: handsOverlap ? 'none' : undefined,
               }}
               onPointerDown={(e) => handlePointerDown('origin', e)}
               onPointerMove={handlePointerMove}
