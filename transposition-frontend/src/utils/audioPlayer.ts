@@ -96,12 +96,15 @@ export function stopPlayback(): void {
     currentAbortController.abort();
     currentAbortController = null;
   }
-  // Silence any active oscillators immediately
+  // Fade out active oscillators quickly to avoid click/pop
+  const ctx = audioContext;
+  const now = ctx ? ctx.currentTime : 0;
   for (const { oscillator, gain } of activeNodes) {
     try {
-      gain.gain.cancelScheduledValues(0);
-      gain.gain.setValueAtTime(0, 0);
-      oscillator.stop();
+      gain.gain.cancelScheduledValues(now);
+      gain.gain.setValueAtTime(gain.gain.value, now);
+      gain.gain.linearRampToValueAtTime(0, now + 0.02);
+      oscillator.stop(now + 0.02);
     } catch { /* already stopped */ }
   }
   activeNodes = [];
