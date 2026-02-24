@@ -58,6 +58,7 @@ function NoteTranspositionPage() {
   const interval = validateParam(searchParams.get('interval'), 12);
   const direction: 'up' | 'down' =
     searchParams.get('direction') === 'down' ? 'down' : 'up';
+  const lockPosition = searchParams.get('lockPosition') === '1';
 
   // --- Stepper UI state ---
   const isFullUrl =
@@ -76,6 +77,10 @@ function NoteTranspositionPage() {
     useState<SingleValue<OptionType>>(null);
 
   // --- URL update helper ---
+  function handleToggleLockPosition() {
+    updateUrl({ lockPosition: lockPosition ? 0 : 1 });
+  }
+
   function updateUrl(overrides: Record<string, string | number>) {
     const params = new URLSearchParams();
     const merged = {
@@ -85,6 +90,7 @@ function NoteTranspositionPage() {
       method: method,
       interval: interval,
       direction: direction,
+      lockPosition: lockPosition ? 1 : 0,
       ...overrides,
     };
 
@@ -97,6 +103,10 @@ function NoteTranspositionPage() {
     } else {
       params.set('from_key', String(merged.from_key));
       params.set('to_key', String(merged.to_key));
+    }
+
+    if (Number(merged.lockPosition)) {
+      params.set('lockPosition', '1');
     }
 
     setSearchParams(params, { replace: true });
@@ -514,6 +524,8 @@ function NoteTranspositionPage() {
           targetInstrumentName={targetInstrumentName}
           isMobile={isMobile}
           controller={controller}
+          lockVerticalPosition={lockPosition}
+          onToggleLockPosition={handleToggleLockPosition}
         />
       )}
     </ContentPage>

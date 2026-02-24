@@ -20,6 +20,7 @@ import Button from '../../components/button';
 import PlayButton from '../../components/play-button';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
+import { resolveClefForTransposition } from '../../utils/clefResolver';
 import type { TranspositionController } from '../simple-transposition/NoteTranspositionResults';
 
 type ScaleTranspositionResultsProps = {
@@ -55,6 +56,8 @@ type ScaleTranspositionResultsProps = {
   isMobile: boolean;
   controller: TranspositionController;
   onChangeTargetEnharmonic?: (scaleIndex: number) => void;
+  lockVerticalPosition: boolean;
+  onToggleLockPosition: () => void;
 };
 
 function ScaleTranspositionResults({
@@ -80,6 +83,8 @@ function ScaleTranspositionResults({
   isMobile,
   controller,
   onChangeTargetEnharmonic,
+  lockVerticalPosition,
+  onToggleLockPosition,
 }: ScaleTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);
@@ -272,11 +277,31 @@ function ScaleTranspositionResults({
     );
   }
 
+  // Lock vertical position (clef transposition)
+  const showLockToggle = method === 'key' && fromKey !== toKey;
+  const clefInfo = lockVerticalPosition && showLockToggle
+    ? resolveClefForTransposition(fromKey, toKey)
+    : null;
+
+  const effectiveTargetDisplayedNotes = clefInfo
+    ? displayedOriginNotes.map(n => n + clefInfo.positionOffset)
+    : displayedTargetNotes;
+
   return (
     <ContentCard>
       <output>
         <ContentCard level={2}>
           <p className="mb-3">{resultMessage}</p>
+          {showLockToggle && (
+            <label className="flex items-center gap-2 text-sm cursor-pointer select-none mb-3">
+              <input
+                type="checkbox"
+                checked={lockVerticalPosition}
+                onChange={onToggleLockPosition}
+              />
+              {t('transposition.common.lockVerticalPosition')}
+            </label>
+          )}
           <div
             className={`flex ${
               isMobile
@@ -302,10 +327,11 @@ function ScaleTranspositionResults({
               noteColour="purple"
             />
             <Staff
-              displayedNotes={displayedTargetNotes}
+              displayedNotes={effectiveTargetDisplayedNotes}
               correspondingNotes={transposedScale.notesInScale}
               musicalKey={transposedScale.key}
-              onNoteClick={handleTargetStaffClick}
+              clef={clefInfo?.clef}
+              onNoteClick={clefInfo ? undefined : handleTargetStaffClick}
               activeNoteIndex={transposedActiveNote}
               text={
                 <span className="flex items-center gap-2">

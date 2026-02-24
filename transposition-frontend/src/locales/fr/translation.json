@@ -74,7 +74,8 @@
       "up": "vers le haut",
       "down": "vers le bas",
       "staffLabel": "Instrument en <0>{{key}}</0>:",
-      "instrumentPlaceholder": "Sélectionner ou rechercher un instrument"
+      "instrumentPlaceholder": "Sélectionner ou rechercher un instrument",
+      "lockVerticalPosition": "Verrouiller la position verticale (transposition par clef)"
     },
     "scaleIntervals": {
       "toolDescription": "Transposez une gamme complète, dans n'importe quel mode, d'une tonalité d'un instrument à une autre:",
