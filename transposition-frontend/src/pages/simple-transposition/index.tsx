@@ -251,70 +251,74 @@ function NoteTranspositionPage() {
     ? selectedTargetOption.label.split('|')[1]?.trim()
     : undefined;
 
-  const summarySelectClass =
-    'text-sm px-1.5 py-0.5 rounded border border-neutral-200 bg-white cursor-pointer focus:outline-none focus:ring-1 focus:ring-neutral-300';
+  // --- Summary option lists ---
+  const noteOptions: OptionType[] = NOTES.map((n, i) => ({
+    label: n[selectedNotation],
+    value: String(i),
+  }));
+
+  const directionOptions: OptionType[] = [
+    { label: '+', value: 'up' },
+    { label: '-', value: 'down' },
+  ];
+
+  const intervalOptions: OptionType[] = INTERVALS.map((_, i) => ({
+    label: getIntervalName(i, selectedLanguage),
+    value: String(i),
+  }));
+
+  const pitchOptions: OptionType[] = INSTRUMENTS_PITCHES.map((p, i) => ({
+    label: p[selectedNotation],
+    value: String(i),
+  }));
 
   const noteSummary = (
-    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-      <select
-        className={summarySelectClass}
-        value={note}
-        onChange={(e) => handleChangeNote(Number(e.target.value))}
-      >
-        {NOTES.map((n, i) => (
-          <option key={i} value={i}>{n[selectedNotation]}</option>
-        ))}
-      </select>
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={noteOptions}
+        value={noteOptions[note]}
+        onChange={(opt) => opt && handleChangeNote(Number(opt.value))}
+      />
     </span>
   );
 
   const intervalSummary = (
     <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-      <select
-        className={summarySelectClass}
-        value={direction}
-        onChange={(e) => handleChangeDirection(e.target.value as 'up' | 'down')}
-      >
-        <option value="up">+</option>
-        <option value="down">-</option>
-      </select>
-      <select
-        className={summarySelectClass}
-        value={interval}
-        onChange={(e) => handleChangeInterval(Number(e.target.value))}
-      >
-        {INTERVALS.map((_, i) => (
-          <option key={i} value={i}>{getIntervalName(i, selectedLanguage)}</option>
-        ))}
-      </select>
+      <SelectComponent
+        compact
+        options={directionOptions}
+        value={directionOptions.find((o) => o.value === direction) ?? null}
+        onChange={(opt) => opt && handleChangeDirection(opt.value as 'up' | 'down')}
+      />
+      <SelectComponent
+        compact
+        options={intervalOptions}
+        value={intervalOptions[interval]}
+        onChange={(opt) => opt && handleChangeInterval(Number(opt.value))}
+      />
     </span>
   );
 
   const originInstrumentSummary = (
-    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-      <select
-        className={summarySelectClass}
-        value={fromKey}
-        onChange={(e) => handleChangeFromKey(Number(e.target.value))}
-      >
-        {INSTRUMENTS_PITCHES.map((p, i) => (
-          <option key={i} value={i}>{p[selectedNotation]}</option>
-        ))}
-      </select>
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={pitchOptions}
+        value={pitchOptions[fromKey]}
+        onChange={(opt) => opt && handleChangeFromKey(Number(opt.value))}
+      />
     </span>
   );
 
   const targetInstrumentSummary = (
-    <span className="flex items-center gap-1" onClick={(e) => e.stopPropagation()}>
-      <select
-        className={summarySelectClass}
-        value={toKey}
-        onChange={(e) => handleChangeToKey(Number(e.target.value))}
-      >
-        {INSTRUMENTS_PITCHES.map((p, i) => (
-          <option key={i} value={i}>{p[selectedNotation]}</option>
-        ))}
-      </select>
+    <span onClick={(e) => e.stopPropagation()}>
+      <SelectComponent
+        compact
+        options={pitchOptions}
+        value={pitchOptions[toKey]}
+        onChange={(opt) => opt && handleChangeToKey(Number(opt.value))}
+      />
     </span>
   );
 

@@ -18,7 +18,6 @@ import CircleOfFifth from '../../components/circle-of-fifth';
 import ContentCard from '../../components/content-card';
 import Button from '../../components/button';
 import PlayButton from '../../components/play-button';
-import InlineParameterBar from '../../components/inline-parameter-bar';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
 import type { TranspositionController } from '../simple-transposition/NoteTranspositionResults';
@@ -275,14 +274,6 @@ function ScaleTranspositionResults({
     <ContentCard>
       <output>
         <ContentCard level={2}>
-          <InlineParameterBar
-            controller={controller}
-            method={method}
-            interval={interval}
-            direction={direction}
-            scale={scale}
-            mode={mode}
-          />
           <p className="mb-3">{resultMessage}</p>
           <div
             className={`flex ${
