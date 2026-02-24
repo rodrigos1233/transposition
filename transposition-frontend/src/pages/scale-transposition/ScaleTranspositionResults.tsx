@@ -97,6 +97,20 @@ function ScaleTranspositionResults({
   const originConcertPitches = scaleToConcertPitches(originScale.notes, scale, fromKey);
   const transposedConcertPitches = scaleToConcertPitches(transposedScale.notes, targetNote, toKey);
 
+  // Compute the start octave for the transposed scale in interval mode.
+  // When transposing up, if the interval crosses an octave boundary the
+  // transposed scale must start in a higher octave (and vice versa for down).
+  const transposedStartOctave = (() => {
+    if (method === 'key') return 4; // same concert pitch, same octave
+    const originChromatic = enharmonicGroupTransposer(scale);
+    const originAbsolute = originChromatic + 4 * 12;
+    const transposedAbsolute =
+      direction === 'up'
+        ? originAbsolute + interval
+        : originAbsolute - interval;
+    return Math.floor(transposedAbsolute / 12);
+  })();
+
   // --- Staff labels ---
   const originStaffLabel = originInstrumentName
     ? t('stepper.originalInstrumentStaffLabel', {
@@ -258,7 +272,7 @@ function ScaleTranspositionResults({
                   <span className="border-b-4 border-red-300">
                     {transposedStaffLabel}
                   </span>
-                  <PlayButton noteIndices={transposedConcertPitches} colour="red" />
+                  <PlayButton noteIndices={transposedConcertPitches} colour="red" startOctave={transposedStartOctave} />
                 </span>
               }
               colour="red"

@@ -5,9 +5,11 @@ type PlayButtonProps = {
   /** Chromatic note indices (0=C, 1=C#, ..., 11=B). Single note or scale. */
   noteIndices: number[];
   colour?: 'sky' | 'red' | 'amber' | 'purple';
+  /** Starting octave for playback (default 4 = middle C octave). */
+  startOctave?: number;
 };
 
-function PlayButton({ noteIndices, colour = 'sky' }: PlayButtonProps) {
+function PlayButton({ noteIndices, colour = 'sky', startOctave = 4 }: PlayButtonProps) {
   const [playing, setPlaying] = useState(false);
 
   const colourClasses: Record<string, string> = {
@@ -26,10 +28,10 @@ function PlayButton({ noteIndices, colour = 'sky' }: PlayButtonProps) {
 
     setPlaying(true);
     if (noteIndices.length === 1) {
-      playNote(noteIndices[0]);
+      playNote(noteIndices[0], 500, startOctave);
       setTimeout(() => setPlaying(false), 500);
     } else {
-      await playScale(noteIndices);
+      await playScale(noteIndices, 400, startOctave);
       setPlaying(false);
     }
   }, [playing, noteIndices]);

@@ -49,13 +49,14 @@ export function playNote(noteIndex: number, durationMs = 500, octave = 4): void 
  */
 export async function playScale(
   noteIndices: number[],
-  tempoMs = 400
+  tempoMs = 400,
+  startOctave = 4
 ): Promise<void> {
   stopPlayback();
   const controller = new AbortController();
   currentAbortController = controller;
 
-  let currentOctave = 4;
+  let currentOctave = startOctave;
 
   for (let i = 0; i < noteIndices.length; i++) {
     if (controller.signal.aborted) return;
