@@ -219,13 +219,13 @@ function NoteTranspositionResults({
   }
 
   // Staff click handlers
-  function handleOriginStaffClick(position: number, clickCount: number) {
-    const chromaticNote = resolveChromaticClick(position, clickCount);
+  function handleOriginStaffClick(position: number) {
+    const chromaticNote = resolveChromaticClick(position, note);
     controller.onChangeNote?.(chromaticNote);
   }
 
-  function handleTargetStaffClick(position: number, clickCount: number) {
-    const chromaticTarget = resolveChromaticClick(position, clickCount);
+  function handleTargetStaffClick(position: number) {
+    const chromaticTarget = resolveChromaticClick(position, targetNote);
     const origin = reverseNoteFromTarget(
       chromaticTarget,
       method,

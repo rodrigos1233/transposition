@@ -28,7 +28,7 @@ type VexflowStaffProps = {
   colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
   activeNoteIndex?: number | null;
-  onNoteClick?: (position: number, clickCount: number) => void;
+  onNoteClick?: (position: number) => void;
 };
 
 function VexflowStaff({
@@ -46,11 +46,6 @@ function VexflowStaff({
   const indicatorRef = useRef<HTMLDivElement | null>(null);
   const hoverIndicatorRef = useRef<HTMLDivElement | null>(null);
   const staveMetricsRef = useRef<{ topLineY: number; lineSpacing: number } | null>(null);
-  const clickTrackRef = useRef<{ position: number; count: number; timer: ReturnType<typeof setTimeout> | null }>({
-    position: -999,
-    count: 0,
-    timer: null,
-  });
   const { selectedNotation } = useContext(NotationContext);
 
   useEffect(() => {
@@ -66,12 +61,12 @@ function VexflowStaff({
     containerRef.current.appendChild(indicator);
     indicatorRef.current = indicator;
 
-    // Hover indicator line
-    const hoverLine = document.createElement('div');
-    hoverLine.style.cssText =
-      'position:absolute;left:10%;width:80%;height:2px;background:rgba(0,0,0,0.15);opacity:0;transition:top 0.05s ease-out,opacity 0.15s;pointer-events:none;border-radius:1px;';
-    containerRef.current.appendChild(hoverLine);
-    hoverIndicatorRef.current = hoverLine;
+    // Hover indicator shadow
+    const hoverShadow = document.createElement('div');
+    hoverShadow.style.cssText =
+      'position:absolute;width:24px;height:24px;border-radius:50%;background:radial-gradient(circle,rgba(0,0,0,0.25) 0%,rgba(0,0,0,0.08) 50%,rgba(0,0,0,0) 70%);opacity:0;transition:opacity 0.15s;pointer-events:none;transform:translate(-50%,-50%);';
+    containerRef.current.appendChild(hoverShadow);
+    hoverIndicatorRef.current = hoverShadow;
 
     // Calculate width based on content
     const width = calculateStaveWidth(displayedNotes.length, musicalKey);
@@ -258,23 +253,7 @@ function VexflowStaff({
       const position = svgYToPosition(svgPt.y);
       const clamped = Math.max(-2, Math.min(12, position));
 
-      // Track consecutive clicks
-      const track = clickTrackRef.current;
-      if (track.timer) clearTimeout(track.timer);
-
-      if (track.position === clamped) {
-        track.count += 1;
-      } else {
-        track.position = clamped;
-        track.count = 1;
-      }
-
-      track.timer = setTimeout(() => {
-        track.position = -999;
-        track.count = 0;
-      }, 500);
-
-      onNoteClick(clamped, track.count);
+      onNoteClick(clamped);
     },
     [onNoteClick, svgYToPosition]
   );
@@ -288,8 +267,8 @@ function VexflowStaff({
       }
 
       const svg = containerRef.current?.querySelector('svg');
-      const hoverLine = hoverIndicatorRef.current;
-      if (!svg || !hoverLine) return;
+      const hoverShadow = hoverIndicatorRef.current;
+      if (!svg || !hoverShadow) return;
 
       const pt = svg.createSVGPoint();
       pt.x = e.clientX;
@@ -302,15 +281,26 @@ function VexflowStaff({
       const clamped = Math.max(-2, Math.min(12, position));
       const targetSvgY = positionToSvgY(clamped);
 
-      // Convert SVG Y to percentage for the container
+      // Convert SVG coords to container pixels
       const viewBox = svg.getAttribute('viewBox');
-      const svgHeight = viewBox ? parseFloat(viewBox.split(' ')[3]) : 0;
-      const containerHeight = svg.getBoundingClientRect().height;
-      const scale = containerHeight / svgHeight;
-      const pxTop = targetSvgY * scale;
+      if (!viewBox) return;
+      const [, , vbW, vbH] = viewBox.split(' ').map(Number);
+      const rect = svg.getBoundingClientRect();
+      const scaleY = rect.height / vbH;
+      const scaleX = rect.width / vbW;
 
-      hoverLine.style.top = `${pxTop}px`;
-      hoverLine.style.opacity = '1';
+      const pxTop = targetSvgY * scaleY;
+      const pxLeft = svgPt.x * scaleX;
+
+      // Size the shadow to match one staff half-step (the click hitbox)
+      const hitboxPx = (staveMetricsRef.current.lineSpacing / 2) * scaleY;
+      const size = Math.max(hitboxPx * 2.5, 20);
+      hoverShadow.style.width = `${size}px`;
+      hoverShadow.style.height = `${size}px`;
+
+      hoverShadow.style.left = `${pxLeft}px`;
+      hoverShadow.style.top = `${pxTop}px`;
+      hoverShadow.style.opacity = '1';
     },
     [onNoteClick, activeNoteIndex, svgYToPosition, positionToSvgY]
   );

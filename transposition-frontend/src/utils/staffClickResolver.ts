@@ -28,30 +28,43 @@ const SCALE_CYCLES: Record<number, number[]> = {
 };
 
 /**
- * Resolves a staff click position + click count to a chromatic note index (0-11).
+ * Resolves a staff click position to a chromatic note index (0-11).
+ * If the current note is already in the cycle for this position,
+ * advances to the next alteration. Otherwise selects the natural.
  * Used for simple (note) transposition.
  */
 export function resolveChromaticClick(
   position: number,
-  clickCount: number
+  currentNote: number
 ): number {
-  // Normalize position to 0-6 range
   const normalized = ((position % 7) + 7) % 7;
   const cycle = CHROMATIC_CYCLES[normalized];
-  return cycle[(clickCount - 1) % cycle.length];
+  const currentIndex = cycle.indexOf(currentNote);
+  if (currentIndex !== -1) {
+    // Current note is on this position — advance to next alteration
+    return cycle[(currentIndex + 1) % cycle.length];
+  }
+  // Different position — select the natural (first in cycle)
+  return cycle[0];
 }
 
 /**
- * Resolves a staff click position + click count to a SCALES index (0-16).
+ * Resolves a staff click position to a SCALES index (0-16).
+ * If the current scale is already in the cycle for this position,
+ * advances to the next alteration. Otherwise selects the natural.
  * Used for scale transposition.
  */
 export function resolveScaleClick(
   position: number,
-  clickCount: number
+  currentScale: number
 ): number {
   const normalized = ((position % 7) + 7) % 7;
   const cycle = SCALE_CYCLES[normalized];
-  return cycle[(clickCount - 1) % cycle.length];
+  const currentIndex = cycle.indexOf(currentScale);
+  if (currentIndex !== -1) {
+    return cycle[(currentIndex + 1) % cycle.length];
+  }
+  return cycle[0];
 }
 
 /**

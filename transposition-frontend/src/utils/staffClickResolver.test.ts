@@ -13,58 +13,67 @@ import {
 } from './transposer';
 
 describe('resolveChromaticClick', () => {
-  it('should return natural notes on first click', () => {
-    expect(resolveChromaticClick(0, 1)).toBe(0);  // C
-    expect(resolveChromaticClick(1, 1)).toBe(2);  // D
-    expect(resolveChromaticClick(2, 1)).toBe(4);  // E
-    expect(resolveChromaticClick(3, 1)).toBe(5);  // F
-    expect(resolveChromaticClick(4, 1)).toBe(7);  // G
-    expect(resolveChromaticClick(5, 1)).toBe(9);  // A
-    expect(resolveChromaticClick(6, 1)).toBe(11); // B
+  it('should return natural note when clicking a different position', () => {
+    // currentNote is on a different position, so we get the natural
+    expect(resolveChromaticClick(0, 7)).toBe(0);   // click C, current=G → C
+    expect(resolveChromaticClick(1, 0)).toBe(2);   // click D, current=C → D
+    expect(resolveChromaticClick(3, 9)).toBe(5);   // click F, current=A → F
+    expect(resolveChromaticClick(4, 11)).toBe(7);  // click G, current=B → G
   });
 
-  it('should cycle to sharps/flats on second click', () => {
-    expect(resolveChromaticClick(0, 2)).toBe(1);  // C#/Db
-    expect(resolveChromaticClick(1, 2)).toBe(3);  // D#/Eb
-    expect(resolveChromaticClick(3, 2)).toBe(6);  // F#/Gb
-    expect(resolveChromaticClick(4, 2)).toBe(8);  // G#/Ab
-    expect(resolveChromaticClick(5, 2)).toBe(10); // A#/Bb
+  it('should advance to sharp when clicking the position of the current natural', () => {
+    expect(resolveChromaticClick(0, 0)).toBe(1);   // C → C#
+    expect(resolveChromaticClick(1, 2)).toBe(3);   // D → D#
+    expect(resolveChromaticClick(3, 5)).toBe(6);   // F → F#
+    expect(resolveChromaticClick(4, 7)).toBe(8);   // G → G#
+    expect(resolveChromaticClick(5, 9)).toBe(10);  // A → A#
   });
 
-  it('should return E and B with no alteration cycling', () => {
-    expect(resolveChromaticClick(2, 1)).toBe(4);  // E
-    expect(resolveChromaticClick(2, 2)).toBe(4);  // E (wraps)
-    expect(resolveChromaticClick(6, 1)).toBe(11); // B
-    expect(resolveChromaticClick(6, 2)).toBe(11); // B (wraps)
+  it('should cycle back to natural when clicking from the sharp', () => {
+    expect(resolveChromaticClick(0, 1)).toBe(0);   // C# → C
+    expect(resolveChromaticClick(1, 3)).toBe(2);   // D# → D
+    expect(resolveChromaticClick(3, 6)).toBe(5);   // F# → F
+    expect(resolveChromaticClick(4, 8)).toBe(7);   // G# → G
+    expect(resolveChromaticClick(5, 10)).toBe(9);  // A# → A
   });
 
-  it('should wrap back on third click for positions with 2 options', () => {
-    expect(resolveChromaticClick(0, 3)).toBe(0); // C again
-    expect(resolveChromaticClick(1, 3)).toBe(2); // D again
+  it('should return E and B unchanged (no alteration cycling)', () => {
+    expect(resolveChromaticClick(2, 4)).toBe(4);   // E → E (only option)
+    expect(resolveChromaticClick(6, 11)).toBe(11); // B → B (only option)
+  });
+
+  it('should handle higher octave positions via modulo', () => {
+    expect(resolveChromaticClick(7, 0)).toBe(1);   // position 7 = C (mod 7), C → C#
+    expect(resolveChromaticClick(8, 2)).toBe(3);   // position 8 = D (mod 7), D → D#
   });
 });
 
 describe('resolveScaleClick', () => {
-  it('should return natural SCALES indices on first click', () => {
-    expect(resolveScaleClick(0, 1)).toBe(0);  // C
-    expect(resolveScaleClick(1, 1)).toBe(3);  // D
-    expect(resolveScaleClick(2, 1)).toBe(6);  // E
-    expect(resolveScaleClick(3, 1)).toBe(7);  // F
-    expect(resolveScaleClick(4, 1)).toBe(10); // G
-    expect(resolveScaleClick(5, 1)).toBe(13); // A
-    expect(resolveScaleClick(6, 1)).toBe(16); // B
+  it('should return natural SCALES index when clicking a different position', () => {
+    expect(resolveScaleClick(0, 3)).toBe(0);   // click C, current=D → C
+    expect(resolveScaleClick(1, 0)).toBe(3);   // click D, current=C → D
+    expect(resolveScaleClick(2, 7)).toBe(6);   // click E, current=F → E
+    expect(resolveScaleClick(3, 10)).toBe(7);  // click F, current=G → F
+    expect(resolveScaleClick(4, 13)).toBe(10); // click G, current=A → G
+    expect(resolveScaleClick(5, 0)).toBe(13);  // click A, current=C → A
+    expect(resolveScaleClick(6, 0)).toBe(16);  // click B, current=C → B
   });
 
-  it('should cycle through enharmonics on subsequent clicks', () => {
-    // D has 3 options: D(3) → D#(4) → Db(2)
-    expect(resolveScaleClick(1, 1)).toBe(3);  // D
-    expect(resolveScaleClick(1, 2)).toBe(4);  // D#
-    expect(resolveScaleClick(1, 3)).toBe(2);  // Db
+  it('should cycle through enharmonics for D (3 options: D→D#→Db)', () => {
+    expect(resolveScaleClick(1, 3)).toBe(4);   // D → D#
+    expect(resolveScaleClick(1, 4)).toBe(2);   // D# → Db
+    expect(resolveScaleClick(1, 2)).toBe(3);   // Db → D
+  });
 
-    // G has 3 options: G(10) → G#(11) → Gb(9)
-    expect(resolveScaleClick(4, 1)).toBe(10); // G
-    expect(resolveScaleClick(4, 2)).toBe(11); // G#
-    expect(resolveScaleClick(4, 3)).toBe(9);  // Gb
+  it('should cycle through enharmonics for G (3 options: G→G#→Gb)', () => {
+    expect(resolveScaleClick(4, 10)).toBe(11); // G → G#
+    expect(resolveScaleClick(4, 11)).toBe(9);  // G# → Gb
+    expect(resolveScaleClick(4, 9)).toBe(10);  // Gb → G
+  });
+
+  it('should cycle through enharmonics for E (2 options: E→Eb)', () => {
+    expect(resolveScaleClick(2, 6)).toBe(5);   // E → Eb
+    expect(resolveScaleClick(2, 5)).toBe(6);   // Eb → E
   });
 });
 

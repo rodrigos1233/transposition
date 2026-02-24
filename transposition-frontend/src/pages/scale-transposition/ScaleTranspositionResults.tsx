@@ -139,14 +139,14 @@ function ScaleTranspositionResults({
     : t('stepper.transposedStaffLabel');
 
   // --- Staff click handlers ---
-  function handleOriginStaffClick(position: number, clickCount: number) {
-    const scaleIndex = resolveScaleClick(position, clickCount);
+  function handleOriginStaffClick(position: number) {
+    const scaleIndex = resolveScaleClick(position, scale);
     controller.onChangeScale?.(scaleIndex);
   }
 
-  function handleTargetStaffClick(position: number, clickCount: number) {
-    const targetScaleIndex = resolveScaleClick(position, clickCount);
-    const originScale = reverseScaleFromTarget(
+  function handleTargetStaffClick(position: number) {
+    const targetScaleIndex = resolveScaleClick(position, targetNote);
+    const originScaleIndex = reverseScaleFromTarget(
       targetScaleIndex,
       method,
       fromKey,
@@ -155,7 +155,7 @@ function ScaleTranspositionResults({
       mode,
       direction
     );
-    controller.onChangeScale?.(originScale);
+    controller.onChangeScale?.(originScaleIndex);
   }
 
   // --- Result message ---

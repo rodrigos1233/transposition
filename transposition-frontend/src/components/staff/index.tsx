@@ -15,7 +15,7 @@ type StaffProps = {
   noteColour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
   activeNoteIndex?: number | null;
-  onNoteClick?: (position: number, clickCount: number) => void;
+  onNoteClick?: (position: number) => void;
 };
 
 function Staff({
