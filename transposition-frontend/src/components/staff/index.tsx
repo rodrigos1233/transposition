@@ -51,6 +51,7 @@ function Staff({
           correspondingNotes={correspondingNotes}
           musicalKey={musicalKey}
           noteColour={noteColour}
+          colour={colour}
           accidentals={accidentals}
           activeNoteIndex={activeNoteIndex}
         />

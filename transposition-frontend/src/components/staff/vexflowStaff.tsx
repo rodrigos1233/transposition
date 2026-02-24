@@ -25,6 +25,7 @@ type VexflowStaffProps = {
   correspondingNotes?: NoteInScale[];
   musicalKey: Key;
   noteColour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
+  colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
   activeNoteIndex?: number | null;
 };
@@ -34,6 +35,7 @@ function VexflowStaff({
   correspondingNotes,
   musicalKey,
   noteColour,
+  colour,
   accidentals,
   activeNoteIndex,
 }: VexflowStaffProps) {
@@ -180,12 +182,12 @@ function VexflowStaff({
         indicator.style.left = `${pxLeft}px`;
         indicator.style.opacity = '1';
         indicator.style.backgroundColor =
-          noteColour ? (COLOR_MAP[noteColour] ?? '#666') : '#666';
+          colour ? (COLOR_MAP[colour] ?? '#666') : '#666';
       }
     } else if (indicator) {
       indicator.style.opacity = '0';
     }
-  }, [activeNoteIndex, noteColour]);
+  }, [activeNoteIndex, colour]);
 
   return (
     <div ref={containerRef} className="vexflow-staff-container" style={{ position: 'relative' }} />

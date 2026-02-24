@@ -69,16 +69,14 @@ export async function playScale(
 
     onNotePlay?.(i);
     playNote(noteIndices[i], tempoMs - 50, currentOctave);
-    if (i < noteIndices.length - 1) {
-      await new Promise<void>((resolve, reject) => {
-        const timeout = setTimeout(resolve, tempoMs);
-        controller.signal.addEventListener('abort', () => {
-          clearTimeout(timeout);
-          reject(new DOMException('Aborted', 'AbortError'));
-        }, { once: true });
-      }).catch(() => {});
-      if (controller.signal.aborted) return;
-    }
+    await new Promise<void>((resolve, reject) => {
+      const timeout = setTimeout(resolve, tempoMs);
+      controller.signal.addEventListener('abort', () => {
+        clearTimeout(timeout);
+        reject(new DOMException('Aborted', 'AbortError'));
+      }, { once: true });
+    }).catch(() => {});
+    if (controller.signal.aborted) return;
   }
   currentAbortController = null;
 }
