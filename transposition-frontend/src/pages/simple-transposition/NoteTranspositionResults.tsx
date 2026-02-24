@@ -12,6 +12,7 @@ import {
   resolveChromaticClick,
   reverseNoteFromTarget,
 } from '../../utils/staffClickResolver';
+import { resolveClefForTransposition } from '../../utils/clefResolver';
 import Staff from '../../components/staff';
 import PlayButton from '../../components/play-button';
 import ContentCard from '../../components/content-card';
@@ -43,6 +44,8 @@ type NoteTranspositionResultsProps = {
   targetInstrumentName?: string;
   isMobile: boolean;
   controller: TranspositionController;
+  lockVerticalPosition: boolean;
+  onToggleLockPosition: () => void;
 };
 
 function NoteTranspositionResults({
@@ -59,6 +62,8 @@ function NoteTranspositionResults({
   targetInstrumentName,
   isMobile,
   controller,
+  lockVerticalPosition,
+  onToggleLockPosition,
 }: NoteTranspositionResultsProps) {
   const { t } = useTranslation();
   const { selectedNotation } = useContext(NotationContext);
@@ -237,6 +242,16 @@ function NoteTranspositionResults({
     controller.onChangeNote?.(origin);
   }
 
+  // Lock vertical position (clef transposition)
+  const showLockToggle = method === 'key' && fromKey !== toKey;
+  const clefInfo = lockVerticalPosition && showLockToggle
+    ? resolveClefForTransposition(fromKey, toKey)
+    : null;
+
+  const effectiveTargetDisplayedNotes = clefInfo
+    ? displayedOriginNotes.map(n => n + clefInfo.positionOffset)
+    : displayedTargetNotes;
+
   // Should we show the target staff?
   const showTargetStaff =
     method === 'key' ? fromKey !== toKey : interval !== 0;
@@ -246,6 +261,16 @@ function NoteTranspositionResults({
       <output>
         <ContentCard level={2}>
           <p className="mb-3">{resultMessage}</p>
+          {showLockToggle && (
+            <label className="flex items-center gap-2 text-sm cursor-pointer select-none mb-3">
+              <input
+                type="checkbox"
+                checked={lockVerticalPosition}
+                onChange={onToggleLockPosition}
+              />
+              {t('transposition.common.lockVerticalPosition')}
+            </label>
+          )}
           <div
             className={`flex ${
               isMobile
@@ -282,7 +307,7 @@ function NoteTranspositionResults({
             />
             {showTargetStaff && (
               <Staff
-                displayedNotes={displayedTargetNotes}
+                displayedNotes={effectiveTargetDisplayedNotes}
                 correspondingNotes={
                   correspondingTargetNotes as unknown as NoteInScale[]
                 }
@@ -291,6 +316,7 @@ function NoteTranspositionResults({
                   doubleAlteredNotes: [],
                   alteredNotes: [],
                 }}
+                clef={clefInfo?.clef}
                 accidentals={
                   displayedTargetNotes.length > 1
                     ? ['sharp', 'flat']
@@ -306,7 +332,7 @@ function NoteTranspositionResults({
                 }
                 colour="red"
                 noteColour="amber"
-                onNoteClick={handleTargetStaffClick}
+                onNoteClick={clefInfo ? undefined : handleTargetStaffClick}
               />
             )}
           </div>

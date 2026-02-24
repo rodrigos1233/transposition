@@ -24,6 +24,7 @@ type VexflowStaffProps = {
   displayedNotes: number[];
   correspondingNotes?: NoteInScale[];
   musicalKey: Key;
+  clef?: string;
   noteColour?: 'emerald' | 'red' | 'sky' | 'amber' | 'purple';
   colour?: 'sky' | 'emerald' | 'amber' | 'red' | 'purple';
   accidentals?: ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[];
@@ -31,10 +32,23 @@ type VexflowStaffProps = {
   onNoteClick?: (position: number) => void;
 };
 
+// Top-line position for each clef (in our position numbering system)
+const CLEF_TOP_LINE_POSITION: Record<string, number> = {
+  treble: 10,       // F5
+  french: 12,       // A5
+  soprano: 8,       // D5
+  'mezzo-soprano': 6, // B4
+  alto: 4,          // G4
+  tenor: 2,         // E4
+  'baritone-c': 0,  // C4
+  bass: -2,         // A3
+};
+
 function VexflowStaff({
   displayedNotes,
   correspondingNotes,
   musicalKey,
+  clef,
   noteColour,
   colour,
   accidentals,
@@ -74,7 +88,9 @@ function VexflowStaff({
     const STAVE_Y = 20;
     const STAVE_LINE_HEIGHT = 40; // 4 spaces × 10px
     const PX_PER_STEP = 5;
-    const STAVE_BOTTOM_POS = 2; // E4 = bottom stave line
+    const effectiveClef = clef ?? 'treble';
+    const topLinePos = CLEF_TOP_LINE_POSITION[effectiveClef] ?? 10;
+    const STAVE_BOTTOM_POS = topLinePos - 8; // bottom stave line = top - 8 positions
 
     // Compute how far notes extend below the stave
     let lowestPos = STAVE_BOTTOM_POS;
@@ -98,7 +114,7 @@ function VexflowStaff({
 
     // Create stave
     const stave = new Stave(10, STAVE_Y, width - 20);
-    stave.addClef('treble');
+    stave.addClef(effectiveClef);
 
     // Add key signature (no time signature per requirements)
     const keySpec = keyToVexflowKeySignature(musicalKey);
@@ -121,7 +137,8 @@ function VexflowStaff({
         correspondingNotes,
         accidentals,
         noteColour,
-        selectedNotation
+        selectedNotation,
+        effectiveClef
       );
 
       // Create voice in SOFT mode (no time signature constraints)
@@ -162,6 +179,7 @@ function VexflowStaff({
     displayedNotes,
     correspondingNotes,
     musicalKey,
+    clef,
     noteColour,
     accidentals,
     selectedNotation,
@@ -216,23 +234,21 @@ function VexflowStaff({
     const metrics = staveMetricsRef.current;
     if (!metrics) return 0;
     const { topLineY, lineSpacing } = metrics;
-    // halfStep = lineSpacing / 2 (distance between adjacent note positions on staff)
     const halfStep = lineSpacing / 2;
-    // Top line = position 10 (F5 in our numbering: C=0, D=1, ..., B=6, C5=7, D5=8, E5=9, F5=10)
-    const topLinePosition = 10;
+    const topLinePosition = CLEF_TOP_LINE_POSITION[clef ?? 'treble'] ?? 10;
     const positionFromTop = (svgY - topLineY) / halfStep;
     const rawPosition = topLinePosition - positionFromTop;
     return Math.round(rawPosition);
-  }, []);
+  }, [clef]);
 
   const positionToSvgY = useCallback((position: number): number => {
     const metrics = staveMetricsRef.current;
     if (!metrics) return 0;
     const { topLineY, lineSpacing } = metrics;
     const halfStep = lineSpacing / 2;
-    const topLinePosition = 10;
+    const topLinePosition = CLEF_TOP_LINE_POSITION[clef ?? 'treble'] ?? 10;
     return topLineY + (topLinePosition - position) * halfStep;
-  }, []);
+  }, [clef]);
 
   // Click handler
   const handleClick = useCallback(
@@ -328,7 +344,8 @@ function createStaveNotes(
     | ('sharp' | 'flat' | 'doubleSharp' | 'doubleFlat' | null)[]
     | undefined,
   noteColour: string | undefined,
-  selectedNotation: keyof Note
+  selectedNotation: keyof Note,
+  clef: string
 ): StaveNote[] {
   let offset = 0;
 
@@ -348,7 +365,8 @@ function createStaveNotes(
     // Create note - whole note (no stem)
     const staveNote = new StaveNote({
       keys: [vexKey],
-      duration: 'w', // whole note - no stem
+      duration: 'w',
+      clef,
       stemDirection,
     });
 
