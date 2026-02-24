@@ -9,6 +9,7 @@ import {
 import { getIntervalName } from '../../utils/intervals';
 import { NoteInScale } from '../../utils/scaleBuilder';
 import Staff from '../../components/staff';
+import PlayButton from '../../components/play-button';
 import ContentCard from '../../components/content-card';
 import NotationContext from '../../contexts/NotationContext';
 import LanguageContext from '../../contexts/LanguageContext';
@@ -198,8 +199,11 @@ function NoteTranspositionResults({
                   : undefined
               }
               text={
-                <span className="border-b-4 border-sky-300">
-                  {originStaffLabel}
+                <span className="flex items-center gap-2">
+                  <span className="border-b-4 border-sky-300">
+                    {originStaffLabel}
+                  </span>
+                  <PlayButton noteIndices={[note]} colour="sky" />
                 </span>
               }
               colour="sky"
@@ -222,8 +226,11 @@ function NoteTranspositionResults({
                     : undefined
                 }
                 text={
-                  <span className="border-b-4 border-red-300">
-                    {transposedStaffLabel}
+                  <span className="flex items-center gap-2">
+                    <span className="border-b-4 border-red-300">
+                      {transposedStaffLabel}
+                    </span>
+                    <PlayButton noteIndices={[targetNote]} colour="red" />
                   </span>
                 }
                 colour="red"
