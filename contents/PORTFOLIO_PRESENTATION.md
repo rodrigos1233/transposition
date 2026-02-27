@@ -77,4 +77,8 @@ graph TD
 
 ## Current State
 
-The core transposition engine and all three transposition modes are fully functional. The application supports four languages and three notation systems with URL-driven state for shareable results. The VexFlow integration is complete, replacing the previous custom staff renderer with professional-quality SVG music notation featuring proper clefs, key signatures, accidentals, and responsive layout. The interactive circle of fifths uses compact VexFlow staves with tap-to-toggle enharmonic key display and mode-aware highlighting.
+The core transposition engine and all three transposition modes are fully functional. The app supports four languages and three notation systems with URL-driven state (including method, interval/direction, mode, and optional `lockPosition`) for shareable results.
+
+The VexFlow integration is complete, with interactive staves for both note and scale workflows: users can click staff positions to cycle enharmonic spellings and can audition results using built-in audio playback controls.
+
+Recent UX work improved cross-instrument exploration in the Circle of Fifths: segment click selection, draggable origin/target hands, target enharmonic override when multiple spellings are valid, and a lock-vertical-position mode that preserves visual staff position by resolving clef changes when switching instrument keys.
